@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: camicelentano/donationplatform:${{ github.sha }}
+        tags: camicelentano/donationplatform
         file: ./Dockerfile
 
   deploy:
@@ -48,4 +48,4 @@ jobs:
         app-name: 'plataformadonacionesqa'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_339bbb700f254035928d32dfb13c7d9b }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_4371306fe7b947a989fc916549d03fbe }}/camicelentano/donation_platform:${{ github.sha }}'
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_4371306fe7b947a989fc916549d03fbe }}/camicelentano/donation_platform'
