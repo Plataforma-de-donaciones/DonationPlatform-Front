@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://index.docker.io/v1/
-        username: ${{ secrets.AzureAppService_ContainerUsername_7977d844a38d4f90878e63c5313a6698 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_a0ef3823e12f46ba8b8e6500738a67a6 }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_4371306fe7b947a989fc916549d03fbe }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_b653db486de54e23adbd35b59b57e9b4 }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: camicelentano/donationplatform:latest
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_4371306fe7b947a989fc916549d03fbe }}/camicelentano/donation_platform:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -41,19 +41,11 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-
-    - name: Log in to registry
-      uses: docker/login-action@v2
-      with:
-        registry: https://index.docker.io/v1/
-        username: ${{ secrets.AzureAppService_ContainerUsername_7977d844a38d4f90878e63c5313a6698 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_a0ef3823e12f46ba8b8e6500738a67a6 }}
-        
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'plataformadonacionesqa'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_67dc97ec51354822ad2506332f375f3d }}
-        images: 'index.docker.io/camicelentano/donation_platform:latest'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_339bbb700f254035928d32dfb13c7d9b }}
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_4371306fe7b947a989fc916549d03fbe }}/camicelentano/donation_platform:${{ github.sha }}'
