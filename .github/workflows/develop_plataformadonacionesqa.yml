@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: camicelentano/donationplatform:${{ github.sha }}'
+        tags: camicelentano/donationplatform:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
