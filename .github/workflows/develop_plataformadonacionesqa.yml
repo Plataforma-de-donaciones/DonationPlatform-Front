@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_4371306fe7b947a989fc916549d03fbe }}/camicelentano/donation_platform:${{ github.sha }}
+        tags: camicelentano/donationplatform:latest
         file: ./Dockerfile
 
   deploy:
