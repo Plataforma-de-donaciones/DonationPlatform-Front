@@ -56,4 +56,4 @@ jobs:
         app-name: 'plataformadonacionesqa'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_67dc97ec51354822ad2506332f375f3d }}
-        images: 'index.docker.io/camicelentano/donation_platform:latest
+        images: 'index.docker.io/camicelentano/donation_platform:latest'
