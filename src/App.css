@@ -36,3 +36,8 @@
     transform: rotate(360deg);
   }
 }
+@font-face {
+  font-family: 'Gloria Hallelujah'; /* Nombre de la fuente personalizada */
+  src: url('./fonts/tu_fuente.ttf') format('truetype'); /* Ruta de la fuente en tu proyecto */
+  /* Puedes agregar otras propiedades de fuente aquí, como weight y style */
+}
