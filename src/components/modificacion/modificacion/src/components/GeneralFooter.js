@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import AcercaDeButton from "./AcercaDeButton";
-import ContactoButton from "./ContactoButton";
-import PreguntasButton from "./PreguntasButton";
-import TerminosCondicionesButton from "./TerminosCondicionesButton";
+import AcercaDeButton from "../../../../alta/src/components/AcercaDeButton";
+import ContactoButton from "../../../../alta/src/components/ContactoButton";
+import PreguntasButton from "../../../../alta/src/components/PreguntasButton";
+import TerminosCondicionesButton from "../../../../alta/src/components/TerminosCondicionesButton";
 
 const Container = styled.div`
   display: grid;

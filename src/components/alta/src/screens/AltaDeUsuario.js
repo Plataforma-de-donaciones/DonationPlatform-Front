@@ -1,7 +1,7 @@
 import React from "react";
-import GeneralHeader from "../components/GeneralHeader";
+import GeneralHeader from "../../../modificacion/modificacion/src/components/GeneralHeader";
 import FormularioBox from "../components/FormularioBox";
-import GeneralFooter from "../components/GeneralFooter";
+import GeneralFooter from "../../../modificacion/modificacion/src/components/GeneralFooter";
 import styled from "styled-components"; // Importa styled-components
 
 const Container = styled.div`
