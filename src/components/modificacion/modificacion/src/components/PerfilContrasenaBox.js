@@ -9,10 +9,12 @@ const Container = styled.div`
   background-color: transparent;
   flex-direction: column;
   position: relative;
+  width: 100%; /* Hace que el contenedor ocupe el 100% del ancho disponible */
+  max-width: 600px; /* Establece un ancho máximo para mantener la legibilidad */
+  margin: 0 auto; /* Centra el contenedor en la página */
 `;
 
 const PerfilContraseñaText = styled.span`
-  font-family: Roboto;
   font-size: 12px;
   text-align: left;
   color: #000;
@@ -22,7 +24,6 @@ const PerfilContraseñaText = styled.span`
 `;
 
 const PerfilContraseñaBbdd = styled.input`
-  font-family: Roboto;
   color: #000;
   font-size: 14px;
   align-self: stretch;
@@ -34,16 +35,17 @@ const PerfilContraseñaBbdd = styled.input`
   background: transparent;
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid #D9D5DC;
+
 `;
 
 const PencilIcon = styled(MdEdit)`
-  top: 37px;
-  left: 358px;
   position: absolute;
   color: rgba(0, 0, 0, 1);
   font-size: 20px;
-  right: 0;
-  bottom: 0;
+  right: 16px; /* Ajusta la posición del icono a la derecha */
+  top: 50%; /* Centra el icono verticalmente */
+  transform: translateY(-50%); /* Ajusta la posición vertical del icono */
 `;
 
 function PerfilContrasenaBox(props) {

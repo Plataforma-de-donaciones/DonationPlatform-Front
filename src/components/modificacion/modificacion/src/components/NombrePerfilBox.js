@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import styled, { css } from "styled-components";
+import React from "react";
+import styled from "styled-components";
 
 function NombrePerfilBox(props) {
   return (
@@ -16,10 +16,12 @@ const Container = styled.div`
   border-color: #D9D5DC;
   background-color: transparent;
   flex-direction: column;
+  width: 100%; /* Hace que el contenedor ocupe el 100% del ancho disponible */
+  max-width: 600px; /* Establece un ancho máximo para mantener la legibilidad */
+  margin: 0 auto; /* Centra el contenedor en la página */
 `;
 
 const PerfilNombreText = styled.span`
-  font-family: Roboto;
   font-size: 12px;
   text-align: left;
   color: #000;
@@ -29,7 +31,6 @@ const PerfilNombreText = styled.span`
 `;
 
 const PerfilNombreBbdd = styled.span`
-  font-family: Roboto;
   color: #000;
   font-size: 14px;
   align-self: stretch;
@@ -39,6 +40,7 @@ const PerfilNombreBbdd = styled.span`
   padding-bottom: 8px;
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid #D9D5DC;
 `;
 
 export default NombrePerfilBox;

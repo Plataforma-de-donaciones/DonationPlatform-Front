@@ -1,27 +1,16 @@
+// ContrasenaNuevaPerfilBox.js
 import React from "react";
 import styled from "styled-components";
-
-function ContrasenaNuevaPerfilBox(props) {
-  return (
-    <Container {...props}>
-      <PerfilContraseñaNuevaText>Contraseña nueva</PerfilContraseñaNuevaText>
-      <PerfilContraseñaNuevaBbdd
-        type="password"
-        placeholder="Contraseña nueva"
-      />
-    </Container>
-  );
-}
 
 const Container = styled.div`
   display: flex;
   border-bottom: 1px solid #D9D5DC;
   background-color: transparent;
   flex-direction: column;
+  margin-bottom: 16px;
 `;
 
 const PerfilContraseñaNuevaText = styled.span`
-  font-family: Roboto;
   font-size: 12px;
   text-align: left;
   color: #000;
@@ -31,7 +20,6 @@ const PerfilContraseñaNuevaText = styled.span`
 `;
 
 const PerfilContraseñaNuevaBbdd = styled.input`
-  font-family: Roboto;
   color: #000;
   font-size: 14px;
   align-self: stretch;
@@ -42,7 +30,27 @@ const PerfilContraseñaNuevaBbdd = styled.input`
   border: none;
   background: transparent;
   flex-direction: column;
-  outline: none; /* Elimina el resaltado del input al hacer clic */
+  outline: none;
+  border-bottom: 1px solid #D9D5DC;
+
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
+
+function ContrasenaNuevaPerfilBox({ value, onChange, onBlur }) {
+  return (
+    <Container>
+      <PerfilContraseñaNuevaText>Contraseña nueva</PerfilContraseñaNuevaText>
+      <PerfilContraseñaNuevaBbdd
+        type="password"
+        placeholder="Contraseña nueva"
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
+    </Container>
+  );
+}
 
 export default ContrasenaNuevaPerfilBox;

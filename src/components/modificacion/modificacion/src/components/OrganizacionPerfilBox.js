@@ -1,6 +1,7 @@
-import React from "react";
+// En OrganizacionPerfilBox.js
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { MdEdit } from "react-icons/md";
+import Axios from 'axios';
 
 const Container = styled.div`
   display: flex;
@@ -12,8 +13,7 @@ const Container = styled.div`
 `;
 
 const PerfilOrganizacionText = styled.span`
-  font-family: Roboto;
-  font-size: 10px;
+  font-size: 12px;
   text-align: left;
   color: #000;
   opacity: 0.6;
@@ -22,8 +22,7 @@ const PerfilOrganizacionText = styled.span`
   font-weight: 700;
 `;
 
-const PerfilOrganizacionBbdd = styled.input`
-  font-family: Roboto;
+const Select = styled.select`
   color: #000;
   font-size: 14px;
   align-self: stretch;
@@ -37,22 +36,49 @@ const PerfilOrganizacionBbdd = styled.input`
   flex-direction: column;
 `;
 
-const PencilIcon = styled(MdEdit)`
-  top: 37px;
-  left: 358px;
-  position: absolute;
-  color: rgba(0, 0, 0, 1);
-  font-size: 20px;
-  right: 0;
-  bottom: 0;
-`;
+function OrganizacionPerfilBox({ onChange }) {
+  const [organizaciones, setOrganizaciones] = useState([]);
+  const [error, setError] = useState(null);
 
-function OrganizacionPerfilBox(props) {
+  useEffect(() => {
+    // Hacer la solicitud a la API de Django usando Axios
+    Axios.get('https://192.168.1.14/organizations/', {
+      headers: {
+        'Authorization': 'Token e2fa4c057c611857bb0c8aefc62ee3861017fe77',
+      },
+    })
+      .then(response => {
+        // Al recibir los datos, actualiza el estado con las organizaciones
+        setOrganizaciones(response.data);
+      })
+      .catch(error => {
+        console.error('Error al obtener organizaciones:', error);
+      });
+  }, []); // El segundo parámetro [] asegura que useEffect se ejecute solo una vez al montar el componente
+
+  const handleOrganizacionChange = (e) => {
+    const { value } = e.target;
+    onChange({
+      target: {
+        name: "organization",  // Asigna el nombre del campo que quieras que tenga
+        value,
+      },
+    });
+  };
+
   return (
-    <Container {...props}>
+    <Container>
       <PerfilOrganizacionText>Organización</PerfilOrganizacionText>
-      <PerfilOrganizacionBbdd placeholder="Crustáceo Cascarudo"></PerfilOrganizacionBbdd>
-      <PencilIcon />
+      <Select onChange={handleOrganizacionChange}>
+        <option value="" disabled hidden>
+          Selecciona una organización
+        </option>
+        {organizaciones.map(org => (
+          <option key={org.id} value={org.id}>
+            {org.org_name}
+          </option>
+        ))}
+      </Select>
     </Container>
   );
 }

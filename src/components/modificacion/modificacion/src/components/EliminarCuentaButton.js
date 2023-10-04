@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import styled, { css } from "styled-components";
+import React from "react";
+import styled from "styled-components";
 
 function EliminarCuentaButton(props) {
   return (
@@ -14,16 +14,14 @@ const Container = styled.div`
   background-color: rgba(255,152,0,1);
   justify-content: center;
   align-items: center;
-  flex-direction: row;
   border-radius: 100px;
-  padding-left: 16px;
-  padding-right: 16px;
-  opacity: 0.6;
-  box-shadow: 0px 1px 5px  0.35px rgba(0,0,0,1) ;
+  min-width: 88px; /* Establece un ancho mínimo */
+  padding: 8px 16px; /* Ajusta el espacio interno */
+  box-shadow: 0px 1px 5px  0.35px rgba(0,0,0,1);
+  margin-top: 20px; /* Agrega margen superior */
 `;
 
 const EliminarCuentaText = styled.span`
-  font-family: Roboto;
   color: #fff;
   font-size: 14px;
   font-weight: 700;

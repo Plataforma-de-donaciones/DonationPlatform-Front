@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import styled, { css } from "styled-components";
+import React from "react";
+import styled from "styled-components";
 
 function CorreoPerfilBox(props) {
   return (
@@ -16,22 +16,21 @@ const Container = styled.div`
   border-color: #D9D5DC;
   background-color: transparent;
   flex-direction: column;
+  margin-bottom: 16px; /* Añade un margen inferior */
 `;
 
 const PerfilCorreoText = styled.span`
-  font-family: Roboto;
   font-size: 12px;
   text-align: left;
   color: #000;
   opacity: 0.6;
   padding-top: 16px;
-  width: 102px;
+  width: 150px;
   height: 30px;
   font-weight: 700;
 `;
 
 const PerfilCorreoBbdd = styled.span`
-  font-family: Roboto;
   color: #000;
   font-size: 14px;
   align-self: stretch;
@@ -41,6 +40,13 @@ const PerfilCorreoBbdd = styled.span`
   padding-bottom: 8px;
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid #D9D5DC;
+
+
+  @media screen and (max-width: 768px) {
+    /* Ajustar estilos para pantallas más pequeñas */
+    font-size: 12px;
+  }
 `;
 
 export default CorreoPerfilBox;

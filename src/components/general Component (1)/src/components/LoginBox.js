@@ -1,3 +1,4 @@
+// LoginBox.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import Sessionheader from "./Sessionheader";
@@ -6,7 +7,6 @@ import PasswordInput from "./PasswordInput";
 import Registratebutton1 from "./Registratebutton1";
 import EnterButton from "./EnterButton";
 import { FaUser, FaLock } from 'react-icons/fa';
-//import Axios from 'axios'; // Importa Axios
 import { Link } from "react-router-dom";
 import instance from "../../../../axios_instance";
 
@@ -97,36 +97,46 @@ const LoginBox = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null); // Limpia cualquier mensaje de error previo
+    setError(null);
+
     try {
       const response = await instance.post(
-        "http://192.168.1.14/login/",
-        credentials,
-        {
-          headers: {
-            Authorization: "Token e2fa4c057c611857bb0c8aefc62ee3861017fe77",
-          },
-        }
+        "https://192.168.1.14/login/",
+        credentials
       );
-      console.log("Código de estado de la respuesta:", response.status);
 
-      // Si la solicitud fue exitosa (código de respuesta 200), muestra el mensaje de éxito
       if (response.status === 200) {
-            alert("Inicio de sesión exitoso!")        // Puedes también agregar lógica para redirigir a otra página si es necesario
-          } else if (response.status === 401) {
-            setError("Usuario o contraseña incorrectos.");
-          } else if (response.data && response.data.error_message) {
-            setError(response.data.error_message);
-          } else {
-            setError("Error al iniciar sesión. Verifica tus credenciales.");
-          }
+        // Verificar si hay cookies en la respuesta antes de intentar iterar
+        const cookiesHeader = response.headers['set-cookie'];
+        
+        if (cookiesHeader) {
+          // Guardar las cookies en localStorage
+          const cookies = cookiesHeader.map(cookie => cookie.split(';')[0]);
+          
+          cookies.forEach(cookie => {
+            const [name, value] = cookie.split('=');
+            localStorage.setItem(name, value);
+          });
+
+          // Verificar que se hayan guardado correctamente
+          console.log('Cookies guardadas en localStorage:', localStorage);
+        }
+
+        alert("Inicio de sesión exitoso!");
+        // Puedes redirigir o realizar otras acciones necesarias
+      } else if (response.status === 401) {
+        setError("Usuario o contraseña incorrectos.");
+      } else if (response.data && response.data.error_message) {
+        setError(response.data.error_message);
+      } else {
+        setError("Error al iniciar sesión. Verifica tus credenciales.");
+      }
     } catch (error) {
-      // Maneja los errores de la solicitud
       console.error("Error al iniciar sesión:", error);
       setError("Error al conectarse al servidor. Inténtalo de nuevo más tarde.");
     }
   };
-
+  
 
   return (
     <Container>
@@ -163,21 +173,21 @@ const LoginBox = () => {
           }}
         />
         <PasswordInput
-  type="password"
-  name="user_password"
-  value={credentials.user_password}
-  onChange={handleChange}
-  passwordplaceholder="Contraseña" // Cambia a data-passwordplaceholder
-  style={{
-    height: 43,
-    width: "100%",
-    marginTop: 10
-  }}
-/>
+          type="password"
+          name="user_password"
+          value={credentials.user_password}
+          onChange={handleChange}
+          passwordplaceholder="Contraseña"
+          style={{
+            height: 43,
+            width: "100%",
+            marginTop: 10
+          }}
+        />
       </InputWrapper>
       <NotienescuentaaunWrapper>
         <NotienescuentaaunText>No tienes una cuenta aún?</NotienescuentaaunText>
-        <Link to="/alta"> {/* Redirige a la página de alta de usuario */}
+        <Link to="/alta">
           <Registratebutton1
             style={{
               height: 17,
@@ -198,7 +208,7 @@ const LoginBox = () => {
           marginTop: 20,
           borderRadius: 100
         }}
-        onClick={handleSubmit} // Agrega la función de inicio de sesión al botón
+        onClick={handleSubmit}
       />
       {error && <div className="error-message" style={{ color: "red" }}>{error}</div>}
     </Container>
