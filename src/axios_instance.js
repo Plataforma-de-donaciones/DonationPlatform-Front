@@ -1,7 +1,7 @@
 import Axios from 'axios';
 
 const instance = Axios.create({
-  baseURL: 'https://192.168.1.14',
+  baseURL: 'https://plataformadonaciones-qa.azurewebsites.net',
   timeout: 5000,
   withCredentials: true, // Agrega esta línea para habilitar el uso de cookies de sesión
   validateStatus: function (status) {

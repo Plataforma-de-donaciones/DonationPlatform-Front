@@ -1,5 +1,5 @@
 import React from "react";
-import GeneralHeader from "../components/GeneralHeader"
+import GeneralHeader from "../../../../inicio/src/components/GeneralHeader"
 import PerfilBox from "../components/PerfilBox";
 import GeneralFooter from "../components/GeneralFooter";
 import styled from "styled-components";

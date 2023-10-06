@@ -1,9 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faUser } from "@fortawesome/free-solid-svg-icons"; // Importa el ícono de usuario
+import { faBars, faUser } from "@fortawesome/free-solid-svg-icons";
+import { Link, useHistory } from "react-router-dom";
+import { useAuth } from "../../../../AuthContext"; // Asegúrate de ajustar la ruta correcta
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 function GeneralHeader(props) {
+  const { logout } = useAuth();
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const history = useHistory();
+
+
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    // Realizar acciones necesarias antes de cerrar sesión
+    // ...
+
+    // Cerrar sesión
+    logout();
+
+    // Limpiar las cookies de sesión (o cualquier otra acción necesaria)
+    cookies.remove('token');
+    cookies.remove('user_data');
+
+    // Cerrar el menú desplegable
+    setMenuOpen(false);
+
+  history.push('/login');
+  };
+
   return (
     <Container {...props}>
       <MenuIcon>
@@ -23,7 +54,7 @@ function GeneralHeader(props) {
         <LogoText>Donaciones.uy</LogoText>
       </LogoContainer>
       <UserIcon>
-        <ButtonOverlay>
+        <ButtonOverlay onClick={toggleMenu}>
           <FontAwesomeIcon
             icon={faUser}
             style={{
@@ -33,6 +64,16 @@ function GeneralHeader(props) {
             }}
           />
         </ButtonOverlay>
+        {isMenuOpen && (
+          <DropdownMenu>
+            <MenuItem>
+              <Link to="/modificacion">Mi cuenta</Link>
+            </MenuItem>
+            <MenuItem>
+              <Button onClick={handleLogout}>Cerrar sesión</Button>
+            </MenuItem>
+          </DropdownMenu>
+        )}
       </UserIcon>
     </Container>
   );
@@ -98,9 +139,42 @@ const LogoText = styled.span`
 `;
 
 const UserIcon = styled.div`
+  position: relative;
   padding: 0.5rem;
   width: 2.5rem;
   border: none;
+`;
+
+const DropdownMenu = styled.ul`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const MenuItem = styled.li`
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+
+  a {
+    text-decoration: none;
+    color: #333;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const Button = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
 `;
 
 export default GeneralHeader;

@@ -1,14 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
-function NombrePerfilBox(props) {
+function NombrePerfilBox({ user_name }) {
   return (
-    <Container {...props}>
+    <Container>
       <PerfilNombreText>Nombre de usuario</PerfilNombreText>
-      <PerfilNombreBbdd>Bob Esponja</PerfilNombreBbdd>
+      <PerfilNombreBbdd>{user_name}</PerfilNombreBbdd>
     </Container>
   );
 }
+
+
 
 const Container = styled.div`
   display: flex;

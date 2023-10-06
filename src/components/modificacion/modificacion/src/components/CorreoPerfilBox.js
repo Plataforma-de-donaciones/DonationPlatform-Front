@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-function CorreoPerfilBox(props) {
+function CorreoPerfilBox({ user_email }) {
   return (
-    <Container {...props}>
+    <Container>
       <PerfilCorreoText>Correo electrónico</PerfilCorreoText>
-      <PerfilCorreoBbdd>bobesponja@gmail.com</PerfilCorreoBbdd>
+      <PerfilCorreoBbdd>{user_email}</PerfilCorreoBbdd>
     </Container>
   );
 }

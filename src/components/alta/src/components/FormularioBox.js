@@ -8,7 +8,8 @@ import ContrasenaTextBox from "./ContrasenaTextBox";
 import OrganizacionRegistroBox from "./OrganizacionRegistroBox";
 import AceptarButton from "./AceptarButton";
 import CancelarButton from "./CancelarButton";
-import Axios from 'axios'; // Importa Axios
+//import Axios from 'axios'; // Importa Axios
+import instance from "../../../../axios_instance";
 
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -141,7 +142,7 @@ const FormularioBox = (props) => {
   
     try {
       // Realiza una solicitud POST a la URL de creación de usuario
-      const response = await Axios.post('http://192.168.1.14/users/create/', registrationData, {
+      const response = await instance.post('/users/create/', registrationData, {
         headers: {
           'Authorization': 'Token e2fa4c057c611857bb0c8aefc62ee3861017fe77',
         },

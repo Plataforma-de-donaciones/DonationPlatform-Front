@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import jwt_decode from "jwt-decode";
-import axios from "axios";
-
+//import axios from "axios";
+import Cookies from "universal-cookie";
+import instance from "../../../../../axios_instance";
+import { useAuth } from "../../../../../AuthContext";
 import NombrePerfilBox from "./NombrePerfilBox";
 import CorreoPerfilBox from "./CorreoPerfilBox";
 import ContrasenaNuevaPerfilBox from "./ContrasenaNuevaPerfilBox";
-import PerfilContrasenaBox from "./PerfilContrasenaBox";
 import OrganizacionPerfilBox from "./OrganizacionPerfilBox";
 import AceptarButton from "./AceptarButton";
 import CancelarButton from "./CancelarButton";
@@ -67,39 +67,54 @@ const PreguntaEliminarText = styled.span`
   margin-top: 30px;
 `;
 
+const cookies = new Cookies();
+
 function PerfilBox(props) {
+  const { user } = useAuth();
   const [userData, setUserData] = useState({
     user_name: "",
     user_email: "",
     organization: "",
   });
 
-  useEffect(() => {
-    // Extrae la cookie del localStorage
-    const tokenCookie = localStorage.getItem('tokenCookie');
-
-    // Comprueba si la cookie está presente y no es nula o indefinida
-    if (tokenCookie) {
-      try {
-        // Decodifica el token para obtener la información del usuario
-        const decodedToken = jwt_decode(tokenCookie);
-
-        // Actualiza el estado con los datos del usuario
-        setUserData({
-          user_name: decodedToken.user_name,
-          user_email: decodedToken.user_email,
-          organization: decodedToken.organization,
-        });
-      } catch (error) {
-        // Maneja errores al decodificar el token
-        console.error("Error al decodificar el token:", error);
-      }
-    }
-  }, []);
-
   const [contrasenaNueva, setContrasenaNueva] = useState("");
   const [confirmarContrasena, setConfirmarContrasena] = useState("");
   const [contrasenasCoinciden, setContrasenasCoinciden] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = cookies.get("token");
+        const userDataCookie = cookies.get("user_data");
+        const user_email = userDataCookie.user_email;
+
+        const response = await instance.post(
+          "/users/search/",
+          { user_email },
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
+        
+        
+
+        const userDataFromApi = response.data[0];
+        console.log("Respuesta de la API:", userDataFromApi);
+        setUserData({
+          user_name: userDataFromApi.user_name,
+          user_email: userDataFromApi.user_email,
+          organization: userDataFromApi.organization,
+        });
+        console.log(userDataFromApi.user_name);
+      } catch (error) {
+        console.error("Error al obtener datos del usuario:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleContrasenaNuevaChange = (e) => {
     setContrasenaNueva(e.target.value);
@@ -124,18 +139,24 @@ function PerfilBox(props) {
     }
 
     try {
-      const token = localStorage.getItem('tokenCookie');
-      const decodedToken = jwt_decode(token);
-      console.log("Cookies:", token);
-
-      const response = await axios.patch(`https://192.168.1.14/users/${decodedToken.user_id}/`, {
-        user_name: userData.user_name,
-        organization: userData.organization,
-        new_password: contrasenaNueva,
-      });
+      const token = cookies.get("token");
+      const userDataCookie = cookies.get("user_data");
+      const user_id = userDataCookie.user_id;
+      const response = await instance.patch(
+        `/users/${user_id}/`,
+        {
+          user_name: userData.user_name,
+          organization: userData.organization,
+          new_password: contrasenaNueva,
+        },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
 
       console.log("Respuesta del servidor:", response.data);
-
     } catch (error) {
       console.error("Error al actualizar la información del usuario:", error);
     }
@@ -151,10 +172,9 @@ function PerfilBox(props) {
         <PerfilText>Perfil</PerfilText>
       </Rect>
       <ContentContainer>
-        <NombrePerfilBoxStack>
-          <NombrePerfilBox />
-          <CorreoPerfilBox />
-        </NombrePerfilBoxStack>
+          {/* Asignar valores iniciales a los componentes */}
+          <NombrePerfilBox user_name={userData.user_name} />
+          <CorreoPerfilBox user_email={userData.user_email} />
         <ContrasenaNuevaPerfilBox
           value={contrasenaNueva}
           onChange={handleContrasenaNuevaChange}
@@ -171,7 +191,7 @@ function PerfilBox(props) {
             Las contraseñas no coinciden
           </div>
         )}
-        <OrganizacionPerfilBox />
+        <OrganizacionPerfilBox organization={userData.organization} />
         <AceptarButtonRow>
           <AceptarButton onClick={handleSubmit} />
           <CancelarButton />

@@ -1,5 +1,5 @@
 import React from "react";
-import GeneralHeader from "../../../modificacion/modificacion/src/components/GeneralHeader";
+import GeneralHeader from "../../../inicio/src/components/GeneralHeader";
 import FormularioBox from "../components/FormularioBox";
 import GeneralFooter from "../../../modificacion/modificacion/src/components/GeneralFooter";
 import styled from "styled-components"; // Importa styled-components

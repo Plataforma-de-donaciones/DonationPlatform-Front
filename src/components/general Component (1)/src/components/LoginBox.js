@@ -1,14 +1,15 @@
-// LoginBox.js
-import React, { useState } from "react";
-import styled from "styled-components";
-import Sessionheader from "./Sessionheader";
-import UserInput from "./UserInput";
-import PasswordInput from "./PasswordInput";
-import Registratebutton1 from "./Registratebutton1";
-import EnterButton from "./EnterButton";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { useAuth } from '../../../../AuthContext';
+import Sessionheader from './Sessionheader';
+import UserInput from './UserInput';
+import PasswordInput from './PasswordInput';
+import Registratebutton1 from './Registratebutton1';
+import EnterButton from './EnterButton';
 import { FaUser, FaLock } from 'react-icons/fa';
-import { Link } from "react-router-dom";
-import instance from "../../../../axios_instance";
+import { Link, Redirect } from 'react-router-dom';
+import instance from '../../../../axios_instance';
+import Cookies from 'js-cookie';
 
 const Container = styled.div`
   display: flex;
@@ -17,9 +18,11 @@ const Container = styled.div`
   padding: 20px;
   max-width: 800px;
   margin: 0 auto;
-  border: 1px solid #CCC;
   background-color: #FFF;
-  box-shadow: -2px 2px 1.5px 0.1px #000;
+  
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const InputWrapper = styled.div`
@@ -86,6 +89,10 @@ const LoginBox = () => {
     user_password: '',
   });
 
+  const [redirectToHome, setRedirectToHome] = useState(false);
+
+  const { login } = useAuth();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCredentials({
@@ -94,40 +101,33 @@ const LoginBox = () => {
     });
   };
   const [error, setError] = useState(null);
-
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
     setError(null);
 
     try {
       const response = await instance.post(
-        "https://192.168.1.14/login/",
+        '/login/',
         credentials
       );
 
       if (response.status === 200) {
-        // Verificar si hay cookies en la respuesta antes de intentar iterar
-        const cookiesHeader = response.headers['set-cookie'];
-        
-        if (cookiesHeader) {
-          // Guardar las cookies en localStorage
-          const cookies = cookiesHeader.map(cookie => cookie.split(';')[0]);
-          
-          cookies.forEach(cookie => {
-            const [name, value] = cookie.split('=');
-            localStorage.setItem(name, value);
-          });
+        const { token, user_data } = response.data;
 
-          // Verificar que se hayan guardado correctamente
-          console.log('Cookies guardadas en localStorage:', localStorage);
-        }
+        // Guardar el token y la información del usuario en cookies
+        Cookies.set('token', token, { expires: 1 });
+        Cookies.set('user_data', JSON.stringify(user_data), { expires: 1 });
 
-        alert("Inicio de sesión exitoso!");
-        // Puedes redirigir o realizar otras acciones necesarias
+        // Realizar acciones adicionales según sea necesario
+
+        // Redirigir a la página principal después del inicio de sesión
+        login();
+        setRedirectToHome(true);
       } else if (response.status === 401) {
         setError("Usuario o contraseña incorrectos.");
       } else if (response.data && response.data.error_message) {
-        setError(response.data.error_message);
+        // Manejar el mensaje de error
       } else {
         setError("Error al iniciar sesión. Verifica tus credenciales.");
       }
@@ -136,18 +136,22 @@ const LoginBox = () => {
       setError("Error al conectarse al servidor. Inténtalo de nuevo más tarde.");
     }
   };
-  
+
+  if (redirectToHome) {
+    return <Redirect to="/inicio" />;
+  }
+
 
   return (
     <Container>
-      <Sessionheader style={{ width: "100%", height: 43 }} />
+      <Sessionheader style={{ width: '100%', height: 43 }} />
       <CorreoNombreText>Correo electrónico o nombre de usuario</CorreoNombreText>
       <InputWrapper>
         <FaUser
           style={{
-            color: "rgba(0, 0, 0, 1)",
+            color: 'rgba(0, 0, 0, 1)',
             fontSize: 40,
-            marginRight: 10
+            marginRight: 10,
           }}
         />
         <UserInput
@@ -157,8 +161,8 @@ const LoginBox = () => {
           onChange={handleChange}
           style={{
             height: 43,
-            width: "100%",
-            marginTop: 10
+            width: '100%',
+            marginTop: 10,
           }}
           group="rgba(155,155,155,1)"
         />
@@ -167,9 +171,9 @@ const LoginBox = () => {
       <InputWrapper>
         <FaLock
           style={{
-            color: "rgba(0, 0, 0, 1)",
+            color: 'rgba(0, 0, 0, 1)',
             fontSize: 40,
-            marginRight: 10
+            marginRight: 10,
           }}
         />
         <PasswordInput
@@ -180,8 +184,8 @@ const LoginBox = () => {
           passwordplaceholder="Contraseña"
           style={{
             height: 43,
-            width: "100%",
-            marginTop: 10
+            width: '100%',
+            marginTop: 10,
           }}
         />
       </InputWrapper>
@@ -192,21 +196,21 @@ const LoginBox = () => {
             style={{
               height: 17,
               width: 100,
-              marginLeft: 10
+              marginLeft: 10,
             }}
           />
         </Link>
       </NotienescuentaaunWrapper>
       <SocialLogosWrapper>
-        <GoogleLogo src={require("../assets/images/google.png")} />
-        <FbLogo src={require("../assets/images/facebook-logo-5-1.png")} />
+        <GoogleLogo src={require('../assets/images/google.png')} />
+        <FbLogo src={require('../assets/images/facebook-logo-5-1.png')} />
       </SocialLogosWrapper>
       <EnterButton
         style={{
           height: 36,
           width: 100,
           marginTop: 20,
-          borderRadius: 100
+          borderRadius: 100,
         }}
         onClick={handleSubmit}
       />

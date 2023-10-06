@@ -1,4 +1,3 @@
-// En OrganizacionPerfilBox.js
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Axios from 'axios';
@@ -36,7 +35,7 @@ const Select = styled.select`
   flex-direction: column;
 `;
 
-function OrganizacionPerfilBox({ onChange }) {
+function OrganizacionPerfilBox({ onChange, token }) {
   const [organizaciones, setOrganizaciones] = useState([]);
   const [error, setError] = useState(null);
 
@@ -44,7 +43,7 @@ function OrganizacionPerfilBox({ onChange }) {
     // Hacer la solicitud a la API de Django usando Axios
     Axios.get('https://192.168.1.14/organizations/', {
       headers: {
-        'Authorization': 'Token e2fa4c057c611857bb0c8aefc62ee3861017fe77',
+        'Authorization': `Token ${token}`,
       },
     })
       .then(response => {
@@ -54,13 +53,13 @@ function OrganizacionPerfilBox({ onChange }) {
       .catch(error => {
         console.error('Error al obtener organizaciones:', error);
       });
-  }, []); // El segundo parámetro [] asegura que useEffect se ejecute solo una vez al montar el componente
+  }, [token]); // Ahora, useEffect se ejecutará cada vez que token cambie
 
   const handleOrganizacionChange = (e) => {
     const { value } = e.target;
     onChange({
       target: {
-        name: "organization",  // Asigna el nombre del campo que quieras que tenga
+        name: "organization",
         value,
       },
     });

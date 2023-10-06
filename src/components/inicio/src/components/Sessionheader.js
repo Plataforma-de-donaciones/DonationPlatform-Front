@@ -9,10 +9,7 @@ const Container = styled.div`
   padding: 4px;
   justify-content: space-between;
   position: relative;
-  
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 1.2px 0.2px #111;
 
   @media (max-width: 768px) {
     padding: 2px; /* Ajusta el padding en pantallas más pequeñas */
