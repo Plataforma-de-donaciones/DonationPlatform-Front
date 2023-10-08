@@ -1,6 +1,4 @@
-// HomeScreen.js
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import NewsCarousel from "../components/NewsCarousel";
 import { useAuth } from "../../../../AuthContext";
 import Cookies from "universal-cookie";
@@ -8,12 +6,14 @@ import GeneralFooter from "../components/GeneralFooter";
 import GeneralHeader from "../components/GeneralHeader";
 import styled from "styled-components";
 import NewsList from "../components/NewsList";
-import MyCalendar from "../components/MyCalendar"; // Importa el nuevo componente
+import MyCalendar from "../components/MyCalendar";
+import Menu from "../components/Menu";
+import instance from "../../../../axios_instance";
 
 const cookies = new Cookies();
 const Container = styled.div`
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto auto 1fr auto; /* Ajuste de las filas */
   min-height: 100vh;
   width: 100%;
 `;
@@ -22,8 +22,12 @@ const Header = styled(GeneralHeader)`
   grid-row: 1;
 `;
 
-const Content = styled.div`
+const Menus = styled(Menu)`
   grid-row: 2;
+`;
+
+const Content = styled.div`
+  grid-row: 3;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -35,26 +39,33 @@ const Content = styled.div`
 
 const ContentContainer = styled.div`
   display: flex;
-  flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente línea si no caben en el ancho disponible */
-  justify-content: space-around; /* Distribuye los elementos uniformemente en el contenedor */
+  flex-wrap: wrap;
+  justify-content: space-around;
   background-color: rgba(255, 255, 255, 0.8);
   padding: 16px;
   margin-top: 16px;
+  flex: 1; /* Ocupa el espacio disponible verticalmente */
 `;
+
 const NewsListContainer = styled.div`
   margin-top: 16px;
-  margin-right: 50px;
+  margin-right: 10px; /* Ajuste de márgenes para pantalla más pequeña */
+  margin-left: 10px; /* Ajuste de márgenes para pantalla más pequeña */
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1; /* Ajuste de flex para ocupar el espacio disponible */
 `;
 
 const CalendarContainer = styled.div`
   margin-top: 24px;
+  flex: 1; /* Ajuste de flex para ocupar el espacio disponible */
 `;
 
 const Footer = styled(GeneralFooter)`
-  grid-row: 3;
+  grid-row: 4;
+  width: 100%; /* Ocupa el ancho completo */
+  flex-shrink: 0; /* No se encoje más allá de su contenido */
 `;
 
 const HomeScreen = () => {
@@ -65,12 +76,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await axios.get("https://192.168.1.14/news/", {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        });
-
+        const response = await instance.get("/news/", {});
         setNewsList(response.data);
       } catch (error) {
         console.error("Error fetching news:", error);
@@ -79,12 +85,7 @@ const HomeScreen = () => {
 
     const fetchEvents = async () => {
       try {
-        const response = await axios.get("https://192.168.1.14/events/", {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        });
-
+        const response = await instance.get("/events/", {});
         setEvents(response.data);
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -95,13 +96,12 @@ const HomeScreen = () => {
     fetchEvents();
   }, [token]);
 
-  // Filtrar las noticias destacadas
   const highlightedNews = newsList.filter((news) => news.is_highlighted);
 
   return (
     <Container>
       <Header />
-
+      <Menus />
       <Content>
         <NewsCarousel newsList={highlightedNews} />
         <ContentContainer>
@@ -109,12 +109,10 @@ const HomeScreen = () => {
             <NewsList newsList={newsList} />
           </NewsListContainer>
           <CalendarContainer>
-            {/* Usar el nuevo componente de calendario */}
             <MyCalendar events={events} />
           </CalendarContainer>
         </ContentContainer>
       </Content>
-
       <Footer />
     </Container>
   );

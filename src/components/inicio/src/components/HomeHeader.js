@@ -1,6 +1,6 @@
 // HomeScreen.js
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+//import axios from "axios";
 import NewsCarousel from "../components/NewsCarousel";
 import { useAuth } from "../../../../AuthContext";
 import Cookies from "universal-cookie";
@@ -9,6 +9,8 @@ import GeneralHeader from "../components/GeneralHeader";
 import styled from "styled-components";
 import NewsList from "../components/NewsList";
 import MyCalendar from "../components/MyCalendar";
+import Menu from "./GeneralMenu";
+import instance from "../../../../axios_instance";
 
 const cookies = new Cookies();
 const Container = styled.div`
@@ -42,7 +44,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await axios.get("https://192.168.1.14/news/", {
+        const response = await instance.get("/news/", {
           headers: {
             Authorization: `Token ${token}`,
           },
@@ -56,7 +58,7 @@ const HomeScreen = () => {
 
     const fetchEvents = async () => {
       try {
-        const response = await axios.get("/events/", {
+        const response = await instance.get("/events/", {
           headers: {
             Authorization: `Token ${token}`,
           },
@@ -78,7 +80,7 @@ const HomeScreen = () => {
   return (
     <Container>
       <Header />
-
+      <Menu />
       <ContentContainer>
         <NewsList newsList={newsList} />
         <MyCalendar events={events} />

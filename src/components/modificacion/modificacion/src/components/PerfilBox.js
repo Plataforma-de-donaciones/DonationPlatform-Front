@@ -13,11 +13,16 @@ import CancelarButton from "./CancelarButton";
 import EliminarCuentaButton from "./EliminarCuentaButton";
 
 const Container = styled.div`
-  max-width: 600px;
+  max-width: 800px;
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
   width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 const ContentContainer = styled.div`
@@ -27,14 +32,16 @@ const ContentContainer = styled.div`
 `;
 
 const Rect = styled.div`
-  max-width: 600px;
-  height: 35px;
+  width: 100%;
   background-color: rgba(255, 152, 0, 0.6);
-  flex-direction: column;
-  display: flex;
-  margin-top: 15px;
-  box-shadow: 0px 3px 5px 0.35px rgba(0, 0, 0, 1);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 5px;
+  padding: 6px 0px 0px 0px;
+  text-align: center;
 `;
+
 
 const PerfilText = styled.span`
   font-style: normal;
@@ -81,10 +88,13 @@ function PerfilBox(props) {
   const [confirmarContrasena, setConfirmarContrasena] = useState("");
   const [contrasenasCoinciden, setContrasenasCoinciden] = useState(true);
 
+  const [token, setToken] = useState("");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = cookies.get("token");
+        const retrievedToken = cookies.get("token");
+        setToken(retrievedToken);
         const userDataCookie = cookies.get("user_data");
         const user_email = userDataCookie.user_email;
 
@@ -93,13 +103,10 @@ function PerfilBox(props) {
           { user_email },
           {
             headers: {
-              Authorization: `Token ${token}`,
+              Authorization: `Token ${retrievedToken}`,
             },
           }
         );
-        
-        
-
         const userDataFromApi = response.data[0];
         console.log("Respuesta de la API:", userDataFromApi);
         setUserData({
@@ -130,6 +137,12 @@ function PerfilBox(props) {
     if (contrasenaNueva !== confirmarContrasena) {
       setContrasenasCoinciden(false);
     }
+  };
+  const handleOrganizacionChange = (selectedOrganization) => {
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      organization: selectedOrganization,
+    }));
   };
 
   const handleSubmit = async () => {
@@ -191,7 +204,10 @@ function PerfilBox(props) {
             Las contraseñas no coinciden
           </div>
         )}
-        <OrganizacionPerfilBox organization={userData.organization} />
+        <OrganizacionPerfilBox
+        selectedOrganization={userData.organization}
+        onChange={handleOrganizacionChange}
+      />
         <AceptarButtonRow>
           <AceptarButton onClick={handleSubmit} />
           <CancelarButton />

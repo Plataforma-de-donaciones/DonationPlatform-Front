@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Axios from 'axios';
+import instance from "../../../../../axios_instance";
+import Cookies from "universal-cookie";
 
 const Container = styled.div`
   display: flex;
@@ -35,48 +36,49 @@ const Select = styled.select`
   flex-direction: column;
 `;
 
-function OrganizacionPerfilBox({ onChange, token }) {
+const cookies = new Cookies();
+
+function OrganizacionPerfilBox({ selectedOrganization, onChange }) {
   const [organizaciones, setOrganizaciones] = useState([]);
-  const [error, setError] = useState(null);
+  const [userOrganization, setUserOrganization] = useState(null);
 
   useEffect(() => {
-    // Hacer la solicitud a la API de Django usando Axios
-    Axios.get('https://192.168.1.14/organizations/', {
-      headers: {
-        'Authorization': `Token ${token}`,
-      },
-    })
-      .then(response => {
-        // Al recibir los datos, actualiza el estado con las organizaciones
+    const token = cookies.get("token");
+
+    instance
+      .get("/organizations/", {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((response) => {
         setOrganizaciones(response.data);
       })
-      .catch(error => {
-        console.error('Error al obtener organizaciones:', error);
+      .catch((error) => {
+        console.error("Error al obtener organizaciones:", error);
       });
-  }, [token]); // Ahora, useEffect se ejecutará cada vez que token cambie
+
+    setUserOrganization(selectedOrganization);
+  }, [selectedOrganization]);
 
   const handleOrganizacionChange = (e) => {
     const { value } = e.target;
-    onChange({
-      target: {
-        name: "organization",
-        value,
-      },
-    });
+    onChange(value);
   };
 
   return (
     <Container>
       <PerfilOrganizacionText>Organización</PerfilOrganizacionText>
-      <Select onChange={handleOrganizacionChange}>
+      <Select onChange={handleOrganizacionChange} value={userOrganization}>
         <option value="" disabled hidden>
           Selecciona una organización
         </option>
-        {organizaciones.map(org => (
+        {organizaciones.map((org) => (
           <option key={org.id} value={org.id}>
             {org.org_name}
           </option>
         ))}
+        <option value={null}>Sin organización</option>
       </Select>
     </Container>
   );

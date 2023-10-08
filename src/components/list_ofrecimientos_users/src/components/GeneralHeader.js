@@ -70,12 +70,6 @@ function GeneralHeader(props) {
               <Link to="/modificacion">Mi cuenta</Link>
             </MenuItem>
             <MenuItem>
-              <Link to="/listadosolicitudes">Mis solicitudes</Link>
-            </MenuItem>
-            <MenuItem>
-              <Link to="/listadoofrecimientos">Mis ofrecimientos</Link>
-            </MenuItem>
-            <MenuItem>
               <Button onClick={handleLogout}>Cerrar sesión</Button>
             </MenuItem>
           </DropdownMenu>

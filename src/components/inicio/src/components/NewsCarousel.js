@@ -47,6 +47,10 @@ const arrowStyle = {
   border: 'none',
   cursor: 'pointer',
   padding: 0,
+  fontSize: '24px',  // Tamaño del ícono
 };
+
+// Resto del código...
+
 
 export default NewsCarousel;

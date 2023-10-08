@@ -16,7 +16,7 @@ const styles = {
     alignItems: "center",
     flexDirection: "row",
     borderRadius: "100px", // Usamos un valor en píxeles para el borde redondeado
-    boxShadow: "0px 1px 5px 0px rgba(0,0,0,0.35)", // Sombra en CSS
+    boxShadow: "0px 1px 5px 0.35px rgba(0,0,0,0.35)", // Sombra en CSS
     minWidth: "88px", // Ancho mínimo
     padding: "8px 16px", // Espaciado
     border: "none", // Eliminamos el borde

@@ -7,6 +7,8 @@ import { AltaDeUsuario } from './components/alta';
 import { ModificarUsuario } from './components/modificacion/modificacion';
 import HomeScreen from './components/inicio/src/screens/HomeScreen';
 import { AuthProvider } from './AuthContext';
+import ListarOfrecimientosPropios from './components/list_ofrecimientos_users/src/screens/ListarOfrecimientosPropios';
+import ListarSolicitudesPropios from './components/list_solicitudes_users/src/screens/ListarSolicitudesPropios';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
           <Route path="/alta" component={AltaDeUsuario} />
           <Route path="/modificacion" component={ModificarUsuario} />
           <Route path="/inicio" component={HomeScreen} />
+          <Route path="/listadoofrecimientos" component={ListarOfrecimientosPropios} />
+          <Route path="/listadosolicitudes" component={ListarSolicitudesPropios} />
         </Switch>
       </AuthProvider>
     </Router>

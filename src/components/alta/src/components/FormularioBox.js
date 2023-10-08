@@ -8,7 +8,6 @@ import ContrasenaTextBox from "./ContrasenaTextBox";
 import OrganizacionRegistroBox from "./OrganizacionRegistroBox";
 import AceptarButton from "./AceptarButton";
 import CancelarButton from "./CancelarButton";
-//import Axios from 'axios'; // Importa Axios
 import instance from "../../../../axios_instance";
 
 const Container = styled.div`
@@ -18,6 +17,11 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 const SocialButtonsContainer = styled.div`
@@ -39,8 +43,10 @@ const CenteredContent = styled.div`
 const Rect1 = styled.div`
   width: 100%;
   background-color: rgba(255, 152, 0, 0.6);
-  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.35);
-  margin-top: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: -50px;
   padding: 6px 0px 0px 0px;
   text-align: center;
 `;
@@ -73,98 +79,142 @@ const FormRow = styled.div`
 
 const FormularioBox = (props) => {
   const [registrationData, setRegistrationData] = useState({
-    user_name: '',
-    user_email: '',
-    user_password: '',
+    user_name: "",
+    user_email: "",
+    user_password: "",
     user_state: 1,
-    organization: '',
+    organization: "",
   });
-  console.log(registrationData);
-  const [error, setError] = useState(null);
 
-  const handleRegistrationChange = (e) => {
+  const [errors, setErrors] = useState({});
+
+  const handleFieldChange = (e) => {
     const { name, value } = e.target;
     setRegistrationData({
       ...registrationData,
       [name]: value,
     });
+
+    // Limpiar el error al cambiar el campo
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
+
+    // Validar el campo actual
+    validateField(name, value);
   };
+
+  const validateField = (name, value) => {
+    let errorMessage = "";
+
+    switch (name) {
+      case "user_name":
+        if (!value) {
+          errorMessage = "Este campo es obligatorio.";
+        }
+        break;
+      case "user_email":
+        if (value && !isValidEmail(value)) {
+          errorMessage = "Correo electrónico no válido.";
+        }
+        break;
+      case "user_password":
+        if (value && !isValidPassword(value)) {
+          errorMessage =
+            "La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.";
+        }
+        break;
+      // Puedes agregar más validaciones según tus necesidades
+      default:
+        break;
+    }
+
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: errorMessage,
+    }));
+  };
+
   function isValidEmail(email) {
-    // Expresión regular para validar el formato del correo electrónico
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
+
   function isValidPassword(password) {
     // Verificar la longitud mínima de la contraseña
     if (password.length < 8) {
       return false;
     }
-  
-    // Verificar al menos una mayúscula, un número y un símbolo
+
+    // Verificar al menos una mayúscula y un número
     const uppercaseRegex = /[A-Z]/;
     const numberRegex = /[0-9]/;
-    const symbolRegex = /[!@#$%^&*]/;
-  
-    return (
-      uppercaseRegex.test(password) &&
-      numberRegex.test(password) &&
-      symbolRegex.test(password)
-    );
+
+    return uppercaseRegex.test(password) && numberRegex.test(password);
   }
+
   const handlePasswordBlur = () => {
-    if (registrationData.user_password && !isValidPassword(registrationData.user_password)) {
-      setError("La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un símbolo.");
-    } else {
-      setError(""); 
-    }
+    validateField("user_password", registrationData.user_password);
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Validación de campos obligatorios
-    if (!registrationData.user_name || !registrationData.user_email || !registrationData.user_password) {
-      setError("Revise los campos obligatorios.");
+
+    // Validar todos los campos antes de enviar la solicitud
+    Object.keys(registrationData).forEach((name) => {
+      validateField(name, registrationData[name]);
+    });
+
+    // Verificar si hay errores en los campos
+    if (Object.values(errors).some((error) => error !== "")) {
       return;
     }
-  
-    // Validación de correo electrónico
-    if (!isValidEmail(registrationData.user_email)) {
-      setError("Correo electrónico no válido.");
-      return;
-    }
-  
-    // Validación de contraseña
-    if (!isValidPassword(registrationData.user_password)) {
-      setError("La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un símbolo.");
-      return;
-    }
-  
+
+    // Intentar enviar la solicitud
     try {
-      // Realiza una solicitud POST a la URL de creación de usuario
-      const response = await instance.post('/users/create/', registrationData, {
+      const response = await instance.post("/users/create/", registrationData, {
         headers: {
-          'Authorization': 'Token e2fa4c057c611857bb0c8aefc62ee3861017fe77',
+          Authorization: "Token e2fa4c057c611857bb0c8aefc62ee3861017fe77",
         },
       });
-  
-      // Verificar respuesta del servidor
+
       if (response.status === 201) {
-        // Usuario creado exitosamente
         alert("Usuario creado");
-        // También puedes redirigir al usuario a una página de inicio de sesión, por ejemplo.
       } else {
-        // Si la respuesta no es 201, hubo un error inesperado
-        setError("Hubo un problema al crear el usuario.");
+        const serverError = response.data;
+
+      if (serverError) {
+        // Si hay errores específicos, mostrarlos en los campos correspondientes
+        const fieldErrors = {};
+        Object.keys(serverError).forEach((field) => {
+          // Verificar si el mensaje de error es un array y tomar el primer elemento
+          const errorMessage =
+            Array.isArray(serverError[field]) && serverError[field][0];
+
+          // Asignar el mensaje de error al campo
+          fieldErrors[field] = errorMessage || "Error desconocido";
+        });
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ...fieldErrors,
+        }));
+      } else {
+        // Si no hay errores específicos, mostrar el mensaje genérico
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          general: "Hubo un problema al crear el usuario.",
+        }));
       }
-    } catch (error) {
-      console.error('Error al crear usuario:', error);
-      setError("Hubo un problema al crear el usuario."); // Manejo de errores
+    }
+  } catch (error) {
+    console.error("Error al crear usuario:", error);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      general: "Hubo un problema al crear el usuario.",
+    }));
     }
   };
-  
-  
-
 
   return (
     <Container>
@@ -183,30 +233,42 @@ const FormularioBox = (props) => {
           <NombreRegistroBox
             name="user_name"
             value={registrationData.user_name}
-            onChange={handleRegistrationChange}
+            onChange={handleFieldChange}
           />
+          {errors.user_name && <div style={{ color: "red" }}>{errors.user_name}</div>}
           <CorreoRegistroBox
             name="user_email"
             value={registrationData.user_email}
-            onChange={handleRegistrationChange}
+            onChange={handleFieldChange}
           />
+          {errors.user_email && <div style={{ color: "red" }}>{errors.user_email}</div>}
           <ContrasenaTextBox
             name="user_password"
             value={registrationData.user_password}
-            onChange={handleRegistrationChange}
+            onChange={handleFieldChange}
             onBlur={handlePasswordBlur}
           />
+          {errors.user_password && <div style={{ color: "red" }}>{errors.user_password}</div>}
           <OrganizacionRegistroBox
-          name="organization"
-          value={registrationData.organization}
-          onChange={handleRegistrationChange} 
+            name="organization"
+            value={registrationData.organization}
+            onChange={handleFieldChange}
           />
         </FormRow>
-        <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", margin: "20px 0px" }}>
-        <AceptarButton onClick={handleSubmit} />
-        <CancelarButton />
-      </div>
-      {error && <div style={{ color: "red" }}>{error}</div>} {/* Mostrar mensaje de error si existe */}
+        <div style={{ color: "red" }}>{errors.general}</div>
+      <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", margin: "20px 0px" }}></div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            margin: "20px 0px",
+          }}
+        >
+          <AceptarButton onClick={handleSubmit} />
+          <CancelarButton />
+        </div>
+        {errors.general && <div style={{ color: "red" }}>{errors.general}</div>}
       </CenteredContent>
     </Container>
   );
