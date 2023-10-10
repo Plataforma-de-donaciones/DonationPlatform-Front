@@ -1,0 +1,1 @@
+export { default as ListarOfrecimientosPropios } from "./src/screens/ListarOfrecimientosPropios.js";
