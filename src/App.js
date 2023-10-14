@@ -9,6 +9,8 @@ import HomeScreen from './components/inicio/src/screens/HomeScreen';
 import { AuthProvider } from './AuthContext';
 import ListarOfrecimientosPropios from './components/list_ofrecimientos_users/src/screens/ListarOfrecimientosPropios';
 import ListarSolicitudesPropios from './components/list_solicitudes_users/src/screens/ListarSolicitudesPropios';
+import AltaEquipamiento from './components/alta_equipamiento/screens/AltaEquipamiento';
+import Listeqscreen from './components/list_equipamiento_medico/src/screens/Listeqscreen';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Route path="/inicio" component={HomeScreen} />
           <Route path="/listadoofrecimientos" component={ListarOfrecimientosPropios} />
           <Route path="/listadosolicitudes" component={ListarSolicitudesPropios} />
+          <Route path="/altaequipamiento" component={AltaEquipamiento} />
+          <Route path="/listadoequipamiento" component={Listeqscreen} />
         </Switch>
       </AuthProvider>
     </Router>

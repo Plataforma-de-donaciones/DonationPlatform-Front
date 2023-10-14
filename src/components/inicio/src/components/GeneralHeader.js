@@ -131,7 +131,7 @@ const Isotype = styled.img`
 `;
 
 const LogoText = styled.span`
-  font-family: Gloria Hallelujah;
+  font-family: "Gloria Hallelujah", cursive;
   font-size: 2rem;
   color: #FFFFFF;
   background-color: transparent;

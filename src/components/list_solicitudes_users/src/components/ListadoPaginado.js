@@ -78,12 +78,12 @@ const ListadoPaginado = ({ tipo }) => {
       <StyledTable>
         <thead>
           <tr>
-            <TableHeaderCell>Name</TableHeaderCell>
-            <TableHeaderCell>Description</TableHeaderCell>
-            <TableHeaderCell>Created At</TableHeaderCell>
-            <TableHeaderCell>Request Count</TableHeaderCell>
-            <TableHeaderCell>Confirmation Date</TableHeaderCell>
-            <TableHeaderCell>Has Requests</TableHeaderCell>
+            <TableHeaderCell>Nombre</TableHeaderCell>
+            <TableHeaderCell>Descripción</TableHeaderCell>
+            <TableHeaderCell>Fecha creado</TableHeaderCell>
+            <TableHeaderCell>Solicitudes</TableHeaderCell>
+            <TableHeaderCell>Fecha confirmación</TableHeaderCell>
+            <TableHeaderCell>Tiene solicitudes</TableHeaderCell>
             {/* Otros encabezados según el tipo */}
           </tr>
         </thead>
