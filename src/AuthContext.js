@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import Axios from 'axios';
+import Cookies from "universal-cookie";
 
 const AuthContext = createContext();
-
+const cookies = new Cookies();
 export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
     isAuthenticated: false,
@@ -10,12 +11,24 @@ export const AuthProvider = ({ children }) => {
     user: null,
   });
 
-  const login = (token, user) => {
-    setAuthState({
-      isAuthenticated: true,
-      token,
-      user,
-    });
+  const login = (token) => {
+    const user = cookies.get('user_data');
+    console.log(user);
+    if (user) {
+      // La cookie de usuario existe, lo que indica que el usuario está autenticado
+      setAuthState({
+        isAuthenticated: true,
+        token: token, // Asegúrate de que `token` sea el token real obtenido del inicio de sesión
+        user: user,   // Establece el usuario a partir de la cookie
+      });
+    } else {
+      // La cookie de usuario no existe, lo que indica que el usuario no está autenticado
+      setAuthState({
+        isAuthenticated: false,
+        token: null,
+        user: null,
+      });
+    }
   };
 
   const logout = () => {
