@@ -16,6 +16,7 @@ import AltaEquipamiento from './components/medicalequipment/alta_equipamiento/sc
 import Listeqscreen from './components/medicalequipment/list_equipamiento_medico/src/screens/Listeqscreen';
 import SolicitarEquipamiento from './components/medicalequipment/request_eq_medico/src/screens/SolicitarEquipamiento';
 import EditarEquipamiento from './components/medicalequipment/editar_equipamiento/src/screens/EditarEquipamiento';
+import AltaDonacion from './components/donation/alta_donacion/screens/AltaDonacion';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/listadoequipamiento" component={Listeqscreen} />
           <Route path="/solicitarequipamiento/:equipamientoId" component={SolicitarEquipamiento} />
           <Route path="/editarequipamiento/:eq_id" component={EditarEquipamiento} />
+          <Route path="/altadonacion/" component={AltaDonacion} />
         </Switch>
       </AuthProvider>
     </Router>
