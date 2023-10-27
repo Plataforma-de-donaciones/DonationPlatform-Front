@@ -47,10 +47,10 @@ const Menu = () => {
       <MenuItem to="/listadoequipamiento" showOnMobile={true}>
         Equipamiento médico
       </MenuItem>
-      <MenuItem to="/donaciones-generales" showOnMobile={true}>
+      <MenuItem to="/listadodonacion" showOnMobile={true}>
         Donaciones generales
       </MenuItem>
-      <MenuItem to="/voluntarios-padrinos" showOnMobile={true}>
+      <MenuItem to="/listadovoluntariado" showOnMobile={true}>
         Voluntarios y Padrinos
       </MenuItem>
       <MenuItem to="/eventos" showOnMobile={true}>

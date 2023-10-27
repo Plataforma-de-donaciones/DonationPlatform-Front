@@ -4,7 +4,7 @@ import Cookies from "universal-cookie";
 import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
 import GeneralFooter from "../../../../generales/src/components/GeneralFooter";
 import styled from "styled-components";
-import EquipamientoMedicoList from "../components/EquipamientoMedicoList";
+import VoluntarioList from "../components/VoluntarioList";
 import instance from "../../../../../axios_instance";
 import Menu from "../../../../generales/src/components/Menu";
 import { useHistory } from "react-router-dom"; // Importa useHistory
@@ -43,26 +43,26 @@ const Footer = styled(GeneralFooter)`
   flex-shrink: 0; /* No se encoje más allá de su contenido */
 `;
 
-const Listeqscreen = () => {
-  const [equipamientoList, setEquipamientoList] = useState([]);
+const ListVolscreen = () => {
+  const [voluntarioList, setVoluntarioList] = useState([]);
   const token = cookies.get("token");
   const history = useHistory(); // Obtén la función history
 
   useEffect(() => {
-    const fetchEquipamiento = async () => {
+    const fetchVoluntario = async () => {
       try {
-        const response = await instance.get("/medicalequipments/", {
+        const response = await instance.get("/volunteers/", {
           headers: {
             Authorization: `Token ${token}`,
           },
         });
-        setEquipamientoList(response.data);
+        setVoluntarioList(response.data);
       } catch (error) {
-        console.error("Error fetching equipamiento médico:", error);
+        console.error("Error fetching volunteers:", error);
       }
     };
 
-    fetchEquipamiento();
+    fetchVoluntario();
   }, [token]);
 
   return (
@@ -70,11 +70,11 @@ const Listeqscreen = () => {
       <Header />
       <Menus />
       <Content>
-        <EquipamientoMedicoList equipamientoList={equipamientoList} />
+        <VoluntarioList voluntarioList={voluntarioList} />
       </Content>
       <Footer />
     </Container>
   );
 };
 
-export default Listeqscreen;
+export default ListVolscreen;

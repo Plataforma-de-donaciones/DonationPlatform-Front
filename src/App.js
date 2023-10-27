@@ -17,6 +17,11 @@ import Listeqscreen from './components/medicalequipment/list_equipamiento_medico
 import SolicitarEquipamiento from './components/medicalequipment/request_eq_medico/src/screens/SolicitarEquipamiento';
 import EditarEquipamiento from './components/medicalequipment/editar_equipamiento/src/screens/EditarEquipamiento';
 import AltaDonacion from './components/donation/alta_donacion/screens/AltaDonacion';
+import Listdonscreen from './components/donation/listar_donacion/src/screens/Listdonscreen';
+import EditarDonacion from './components/donation/editar_donacion/src/screens/EditarEquipamiento';
+import AltaVoluntariado from './components/volunteer/alta_voluntario/screens/AltaVoluntariado';
+import ListVolscreen from './components/volunteer/listar_voluntario/src/screens/ListVolScreen';
+
 
 function App() {
   return (
@@ -34,6 +39,10 @@ function App() {
           <Route path="/solicitarequipamiento/:equipamientoId" component={SolicitarEquipamiento} />
           <Route path="/editarequipamiento/:eq_id" component={EditarEquipamiento} />
           <Route path="/altadonacion/" component={AltaDonacion} />
+          <Route path="/listadodonacion/" component={Listdonscreen} />
+          <Route path="/editardonacion/:don_id" component={EditarDonacion} />
+          <Route path="/altavoluntariado/" component={AltaVoluntariado} />
+          <Route path="/listadovoluntariado/" component={ListVolscreen} />
         </Switch>
       </AuthProvider>
     </Router>

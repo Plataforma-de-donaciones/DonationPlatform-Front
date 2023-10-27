@@ -46,7 +46,7 @@ const ListadoPaginado = ({ tipo }) => {
         break;
       case "donations":
         // Reemplaza 'editardonacion' con la ruta correcta para tu caso
-        window.location.href = `/editardonacion`;
+        history.push(`/editarequipamiento/${id}`);
         break;
       // Agrega casos para otros tipos si es necesario
       default:
@@ -143,7 +143,14 @@ const ListadoPaginado = ({ tipo }) => {
                   <TableCell>{item.request_count}</TableCell>
                   <TableCell>{item.don_confirmation_date}</TableCell>
                   <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
-                  {/* Otros campos específicos de donaciones */}
+                  <TableCell>
+                    <Link to={`/editardonacion/${item.don_id}`}>Editar</Link>
+                  </TableCell>
+                  <TableCell>
+                  <button onClick={() => eliminarItem(item.don_id || item.id)}>
+                       Eliminar
+                  </button>
+                  </TableCell>
                 </>
               )}
               {tipo === "medicalequipments" && (

@@ -6,6 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../../../AuthContext";
 import Cookies from "universal-cookie";
 
+
 const cookies = new Cookies();
 
 function GeneralHeader(props) {

@@ -31,7 +31,7 @@ const NewsListItem = ({ news }) => {
     <CardContainer>
       <h3>{news.new_name}</h3>
       <Description expanded={expanded}>{news.new_description}</Description>
-      <ExpandButton onClick={handleExpand}>{expanded ? 'Less' : 'More'}</ExpandButton>
+      <ExpandButton onClick={handleExpand}>{expanded ? 'Mostrar menos' : 'Mostrar más'}</ExpandButton>
     </CardContainer>
   );
 };

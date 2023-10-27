@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-function DescripcionEqMedicoEditarBox({ value, onChange, ...props }) {
+function DescripcionDonEditarBox({ value, onChange, ...props }) {
   const [descripcion, setDescripcion] = useState("");
 
   useEffect(() => {
@@ -77,4 +77,4 @@ const TextInput = styled.input`
   flex-direction: column;
 `;
 
-export default DescripcionEqMedicoEditarBox;
+export default DescripcionDonEditarBox;

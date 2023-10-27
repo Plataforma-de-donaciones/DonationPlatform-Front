@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SubirArchivoBox from "./SubirArchivoBox";
 
-function ImagenEqMEdicoEditarBox({ handleFileChange, eqAttachment, ...props }) {
+function ImagenDonEditarBox({ handleFileChange, eqAttachment, ...props }) {
   const [previewImage, setPreviewImage] = useState(null);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ function ImagenEqMEdicoEditarBox({ handleFileChange, eqAttachment, ...props }) {
   return (
     <Container {...props}>
       <Imagen>Imagen</Imagen>
-      {previewImage && <PreviewImage src={previewImage} alt="Equipamiento médico" />}
+      {previewImage && <PreviewImage src={previewImage} alt="Donación" />}
       <SubirArchivoBoxWrapper>
         <SubirArchivoBox onChangeFile={handleFileChangeInParent} />
       </SubirArchivoBoxWrapper>
@@ -51,7 +51,7 @@ const Imagen = styled.span`
 const PreviewImage = styled.img`
   width: 100%;
   height: auto;
-  max-width: 100%; /* Ajusta según el tamaño máximo del contenedor */
+  max-width: 100%;
   object-fit: contain;
   margin-top: 8px;
 `;
@@ -63,4 +63,4 @@ const SubirArchivoBoxWrapper = styled.div`
   width: 100%;
 `;
 
-export default ImagenEqMEdicoEditarBox;
+export default ImagenDonEditarBox;

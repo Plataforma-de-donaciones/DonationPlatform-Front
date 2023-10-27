@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }) => {
 
   const login = (token) => {
     const user = cookies.get('user_data');
-    console.log(user);
     if (user) {
       // La cookie de usuario existe, lo que indica que el usuario está autenticado
       setAuthState({

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom'; // Importa useHistory
 
-const EquipamientoMedicoCardContainer = styled.div`
+const VoluntarioCardContainer = styled.div`
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -70,7 +70,7 @@ const stateMap = {
   3: "Finalizado",
 };
 
-const EquipamientoMedicoListItem = ({ equipamiento }) => {
+const VoluntarioListItem = ({ volunteer }) => {
   const [expanded, setExpanded] = useState(true);
   const history = useHistory(); // Obtén la función history
 
@@ -80,26 +80,25 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
 
   const handleSolicitar = () => {
     // Lógica para manejar la acción de solicitar
-    console.log('Solicitar:', equipamiento.eq_name);
-    console.log('id', equipamiento.eq_id);
-    history.push(`/solicitarequipamiento/${equipamiento.eq_id}`);
+    console.log('Solicitar:', volunteer.vol_name);
+    console.log('id', volunteer.vol_id);
+    history.push(`/solicitarvoluntario/${volunteer.vol_id}`);
   };
 
   const handleUbicacion = () => {
     // Lógica para manejar la acción de ubicación
-    console.log('Ubicación:', equipamiento.eq_name);
+    console.log('Ubicación:', volunteer.vol_name);
   };
 
   return (
-    <EquipamientoMedicoCardContainer>
+    <VoluntarioCardContainer>
       <HeaderContainer>
-        <Title>{equipamiento.eq_name}</Title>
+        <Title>{volunteer.vol_name}</Title>
       </HeaderContainer>
-      {equipamiento.eq_attachment && <Image src={equipamiento.eq_attachment} alt="Equipamiento" />}
-      <Description>{equipamiento.eq_description}</Description>
+      <Description>{volunteer.vol_description}</Description>
       <div>
           <label style={{ textAlign: "left" }}>Estado:</label>
-          <span>{stateMap[equipamiento.state]}</span>
+          <span style={{ textAlign: "left" }}>{stateMap[volunteer.state]}</span>
         </div>
       <ActionButtons>
         <ActionButton onClick={handleSolicitar}>
@@ -115,8 +114,8 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
           Ubicación
         </ActionButton>
       </ActionButtons>
-    </EquipamientoMedicoCardContainer>
+    </VoluntarioCardContainer>
   );
 };
 
-export default EquipamientoMedicoListItem;
+export default VoluntarioListItem;

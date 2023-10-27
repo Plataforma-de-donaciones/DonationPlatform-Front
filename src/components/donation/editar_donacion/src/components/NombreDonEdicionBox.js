@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-function NombreEqMedicoEdicionBox({ value, onChange }) {
+function NombreDonEdicionBox({ value, onChange }) {
   return (
     <Container>
-      <Label>Nombre de equipamiento médico *</Label>
+      <Label>Nombre de la donación *</Label>
       <InputStyle
-        placeholder="Nombre del equipamiento"
+        placeholder="Nombre de la donación"
         value={value}
         onChange={onChange}
       />
@@ -46,4 +46,4 @@ const InputStyle = styled.input`
   flex-direction: column;
 `;
 
-export default NombreEqMedicoEdicionBox;
+export default NombreDonEdicionBox;

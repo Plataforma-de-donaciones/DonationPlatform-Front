@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import instance from "../../../../../axios_instance";
+import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
 
 const Container = styled.div`
@@ -42,56 +42,32 @@ const Helper = styled.span`
 
 const cookies = new Cookies();
 
-function LocalidadBox({ onChange, donZone, setDonZone }) {
+function LocalidadBox({ onSelect }) {
   const [zones, setZones] = useState([]);
   const [selectedZone, setSelectedZone] = useState("");
-  console.log("coso zona", donZone);
   const token = cookies.get("token");
 
   useEffect(() => {
-    instance
-      .get("/articleszones/", {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
+    // Cargar las zonas desde http://192.168.1.14/articleszones/ utilizando Axios
+    instance.get("/articleszones/", {
+      headers: {
+        Authorization: `Token ${token}`, // Reemplaza tu_token_aqui con el token real
+      },
+    })
       .then((response) => {
         setZones(response.data);
       })
       .catch((error) => {
         console.error("Error al obtener las zonas:", error);
       });
-  }, [token]);
-
-  useEffect(() => {
-    if (donZone) {
-      // Si eqZone tiene un valor, establecerlo como selectedZone
-      setSelectedZone(donZone);
-    } else if (zones.length > 0) {
-      // Si eqZone no tiene valor, establecer el primer valor de zones como selectedZone
-      setSelectedZone(zones[0].zone_id);
-    }
-  }, [donZone, zones]);
-
-  useEffect(() => {
-    // Asegurarse de que eqZone se establezca después de que las zonas se hayan cargado
-    if (donZone && zones.length > 0) {
-      setSelectedZone(donZone);
-    }
-  }, [donZone, zones]);
+  }, []);
 
   const handleZoneChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedZone(selectedValue);
-  
-    if (onChange) {
-      onChange(selectedValue);
-    }
-    if (setDonZone && typeof setDonZone === 'function') {
-      setDonZone(selectedValue);
-    }
+    onSelect(selectedValue);
   };
-  
+
   return (
     <Container>
       <Label>¿En qué localidad se encuentra? *</Label>

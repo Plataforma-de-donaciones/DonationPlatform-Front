@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-function TipoDePublicacionEqMedicoEdicionBox({ selectedType, ...props }) {
+function TipoDePublicacionDonEdicionBox({ selectedType, ...props }) {
   return (
     <Container {...props}>
       <TipoDePublicacion>Tipo de publicación</TipoDePublicacion>
@@ -40,4 +40,4 @@ const Donacion = styled.span`
   flex-direction: column;
 `;
 
-export default TipoDePublicacionEqMedicoEdicionBox;
+export default TipoDePublicacionDonEdicionBox;

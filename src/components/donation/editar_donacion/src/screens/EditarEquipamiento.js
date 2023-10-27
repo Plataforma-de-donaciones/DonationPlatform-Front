@@ -1,7 +1,7 @@
 import React from "react";
 import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
 import GeneralFooter from "../../../../generales/src/components/GeneralFooter";
-import EditarEqMedicoBox from "../components/EditarEqMedicoBox";
+import EditarDonBox from "../components/EditarDonBox";
 import styled from "styled-components";
 import Menu from "../../../../generales/src/components/Menu";
 
@@ -32,17 +32,17 @@ const Footer = styled(GeneralFooter)`
   grid-row: 4;
 `;
 
-function EditarEquipamiento(props) {
+function EditarDonacion(props) {
   return (
     <Container>
       <Header />
       <Menus />
       <Content>
-        <EditarEqMedicoBox />
+        <EditarDonBox />
       </Content>
       <Footer />
     </Container>
   );
 }
 
-export default EditarEquipamiento;
+export default EditarDonacion;

@@ -3,11 +3,11 @@ import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
 import TituloLine from "./TituloLine";
-import NombreEqMedicoEdicionBox from "./NombreEqMedicoEdicionBox";
-import DescripcionEqMedicoEditarBox from "./DescripcionEqMedicoEditarBox";
-import TipoDePublicacionEqMedicoEdicionBox from "./TipoDePublicacionEqMedicoEdicionBox";
+import NombreDonEdicionBox from "./NombreDonEdicionBox";
+import DescripcionDonEditarBox from "./DescripcionDonEditarBox";
+import TipoDePublicacionDonEdicionBox from "./TipoDePublicacionDonEdicionBox";
 import LocalidadBox from "./LocalidadBox";
-import ImagenEqMEdicoEditarBox from "./ImagenEqMEdicoEditarBox";
+import ImagenDonEditarBox from "./ImagenDonEditarBox";
 import AceptarButton from "./AceptarButton";
 import CancelarButton from "./CancelarButton";
 import { useParams } from "react-router-dom";
@@ -29,7 +29,7 @@ const Container = styled.div`
 
 `;
 
-const EquipamientoMedico = styled.span`
+const Donacion = styled.span`
   font-style: normal;
   font-weight: 700;
   color: #121212;
@@ -74,27 +74,27 @@ const TitleText = styled.span`
   margin-top: 6px;
 `;
 
-const EditarEqMedicoBox = (props) => {
-  const [datosEquipamiento, setDatosEquipamiento] = useState({});
-  const [eqName, setEqName] = useState("");
-  const [eqDescription, setEqDescription] = useState("");
-  const [eqType, setEqType] = useState("");
-  const [eqZone, setEqZone] = useState("");
-  const [eqAttachment, setEqAttachment] = useState("");
+const EditarDonBox = (props) => {
+  const [datosDonacion, setDatosDonacion] = useState({});
+  const [donName, setDonName] = useState("");
+  const [donDescription, setDonDescription] = useState("");
+  const [donType, setDonType] = useState("");
+  const [donZone, setDonZone] = useState("");
+  const [donAttachment, setDonAttachment] = useState("");
   const token = cookies.get("token");
   const [file, setFile] = useState(null);
 
   // Usa useParams para obtener eq_id de la URL
-  const { eq_id } = useParams();
-  console.log(eq_id);
+  const { don_id } = useParams();
+  console.log(don_id);
 
   useEffect(() => {
-    const cargarDatosEquipamiento = async () => {
+    const cargarDatosDonacion = async () => {
       try {
         // Utiliza eq_id de la URL
         const response = await instance.post(
-          "/medicalequipments/searchbyid/",
-          { eq_id: eq_id },
+          "/donations/searchbyid/",
+          { don_id: don_id },
           {
             headers: {
               Authorization: `Token ${token}`,
@@ -102,50 +102,48 @@ const EditarEqMedicoBox = (props) => {
           }
         );
 
-        const equipamiento = response.data[0];
-        setDatosEquipamiento(equipamiento);
-        setEqName(equipamiento.eq_name);
-        console.log(equipamiento.eq_name);
-        setEqDescription(equipamiento.eq_description);
-        setEqType(equipamiento.type);
-        setEqZone(equipamiento.zone);
-        console.log(equipamiento.zone);
-        setEqAttachment(equipamiento.eq_attachment);
+        const donacion = response.data[0];
+        setDatosDonacion(donacion);
+        setDonName(donacion.don_name);
+        setDonDescription(donacion.don_description);
+        setDonType(donacion.type);
+        setDonZone(donacion.zone);
+        setDonAttachment(donacion.don_attachment);
       } catch (error) {
-        console.error("Error al cargar datos del equipamiento:", error);
+        console.error("Error al cargar datos de la donacion:", error);
       }
     };
 
     // Cargar datos solo si hay un eq_id válido
-    if (eq_id) {
-      cargarDatosEquipamiento();
+    if (don_id) {
+      cargarDatosDonacion();
     }
-  }, [eq_id, token]);
+  }, [don_id, token]);
 
-  const handleEqNameChange = (e) => {
-    setEqName(e.target.value);
+  const handleDonNameChange = (e) => {
+    setDonName(e.target.value);
   };
 
-  const handleEqDescriptionChange = (e) => {
-    setEqDescription(e.target.value);
+  const handleDonDescriptionChange = (e) => {
+    setDonDescription(e.target.value);
   };
 
-  const handleEqTypeChange = (selectedType) => {
-    setEqType(selectedType);
+  const handleDonTypeChange = (selectedType) => {
+    setDonType(selectedType);
   };
 
-  const handleEqZoneChange = (e) => {
+  const handleDonZoneChange = (e) => {
     if (e && e.target && e.target.value) {
-      setEqZone(e.target.value);
+      setDonZone(e.target.value);
     }
   };
 
-  const handleEqAttachmentChange = (e) => {
-    setEqAttachment(e.target.value);
+  const handleDonAttachmentChange = (e) => {
+    setDonAttachment(e.target.value);
   };
 
-  const setEqZoneValue = (newEqZone) => {
-    setEqZone(newEqZone);
+  const setDonZoneValue = (newDonZone) => {
+    setDonZone(newDonZone);
   };
 
   const handleFileChange = (selectedFile) => {
@@ -154,31 +152,31 @@ const EditarEqMedicoBox = (props) => {
 
   const handleSubmit = async () => {
     try {
-      let eqAttachmentToSend = eqAttachment;
+      let donAttachmentToSend = donAttachment;
   
       if (file) {
         // Si hay un archivo nuevo, enviarlo y obtener la nueva ruta
         const formData = new FormData();
         formData.append("file", file);
   
-        const response = await instance.patch(`/medicalequipments/${eq_id}/`, formData, {
+        const response = await instance.patch(`/donations/${don_id}/`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Token ${token}`,
           },
         });
   
-        eqAttachmentToSend = response.data.filePath;
+        donAttachmentToSend = response.data.filePath;
       }
   
       const response = await instance.patch(
-        `/medicalequipments/${eq_id}/`,
+        `/donations/${don_id}/`,
         {
-          eq_name: eqName,
-          eq_description: eqDescription,
-          type: eqType,
-          zone: eqZone,
-          eq_attachment: eqAttachmentToSend,
+          don_name: donName,
+          don_description: donDescription,
+          type: donType,
+          zone: donZone,
+          eq_attachment: donAttachmentToSend,
         },
         {
           headers: {
@@ -189,7 +187,7 @@ const EditarEqMedicoBox = (props) => {
   
       console.log("Respuesta del servidor:", response.data);
     } catch (error) {
-      console.error("Error al actualizar la información del equipamiento:", error);
+      console.error("Error al actualizar la información de la donación:", error);
     }
   };
 
@@ -197,29 +195,29 @@ const EditarEqMedicoBox = (props) => {
     <Container {...props}>
       <UntitledComponent1Stack>
       <Rect>
-        <TitleText>Editar equipamiento</TitleText>
+        <TitleText>Editar donación</TitleText>
       </Rect>
-        <NombreEqMedicoEdicionBox
+        <NombreDonEdicionBox
           style={{ width: "100%" }}
-          value={eqName}
-          onChange={handleEqNameChange}
+          value={donName}
+          onChange={handleDonNameChange}
         />
       </UntitledComponent1Stack>
-      <DescripcionEqMedicoEditarBox
+      <DescripcionDonEditarBox
         style={{ width: "100%" }}
-        value={eqDescription}
-        onChange={handleEqDescriptionChange}
+        value={donDescription}
+        onChange={handleDonDescriptionChange}
       />
-      <TipoDePublicacionEqMedicoEdicionBox
+      <TipoDePublicacionDonEdicionBox
         style={{ width: "100%" }}
-        selectedType={eqType}
-        onChange={handleEqTypeChange}
+        selectedType={donType}
+        onChange={handleDonTypeChange}
       />
-      <LocalidadBox style={{ width: "100%" }} eqZone={eqZone} onChange={handleEqZoneChange} setEqZone={setEqZoneValue}/>
-      <ImagenEqMEdicoEditarBox
+      <LocalidadBox style={{ width: "100%" }} donZone={donZone} onChange={handleDonZoneChange} setEqZone={setDonZoneValue}/>
+      <ImagenDonEditarBox
         style={{ width: "100%" }}
         handleFileChange={handleFileChange}
-        eqAttachment={eqAttachment}
+        eqAttachment={donAttachment}
       />
       <MaterialButtonViolet2Row>
         <AceptarButton style={{ width: "48%" }} onClick={handleSubmit} />
@@ -230,4 +228,4 @@ const EditarEqMedicoBox = (props) => {
   );
 };
 
-export default EditarEqMedicoBox;
+export default EditarDonBox;
