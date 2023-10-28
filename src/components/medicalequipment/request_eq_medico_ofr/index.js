@@ -1,0 +1,1 @@
+export { default as SolicitudEqMedicoBox } from "./src/components/SolicitudEqMedicoBox.js";

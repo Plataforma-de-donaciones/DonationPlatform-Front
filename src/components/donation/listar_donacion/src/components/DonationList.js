@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
+import TypeFilterButton from "./TypeFilterButton";
+import ClearTypeFilterButton from "./ClearTypeFilterButton";
 
 
 const cookies = new Cookies();
@@ -43,6 +45,22 @@ const SearchBarAndAddEquipment = styled.div`
   justify-content: space-between; /* Alinea los elementos a los extremos */
   align-items: center;
 `;
+
+const FilterBarContainer = styled.div`
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  margin-bottom: 16px;
+  max-width: 800px;
+  justify-content: flex-end;
+`;
+const FilterBarForType = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: space-around; 
+  align-items: center;
+`;
+
 const SearchInput = styled.input`
   padding: 8px;
   margin-right: 8px;
@@ -100,6 +118,7 @@ const DonationList = () => {
   const [originalDonationList, setOriginalDonationList] = useState([]);
   const [donationList, setDonationList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedType, setSelectedType] = useState(null);
   const token = cookies.get("token");
 
   useEffect(() => {
@@ -113,7 +132,11 @@ const DonationList = () => {
           const filteredDonation = originalDonationList.filter((donation) =>
             donationIds.includes(donation.don_id)
           );
-          setDonationList(filteredDonation);
+          const filteredDonationByType = selectedType
+            ? filteredDonation.filter((donation) => donation.type === selectedType)
+            : filteredDonation;
+  
+          setDonationList(filteredDonationByType);
         } else {
           response = await instance.get("/donations/", {
             headers: {
@@ -121,7 +144,12 @@ const DonationList = () => {
             },
           });
           setOriginalDonationList(response.data);
-          setDonationList(response.data);
+
+          const donationList = selectedType
+          ? response.data.filter((donation) => donation.type === selectedType)
+          : response.data;
+
+          setDonationList(donationList);
         }
       } catch (error) {
         console.error("Error fetching donaciones:", error);
@@ -129,7 +157,7 @@ const DonationList = () => {
     };
 
     fetchDonation();
-  }, [selectedCategory, token]);
+  }, [selectedCategory, selectedType, token]);
 
   const handleCategoryClick = (categoryId) => {
     setSelectedCategory(categoryId);
@@ -137,6 +165,11 @@ const DonationList = () => {
 
   const handleClearCategory = () => {
     setSelectedCategory(null);
+  };
+
+  const handleTypeClick = (type) => {
+    console.log(`Selected type: ${type}`);
+    setSelectedType(type);
   };
 
   const handleSearch = async () => {
@@ -183,6 +216,26 @@ const DonationList = () => {
 
   return (
     <DonationListContainer>
+      <FilterBarContainer>
+        <FilterBarForType>
+        <TypeFilterButton
+            isActive={selectedType === 1}
+            onClick={() => handleTypeClick(1)}
+          >
+              Solicitud
+          </TypeFilterButton>
+        <TypeFilterButton
+            isActive={selectedType === 2}
+            onClick={() => handleTypeClick(2)}
+          >
+              Ofrecimiento
+        </TypeFilterButton>
+        
+        </FilterBarForType>
+        <ClearTypeFilterButton onClick={() => handleTypeClick(null)}>
+          Borrar Filtro
+          </ClearTypeFilterButton>
+      </FilterBarContainer>
       <SearchBarContainer>
         <SearchBarAndAddEquipment>
         <AddEquipment onClick={handleAddDonationClick}>

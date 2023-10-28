@@ -181,7 +181,7 @@ const SolicitudEqMedicoBox = (props) => {
     <Container {...props}>
       <TituloLineContainer>
         <TituloLine></TituloLine>
-        <LoremIpsum1>Solicitud de equipamiento médico</LoremIpsum1>
+        <LoremIpsum1>Donación de equipamiento médico</LoremIpsum1>
       </TituloLineContainer>
       <MotivoDeSolicitudEqMedicoBox
         onChange={(event) => handleFieldChange('req_description', event.target.value)}

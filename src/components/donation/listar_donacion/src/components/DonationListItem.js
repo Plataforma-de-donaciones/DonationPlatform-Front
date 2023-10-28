@@ -78,11 +78,16 @@ const DonationListItem = ({ donation }) => {
     setExpanded(!expanded);
   };
 
-  const handleSolicitar = () => {
-    // Lógica para manejar la acción de solicitar
-    console.log('Solicitar:', donation.don_name);
-    console.log('id', donation.don_id);
-    history.push(`/solicitarequipamiento/${donation.don_id}`);
+  const handleAction = () => {
+    if (donation.type === 1) {
+      // Si el tipo es 1 (Solicitud), redirige a la página de donación
+      history.push(`/donardonacion/${donation.don_id}`);
+    } else {
+      // En otros casos, maneja la acción de solicitud
+      console.log('Solicitar:', donation.don_name);
+      console.log('id', donation.don_id);
+      history.push(`/solicitardonacion/${donation.don_id}`);
+    }
   };
 
   const handleUbicacion = () => {
@@ -101,12 +106,12 @@ const DonationListItem = ({ donation }) => {
           <label style={{ textAlign: "left" }}>Estado:</label>
           <span style={{ textAlign: "left" }}>{stateMap[donation.state]}</span>
         </div>
-      <ActionButtons>
-        <ActionButton onClick={handleSolicitar}>
+        <ActionButtons>
+        <ActionButton onClick={handleAction}>
           <IconContainer>
             <FaUser />
           </IconContainer>
-          Solicitar
+          {donation.type === 1 ? "Donar" : "Solicitar"}
         </ActionButton>
         <ActionButton onClick={handleUbicacion}>
           <IconContainer>

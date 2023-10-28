@@ -78,11 +78,16 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
     setExpanded(!expanded);
   };
 
-  const handleSolicitar = () => {
-    // Lógica para manejar la acción de solicitar
-    console.log('Solicitar:', equipamiento.eq_name);
-    console.log('id', equipamiento.eq_id);
-    history.push(`/solicitarequipamiento/${equipamiento.eq_id}`);
+  const handleAction = () => {
+    if (equipamiento.type === 1) {
+      // Si el tipo es 1 (Solicitud), redirige a la página de donación
+      history.push(`/donarequipamiento/${equipamiento.eq_id}`);
+    } else {
+      // En otros casos, maneja la acción de solicitud
+      console.log('Solicitar:', equipamiento.eq_name);
+      console.log('id', equipamiento.eq_id);
+      history.push(`/solicitarequipamiento/${equipamiento.eq_id}`);
+    }
   };
 
   const handleUbicacion = () => {
@@ -98,15 +103,15 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
       {equipamiento.eq_attachment && <Image src={equipamiento.eq_attachment} alt="Equipamiento" />}
       <Description>{equipamiento.eq_description}</Description>
       <div>
-          <label style={{ textAlign: "left" }}>Estado:</label>
-          <span>{stateMap[equipamiento.state]}</span>
-        </div>
+        <label style={{ textAlign: "left" }}>Estado:</label>
+        <span>{stateMap[equipamiento.state]}</span>
+      </div>
       <ActionButtons>
-        <ActionButton onClick={handleSolicitar}>
+        <ActionButton onClick={handleAction}>
           <IconContainer>
             <FaUser />
           </IconContainer>
-          Solicitar
+          {equipamiento.type === 1 ? "Donar" : "Solicitar"}
         </ActionButton>
         <ActionButton onClick={handleUbicacion}>
           <IconContainer>

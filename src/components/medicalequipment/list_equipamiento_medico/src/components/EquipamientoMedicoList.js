@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
+import TypeFilterButton from "./TypeFilterButton";
+import ClearTypeFilterButton from "./ClearTypeFilterButton";
 
 
 const cookies = new Cookies();
@@ -40,7 +42,22 @@ const SearchBarContainer = styled.div`
 const SearchBarAndAddEquipment = styled.div`
   display: flex;
   flex: 1;
-  justify-content: space-between; /* Alinea los elementos a los extremos */
+  justify-content: space-between; 
+  align-items: center;
+`;
+
+const FilterBarContainer = styled.div`
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  margin-bottom: 16px;
+  max-width: 800px;
+  justify-content: flex-end;
+`;
+const FilterBarForType = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: space-around; 
   align-items: center;
 `;
 const SearchInput = styled.input`
@@ -100,20 +117,29 @@ const EquipamientoMedicoList = () => {
   const [originalEquipamientoList, setOriginalEquipamientoList] = useState([]);
   const [equipamientoList, setEquipamientoList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const token = cookies.get("token");
+  const [selectedType, setSelectedType] = useState(null);
 
+  const token = cookies.get("token");
+  
   useEffect(() => {
     const fetchEquipamiento = async () => {
       try {
         let response;
-
+  
         if (selectedCategory !== null) {
           response = await instance.get(`/categoriesmeq/search/${selectedCategory}/`);
           const equipamientoIds = response.data.map((entry) => entry.eq_id);
           const filteredEquipamiento = originalEquipamientoList.filter((equipamiento) =>
             equipamientoIds.includes(equipamiento.eq_id)
           );
-          setEquipamientoList(filteredEquipamiento);
+  
+          // Aplicar el filtro por tipo
+          const filteredEquipamientoByType = selectedType
+            ? filteredEquipamiento.filter((equipamiento) => equipamiento.type === selectedType)
+            : filteredEquipamiento;
+  
+          // Actualizar el estado equipamientoList con los resultados del filtro
+          setEquipamientoList(filteredEquipamientoByType);
         } else {
           response = await instance.get("/medicalequipments/", {
             headers: {
@@ -121,15 +147,22 @@ const EquipamientoMedicoList = () => {
             },
           });
           setOriginalEquipamientoList(response.data);
-          setEquipamientoList(response.data);
+  
+          // Aplicar el filtro por tipo
+          const equipamientoList = selectedType
+            ? response.data.filter((equipamiento) => equipamiento.type === selectedType)
+            : response.data;
+  
+          // Actualizar el estado equipamientoList con los resultados del filtro
+          setEquipamientoList(equipamientoList);
         }
       } catch (error) {
         console.error("Error fetching equipamiento médico:", error);
       }
     };
-
+  
     fetchEquipamiento();
-  }, [selectedCategory, token]);
+  }, [selectedCategory, selectedType, token]);
 
   const handleCategoryClick = (categoryId) => {
     setSelectedCategory(categoryId);
@@ -137,6 +170,10 @@ const EquipamientoMedicoList = () => {
 
   const handleClearCategory = () => {
     setSelectedCategory(null);
+  };
+  const handleTypeClick = (type) => {
+    console.log(`Selected type: ${type}`);
+    setSelectedType(type);
   };
 
   const handleSearch = async () => {
@@ -183,6 +220,26 @@ const EquipamientoMedicoList = () => {
 
   return (
     <EquipamientoMedicoListContainer>
+      <FilterBarContainer>
+        <FilterBarForType>
+        <TypeFilterButton
+            isActive={selectedType === 1}
+            onClick={() => handleTypeClick(1)}
+          >
+              Solicitud
+          </TypeFilterButton>
+        <TypeFilterButton
+            isActive={selectedType === 2}
+            onClick={() => handleTypeClick(2)}
+          >
+              Ofrecimiento
+        </TypeFilterButton>
+        
+        </FilterBarForType>
+        <ClearTypeFilterButton onClick={() => handleTypeClick(null)}>
+          Borrar Filtro
+          </ClearTypeFilterButton>
+      </FilterBarContainer>
       <SearchBarContainer>
         <SearchBarAndAddEquipment>
         <AddEquipment onClick={handleAddEquipmentClick}>
