@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import SolicitudEqMedicoBox from "../components/SolicitudEqMedicoBox";
+import SolicitudDonBox from "../components/SolicitudDonBox";
 import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
 import GeneralFooter from "../../../../generales/src/components/GeneralFooter";
 import Menu from "../../../../generales/src/components/Menu";
@@ -37,17 +37,17 @@ const Footer = styled(GeneralFooter)`
   flex-shrink: 0;
 `;
 
-const SolicitarEquipamiento = () => {
+const SolicitarDonacion = () => {
   return (
     <Container>
       <Header />
       <Menus />
       <Content>
-        <SolicitudEqMedicoBox />
+        <SolicitudDonBox />
       </Content>
       <Footer />
     </Container>
   );
 };
 
-export default SolicitarEquipamiento;
+export default SolicitarDonacion;

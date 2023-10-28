@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import TituloLine from './TituloLine';
-import MotivoDeSolicitudEqMedicoBox from './MotivoDeSolicitudEqMedicoBox';
-import NombreEqMedicoSolicitudBox from './NombreEqMedicoSolicitudBox';
+import MotivoDeSolicitudDonBox from './MotivoDeSolicitudDonBox';
+import NombreDonSolicitudBox from './NombreDonSolicitudBox';
 import TeryCondCheckbox from './TeryCondCheckbox';
 import MaterialButtonWithShadow from './MaterialButtonWithShadow';
 import MaterialButtonViolet from './MaterialButtonViolet';
@@ -45,8 +45,8 @@ const Group = styled.div`
 
 const cookies = new Cookies();
 
-const SolicitudEqMedicoBox = (props) => {
-  const { equipamientoId } = useParams();
+const SolicitudDonBox = (props) => {
+  const { donacionId } = useParams();
   const [solicitudData, setSolicitudData] = useState({
     req_name: '',
     req_description: '',
@@ -80,9 +80,9 @@ const SolicitudEqMedicoBox = (props) => {
     setSolicitudData((prevData) => ({
       ...prevData,
       user: user_id || '', // Asegurarse de que user sea una cadena vacía si user_id es null
-      eq: equipamientoId || '', // Asegurarse de que eq sea una cadena vacía si equipamientoId es null
+      don: donacionId || '', // Asegurarse de que eq sea una cadena vacía si equipamientoId es null
     }));
-  }, [equipamientoId, user_id]);
+  }, [donacionId, user_id]);
 
   const handleFieldChange = (fieldName, value) => {
     setSolicitudData((prevData) => ({
@@ -144,7 +144,7 @@ const SolicitudEqMedicoBox = (props) => {
       if (response.status === 201) {
         alert('Solicitud creada correctamente');
         // Redirigir a la página de solicitudes o a donde sea necesario
-        history.push('/listadoequipamiento');
+        history.push('/listadodonacion');
       } else {
         // Manejar otros casos de respuesta si es necesario
       }
@@ -168,15 +168,15 @@ const SolicitudEqMedicoBox = (props) => {
     <Container {...props}>
       <TituloLineContainer>
         <TituloLine></TituloLine>
-        <LoremIpsum1>Solicitud de equipamiento médico</LoremIpsum1>
+        <LoremIpsum1>Solicitud de donación</LoremIpsum1>
       </TituloLineContainer>
-      <MotivoDeSolicitudEqMedicoBox
+      <MotivoDeSolicitudDonBox
         onChange={(event) => handleFieldChange('req_description', event.target.value)}
-      ></MotivoDeSolicitudEqMedicoBox>
+      ></MotivoDeSolicitudDonBox>
       <LocalidadBox onSelect={handleZoneSelect}></LocalidadBox>
-      <NombreEqMedicoSolicitudBox
+      <NombreDonSolicitudBox
         onChange={(event) => handleFieldChange('req_name', event.target.value)}
-      ></NombreEqMedicoSolicitudBox>
+      ></NombreDonSolicitudBox>
       <Group>
       <TeryCondCheckbox
   checked={acceptTerms}
@@ -192,4 +192,4 @@ const SolicitudEqMedicoBox = (props) => {
   );
 };
 
-export default SolicitudEqMedicoBox;
+export default SolicitudDonBox;
