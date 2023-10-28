@@ -1,0 +1,1 @@
+export { default as EditarEqMedicoBox } from "./src/components/EditarEqMedicoBox.js";

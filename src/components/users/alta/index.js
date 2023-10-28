@@ -1,0 +1,1 @@
+export { default as AltaDeUsuario } from "./src/screens/AltaDeUsuario.js";
