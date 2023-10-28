@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import styled, { css } from "styled-components";
 
-function MotivoDeSolicitudEqMedicoBox(props) {
+function MaterialHelperTextBox2(props) {
   return (
     <Container {...props}>
-      <Label>¿Por qué motivo solicita este equipamiento médico? *</Label>
-      <InputStyle placeholder="Describa el motivo de su solicitud"></InputStyle>
-      <Helper>Este dato se visualiza únicamente por el donatario.</Helper>
+      <Label>¿En qué localidad se encuentra? *</Label>
+      <InputStyle placeholder="Dropdown de localidades"></InputStyle>
+      <HelperText>
+        Este dato se visualiza únicamente por el donatario.
+      </HelperText>
     </Container>
   );
 }
@@ -23,12 +25,12 @@ const Label = styled.span`
   color: #000;
   opacity: 0.6;
   padding-top: 16px;
-  font-style: normal;
-  font-weight: 700;
   left: 0px;
   width: 375px;
   top: 0px;
   height: 31px;
+  font-style: normal;
+  font-weight: 700;
 `;
 
 const InputStyle = styled.input`
@@ -48,18 +50,16 @@ const InputStyle = styled.input`
   flex-direction: column;
 `;
 
-const Helper = styled.span`
+const HelperText = styled.span`
   font-size: 10px;
   text-align: left;
   color: #000;
   opacity: 0.6;
   padding-top: 8px;
-  font-style: normal;
-  font-weight: 400;
   left: 0px;
   width: 375px;
   top: 67px;
   height: 23px;
 `;
 
-export default MotivoDeSolicitudEqMedicoBox;
+export default MaterialHelperTextBox2;

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import styled, { css } from "styled-components";
 
-function NombreEqMedicoSolicitudBox(props) {
+function MotivoDeSolicitudDonBox(props) {
   return (
     <Container {...props}>
-      <CualEsSuNombre>¿Cúal es su nombre?</CualEsSuNombre>
-      <InputStyle placeholder="Ingrese su nombre"></InputStyle>
-      <Helper>Este dato se visualiza únicamente por el donatario.</Helper>
+      <Label>Describa que es lo que puede donar *</Label>
+      <InputStyle placeholder="Describa la donación"></InputStyle>
+      <Helper>Este dato se visualiza únicamente por el donatario. Asimismo, indique las condiciones de la donación.</Helper>
     </Container>
   );
 }
@@ -17,7 +17,7 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const CualEsSuNombre = styled.span`
+const Label = styled.span`
   font-size: 12px;
   text-align: left;
   color: #000;
@@ -25,6 +25,10 @@ const CualEsSuNombre = styled.span`
   padding-top: 16px;
   font-style: normal;
   font-weight: 700;
+  left: 0px;
+  width: 375px;
+  top: 0px;
+  height: 31px;
 `;
 
 const InputStyle = styled.input`
@@ -50,6 +54,12 @@ const Helper = styled.span`
   color: #000;
   opacity: 0.6;
   padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+  left: 0px;
+  width: 375px;
+  top: 67px;
+  height: 23px;
 `;
 
-export default NombreEqMedicoSolicitudBox;
+export default MotivoDeSolicitudDonBox;

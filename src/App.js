@@ -22,7 +22,7 @@ import EditarDonacion from './components/donation/editar_donacion/src/screens/Ed
 import AltaVoluntariado from './components/volunteer/alta_voluntario/screens/AltaVoluntariado';
 import ListVolscreen from './components/volunteer/listar_voluntario/src/screens/ListVolScreen';
 import DonarEquipamiento from './components/medicalequipment/request_eq_medico_ofr/src/screens/DonarEquipamiento';
-
+import DonarDonacion from './components/donation/request_donacion_ofr/src/screens/DonarDonacion';
 
 function App() {
   return (
@@ -39,6 +39,7 @@ function App() {
           <Route path="/listadoequipamiento" component={Listeqscreen} />
           <Route path="/solicitarequipamiento/:equipamientoId" component={SolicitarEquipamiento} />
           <Route path="/donarequipamiento/:equipamientoId" component={DonarEquipamiento} />
+          <Route path="/donardonacion/:donacionId" component={DonarEquipamiento} />
           <Route path="/editarequipamiento/:eq_id" component={EditarEquipamiento} />
           <Route path="/altadonacion/" component={AltaDonacion} />
           <Route path="/listadodonacion/" component={Listdonscreen} />
