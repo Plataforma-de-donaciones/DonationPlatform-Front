@@ -157,7 +157,7 @@ const SolicitudDonBox = (props) => {
       if (response.status === 201) {
         alert('Solicitud creada correctamente');
         // Redirigir a la página de solicitudes o a donde sea necesario
-        history.push('/listadoequipamiento');
+        history.push('/listadodonacion');
       } else {
         // Manejar otros casos de respuesta si es necesario
       }
