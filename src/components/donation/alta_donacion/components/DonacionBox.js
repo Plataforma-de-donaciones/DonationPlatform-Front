@@ -10,6 +10,9 @@ import AceptarButton from "./AceptarButton";
 import CancelarButton from "./CancelarButton";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
 
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -150,10 +153,35 @@ const DonacionBox = (props) => {
   };
 
   const validateField = (fieldName, value) => {
+
     if (fieldName === "don_name" && (!value || !value.toString().trim())) {
+      toast.error('Por favor, complete los campos requeridos', {
+        position: 'bottom-center',
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored',
+      });
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "El nombre no puede estar vacío",
+      }));
+    }
+
+    if (fieldName === "don_description" && (!value || !value.toString().trim())) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "La descripción no puede estar vacía",
+      }));
+    }
+
+    if (fieldName === "zone" && !value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "Debe seleccionar una localidad",
       }));
     }
 
@@ -189,8 +217,8 @@ const DonacionBox = (props) => {
         formData.append(key, value);
       });
       console.log("Contenido de FormData:");
-    const formDataEntries = [...formData.entries()];
-    console.log(formDataEntries);
+      const formDataEntries = [...formData.entries()];
+      console.log(formDataEntries);
 
       // Enviar la solicitud con el formData
       const response = await instance.post("/donations/", formData, {
@@ -201,7 +229,11 @@ const DonacionBox = (props) => {
       });
 
       if (response.status === 201) {
-        alert("Donación registrada correctamente");
+        Swal.fire(
+          'Donación registrada correctamente!',
+          '',
+          'success'
+        )
       } else {
         const serverError = response.data;
         console.log(response);
@@ -216,6 +248,22 @@ const DonacionBox = (props) => {
       console.log("Respuesta del servidor:", error.response); // Agrega esta línea
       // Manejar errores de la solicitud
     }
+  };
+  const handleCancel = () => {
+    Swal.fire({
+      title: '¿Está seguro que desea cancelar?',
+      icon: 'question',
+      iconHtml: '?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Realizar acciones cuando se confirma la cancelación
+        // Por ejemplo, redirigir a una página o realizar otra acción
+        // window.location.href = '/otra-pagina';
+      }
+    });
   };
 
   return (
@@ -242,17 +290,33 @@ const DonacionBox = (props) => {
         <DescripcionDonBox
           onChange={(event) => handleFieldChange("don_description", event)}
         />
+        {errors.don_description && <span style={{ color: "red" }}>{errors.don_description}</span>}
         <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
         {errors.type && <span style={{ color: "red" }}>{errors.type}</span>}
         <LocalidadBox onSelect={handleZoneSelect} />
+        {errors.zone && <span style={{ color: "red" }}>{errors.zone}</span>}
         {/* Agrega un mensaje de error para la localidad si es necesario */}
         <SubirArchivoBox onChangeFile={(file) => handleFileChange(file)} />
-              </FormContainer>
+      </FormContainer>
       <ButtonContainer>
         <AceptarButton onClick={handleAccept} />
         <ButtonSeparator />
-        <CancelarButton />
+        <CancelarButton onClick={handleCancel} />
       </ButtonContainer>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
     </Container>
   );
 };

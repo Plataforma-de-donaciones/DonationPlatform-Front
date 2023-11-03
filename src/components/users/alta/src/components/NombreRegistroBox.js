@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Swal from 'sweetalert2'
 
 function NombreRegistroBox(props) {
   return (
@@ -10,6 +11,7 @@ function NombreRegistroBox(props) {
         type="text"
         {...props} // Puedes pasar las props adicionales si es necesario
       />
+      {props.mensaje && <div style={{ color: "red" }}>{props.mensaje}</div>}
       <Helper>Esto aparece en tu perfil</Helper>
     </Container>
   );

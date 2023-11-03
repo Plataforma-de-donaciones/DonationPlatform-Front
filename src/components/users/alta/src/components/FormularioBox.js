@@ -9,6 +9,11 @@ import OrganizacionRegistroBox from "./OrganizacionRegistroBox";
 import AceptarButton from "./AceptarButton";
 import CancelarButton from "./CancelarButton";
 import instance from "../../../../../axios_instance";
+import Alerta from "../../../../utilidades/Alerta";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
+
 
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -111,18 +116,24 @@ const FormularioBox = (props) => {
     switch (name) {
       case "user_name":
         if (!value) {
-          errorMessage = "Este campo es obligatorio.";
+          errorMessage = "El nombre de usuario no puede estar vacío";
         }
         break;
       case "user_email":
         if (value && !isValidEmail(value)) {
           errorMessage = "Correo electrónico no válido.";
         }
+        if(!value){
+          errorMessage = "El correo electrónico no puede estar vacío";
+        }
         break;
       case "user_password":
         if (value && !isValidPassword(value)) {
           errorMessage =
             "La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.";
+        }
+        if(!value){
+          errorMessage = "La contraseña no puede estar vacía";
         }
         break;
       // Puedes agregar más validaciones según tus necesidades
@@ -180,44 +191,79 @@ const FormularioBox = (props) => {
       });
 
       if (response.status === 201) {
-        alert("Usuario creado");
+        Swal.fire(
+          'Usuario creado correctamente!',
+          '',
+          'success'
+        )
+
       } else {
         const serverError = response.data;
 
-      if (serverError) {
-        // Si hay errores específicos, mostrarlos en los campos correspondientes
-        const fieldErrors = {};
-        Object.keys(serverError).forEach((field) => {
-          // Verificar si el mensaje de error es un array y tomar el primer elemento
-          const errorMessage =
-            Array.isArray(serverError[field]) && serverError[field][0];
+        if (serverError) {
+          // Si hay errores específicos, mostrarlos en los campos correspondientes
+          const fieldErrors = {};
+          
+          Object.keys(serverError).forEach((field) => {
+            // Verificar si el mensaje de error es un array y tomar el primer elemento
+            const errorMessage =
+              Array.isArray(serverError[field]) && serverError[field][0];
+              fieldErrors[field] = errorMessage || "Error desconocido";
+             
+            // Asignar el mensaje de error al campo
+           
 
-          // Asignar el mensaje de error al campo
-          fieldErrors[field] = errorMessage || "Error desconocido";
-        });
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          ...fieldErrors,
-        }));
-      } else {
-        // Si no hay errores específicos, mostrar el mensaje genérico
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          general: "Hubo un problema al crear el usuario.",
-        }));
+          });
+          toast.error(fieldErrors , {
+            position: "bottom-center",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            ...fieldErrors,
+          }));
+        } else {
+          // Si no hay errores específicos, mostrar el mensaje genérico
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            general: "Hubo un problema al crear el usuario.",
+          }));
+        }
       }
+    } catch (error) {
+      console.error("Error al crear usuario:", error);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        general: "Hubo un problema al crear el usuario.",
+      }));
     }
-  } catch (error) {
-    console.error("Error al crear usuario:", error);
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      general: "Hubo un problema al crear el usuario.",
-    }));
-    }
+  };
+  const handleCancelarClick = () => {
+    Swal.fire({
+      title: '¿Está seguro que desea cancelar?',
+      icon: 'question',
+      iconHtml: '?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Realizar acciones cuando se confirma la cancelación
+        // Por ejemplo, redirigir a una página o realizar otra acción
+        // window.location.href = '/otra-pagina';
+      }
+    });
   };
 
   return (
     <Container>
+      <ToastContainer />
       <CenteredContent>
         <Rect1>
           <RegistrateGratis>Regístrate con</RegistrateGratis>
@@ -234,12 +280,13 @@ const FormularioBox = (props) => {
             name="user_name"
             value={registrationData.user_name}
             onChange={handleFieldChange}
+            mensaje={errors.user_name}
           />
-          {errors.user_name && <div style={{ color: "red" }}>{errors.user_name}</div>}
           <CorreoRegistroBox
             name="user_email"
             value={registrationData.user_email}
             onChange={handleFieldChange}
+            mensaje={errors.user_email}
           />
           {errors.user_email && <div style={{ color: "red" }}>{errors.user_email}</div>}
           <ContrasenaTextBox
@@ -247,6 +294,7 @@ const FormularioBox = (props) => {
             value={registrationData.user_password}
             onChange={handleFieldChange}
             onBlur={handlePasswordBlur}
+            mensaje={errors.user_password}
           />
           {errors.user_password && <div style={{ color: "red" }}>{errors.user_password}</div>}
           <OrganizacionRegistroBox
@@ -256,7 +304,7 @@ const FormularioBox = (props) => {
           />
         </FormRow>
         <div style={{ color: "red" }}>{errors.general}</div>
-      <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", margin: "20px 0px" }}></div>
+        <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", margin: "20px 0px" }}></div>
         <div
           style={{
             display: "flex",
@@ -266,10 +314,24 @@ const FormularioBox = (props) => {
           }}
         >
           <AceptarButton onClick={handleSubmit} />
-          <CancelarButton />
+          <CancelarButton onClick={handleCancelarClick} />
         </div>
         {errors.general && <div style={{ color: "red" }}>{errors.general}</div>}
       </CenteredContent>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
     </Container>
   );
 };

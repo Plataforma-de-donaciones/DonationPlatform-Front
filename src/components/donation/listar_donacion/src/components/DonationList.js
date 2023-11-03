@@ -10,6 +10,7 @@ import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
 import TypeFilterButton from "./TypeFilterButton";
 import ClearTypeFilterButton from "./ClearTypeFilterButton";
+import { toast, ToastContainer } from 'react-toastify';
 
 
 const cookies = new Cookies();
@@ -192,7 +193,16 @@ const DonationList = () => {
       history.push("/altadonacion");
     } else {
       // El usuario no está autenticado, muestra una alerta o realiza la acción necesaria
-      alert("Debes iniciar sesión para completar esta acción.");
+      toast.warn('Debes iniciar sesión para completar esta acción', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
       // Otra opción: Mostrar un modal de inicio de sesión
     }
   };
@@ -286,6 +296,20 @@ const DonationList = () => {
         onClearCategory={handleClearCategory}
       />
       </ListAndCategoryContainer>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
     </DonationListContainer>
   );
 };

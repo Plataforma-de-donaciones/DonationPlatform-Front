@@ -1,37 +1,23 @@
-// MyCalendar.js
-import React from "react";
+import React from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import styled from "styled-components";
+import styled from 'styled-components';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const EventMarker = styled.div`
   position: relative;
   width: 10px;
   height: 10px;
-  background-color: red; /* o el color que desees */
+  background-color: red;
   border-radius: 50%;
-  cursor: default;
-
-
-  &:hover::after {
-    content: "${props => props.eventName}";
-    position: fixed; /* Cambia a posición fija para que aparezca por encima del calendario */
-    top: 50%; /* Ajusta la posición según sea necesario */
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 4px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-    z-index: 1000; /* Asegura que el tooltip esté por encima de otros elementos */
-  }
+  cursor: pointer;
 `;
+
 const StyledCalendar = styled(Calendar)`
-  border: 1px solid #ddd; /* Borde claro */
-  border-radius: 8px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const formatDate = (date) => {
@@ -43,16 +29,40 @@ const formatDate = (date) => {
 };
 
 const MyCalendar = ({ events }) => {
+  const openEventToast = (eventName) => {
+    toast.info(eventMessage(eventName), {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
+  };
+
+  const eventMessage = (eventName) => {
+    return `Evento: ${eventName}`;
+  };
+
   return (
-    <StyledCalendar
-      tileContent={({ date }) => {
-        const formattedDate = formatDate(date);
-        const matchingEvent = events.find(event => formatDate(new Date(event.start_date)) === formattedDate);
-        return matchingEvent ? (
-          <EventMarker eventName={matchingEvent.event_name} />
-        ) : null;
-      }}
-    />
+    <div>
+      <ToastContainer />
+      <StyledCalendar
+        tileContent={({ date }) => {
+          const formattedDate = formatDate(date);
+          const matchingEvent = events.find(
+            (event) => formatDate(new Date(event.start_date)) === formattedDate
+          );
+          return matchingEvent ? (
+            <EventMarker
+              onClick={() => openEventToast(matchingEvent.event_name)}
+            />
+          ) : null;
+        }}
+      />
+    </div>
   );
 };
 

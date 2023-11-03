@@ -11,6 +11,9 @@ import instance from '../../../../../axios_instance';
 import Cookies from 'universal-cookie';
 import { useHistory, useParams } from 'react-router-dom';
 import CancelarButton from './CancelarButton';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 
 const Container = styled.div`
   display: flex;
@@ -155,7 +158,11 @@ const SolicitudDonBox = (props) => {
       });
 
       if (response.status === 201) {
-        alert('Solicitud creada correctamente');
+        Swal.fire(
+          'Solicitud creada correctamente!',
+          '',
+          'success'
+        )
         // Redirigir a la página de solicitudes o a donde sea necesario
         history.push('/listadodonacion');
       } else {
@@ -167,16 +174,46 @@ const SolicitudDonBox = (props) => {
   };
 
   const validateField = (fieldName, value) => {
-    if (fieldName === 'req_name' && (!value || !value.toString().trim())) {
+    if (fieldName === "req_description" && (!value || !value.toString().trim())) {
+      toast.error('Por favor, complete los campos requeridos', {
+        position: 'bottom-center',
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored',
+      });
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [fieldName]: 'El nombre no puede estar vacío',
+        [fieldName]: "La descripción de la donación no puede estar vacía",
       }));
     }
-
-    // Agrega otras validaciones según sea necesario
+  
+    if (fieldName === "zone" && !value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "Debe seleccionar una localidad",
+      }));
+    }
   };
-
+  const handleCancelarClick = () => {
+    Swal.fire({
+      title: '¿Está seguro que desea cancelar?',
+      icon: 'question',
+      iconHtml: '?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Realizar acciones cuando se confirma la cancelación
+        // Por ejemplo, redirigir a una página o realizar otra acción
+        // window.location.href = '/otra-pagina';
+      }
+    });
+  };
   return (
     <Container {...props}>
       <TituloLineContainer>
@@ -186,7 +223,9 @@ const SolicitudDonBox = (props) => {
       <MotivoDeSolicitudDonBox
         onChange={(event) => handleFieldChange('req_description', event.target.value)}
       ></MotivoDeSolicitudDonBox>
+      {errors.req_description && <span style={{ color: "red" }}>{errors.req_description}</span>}
       <LocalidadBox onSelect={handleZoneSelect}></LocalidadBox>
+      {errors.zone && <span style={{ color: "red" }}>{errors.zone}</span>}
       <NombreDonSolicitudBox
         onChange={(event) => handleFieldChange('req_name', event.target.value)}
       ></NombreDonSolicitudBox>
@@ -203,8 +242,22 @@ const SolicitudDonBox = (props) => {
       <ButtonContainer>
       <MaterialButtonViolet onClick={handleAccept}></MaterialButtonViolet>
       <ButtonSeparator />
-        <CancelarButton />
+        <CancelarButton onClick={handleCancelarClick}/>
       </ButtonContainer>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
     </Container>
   );
 };

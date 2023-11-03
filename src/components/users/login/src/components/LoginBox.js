@@ -10,6 +10,10 @@ import { FaUser, FaLock } from 'react-icons/fa';
 import { Link, Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import instance from '../../../../../axios_instance';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const Container = styled.div`
   display: flex;
@@ -19,7 +23,6 @@ const Container = styled.div`
   max-width: 800px;
   margin: 0 auto;
   background-color: #FFF;
-  
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -74,6 +77,7 @@ const GoogleLogo = styled.img`
   height: 38px;
   object-fit: contain;
   margin-right: 10px;
+  cursor: pointer;
 `;
 
 const FbLogo = styled.img`
@@ -90,7 +94,6 @@ const LoginBox = () => {
   });
 
   const [redirectToHome, setRedirectToHome] = useState(false);
-
   const { login } = useAuth();
 
   const handleChange = (e) => {
@@ -100,47 +103,98 @@ const LoginBox = () => {
       [name]: value,
     });
   };
+
+  const [recaptchaValue, setRecaptchaValue] = useState(null);
+  const handleRecaptchaChange = (value) => {
+    setRecaptchaValue(value);
+  };
+
   const [error, setError] = useState(null);
   const handleSubmit = async (e) => {
-    
     e.preventDefault();
     setError(null);
+    
+
+    if(credentials.user_name.length == 0 || credentials.user_password.length == 0){
+      toast.error('Por favor complete los campos requeridos', {
+        position: 'bottom-center',
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored',
+      });
+      return;
+    }
+    
+    if (!recaptchaValue) {
+      toast.error('Por favor, completa el reCAPTCHA.', {
+        position: 'bottom-center',
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored',
+      });
+      return;
+    }
 
     try {
-      const response = await instance.post(
-        '/login/',
-        credentials
-      );
+      const response = await instance.post('/login/', credentials);
 
       if (response.status === 200) {
         const { token, user_data } = response.data;
-
-        // Guardar el token y la información del usuario en cookies
         Cookies.set('token', token, { expires: 1 });
         Cookies.set('user_data', JSON.stringify(user_data), { expires: 1 });
-
-        // Realizar acciones adicionales según sea necesario
-
-        // Redirigir a la página principal después del inicio de sesión
         login();
         setRedirectToHome(true);
       } else if (response.status === 401) {
-        setError("Usuario o contraseña incorrectos.");
+        setError('Usuario o contraseña incorrectos.');
+        toast.error('Usuario o contraseña incorrectos.', {
+          position: 'bottom-center',
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       } else if (response.data && response.data.error_message) {
-        // Manejar el mensaje de error
+        // Maneja el mensaje de error
       } else {
-        setError("Error al iniciar sesión. Verifica tus credenciales.");
+        setError('Error al iniciar sesión. Verifica tus credenciales.');
       }
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
-      setError("Error al conectarse al servidor. Inténtalo de nuevo más tarde.");
+      console.error('Error al iniciar sesión:', error);
+      setError('Error al conectarse al servidor. Inténtalo de nuevo más tarde.');
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    // Implementa la lógica de inicio de sesión con Google aquí.
+    // Usando las credenciales que generó Google para tu cliente OAuth.
+
+    // Cuando el inicio de sesión con Google sea exitoso, puedes redirigir al usuario a la página de inicio.
+    try {
+      // Implementa la lógica de inicio de sesión con Google aquí.
+
+      // Si el inicio de sesión con Google es exitoso, redirige al usuario a la página de inicio.
+      login();
+      setRedirectToHome(true);
+    } catch (error) {
+      console.error('Error al iniciar sesión con Google:', error);
+      // Maneja errores si los hay.
     }
   };
 
   if (redirectToHome) {
     return <Redirect to="/inicio" />;
   }
-
 
   return (
     <Container>
@@ -189,6 +243,10 @@ const LoginBox = () => {
           }}
         />
       </InputWrapper>
+      <ReCAPTCHA
+        sitekey="6Lcqru0oAAAAAMEbouI6kXlIMjofIZr__aX33Aer" //cambiar esta key para prod
+        onChange={handleRecaptchaChange}
+      />
       <NotienescuentaaunWrapper>
         <NotienescuentaaunText>No tienes una cuenta aún?</NotienescuentaaunText>
         <Link to="/alta">
@@ -202,7 +260,10 @@ const LoginBox = () => {
         </Link>
       </NotienescuentaaunWrapper>
       <SocialLogosWrapper>
-        <GoogleLogo src={require('../assets/images/google.png')} />
+        <GoogleLogo
+          src={require('../assets/images/google.png')}
+          onClick={handleGoogleLogin}
+        />
         <FbLogo src={require('../assets/images/facebook-logo-5-1.png')} />
       </SocialLogosWrapper>
       <EnterButton
@@ -214,7 +275,25 @@ const LoginBox = () => {
         }}
         onClick={handleSubmit}
       />
-      {error && <div className="error-message" style={{ color: "red" }}>{error}</div>}
+      {error && 
+        <div className="error-message" style={{ color: 'red' }}>
+          {error}
+        </div>
+      }
+      <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
+{/* Same as */}
+<ToastContainer />
     </Container>
   );
 };
