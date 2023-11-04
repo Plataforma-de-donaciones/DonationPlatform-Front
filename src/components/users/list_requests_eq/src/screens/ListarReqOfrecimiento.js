@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
 import GeneralFooter from "../../../../generales/src/components/GeneralFooter";
-import ListadoPaginado from "../components/ListadoPaginado";
+import ListadoEquipamiento from "../components/ListadoEquipamiento";
+import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   display: grid;
@@ -64,8 +65,8 @@ const GeneralFooterStyled = styled(GeneralFooter)`
   grid-row: 3;
 `;
 
-function ListarSolicitudesPropios(props) {
-  const [tipo, setTipo] = useState("donations");
+function ListarReqOfrecimiento(props) {
+  const { eqId } = useParams();
 
   return (
     <Container>
@@ -77,18 +78,12 @@ function ListarSolicitudesPropios(props) {
           }}
         />
         <Rect>
-          <PerfilText>Mis Solicitudes</PerfilText>
+          <PerfilText>Solicitudes a mis ofrecimientos</PerfilText>
         </Rect>
-        <ButtonContainer>
-          <button onClick={() => setTipo("donations")}>Donaciones</button>
-          <button onClick={() => setTipo("medicalequipments")}>Equipamiento Médico</button>
-          <button onClick={() => setTipo("volunteers")}>Voluntarios</button>
-          <button onClick={() => setTipo("sponsors")}>Sponsor</button>
-        </ButtonContainer>
       </GeneralHeaderColumn>
       <GeneralHeaderColumnFiller />
       <Content>
-        <ListadoPaginado tipo={tipo} />
+      <ListadoEquipamiento eqId={eqId} />
       </Content>
       <GeneralFooterStyled
         style={{
@@ -105,4 +100,4 @@ function ListarSolicitudesPropios(props) {
   );
 }
 
-export default ListarSolicitudesPropios;
+export default ListarReqOfrecimiento;

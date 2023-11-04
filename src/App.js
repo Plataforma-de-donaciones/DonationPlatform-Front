@@ -24,6 +24,9 @@ import ListVolscreen from './components/volunteer/listar_voluntario/src/screens/
 import DonarEquipamiento from './components/medicalequipment/request_eq_medico_ofr/src/screens/DonarEquipamiento';
 import DonarDonacion from './components/donation/request_donacion_ofr/src/screens/DonarDonacion';
 import SolicitarDonacion from './components/donation/request_donacion/src/screens/SolicitarDonacion';
+import ListarReqOfrecimiento from './components/users/list_requests_eq/src/screens/ListarReqOfrecimiento';
+import ChatScreen from './components/users/chat/screens/ChatScreen';
+import ConversationScreen from './components/users/chatlist/screens/ConversationScreen';
 
 function App() {
   return (
@@ -48,6 +51,9 @@ function App() {
           <Route path="/editardonacion/:don_id" component={EditarDonacion} />
           <Route path="/altavoluntariado/" component={AltaVoluntariado} />
           <Route path="/listadovoluntariado/" component={ListVolscreen} />
+          <Route path="/listadorequesteq/:eqId" component={ListarReqOfrecimiento} />
+          <Route path="/conversaciones/:convId" component={ChatScreen} />
+          <Route path="/listaconversaciones/" component={ConversationScreen} />
         </Switch>
       </AuthProvider>
     </Router>
