@@ -129,19 +129,19 @@ const LoginBox = () => {
       return;
     }
     
-    if (!recaptchaValue) {
-      toast.error('Por favor, completa el reCAPTCHA.', {
-        position: 'bottom-center',
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
-      });
-      return;
-    }
+    // if (!recaptchaValue) {
+    //   toast.error('Por favor, completa el reCAPTCHA.', {
+    //     position: 'bottom-center',
+    //     autoClose: 4000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: false,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: 'colored',
+    //   });
+    //   return;
+    // }
 
     try {
       const response = await instance.post('/login/', credentials);
@@ -243,10 +243,11 @@ const LoginBox = () => {
           }}
         />
       </InputWrapper>
-      <ReCAPTCHA
+
+      {/* <ReCAPTCHA
         sitekey="6Lcqru0oAAAAAMEbouI6kXlIMjofIZr__aX33Aer" //cambiar esta key para prod
         onChange={handleRecaptchaChange}
-      />
+      /> */}
       <NotienescuentaaunWrapper>
         <NotienescuentaaunText>No tienes una cuenta aún?</NotienescuentaaunText>
         <Link to="/alta">

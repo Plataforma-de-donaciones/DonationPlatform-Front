@@ -231,7 +231,7 @@ const EquipamientoMedicoBox = (props) => {
 
       if (response.status === 201) {
         Swal.fire(
-          'Equipo médico registrado correctamente',
+          'Equipamiento médico registrado correctamente!',
           '',
           'success'
         )

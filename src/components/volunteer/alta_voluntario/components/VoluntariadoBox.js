@@ -229,7 +229,7 @@ const VoluntariadoBox = (props) => {
 
       if (response.status === 201) {
         Swal.fire(
-          'Voluntariado registrado correctamente',
+          'Voluntariado registrado correctamente!',
           '',
           'success'
         )

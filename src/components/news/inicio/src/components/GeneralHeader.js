@@ -5,6 +5,7 @@ import { faBars, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../../../AuthContext"; // Asegúrate de ajustar la ruta correcta
 import Cookies from "universal-cookie";
+import Swal from 'sweetalert2';
 
 const cookies = new Cookies();
 
@@ -21,18 +22,34 @@ function GeneralHeader(props) {
   const handleLogout = () => {
     // Realizar acciones necesarias antes de cerrar sesión
     // ...
+      Swal.fire({
+        title: '¿Está seguro que desea cerrar sesión?',
+        text: 'Esta acción lo devolverá al login',
+        icon: 'question',
+        iconHtml: '?',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          logout();
 
+          // Limpiar las cookies de sesión (o cualquier otra acción necesaria)
+          cookies.remove('token');
+          cookies.remove('user_data');
+      
+          // Cerrar el menú desplegable
+          setMenuOpen(false);
+      
+        history.push('/login');
+          // Realizar acciones cuando se confirma la cancelación
+          // Por ejemplo, redirigir a una página o realizar otra acción
+          // window.location.href = '/otra-pagina';
+        }
+      });
+    
     // Cerrar sesión
-    logout();
-
-    // Limpiar las cookies de sesión (o cualquier otra acción necesaria)
-    cookies.remove('token');
-    cookies.remove('user_data');
-
-    // Cerrar el menú desplegable
-    setMenuOpen(false);
-
-  history.push('/login');
+  
   };
 
   return (
