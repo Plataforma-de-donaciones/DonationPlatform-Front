@@ -4,6 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import styled from 'styled-components';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 
 const EventMarker = styled.div`
   position: relative;
@@ -30,16 +31,38 @@ const formatDate = (date) => {
 
 const MyCalendar = ({ events }) => {
   const openEventToast = (eventName) => {
-    toast.info(eventMessage(eventName), {
-      position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      });
+
+    Swal.fire({
+      title: eventMessage(eventName),
+      icon: 'info',
+      html:
+        'Desea leer más info del evento?, ' +
+        '<a href="WWW.google.com">links</a> ' + //link a todos los eventos?
+        '',
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      position: 'bottom-end',
+      confirmButtonText:
+        'Si', 
+      cancelButtonText:
+        'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = '/login';
+      }
+    });
+
+    // toast.info(eventMessage(eventName), {
+    //   position: "bottom-right",
+    //   autoClose: 5000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    //   theme: "colored",
+    //   });
   };
 
   const eventMessage = (eventName) => {
