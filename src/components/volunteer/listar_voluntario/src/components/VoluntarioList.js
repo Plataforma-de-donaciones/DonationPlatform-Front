@@ -105,11 +105,7 @@ const VoluntarioList = () => {
         if (selectedRating !== null) {
           response = await instance.get(`/volunteers/searchbyrating/${selectedRating}/`);
         } else {
-          response = await instance.get("/volunteers/", {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          });
+          response = await instance.get("/volunteers/");
         }
         setOriginalVoluntarioList(response.data);
         setVoluntarioList(response.data);

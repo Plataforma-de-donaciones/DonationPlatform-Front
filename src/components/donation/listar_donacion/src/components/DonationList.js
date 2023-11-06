@@ -138,11 +138,7 @@ const DonationList = () => {
   
           setDonationList(filteredDonationByType);
         } else {
-          response = await instance.get("/donations/", {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          });
+          response = await instance.get("/donations/");
           setOriginalDonationList(response.data);
 
           const donationList = selectedType
