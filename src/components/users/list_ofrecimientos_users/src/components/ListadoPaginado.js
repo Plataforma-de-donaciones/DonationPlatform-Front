@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
+import { Link, useHistory } from "react-router-dom";
+
 
 const cookies = new Cookies();
 
@@ -27,6 +29,7 @@ const ListadoPaginado = ({ tipo }) => {
   const [datos, setDatos] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
+  const history = useHistory();
 
   const token = cookies.get("token");
   const userDataCookie = cookies.get("user_data");
@@ -107,7 +110,9 @@ const ListadoPaginado = ({ tipo }) => {
                   <TableCell>{item.eq_name}</TableCell>
                   <TableCell>{item.eq_description}</TableCell>
                   <TableCell>{item.don_created_at}</TableCell>
-                  <TableCell>{item.request_count}</TableCell>
+                  <TableCell>
+                    <Link to={`/listadorequesteq/${item.eq_id}`}>{item.request_count}</Link>
+                  </TableCell>
                   <TableCell>{item.eq_confirmation_date}</TableCell>
                   <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
                   {/* Otros campos específicos de equipamiento médico */}

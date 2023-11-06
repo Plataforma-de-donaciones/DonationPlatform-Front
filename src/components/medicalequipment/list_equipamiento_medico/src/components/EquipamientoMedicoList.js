@@ -142,11 +142,7 @@ const EquipamientoMedicoList = () => {
           // Actualizar el estado equipamientoList con los resultados del filtro
           setEquipamientoList(filteredEquipamientoByType);
         } else {
-          response = await instance.get("/medicalequipments/", {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          });
+          response = await instance.get("/medicalequipments/");
           setOriginalEquipamientoList(response.data);
   
           // Aplicar el filtro por tipo
