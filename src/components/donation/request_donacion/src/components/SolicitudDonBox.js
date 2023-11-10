@@ -10,6 +10,7 @@ import LocalidadBox from './LocalidadBox';
 import instance from '../../../../../axios_instance';
 import Cookies from 'universal-cookie';
 import { useHistory, useParams } from 'react-router-dom';
+import CancelarButton from './CancelarButton';
 
 const Container = styled.div`
   display: flex;
@@ -42,6 +43,8 @@ const Group = styled.div`
     align-items: center;
   }
 `;
+
+
 
 const cookies = new Cookies();
 
