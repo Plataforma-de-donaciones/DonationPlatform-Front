@@ -50,7 +50,4 @@ const arrowStyle = {
   fontSize: '24px',  // Tamaño del ícono
 };
 
-// Resto del código...
-
-
 export default NewsCarousel;
