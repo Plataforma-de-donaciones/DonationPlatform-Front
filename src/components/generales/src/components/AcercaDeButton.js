@@ -18,18 +18,18 @@ function AcercaDeButton(props) {
 const Container = styled.button`
   display: flex;
   background-color: transparent;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  border-radius: 5px;
   border: none; /* Elimina el borde predeterminado de los botones */
   cursor: pointer; /* Cambia el cursor al puntero cuando se pasa por encima */
 `;
 
 const AcercaDe = styled.span`
-  color: rgba(100,100,100, 1);
+  color: rgba(255, 255, 255, 1);
   font-size: 14px;
-  font-weight: bold;
-    
-  &:hover {
-    color: #FFFFFF;
-  }
+  font-weight: 500;
 `;
 
 export default AcercaDeButton;

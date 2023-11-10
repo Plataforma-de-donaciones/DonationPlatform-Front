@@ -1,5 +1,24 @@
+// NewsListItem.js
 import React, { useState } from 'react';
 import styled from 'styled-components';
+
+const CardContainer = styled.div`
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  width: 800px; /* Ajustamos el ancho de la tarjeta */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const Description = styled.p`
+  display: ${props => (props.expanded ? 'block' : 'none')}; /* Mostrar u ocultar la descripción */
+`;
+
+const ExpandButton = styled.button`
+  margin-top: 8px;
+`;
 
 const NewsListItem = ({ news }) => {
   const [expanded, setExpanded] = useState(false);
@@ -10,47 +29,11 @@ const NewsListItem = ({ news }) => {
 
   return (
     <CardContainer>
-      <Titlee>{news.new_name}</Titlee>
+      <h3>{news.new_name}</h3>
       <Description expanded={expanded}>{news.new_description}</Description>
-      <ExpandButton onClick={handleExpand}>{expanded ? 'Leer menos' : 'Leer más'}</ExpandButton>
+      <ExpandButton onClick={handleExpand}>{expanded ? 'Mostrar menos' : 'Mostrar más'}</ExpandButton>
     </CardContainer>
   );
 };
-
-const CardContainer = styled.div`
-  background-color: #FFFFFF;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 8px;
-  width: 800px; /* Ajustamos el ancho de la tarjeta */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-`;
-
-const Titlee = styled.h3`
-  color: rgba(20,20,20, 1); /* Color del texto titulo */
-`;
-
-const Description = styled.p`
-  display: ${props => (props.expanded ? 'block' : 'none')}; /* Mostrar u ocultar la descripción */
-  color: rgba(20,20,20, 1); /* Color del texto descripcion */
-`;
-
-const ExpandButton = styled.button`
-  margin-top: 8px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-
-  width: 80px;
-  height: 22px;
-
-  background-color: rgba(141, 202, 170, 0.5);
-  color: rgba(20,20,20, 1);
-  cursor: pointer; /* No funciona */
-
-  &:hover { /* No funciona */
-    color: #FFFFFF; 
-  }
-`;
 
 export default NewsListItem;

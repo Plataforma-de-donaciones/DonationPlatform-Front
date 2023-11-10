@@ -2,6 +2,26 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import NewsListItem from "./NewsListtItem"; // Ajusta la importación según la ubicación de tu componente NewsListItem
 
+const NewsListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinea a la izquierda */
+  margin-left: 16px; /* Ajusta según sea necesario */
+`;
+
+const Pagination = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+`;
+
+const PageButton = styled.button`
+  padding: 8px;
+  cursor: pointer;
+  background-color: ${(props) => (props.isActive ? "#ddd" : "transparent")};
+  border: 1px solid #ddd;
+`;
+
 const NewsList = ({ newsList }) => {
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,25 +77,5 @@ const NewsList = ({ newsList }) => {
     </NewsListContainer>
   );
 };
-
-const NewsListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start; /* Alinea a la izquierda */
-`;
-
-const Pagination = styled.div`
-  display: flex;
-  gap: 8px;
-  margin-top: 8px;
-  padding-left: 8px;
-`;
-
-const PageButton = styled.button`
-  padding: 8px;
-  cursor: pointer;
-  background-color: ${(props) => (props.isActive ? "rgba(221,221,221, 1)" : "transparent")};
-  border: 1px solid #ddd;
-`;
 
 export default NewsList;

@@ -1,23 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-const NewsCard = ({ news }) => {
-  // Verifica si news es undefined o null antes de acceder a sus propiedades
-  if (!news) {
-    return null; // O manejar el caso de objeto no definido según tus necesidades
-  }
-
-  return (
-    <CardContainer>
-      <Title>{news.new_name}</Title>
-      <Description>{news.new_description}</Description>
-      {/* Otros detalles de la tarjeta */}
-    </CardContainer>
-  );
-};
-
 const CardContainer = styled.div`
-  background-color: rgba(141, 202, 170, 1);
+  background-color: #ffcc80; /* Color naranja claro */
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
@@ -33,11 +18,26 @@ const CardContainer = styled.div`
 `;
 
 const Title = styled.h3`
-  color: rgba(80,80,80, 1); /* Color del texto titulo */
+  color: #333; /* Color del texto */
 `;
 
 const Description = styled.p`
-color: rgba(100,100,100, 1); /* Color del texto */
+  color: #666; /* Color del texto */
 `;
+
+const NewsCard = ({ news }) => {
+  // Verifica si news es undefined o null antes de acceder a sus propiedades
+  if (!news) {
+    return null; // O manejar el caso de objeto no definido según tus necesidades
+  }
+
+  return (
+    <CardContainer>
+      <Title>{news.new_name}</Title>
+      <Description>{news.new_description}</Description>
+      {/* Otros detalles de la tarjeta */}
+    </CardContainer>
+  );
+};
 
 export default NewsCard;
