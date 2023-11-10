@@ -57,7 +57,7 @@ function GeneralHeader(props) {
             <Isotype src={require("../assets/images/logowhite1.png")} alt="Logo" />
           </Link>
           <LogoText>
-            <StyledLink to="/inicio">Donaciones.uy</StyledLink>
+            <StyledLink to="/inicio">DonacionesUy</StyledLink>
           </LogoText>
         </LogoContent>
       </LogoContainer>
@@ -96,25 +96,30 @@ function GeneralHeader(props) {
 }
 
 const Container = styled.div`
-    @media (min-width: 1px) {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
+  @media (min-width: 1px) {
+    display: flex;
+    top: 0;
+    left: 0;
+    position: fixed;
+    justify-content: space-between;
     
-      background-color: rgba(243,146,54, 1);
-      padding: 0.5rem;
-      position: relative;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      box-sizing: border-box;
+    background-color: rgba(79,181,139, 1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    padding: 0.5rem;
 
-      /* position: fixed; */
-      /* display: flex; DEJA FIJO EL HEADER */
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 80px;
-    }
+    width: 100%;
+    height: 80px;
+
+    z-index: 1; /* Asegura que esté adelante de otros elementos */
+  }
+`;
+
+const MenuIcon = styled.div`
+  padding: 0.5rem;
+  width: 2.5rem;
+  border: none;
+  flex-grow: 0.1px;
 `;
 
 const ButtonOverlay = styled.button`
@@ -124,13 +129,6 @@ const ButtonOverlay = styled.button`
   width: 100%;
   border: none;
   cursor: pointer;
-`;
-
-const MenuIcon = styled.div`
-  padding: 0.5rem;
-  width: 2.5rem;
-  border: none;
-  flex-grow: 0.1px;
 `;
 
 const LogoContainer = styled.div`
@@ -155,7 +153,7 @@ const Isotype = styled.img`
 `;
 
 const LogoText = styled.span`
-    @media (min-width: 10px) {
+  @media (min-width: 10px) {
     margin-left: 0;
     font-family: "Gloria Hallelujah", cursive;
     font-size: 2rem;
@@ -164,6 +162,12 @@ const LogoText = styled.span`
     font-weight: 400;
     text-align: center;
   }
+`;
+
+const StyledLink = styled(Link)`
+  /* Puedes agregar estilos específicos si es necesario */
+  text-decoration: none;
+  color: #FFFFFF;
 `;
 
 const UserIcon = styled.div`
@@ -180,8 +184,8 @@ const DropdownMenu = styled.ul`
   right: 0;
   width: 9.4rem;
   text-align: right;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   list-style: none;
   padding: 0;
   margin: 0;
@@ -195,7 +199,7 @@ const MenuItem = styled.li`
 
   a {
     text-decoration: none;
-    color: #333;
+    color: rgba(80,80,80, 1);
   }
 
   &:last-child {
@@ -207,18 +211,12 @@ const Button = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: #333;
+  color: rgba(80,80,80, 1);
   font-family: "Roboto";
   font-size: 1rem;
   right: 0;
   padding: 0;
   margin: 0;
-`;
-
-const StyledLink = styled(Link)`
-  /* Puedes agregar estilos específicos si es necesario */
-  text-decoration: none;
-  color: #FFFFFF;
 `;
 
 export default GeneralHeader;

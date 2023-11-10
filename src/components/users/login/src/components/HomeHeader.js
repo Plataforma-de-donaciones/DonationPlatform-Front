@@ -20,7 +20,7 @@ function HomeHeader(props) {
       </MenuIcon>
       <LogoContainer>
         <Isotype src={require("../assets/images/logowhite1.png")} alt="Logo" />
-        <LogoText>Donaci</LogoText>
+        <LogoText>Donaciones.uy</LogoText>
       </LogoContainer>
     </Container>
   );

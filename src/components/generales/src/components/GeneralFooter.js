@@ -5,30 +5,6 @@ import ContactoButton from "./ContactoButton";
 import PreguntasButton from "./PreguntasButton";
 import TerminosCondicionesButton from "./TerminosCondicionesButton";
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  background-color: rgba(255, 152, 0, 1);
-  align-items: center;
-  box-shadow: 0px -2px 1.2px 0.2px #111;
-  padding: 10px;
-  
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const ButtonWrapper = styled.div`
-  position: relative;
-  width: 100%;
-  max-width: 200px;
-  margin: 10px;
-
-  @media (max-width: 768px) {
-    max-width: none;
-  }
-`;
-
 const GeneralFooter = () => {
   return (
     <Container>
@@ -47,5 +23,32 @@ const GeneralFooter = () => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  @media (min-width: 1px) {
+    display: flex;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    justify-content: space-between;
+
+    background-color: rgba(141, 202, 170, 1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    padding-right: 1rem; 
+    padding-left: 1rem;
+
+    width: 100%;
+    height: 50px;
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  padding-top: 1rem; 
+  
+  &:hover {
+    color: rgba(80,80,80, 1);
+  }
+`;
 
 export default GeneralFooter;
