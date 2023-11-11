@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
-import { useHistory } from 'react-router-dom'; // Importa useHistory
+import { useHistory } from 'react-router-dom';
+import { useAuth } from "../../../../../AuthContext";
 
 const VoluntarioCardContainer = styled.div`
   background-color: #fff;
@@ -72,18 +73,27 @@ const stateMap = {
 
 const VoluntarioListItem = ({ volunteer }) => {
   const [expanded, setExpanded] = useState(true);
-  const history = useHistory(); // Obtén la función history
+  const history = useHistory();
+  const { isAuthenticated } = useAuth();
 
   const handleExpand = () => {
     setExpanded(!expanded);
   };
 
-  const handleSolicitar = () => {
-    // Lógica para manejar la acción de solicitar
-    console.log('Solicitar:', volunteer.vol_name);
-    console.log('id', volunteer.vol_id);
-    history.push(`/solicitarvoluntario/${volunteer.vol_id}`);
+  const handleAction = () => {
+    if(isAuthenticated) {
+      if (volunteer.type === 1) {
+        history.push(`/donarvoluntariado/${volunteer.vol_id}`);
+      } else {
+        console.log('Solicitar:', volunteer.vol_name);
+        console.log('id', volunteer.vol_id);
+        history.push(`/solicitarvoluntariado/${volunteer.vol_id}`);
+      }
+    } else {
+      alert("Debes iniciar sesión para completar esta acción.");
+  }
   };
+  
 
   const handleUbicacion = () => {
     // Lógica para manejar la acción de ubicación
@@ -101,11 +111,11 @@ const VoluntarioListItem = ({ volunteer }) => {
           <span style={{ textAlign: "left" }}>{stateMap[volunteer.state]}</span>
         </div>
       <ActionButtons>
-        <ActionButton onClick={handleSolicitar}>
+        <ActionButton onClick={handleAction}>
           <IconContainer>
             <FaUser />
           </IconContainer>
-          Solicitar
+          {volunteer.type === 1 ? "Donar" : "Solicitar"}
         </ActionButton>
         <ActionButton onClick={handleUbicacion}>
           <IconContainer>

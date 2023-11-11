@@ -27,6 +27,18 @@ import SolicitarDonacion from './components/donation/request_donacion/src/screen
 import ListarReqOfrecimiento from './components/users/list_requests_eq/src/screens/ListarReqOfrecimiento';
 import ChatScreen from './components/users/chat/screens/ChatScreen';
 import ConversationScreen from './components/users/chatlist/screens/ConversationScreen';
+import ListarReqOfrecimientoDon from './components/users/list_requests_don/src/screens/ListarReqOfrecimientoDon';
+import SolicitarVoluntario from './components/volunteer/request_voluntario/src/screens/SolicitarVoluntario';
+import DonarVoluntariado from './components/volunteer/request_voluntario_ofr/src/screens/DonarVoluntariado';
+import EditarVoluntario from './components/volunteer/editar_voluntario/src/screens/EditarVoluntario';
+import AltaSponsor from './components/sponsor/alta_sponsor/screens/AltaSponsor';
+import ListSponsorscreen from './components/sponsor/listar_voluntario/src/screens/ListVolScreen';
+import SolicitarPadrino from './components/sponsor/request_sponsor/src/screens/SolicitarPadrino';
+import DonarPadrino from './components/sponsor/request_sponsor_ofr/src/screens/DonarPadrino';
+import EditarSponsor from './components/sponsor/editar_sponsor/src/screens/EditarSponsor';
+import ListarReqOfrecimientoVol from './components/users/list_requests_vol/src/screens/ListarReqOfrecimientoVol';
+import ListarReqOfrecimientoSponsor from './components/users/list_requests_sponsor/src/screens/ListarReqOfrecimientoSponsor';
+
 
 function App() {
   return (
@@ -43,17 +55,28 @@ function App() {
           <Route path="/listadoequipamiento" component={Listeqscreen} />
           <Route path="/solicitarequipamiento/:equipamientoId" component={SolicitarEquipamiento} />
           <Route path="/solicitardonacion/:donacionId" component={SolicitarDonacion} />
+          <Route path="/solicitarvoluntariado/:voluntarioId" component={SolicitarVoluntario} />
+          <Route path="/solicitarpadrino/:sponsorId" component={SolicitarPadrino} />
           <Route path="/donarequipamiento/:equipamientoId" component={DonarEquipamiento} />
           <Route path="/donardonacion/:donacionId" component={DonarDonacion} />
+          <Route path="/donarvoluntariado/:voluntarioId" component={DonarVoluntariado} />
+          <Route path="/donarpadrino/:sponsorId" component={DonarPadrino} />
           <Route path="/editarequipamiento/:eq_id" component={EditarEquipamiento} />
           <Route path="/altadonacion/" component={AltaDonacion} />
+          <Route path="/altasponsor/" component={AltaSponsor} />
           <Route path="/listadodonacion/" component={Listdonscreen} />
           <Route path="/editardonacion/:don_id" component={EditarDonacion} />
+          <Route path="/editarvoluntario/:vol_id" component={EditarVoluntario} />
+          <Route path="/editarsponsor/:sponsor_id" component={EditarSponsor} />
           <Route path="/altavoluntariado/" component={AltaVoluntariado} />
           <Route path="/listadovoluntariado/" component={ListVolscreen} />
           <Route path="/listadorequesteq/:eqId" component={ListarReqOfrecimiento} />
           <Route path="/conversaciones/:convId" component={ChatScreen} />
           <Route path="/listaconversaciones/" component={ConversationScreen} />
+          <Route path="/listadorequestdon/:donId" component={ListarReqOfrecimientoDon} />
+          <Route path="/listadorequestvol/:voluntarioId" component={ListarReqOfrecimientoVol} />
+          <Route path="/listadorequestsponsor/:sponsorId" component={ListarReqOfrecimientoSponsor} />
+          <Route path="/listadoapadrinamiento/" component={ListSponsorscreen} />
         </Switch>
       </AuthProvider>
     </Router>

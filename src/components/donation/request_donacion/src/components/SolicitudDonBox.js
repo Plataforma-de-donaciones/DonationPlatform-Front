@@ -60,6 +60,8 @@ const Group = styled.div`
   }
 `;
 
+
+
 const cookies = new Cookies();
 
 const SolicitudDonBox = (props) => {

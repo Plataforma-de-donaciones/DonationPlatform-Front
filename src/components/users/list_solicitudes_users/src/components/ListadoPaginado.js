@@ -39,16 +39,17 @@ const ListadoPaginado = ({ tipo }) => {
   const editarItem = (idField, id) => {
     setIdEnEdicion(id);
 
-    // Cambia la redirección a una URL que incluya el parámetro en la ruta
     switch (tipo) {
       case "medicalequipments":
         history.push(`/editarequipamiento/${id}`);
         break;
       case "donations":
-        // Reemplaza 'editardonacion' con la ruta correcta para tu caso
-        history.push(`/editarequipamiento/${id}`);
+        history.push(`/editardonacion/${id}`);
         break;
-      // Agrega casos para otros tipos si es necesario
+      case "volunteers":
+        history.push(`/editarvoluntario/${id}`);
+        break;
+
       default:
         break;
     }
@@ -82,7 +83,6 @@ const ListadoPaginado = ({ tipo }) => {
   };
 
   const eliminarItem = async (id) => {
-    // Mostrar un cuadro de confirmación
     console.log("id a eliminar", id);
     const confirmacion = window.confirm(`¿Desea eliminar el ${tipo}?`);
 
@@ -107,7 +107,6 @@ const ListadoPaginado = ({ tipo }) => {
 
   return (
     <div>
-      {/* Barra de paginación */}
       <div>
         {Array.from({ length: totalPaginas }).map((_, index) => (
           <button key={index} onClick={() => cambiarPagina(index + 1)}>
@@ -115,8 +114,6 @@ const ListadoPaginado = ({ tipo }) => {
           </button>
         ))}
       </div>
-
-      {/* Renderiza la lista con los datos en forma de tabla */}
       <StyledTable>
         <thead>
           <tr>
@@ -128,13 +125,11 @@ const ListadoPaginado = ({ tipo }) => {
             <TableHeaderCell>Tiene solicitudes</TableHeaderCell>
             <TableHeaderCell>Editar</TableHeaderCell>
             <TableHeaderCell>Eliminar</TableHeaderCell>
-            {/* Otros encabezados según el tipo */}
           </tr>
         </thead>
         <tbody>
           {datos.map((item) => (
             <tr key={item.id}>
-              {/* Renderiza los detalles del elemento según el tipo */}
               {tipo === "donations" && (
                 <>
                   <TableCell>{item.don_name}</TableCell>
@@ -162,7 +157,6 @@ const ListadoPaginado = ({ tipo }) => {
                   <TableCell>{item.eq_confirmation_date}</TableCell>
                   <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
                   <TableCell>
-                    {/* Usa Link para enlazar a la página de edición con el parámetro en la URL */}
                     <Link to={`/editarequipamiento/${item.eq_id}`}>Editar</Link>
                   </TableCell>
                   <TableCell>
@@ -172,7 +166,42 @@ const ListadoPaginado = ({ tipo }) => {
                   </TableCell>
                 </>
               )}
-              {/* Otros tipos */}
+              {tipo === "volunteers" && (
+                <>
+                  <TableCell>{item.vol_name}</TableCell>
+                  <TableCell>{item.vol_description}</TableCell>
+                  <TableCell>{item.vol_created_at}</TableCell>
+                  <TableCell>{item.request_count}</TableCell>
+                  <TableCell>{item.vol_confirmation_date}</TableCell>
+                  <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
+                  <TableCell>
+                    <Link to={`/editarvoluntario/${item.vol_id}`}>Editar</Link>
+                  </TableCell>
+                  <TableCell>
+                  <button onClick={() => eliminarItem(item.vol_id || item.id)}>
+                       Eliminar
+                  </button>
+                  </TableCell>
+                </>
+              )}
+              {tipo === "sponsors" && (
+                <>
+                  <TableCell>{item.sponsor_name}</TableCell>
+                  <TableCell>{item.sponsor_description}</TableCell>
+                  <TableCell>{item.sponsor_created_at}</TableCell>
+                  <TableCell>{item.request_count}</TableCell>
+                  <TableCell>{item.sponsor_confirmation_date}</TableCell>
+                  <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
+                  <TableCell>
+                    <Link to={`/editarsponsor/${item.sponsor_id}`}>Editar</Link>
+                  </TableCell>
+                  <TableCell>
+                  <button onClick={() => eliminarItem(item.sponsor_id || item.id)}>
+                       Eliminar
+                  </button>
+                  </TableCell>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

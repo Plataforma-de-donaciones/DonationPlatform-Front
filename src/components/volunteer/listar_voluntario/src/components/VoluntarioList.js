@@ -3,12 +3,15 @@ import styled from "styled-components";
 import instance from "../../../../../axios_instance";
 import VoluntarioListItem from "./VoluntarioListItem";
 import Cookies from "universal-cookie";
+import TypeFilterButton from "./TypeFilterButton";
+import ClearTypeFilterButton from "./ClearTypeFilterButton";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import Swal from "sweetalert2";
+import TypeButtons from "./TypeButtons";
 
 const cookies = new Cookies();
 
@@ -23,6 +26,11 @@ const ListContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-right: 16px;
+`;
+
+const ListAndCategoryContainer = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 const SearchBarContainer = styled.div`
@@ -40,7 +48,34 @@ const SearchBarAndAddEquipment = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-
+const FilterBarContainer = styled.div`
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  margin-bottom: 16px;
+  max-width: 800px;
+  justify-content: flex-end;
+`;
+const FilterBarForType = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: space-around; 
+  align-items: center;
+`;
+const FilterPageContainer = styled.div`
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  margin-bottom: 16px;
+  max-width: 800px;
+  justify-content: flex-end;
+`;
+const FilterBarForPage = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: space-around; 
+  align-items: center;
+`;
 const SearchInput = styled.input`
   padding: 8px;
   margin-right: 8px;
@@ -98,6 +133,8 @@ const VoluntarioList = () => {
   const [voluntarioList, setVoluntarioList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRating, setSelectedRating] = useState(null);
+  const [selectedType, setSelectedType] = useState(null);
+
   const token = cookies.get("token");
 
   useEffect(() => {
@@ -110,14 +147,22 @@ const VoluntarioList = () => {
           response = await instance.get("/volunteers/");
         }
         setOriginalVoluntarioList(response.data);
-        setVoluntarioList(response.data);
+        const voluntarioList = selectedType
+            ? response.data.filter((volunteer) => volunteer.type === selectedType)
+            : response.data;
+        setVoluntarioList(voluntarioList);
       } catch (error) {
         console.error("Error fetching voluntarios:", error);
       }
     };
 
     fetchVoluntario();
-  }, [selectedRating, token]);
+  }, [selectedRating, selectedType, token]);
+  
+  const handleTypeClick = (type) => {
+    console.log(`Selected type: ${type}`);
+    setSelectedType(type);
+  };
 
   const handleSearch = async () => {
     try {
@@ -135,7 +180,6 @@ const VoluntarioList = () => {
 
   const handleAddDonationClick = () => {
     if (isAuthenticated) {
-      // El usuario está autenticado, redirige a "/altaequipamiento"
       history.push("/altavoluntariado");
     } else {
       Swal.fire({
@@ -172,6 +216,31 @@ const VoluntarioList = () => {
 
   return (
     <VoluntarioListContainer>
+      <FilterPageContainer>
+        <FilterBarForPage>
+        <TypeButtons></TypeButtons>
+        </FilterBarForPage>
+      </FilterPageContainer>
+      <FilterBarContainer>
+        <FilterBarForType>
+        <TypeFilterButton
+            isActive={selectedType === 1}
+            onClick={() => handleTypeClick(1)}
+          >
+              Solicitud
+          </TypeFilterButton>
+        <TypeFilterButton
+            isActive={selectedType === 2}
+            onClick={() => handleTypeClick(2)}
+          >
+              Ofrecimiento
+        </TypeFilterButton>
+        
+        </FilterBarForType>
+        <ClearTypeFilterButton onClick={() => handleTypeClick(null)}>
+          Borrar Filtro
+          </ClearTypeFilterButton>
+      </FilterBarContainer>
       <SearchBarContainer>
         <SearchBarAndAddEquipment>
           <AddEquipment onClick={handleAddDonationClick}>
