@@ -8,6 +8,7 @@ import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
+import Swal from "sweetalert2";
 
 const cookies = new Cookies();
 
@@ -137,18 +138,18 @@ const VoluntarioList = () => {
       // El usuario está autenticado, redirige a "/altaequipamiento"
       history.push("/altavoluntariado");
     } else {
-      // El usuario no está autenticado, muestra una alerta o realiza la acción necesaria
-      toast.warn('Debes iniciar sesión para completar esta acción', {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        });
-      // Otra opción: Mostrar un modal de inicio de sesión
+      Swal.fire({
+        title: 'Debes iniciar sesión para completar esta acción',
+        text: '¿Desea ir al login en este momento?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push('/login');
+        }
+      });
     }
   };
 

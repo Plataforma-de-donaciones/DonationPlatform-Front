@@ -171,95 +171,110 @@ const EquipamientoMedicoBox = (props) => {
         [fieldName]: "El nombre no puede estar vacío",
       }));
     }
-
+  
     if (fieldName === "type" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "Debe seleccionar un tipo de publicación",
       }));
     }
-
+  
     if (fieldName === "zone" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "Debe seleccionar una localidad",
       }));
     }
-
+  
     if (fieldName === "eq_description" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "La descripción no puede estar vacía",
       }));
     }
-
-    // Agrega otras validaciones según sea necesario
   };
-
+  
   const handleAccept = async () => {
-    // Validar todos los campos antes de enviar la solicitud
-    Object.keys(equipmentData).forEach((name) => {
-      validateField(name, equipmentData[name]);
+
+    Object.keys(equipmentData).forEach(async (name) => {
+       validateField(name, equipmentData[name]);
     });
 
-    // Verificar si hay errores en los campos
     if (Object.values(errors).some((error) => error !== "")) {
       return;
+    }else{
+      handleConfirmation();
     }
-
-    // Intentar enviar la solicitud
-    try {
-      // Crear un objeto FormData para enviar archivos
-      const formData = new FormData();
-      formData.append("eq_attachment", file);
-
-      // Agregar otros campos al formData
-      Object.entries(equipmentData).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-      console.log("Contenido de FormData:");
-    const formDataEntries = [...formData.entries()];
-    console.log(formDataEntries);
-
-      // Enviar la solicitud con el formData
-      const response = await instance.post("/medicalequipments/", formData, {
-        headers: {
-          Authorization: `Token ${token}`,
-          "Content-Type": "multipart/form-data", // Asegura el tipo de contenido correcto
-        },
-      });
-
-      if (response.status === 201) {
-        Swal.fire(
-          'Equipamiento médico registrado correctamente!',
-          '',
-          'success'
-        )
-      } else {
-        const serverError = response.data;
-        console.log(response);
-        if (serverError) {
-          toast.error(serverError, {
-            position: "bottom-center",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-            });
-          // Manejar errores específicos del servidor si es necesario
-        } else {
-          // Manejar otros errores
-        }
+    
+  };
+  
+  const handleConfirmation = async () => {
+    const confirmation = await Swal.fire({
+      title: 'Protege tu Privacidad',
+      html: `
+        <p>Por su seguridad y la de los demás, le recordamos evitar publicar fotos y/o videos, o descripción en la publicación que contengan información personal o la de otras personas. Estos pueden incluir Nombre, Teléfono, Dirección, entre otros.</p>
+        <p>En caso de necesitar brindar datos personales para concretar el acto benéfico, le sugerimos que lo realice de manera segura mediante el chat privado.</p>
+        <p>Ayuda a crear un entorno en línea seguro para todos.</p>
+        <p>¡Gracias por su colaboración!</p>
+        <p>¿Usted confirma que esta publicación no incluye contenido que revele información sensible?</p>`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    });
+  
+    if (confirmation.isConfirmed) {
+      try {
+        await handleRequest(); // Lógica de manejo de la solicitud
+      } catch (error) {
+        console.error("Error al manejar la solicitud:", error);
       }
-    } catch (error) {
-      console.error("Error al registrar equipo médico:", error);
-      console.log("Respuesta del servidor:", error.response); // Agrega esta línea
-      // Manejar errores de la solicitud
     }
   };
+  
+  const handleRequest = async () => {
+    const formData = new FormData();
+    formData.append("eq_attachment", file);
+  
+    // Agregar otros campos al formData
+    Object.entries(equipmentData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+  
+    const response = await instance.post("/medicalequipments/", formData, {
+      headers: {
+        Authorization: `Token ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  
+    if (response.status === 201) {
+      Swal.fire(
+        'Equipamiento médico registrado correctamente!',
+        '',
+        'success'
+      );
+    } else {
+      const serverError = response.data;
+      console.log(response);
+      if (serverError) {
+        toast.error(serverError, {
+          position: "bottom-center",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      } else {
+        // Manejar otros errores
+      }
+    }
+  };
+   
+  
   const handleCancel = () => {
     Swal.fire({
       title: '¿Está seguro que desea cancelar?',
@@ -272,11 +287,11 @@ const EquipamientoMedicoBox = (props) => {
       if (result.isConfirmed) {
         // Realizar acciones cuando se confirma la cancelación
         // Por ejemplo, redirigir a una página o realizar otra acción
-        // window.location.href = '/otra-pagina';
+    
       }
     });
   };
-  
+
   return (
     <Container {...props}>
       <UntitledComponent1Stack>
@@ -308,26 +323,26 @@ const EquipamientoMedicoBox = (props) => {
         {errors.zone && <span style={{ color: "red" }}>{errors.zone}</span>}
         {/* Agrega un mensaje de error para la localidad si es necesario */}
         <SubirArchivoBox onChangeFile={(file) => handleFileChange(file)} />
-              </FormContainer>
+      </FormContainer>
       <ButtonContainer>
         <AceptarButton onClick={handleAccept} />
         <ButtonSeparator />
-        <CancelarButton onClick={handleCancel}/>
+        <CancelarButton onClick={handleCancel} />
       </ButtonContainer>
       <ToastContainer
-position="top-right"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
-/>
-{/* Same as */}
-<ToastContainer />
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
     </Container>
   );
 };

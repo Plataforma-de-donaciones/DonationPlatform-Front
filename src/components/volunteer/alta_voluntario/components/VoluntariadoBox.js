@@ -205,48 +205,63 @@ const VoluntariadoBox = (props) => {
     if (Object.values(errors).some((error) => error !== "")) {
       return;
     }
+    const confirmation = await Swal.fire({
+      title: 'Protege tu Privacidad',
+      html: `
+        <p>Por su seguridad y la de los demás, le recordamos evitar publicar fotos y/o videos, o descripción en la publicación que contengan información personal o la de otras personas. Estos pueden incluir Nombre, Teléfono, Dirección, entre otros.</p>
+        <p>En caso de necesitar brindar datos personales para concretar el acto benéfico, le sugerimos que lo realice de manera segura mediante el chat privado.</p>
+        <p>Ayuda a crear un entorno en línea seguro para todos.</p>
+        <p>¡Gracias por su colaboración!</p>
+        <p>¿Usted confirma que esta publicación no incluye contenido que revele información sensible?</p>`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    });
 
-    // Intentar enviar la solicitud
-    try {
-      // Crear un objeto FormData para enviar archivos
-      const formData = new FormData();
+    if (confirmation.isConfirmed) {
+      try {
+        // Crear un objeto FormData para enviar archivos
+        const formData = new FormData();
 
-      // Agregar otros campos al formData
-      Object.entries(voluntarioData).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-      console.log("Contenido de FormData:");
-      const formDataEntries = [...formData.entries()];
-      console.log(formDataEntries);
+        // Agregar otros campos al formData
+        Object.entries(voluntarioData).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
+        console.log("Contenido de FormData:");
+        const formDataEntries = [...formData.entries()];
+        console.log(formDataEntries);
 
-      // Enviar la solicitud con el formData
-      const response = await instance.post("/volunteers/", formData, {
-        headers: {
-          Authorization: `Token ${token}`,
-          "Content-Type": "multipart/form-data", // Asegura el tipo de contenido correcto
-        },
-      });
+        // Enviar la solicitud con el formData
+        const response = await instance.post("/volunteers/", formData, {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "multipart/form-data", // Asegura el tipo de contenido correcto
+          },
+        });
 
-      if (response.status === 201) {
-        Swal.fire(
-          'Voluntariado registrado correctamente!',
-          '',
-          'success'
-        )
-      } else {
-        const serverError = response.data;
-        console.log(response);
-        if (serverError) {
-          // Manejar errores específicos del servidor si es necesario
+        if (response.status === 201) {
+          Swal.fire(
+            'Voluntariado registrado correctamente!',
+            '',
+            'success'
+          )
         } else {
-          // Manejar otros errores
+          const serverError = response.data;
+          console.log(response);
+          if (serverError) {
+            // Manejar errores específicos del servidor si es necesario
+          } else {
+            // Manejar otros errores
+          }
         }
+      } catch (error) {
+        console.error("Error al registrar el voluntariado:", error);
+        console.log("Respuesta del servidor:", error.response); // Agrega esta línea
+        // Manejar errores de la solicitud
       }
-    } catch (error) {
-      console.error("Error al registrar el voluntariado:", error);
-      console.log("Respuesta del servidor:", error.response); // Agrega esta línea
-      // Manejar errores de la solicitud
     }
+
   };
   const handleCancel = () => {
     Swal.fire({

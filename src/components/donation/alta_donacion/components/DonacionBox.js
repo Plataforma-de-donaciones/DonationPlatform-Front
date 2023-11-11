@@ -205,8 +205,20 @@ const DonacionBox = (props) => {
     if (Object.values(errors).some((error) => error !== "")) {
       return;
     }
-
-    // Intentar enviar la solicitud
+    const confirmation = await Swal.fire({
+      title: 'Protege tu Privacidad',
+      html: `
+        <p>Por su seguridad y la de los demás, le recordamos evitar publicar fotos y/o videos, o descripción en la publicación que contengan información personal o la de otras personas. Estos pueden incluir Nombre, Teléfono, Dirección, entre otros.</p>
+        <p>En caso de necesitar brindar datos personales para concretar el acto benéfico, le sugerimos que lo realice de manera segura mediante el chat privado.</p>
+        <p>Ayuda a crear un entorno en línea seguro para todos.</p>
+        <p>¡Gracias por su colaboración!</p>
+        <p>¿Usted confirma que esta publicación no incluye contenido que revele información sensible?</p>`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    });
+   if(confirmation.isConfirmed){
     try {
       // Crear un objeto FormData para enviar archivos
       const formData = new FormData();
@@ -247,6 +259,7 @@ const DonacionBox = (props) => {
       console.error("Error al registrar equipo médico:", error);
       console.log("Respuesta del servidor:", error.response); // Agrega esta línea
       // Manejar errores de la solicitud
+    }
     }
   };
   const handleCancel = () => {

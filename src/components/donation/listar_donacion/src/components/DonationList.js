@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom";
 import TypeFilterButton from "./TypeFilterButton";
 import ClearTypeFilterButton from "./ClearTypeFilterButton";
 import { toast, ToastContainer } from 'react-toastify';
+import Swal from "sweetalert2";
 
 
 const cookies = new Cookies();
@@ -189,18 +190,20 @@ const DonationList = () => {
       history.push("/altadonacion");
     } else {
       // El usuario no está autenticado, muestra una alerta o realiza la acción necesaria
-      toast.warn('Debes iniciar sesión para completar esta acción', {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        });
-      // Otra opción: Mostrar un modal de inicio de sesión
-    }
+
+      Swal.fire({
+        title: 'Debes iniciar sesión para completar esta acción',
+        text: '¿Desea ir al login en este momento?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push('/login');
+        }
+      });
+     }
   };
 
   const startIndex = (currentPage - 1) * itemsPerPage;
