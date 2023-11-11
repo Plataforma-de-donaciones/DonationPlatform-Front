@@ -3,38 +3,48 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const MenuContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgba(190, 219, 57, 0.50);
-  padding: 1rem;
-  height: 50px;
-  flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente línea si no caben en el ancho disponible */
-  overflow: hidden; /* Oculta cualquier contenido que desborde del contenedor */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  @media (min-width: 1px) {
+    display: flex;
+    top: 80px;
+    left: 0;
+    position: fixed;
+    justify-content: space-between;
+    
+    background-color: rgba(80,80,80, 1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    padding-right: 1rem; 
+    padding-left: 1rem;
+    
+    width: 100%;
+    height: 50px;
+    z-index: 1; /* Asegura que esté adelante de otros elementos */
+
+  }
+
+  @media (max-width: 800px) {
+    padding-right: 0.5rem; 
+    padding-left: 0.5rem;
+  }
+
+  @media (max-width: 702px) {
+    height: 70px;
+  }
 `;
 
 const MenuItem = styled(Link)`
-  padding: 10px;
-  margin-right: 10px;
+  color: #FFFFFF;
   text-decoration: none;
-  color: #454A2C; /* Color más oscuro que el fondo */
-  font-weight: bold;
-
+  padding-top: 1rem; 
+  
   &:hover {
-    background-color: #454A2C; /* Color más oscuro que el fondo al pasar el mouse */
-    color: #fff;
+    color: rgba(79,181,139, 1);
   }
 
-  &:not(:last-child) {
-    margin-right: 20px; /* Ajusta la distancia entre elementos */
-    margin-bottom: 10px; /* Añade espacio inferior entre elementos */
-  }
-
-  @media (max-width: 768px) {
-    width: 100%; /* Ocupa todo el ancho en dispositivos más pequeños */
-    margin-right: 0; /* Elimina el margen derecho para que los elementos ocupen todo el ancho disponible */
-    display: ${(props) => (props.showOnMobile ? "block" : "none")}; /* Controla la visibilidad en dispositivos móviles */
+  @media (max-width: 787px) {
+    padding-right: 0.5rem; 
+    padding-left: 0.5rem;
+    font-size: 14px;
   }
 `;
 

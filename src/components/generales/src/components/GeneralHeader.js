@@ -58,7 +58,7 @@ function GeneralHeader(props) {
             <Isotype src={require("../assets/images/logowhite1.png")} alt="Logo" />
           </Link>
           <LogoText>
-            <StyledLink to="/inicio">Donaciones.uy</StyledLink>
+            <StyledLink to="/inicio">DonacionesUy</StyledLink>
           </LogoText>
         </LogoContent>
       </LogoContainer>
@@ -97,18 +97,22 @@ function GeneralHeader(props) {
 }
 
 const Container = styled.div`
-  display: flex;
-  background-color: rgba(255, 152, 0, 1);
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  position: relative;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  @media (min-width: 1px) {
+    display: flex;
+    top: 0;
+    left: 0;
+    position: fixed;
+    justify-content: space-between;
+    
+    background-color: rgba(79,181,139, 1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    padding: 0.5rem;
 
+    width: 100%;
+    height: 80px;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
+    z-index: 2; /* Asegura que esté adelante de otros elementos */
   }
 `;
 
@@ -125,11 +129,13 @@ const MenuIcon = styled.div`
   padding: 0.5rem;
   width: 2.5rem;
   border: none;
+  flex-grow: 0.1px;
 `;
 
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
+  margin: auto;
 `;
 
 const LogoContent = styled.div`
@@ -138,27 +144,24 @@ const LogoContent = styled.div`
 `;
 
 const Isotype = styled.img`
-  width: 80px;
-  height: auto;
-  object-fit: contain;
-  align-items: center;
-
-  @media (max-width: 768px) {
+  @media (min-width: 10px) {
+    width: 80px;
+    height: auto;
+    object-fit: contain;
+    align-items: center;
     margin-bottom: 0.5rem;
   }
 `;
 
 const LogoText = styled.span`
-  font-family: "Gloria Hallelujah", cursive;
-  font-size: 2rem;
-  color: #FFFFFF;
-  background-color: transparent;
-  font-weight: 400;
-  text-align: center;
-
-  @media (max-width: 768px) {
+  @media (min-width: 10px) {
     margin-left: 0;
-    font-size: 1.2rem;
+    font-family: "Gloria Hallelujah", cursive;
+    font-size: 2rem;
+    color: #FFFFFF;
+    background-color: transparent;
+    font-weight: 400;
+    text-align: center;
   }
 `;
 
@@ -167,17 +170,23 @@ const UserIcon = styled.div`
   padding: 0.5rem;
   width: 2.5rem;
   border: none;
+  flex-grow: 0.1px;
 `;
 
 const DropdownMenu = styled.ul`
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 9.4rem;
+  text-align: right;
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   list-style: none;
   padding: 0;
   margin: 0;
+  font-family: "Roboto";
+  font-size: 1rem;
+  z-index: 2; /* Asegura que esté adelante de otros elementos */
 `;
 
 const MenuItem = styled.li`
@@ -186,7 +195,7 @@ const MenuItem = styled.li`
 
   a {
     text-decoration: none;
-    color: #333;
+    color: rgba(80,80,80, 1);
   }
 
   &:last-child {
@@ -198,8 +207,14 @@ const Button = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: #333;
+  color: rgba(80,80,80, 1);
+  font-family: "Roboto";
+  font-size: 1rem;
+  right: 0;
+  padding: 0;
+  margin: 0;
 `;
+
 const NavMenu = styled.ul`
   position: absolute;
   top: 100%;
@@ -226,6 +241,7 @@ const NavItem = styled.li`
     border-bottom: none;
   }
 `;
+
 const StyledLink = styled(Link)`
   /* Puedes agregar estilos específicos si es necesario */
   text-decoration: none;

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const CardContainer = styled.div`
-  background-color: #ffcc80; /* Color naranja claro */
+  background-color: rgba(141, 202, 170, 1);
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
@@ -18,11 +18,11 @@ const CardContainer = styled.div`
 `;
 
 const Title = styled.h3`
-  color: #333; /* Color del texto */
+  color: rgba(80,80,80, 1); /* Color del texto titulo */
 `;
 
 const Description = styled.p`
-  color: #666; /* Color del texto */
+color: rgba(100,100,100, 1); /* Color del texto */
 `;
 
 const NewsCard = ({ news }) => {
