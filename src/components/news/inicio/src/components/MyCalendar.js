@@ -8,9 +8,10 @@ const EventMarker = styled.div`
   position: relative;
   width: 10px;
   height: 10px;
-  background-color: rgba(79,181,139, 1); /* o el color que desees */
+  background-color: red; /* o el color que desees */
   border-radius: 50%;
   cursor: default;
+
 
   &:hover::after {
     content: "${props => props.eventName}";
@@ -18,16 +19,15 @@ const EventMarker = styled.div`
     top: 50%; /* Ajusta la posición según sea necesario */
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.8);
     color: white;
     padding: 4px;
-    border-radius: 8px;
+    border-radius: 4px;
     font-size: 12px;
     white-space: nowrap;
     z-index: 1000; /* Asegura que el tooltip esté por encima de otros elementos */
   }
 `;
-
 const StyledCalendar = styled(Calendar)`
   border: 1px solid #ddd; /* Borde claro */
   border-radius: 8px; /* Bordes redondeados */

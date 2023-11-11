@@ -9,7 +9,7 @@ const Container = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -2; /* Asegura que el fondo esté detrás de otros elementos */
+  z-index: -1; /* Asegura que el fondo esté detrás de otros elementos */
 `;
 
 const BackgroundImageLogin = styled.img`
