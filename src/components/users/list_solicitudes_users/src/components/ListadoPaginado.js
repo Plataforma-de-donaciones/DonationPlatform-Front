@@ -3,6 +3,7 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 
 const cookies = new Cookies();
 
@@ -84,17 +85,30 @@ const ListadoPaginado = ({ tipo }) => {
 
   const eliminarItem = async (id) => {
     console.log("id a eliminar", id);
-    const confirmacion = window.confirm(`¿Desea eliminar el ${tipo}?`);
-
-    if (confirmacion) {
+    
+    const confirmation = await Swal.fire({
+      title: "¿Está seguro que desea eliminar?",
+      text: "¡No podrá recuperar el dato!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar!",
+      cancelButtonText: "Cancelar"
+    });
+    if (confirmation.isConfirmed) {
       try {
         await instance.delete(`/${tipo}/${id}/`, {
           headers: {
             Authorization: `Token ${token}`,
           },
         });
-
         obtenerDatos();
+        Swal.fire({
+          title: "Eliminado correctamente!",
+          text: "Su solicitud ha sido eliminada",
+          icon: "success"
+        });
       } catch (error) {
         console.error(`Error al eliminar ${tipo}:`, error);
       }
@@ -142,9 +156,9 @@ const ListadoPaginado = ({ tipo }) => {
                     <Link to={`/editardonacion/${item.don_id}`}>Editar</Link>
                   </TableCell>
                   <TableCell>
-                  <button onClick={() => eliminarItem(item.don_id || item.id)}>
-                       Eliminar
-                  </button>
+                    <button onClick={() => eliminarItem(item.don_id || item.id)}>
+                      Eliminar
+                    </button>
                   </TableCell>
                 </>
               )}
@@ -160,9 +174,9 @@ const ListadoPaginado = ({ tipo }) => {
                     <Link to={`/editarequipamiento/${item.eq_id}`}>Editar</Link>
                   </TableCell>
                   <TableCell>
-                  <button onClick={() => eliminarItem(item.eq_id || item.id)}>
-                       Eliminar
-                  </button>
+                    <button onClick={() => eliminarItem(item.eq_id || item.id)}>
+                      Eliminar
+                    </button>
                   </TableCell>
                 </>
               )}
@@ -178,9 +192,9 @@ const ListadoPaginado = ({ tipo }) => {
                     <Link to={`/editarvoluntario/${item.vol_id}`}>Editar</Link>
                   </TableCell>
                   <TableCell>
-                  <button onClick={() => eliminarItem(item.vol_id || item.id)}>
-                       Eliminar
-                  </button>
+                    <button onClick={() => eliminarItem(item.vol_id || item.id)}>
+                      Eliminar
+                    </button>
                   </TableCell>
                 </>
               )}
@@ -196,9 +210,9 @@ const ListadoPaginado = ({ tipo }) => {
                     <Link to={`/editarsponsor/${item.sponsor_id}`}>Editar</Link>
                   </TableCell>
                   <TableCell>
-                  <button onClick={() => eliminarItem(item.sponsor_id || item.id)}>
-                       Eliminar
-                  </button>
+                    <button onClick={() => eliminarItem(item.sponsor_id || item.id)}>
+                      Eliminar
+                    </button>
                   </TableCell>
                 </>
               )}

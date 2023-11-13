@@ -13,6 +13,7 @@ import TareasVolBox from "./TareasVolBox";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import { useHistory } from 'react-router-dom';
 
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -100,6 +101,7 @@ const VoluntariadoBox = (props) => {
   const [errors, setErrors] = useState({});
   const token = cookies.get("token");
   const [user_id, setUserId] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     // Obtener el user_id al montar el componente
@@ -246,6 +248,7 @@ const VoluntariadoBox = (props) => {
             '',
             'success'
           )
+          history.push('/listadovoluntariado');
         } else {
           const serverError = response.data;
           console.log(response);
@@ -273,9 +276,7 @@ const VoluntariadoBox = (props) => {
       cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
-        // Realizar acciones cuando se confirma la cancelación
-        // Por ejemplo, redirigir a una página o realizar otra acción
-        // window.location.href = '/otra-pagina';
+        history.push('/listadovoluntariado');
       }
     });
   };

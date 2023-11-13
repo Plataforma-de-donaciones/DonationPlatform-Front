@@ -11,6 +11,8 @@ import ImagenEqMEdicoEditarBox from "./ImagenEqMEdicoEditarBox";
 import AceptarButton from "./AceptarButton";
 import CancelarButton from "./CancelarButton";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useHistory } from 'react-router-dom';
 
 const cookies = new Cookies();
 
@@ -83,6 +85,7 @@ const EditarEqMedicoBox = (props) => {
   const [eqAttachment, setEqAttachment] = useState("");
   const token = cookies.get("token");
   const [file, setFile] = useState(null);
+  const history = useHistory();
 
   // Usa useParams para obtener eq_id de la URL
   const { eq_id } = useParams();
@@ -153,52 +156,84 @@ const EditarEqMedicoBox = (props) => {
   };
 
   const handleSubmit = async () => {
-    try {
-      let eqAttachmentToSend = eqAttachment;
-  
-      if (file) {
-        // Si hay un archivo nuevo, enviarlo y obtener la nueva ruta
-        const formData = new FormData();
-        formData.append("file", file);
-  
-        const response = await instance.patch(`/medicalequipments/${eq_id}/`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Token ${token}`,
-          },
-        });
-  
-        eqAttachmentToSend = response.data.filePath;
-      }
-  
-      const response = await instance.patch(
-        `/medicalequipments/${eq_id}/`,
-        {
-          eq_name: eqName,
-          eq_description: eqDescription,
-          type: eqType,
-          zone: eqZone,
-          eq_attachment: eqAttachmentToSend,
-        },
-        {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
+    const confirmation = await Swal.fire({
+      title: "¿Está seguro que desea editar?",
+      text: "cambiarán los campos que ha editado",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, editar",
+      cancelButtonText: "Cancelar"
+    });
+    if (confirmation.isConfirmed) {
+      try {
+        let eqAttachmentToSend = eqAttachment;
+
+        if (file) {
+          // Si hay un archivo nuevo, enviarlo y obtener la nueva ruta
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const response = await instance.patch(`/medicalequipments/${eq_id}/`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Token ${token}`,
+            },
+          });
+
+          eqAttachmentToSend = response.data.filePath;
         }
-      );
-  
-      console.log("Respuesta del servidor:", response.data);
-    } catch (error) {
-      console.error("Error al actualizar la información del equipamiento:", error);
+
+        const response = await instance.patch(
+          `/medicalequipments/${eq_id}/`,
+          {
+            eq_name: eqName,
+            eq_description: eqDescription,
+            type: eqType,
+            zone: eqZone,
+            eq_attachment: eqAttachmentToSend,
+          },
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
+        Swal.fire({
+          title: "Editado correctamente!",
+          text: "Los datos han sido editados",
+          icon: "success"
+        });
+        history.push('/listadosolicitudes');
+        console.log("Respuesta del servidor:", response.data);
+      } catch (error) {
+        console.error("Error al actualizar la información del equipamiento:", error);
+      }
     }
+  };
+
+  const handleCancel = () => {
+    Swal.fire({
+      title: '¿Está seguro que desea cancelar?',
+      icon: 'question',
+      iconHtml: '?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        history.push('/listadosolicitudes');
+      }
+    });
   };
 
   return (
     <Container {...props}>
       <UntitledComponent1Stack>
-      <Rect>
-        <TitleText>Editar equipamiento</TitleText>
-      </Rect>
+        <Rect>
+          <TitleText>Editar equipamiento</TitleText>
+        </Rect>
         <NombreEqMedicoEdicionBox
           style={{ width: "100%" }}
           value={eqName}
@@ -215,7 +250,7 @@ const EditarEqMedicoBox = (props) => {
         selectedType={eqType}
         onChange={handleEqTypeChange}
       />
-      <LocalidadBox style={{ width: "100%" }} eqZone={eqZone} onChange={handleEqZoneChange} setEqZone={setEqZoneValue}/>
+      <LocalidadBox style={{ width: "100%" }} eqZone={eqZone} onChange={handleEqZoneChange} setEqZone={setEqZoneValue} />
       <ImagenEqMEdicoEditarBox
         style={{ width: "100%" }}
         handleFileChange={handleFileChange}
@@ -223,7 +258,7 @@ const EditarEqMedicoBox = (props) => {
       />
       <MaterialButtonViolet2Row>
         <AceptarButton style={{ width: "48%" }} onClick={handleSubmit} />
-        <CancelarButton history={props.history} style={{ width: "48%", marginLeft: "4%" }} />
+        <CancelarButton history={props.history} style={{ width: "48%", marginLeft: "4%" }} onClick={handleCancel} />
       </MaterialButtonViolet2Row>
       {/* Mover la pregunta de eliminar y el botón al final */}
     </Container>

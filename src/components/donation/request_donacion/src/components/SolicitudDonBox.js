@@ -166,7 +166,6 @@ const SolicitudDonBox = (props) => {
           '',
           'success'
         )
-        // Redirigir a la página de solicitudes o a donde sea necesario
         history.push('/listadodonacion');
       } else {
         // Manejar otros casos de respuesta si es necesario
@@ -219,9 +218,7 @@ const SolicitudDonBox = (props) => {
       cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
-        // Realizar acciones cuando se confirma la cancelación
-        // Por ejemplo, redirigir a una página o realizar otra acción
-        // window.location.href = '/otra-pagina';
+        history.push('/listadodonacion');
       }
     });
   };

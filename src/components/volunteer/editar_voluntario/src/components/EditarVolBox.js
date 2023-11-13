@@ -10,6 +10,8 @@ import LocalidadBox from "./LocalidadBox";
 import AceptarButton from "./AceptarButton";
 import CancelarButton from "./CancelarButton";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useHistory } from 'react-router-dom';
 
 const cookies = new Cookies();
 
@@ -82,6 +84,7 @@ const EditarVolBox = (props) => {
   const [volZone, setVolZone] = useState("");
   const token = cookies.get("token");
   const [file, setFile] = useState(null);
+  const history = useHistory();
 
   const { vol_id } = useParams();
   console.log(vol_id);
@@ -138,6 +141,17 @@ const EditarVolBox = (props) => {
   };
 
   const handleSubmit = async () => {
+    const confirmation = await Swal.fire({
+      title: "¿Está seguro que desea editar?",
+      text: "cambiarán los campos que ha editado",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, editar",
+      cancelButtonText: "Cancelar"
+    });
+    if(confirmation.isConfirmed){
     try {
       const response = await instance.patch(
         `/volunteers/${vol_id}/`,
@@ -153,11 +167,32 @@ const EditarVolBox = (props) => {
           },
         }
       );
-  
+      Swal.fire({
+        title: "Editado correctamente!",
+        text: "Los datos han sido editados",
+        icon: "success"
+      });
+      history.push('/listadosolicitudes');
+
       console.log("Respuesta del servidor:", response.data);
     } catch (error) {
       console.error("Error al actualizar la información de la donación:", error);
     }
+  }
+  };
+  const handleCancel = () => {
+    Swal.fire({
+      title: '¿Está seguro que desea cancelar?',
+      icon: 'question',
+      iconHtml: '?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        history.push('/listadosolicitudes');
+      }
+    });
   };
 
   return (
@@ -185,7 +220,7 @@ const EditarVolBox = (props) => {
       <LocalidadBox style={{ width: "100%" }} volZone={volZone} onChange={handleVolZoneChange} setEqZone={setVolZoneValue}/>
       <MaterialButtonViolet2Row>
         <AceptarButton style={{ width: "48%" }} onClick={handleSubmit} />
-        <CancelarButton history={props.history} style={{ width: "48%", marginLeft: "4%" }} />
+        <CancelarButton history={props.history} style={{ width: "48%", marginLeft: "4%" }} onClick={handleCancel} />
       </MaterialButtonViolet2Row>
     </Container>
   );

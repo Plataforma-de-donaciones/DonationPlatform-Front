@@ -10,6 +10,9 @@ import CancelarButton from "./CancelarButton";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
 import TareasBox from "./TareasBox";
+import Swal from "sweetalert2";
+import { useHistory, useParams } from 'react-router-dom';
+import { toast, ToastContainer } from "react-toastify";
 
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -86,7 +89,7 @@ const SponsorBox = (props) => {
     type: "",
     state: 1,
     sponsor_created_at: new Date().toISOString(),
-    user: "", // Debes obtener el ID del usuario
+    user: "", 
     zone: null,
     geom_point: null,
     has_requests: false,
@@ -97,6 +100,7 @@ const SponsorBox = (props) => {
   const [errors, setErrors] = useState({});
   const token = cookies.get("token");
   const [user_id, setUserId] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     // Obtener el user_id al montar el componente
@@ -145,12 +149,33 @@ const SponsorBox = (props) => {
 
   const validateField = (fieldName, value) => {
     if (fieldName === "sponsor_name" && (!value || !value.toString().trim())) {
+      toast.error('Por favor, complete los campos requeridos', {
+        position: 'bottom-center',
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored',
+      });
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "El nombre no puede estar vacío",
       }));
     }
-
+    if (fieldName === "zone" && !value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "Debe seleccionar una localidad",
+      }));
+    }
+    if (fieldName === "sponsor_description" && !value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: 'La descripción del apadrinamiento no puede estar vacía',
+      }));
+    }
     if (fieldName === "type" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -168,42 +193,75 @@ const SponsorBox = (props) => {
     if (Object.values(errors).some((error) => error !== "")) {
       return;
     }
+    const confirmation = await Swal.fire({
+      title: 'Protege tu Privacidad',
+      html: `
+        <p>Por su seguridad y la de los demás, le recordamos evitar publicar fotos y/o videos, o descripción en la publicación que contengan información personal o la de otras personas. Estos pueden incluir Nombre, Teléfono, Dirección, entre otros.</p>
+        <p>En caso de necesitar brindar datos personales para concretar el acto benéfico, le sugerimos que lo realice de manera segura mediante el chat privado.</p>
+        <p>Ayuda a crear un entorno en línea seguro para todos.</p>
+        <p>¡Gracias por su colaboración!</p>
+        <p>¿Usted confirma que esta publicación no incluye contenido que revele información sensible?</p>`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    });
 
-    try {
-      const formData = new FormData();
+    if (confirmation.isConfirmed) {
+      try {
+        const formData = new FormData();
 
-      Object.entries(sponsorData).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-      console.log("Contenido de FormData:");
-    const formDataEntries = [...formData.entries()];
-    console.log(formDataEntries);
+        Object.entries(sponsorData).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
+        console.log("Contenido de FormData:");
+        const formDataEntries = [...formData.entries()];
+        console.log(formDataEntries);
 
-      const response = await instance.post("/sponsors/", formData, {
-        headers: {
-          Authorization: `Token ${token}`,
-          "Content-Type": "multipart/form-data", 
-        },
-      });
+        const response = await instance.post("/sponsors/", formData, {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
-      if (response.status === 201) {
-        alert("Padrino registrado correctamente");
-      } else {
-        const serverError = response.data;
-        console.log(response);
-        if (serverError) {
-          // Manejar errores específicos del servidor si es necesario
+        if (response.status === 201) {
+          Swal.fire(
+            'Apadrinamiento creado correctamente!',
+            '',
+            'success'
+          )
+          history.push('/listadoapadrinamiento');
         } else {
-          // Manejar otros errores
+          const serverError = response.data;
+          console.log(response);
+          if (serverError) {
+            // Manejar errores específicos del servidor si es necesario
+          } else {
+            // Manejar otros errores
+          }
         }
+      } catch (error) {
+        console.error("Error al registrar el sponsor:", error);
+        console.log("Respuesta del servidor:", error.response); // Agrega esta línea
+        // Manejar errores de la solicitud
       }
-    } catch (error) {
-      console.error("Error al registrar el sponsor:", error);
-      console.log("Respuesta del servidor:", error.response); // Agrega esta línea
-      // Manejar errores de la solicitud
     }
   };
-
+  const handleCancel = () => {
+    Swal.fire({
+      title: '¿Está seguro que desea cancelar?',
+      icon: 'question',
+      iconHtml: '?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        history.push('/listadoapadrinamiento');
+      }
+    });
+  };
   return (
     <Container {...props}>
       <UntitledComponent1Stack>
@@ -228,18 +286,35 @@ const SponsorBox = (props) => {
         <DescripcionBox
           onChange={(event) => handleFieldChange("sponsor_description", event)}
         />
+        {errors.sponsor_description && <span style={{ color: "red" }}>{errors.sponsor_description}</span>}
         <TareasBox
           onChange={(event) => handleFieldChange("sponsor_attachment", event)}
         />
+        {errors.sponsor_attachment && <span style={{ color: "red" }}>{errors.sponsor_attachment}</span>}
         <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
         {errors.type && <span style={{ color: "red" }}>{errors.type}</span>}
         <LocalidadBox onSelect={handleZoneSelect} />
-              </FormContainer>
+        {errors.zone && <span style={{ color: "red" }}>{errors.zone}</span>}
+      </FormContainer>
       <ButtonContainer>
         <AceptarButton onClick={handleAccept} />
         <ButtonSeparator />
-        <CancelarButton />
+        <CancelarButton onClick={handleCancel} />
       </ButtonContainer>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
     </Container>
   );
 };

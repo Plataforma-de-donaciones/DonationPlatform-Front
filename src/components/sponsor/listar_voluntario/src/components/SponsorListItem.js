@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from "../../../../../AuthContext";
+import Swal from 'sweetalert2';
 
 const SponsorCardContainer = styled.div`
   background-color: #fff;
@@ -90,7 +91,18 @@ const SponsorListItem = ({ sponsor }) => {
         history.push(`/solicitarpadrino/${sponsor.sponsor_id}`);
       }
     } else {
-      alert("Debes iniciar sesión para completar esta acción.");
+      Swal.fire({
+        title: 'Debes iniciar sesión para completar esta acción',
+        text: '¿Desea ir al login en este momento?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push('/login');
+        }
+      });
   }
   };
   

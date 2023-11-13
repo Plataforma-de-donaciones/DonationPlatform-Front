@@ -13,6 +13,8 @@ import Cookies from "universal-cookie";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import { useHistory } from 'react-router-dom';
+
 
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -89,7 +91,7 @@ const DonacionBox = (props) => {
     type: "",
     state: 1,
     don_created_at: new Date().toISOString(),
-    user: "", // Debes obtener el ID del usuario
+    user: "", 
     zone: null,
     geom_point: null,
     has_requests: false,
@@ -101,6 +103,7 @@ const DonacionBox = (props) => {
   const token = cookies.get("token");
   const [user_id, setUserId] = useState(null);
   const [file, setFile] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     // Obtener el user_id al montar el componente
@@ -246,6 +249,7 @@ const DonacionBox = (props) => {
           '',
           'success'
         )
+        history.push('/listadodonacion');
       } else {
         const serverError = response.data;
         console.log(response);
@@ -272,9 +276,7 @@ const DonacionBox = (props) => {
       cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
-        // Realizar acciones cuando se confirma la cancelación
-        // Por ejemplo, redirigir a una página o realizar otra acción
-        // window.location.href = '/otra-pagina';
+        history.push('/listadodonacion');
       }
     });
   };

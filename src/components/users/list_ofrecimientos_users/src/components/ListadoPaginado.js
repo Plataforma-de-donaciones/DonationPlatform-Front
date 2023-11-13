@@ -3,6 +3,7 @@ import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
 
 
 const cookies = new Cookies();
@@ -69,17 +70,32 @@ const ListadoPaginado = ({ tipo }) => {
   const eliminarItem = async (id) => {
     // Mostrar un cuadro de confirmación
     console.log("id a eliminar", id);
-    const confirmacion = window.confirm(`¿Desea eliminar el ${tipo}?`);
 
-    if (confirmacion) {
+    const confirmation = await Swal.fire({
+      title: "¿Está seguro que desea eliminar?",
+      text: "¡No podrá recuperar el dato!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar!",
+      cancelButtonText: "Cancelar"
+    });
+
+    if (confirmation.isConfirmed) {
       try {
         await instance.delete(`/${tipo}/${id}/`, {
           headers: {
             Authorization: `Token ${token}`,
           },
         });
-
         obtenerDatos();
+
+        Swal.fire({
+          title: "Eliminado correctamente!",
+          text: "Su ofrecimiento ha sido eliminado",
+          icon: "success"
+        });
       } catch (error) {
         console.error(`Error al eliminar ${tipo}:`, error);
       }

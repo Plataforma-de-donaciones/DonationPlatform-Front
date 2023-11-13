@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom'; // Importa useHistory
+import Swal from 'sweetalert2';
+import { useAuth } from "../../../../../AuthContext";
 
 const DonationCardContainer = styled.div`
   background-color: #fff;
@@ -73,20 +75,36 @@ const stateMap = {
 const DonationListItem = ({ donation }) => {
   const [expanded, setExpanded] = useState(true);
   const history = useHistory(); // Obtén la función history
+  const { isAuthenticated } = useAuth();
 
   const handleExpand = () => {
     setExpanded(!expanded);
   };
 
   const handleAction = () => {
-    if (donation.type === 1) {
-      // Si el tipo es 1 (Solicitud), redirige a la página de donación
-      history.push(`/donardonacion/${donation.don_id}`);
+    if (isAuthenticated) {
+      if (donation.type === 1) {
+        // Si el tipo es 1 (Solicitud), redirige a la página de donación
+        history.push(`/donardonacion/${donation.don_id}`);
+      } else {
+        // En otros casos, maneja la acción de solicitud
+        console.log('Solicitar:', donation.don_name);
+        console.log('id', donation.don_id);
+        history.push(`/solicitardonacion/${donation.don_id}`);
+      }
     } else {
-      // En otros casos, maneja la acción de solicitud
-      console.log('Solicitar:', donation.don_name);
-      console.log('id', donation.don_id);
-      history.push(`/solicitardonacion/${donation.don_id}`);
+      Swal.fire({
+        title: 'Debes iniciar sesión para completar esta acción',
+        text: '¿Desea ir al login en este momento?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push('/login');
+        }
+      });
     }
   };
 
@@ -103,10 +121,10 @@ const DonationListItem = ({ donation }) => {
       {donation.don_attachment && <Image src={donation.don_attachment} alt="Donacion" />}
       <Description>{donation.don_description}</Description>
       <div>
-          <label style={{ textAlign: "left" }}>Estado:</label>
-          <span style={{ textAlign: "left" }}>{stateMap[donation.state]}</span>
-        </div>
-        <ActionButtons>
+        <label style={{ textAlign: "left" }}>Estado:</label>
+        <span style={{ textAlign: "left" }}>{stateMap[donation.state]}</span>
+      </div>
+      <ActionButtons>
         <ActionButton onClick={handleAction}>
           <IconContainer>
             <FaUser />

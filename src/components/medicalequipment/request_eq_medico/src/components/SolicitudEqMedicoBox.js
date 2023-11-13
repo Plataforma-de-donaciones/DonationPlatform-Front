@@ -163,7 +163,6 @@ const SolicitudEqMedicoBox = (props) => {
         '',
         'success'
       )
-        // Redirigir a la página de solicitudes o a donde sea necesario
         history.push('/listadoequipamiento');
       } else {
         // Manejar otros casos de respuesta si es necesario

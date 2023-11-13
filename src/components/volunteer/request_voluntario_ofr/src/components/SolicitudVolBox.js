@@ -11,6 +11,7 @@ import instance from '../../../../../axios_instance';
 import Cookies from 'universal-cookie';
 import { useHistory, useParams } from 'react-router-dom';
 import CancelarButton from './CancelarButton';
+import Swal from 'sweetalert2';
 
 const Container = styled.div`
   display: flex;
@@ -81,7 +82,7 @@ const SolicitudVolBox = (props) => {
   const [user_id, setUserId] = useState(null);
   const [acceptTerms, setAcceptTerms] = useState(false);
 
-  const history = useHistory(); 
+  const history = useHistory();
 
   useEffect(() => {
     const userDataCookie = cookies.get('user_data');
@@ -90,8 +91,8 @@ const SolicitudVolBox = (props) => {
     }
     setSolicitudData((prevData) => ({
       ...prevData,
-      user: user_id || '', 
-      vol: voluntarioId || '', 
+      user: user_id || '',
+      vol: voluntarioId || '',
     }));
   }, [voluntarioId, user_id]);
 
@@ -139,21 +140,40 @@ const SolicitudVolBox = (props) => {
       }));
       return;
     }
+    const confirmation = await Swal.fire({
+      title: 'Protege tu Privacidad',
+      html: `
+        <p>Por su seguridad y la de los demás, le recordamos evitar publicar fotos y/o videos, o descripción en la publicación que contengan información personal o la de otras personas. Estos pueden incluir Nombre, Teléfono, Dirección, entre otros.</p>
+        <p>En caso de necesitar brindar datos personales para concretar el acto benéfico, le sugerimos que lo realice de manera segura mediante el chat privado.</p>
+        <p>Ayuda a crear un entorno en línea seguro para todos.</p>
+        <p>¡Gracias por su colaboración!</p>
+        <p>¿Usted confirma que esta publicación no incluye contenido que revele información sensible?</p>`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    });
 
-    try {
-      const response = await instance.post('/requests/', solicitudData, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      });
+    if (confirmation.isConfirmed) {
+      try {
+        const response = await instance.post('/requests/', solicitudData, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        });
 
-      if (response.status === 201) {
-        alert('Solicitud creada correctamente');
-        history.push('/listadovoluntariado');
-      } else {
+        if (response.status === 201) {
+          Swal.fire(
+            'Voluntariado registrado correctamente!',
+            '',
+            'success'
+          )
+          history.push('/listadovoluntariado');
+        } else {
+        }
+      } catch (error) {
+        console.error('Error al crear solicitud:', error);
       }
-    } catch (error) {
-      console.error('Error al crear solicitud:', error);
     }
   };
 
@@ -165,6 +185,20 @@ const SolicitudVolBox = (props) => {
       }));
     }
 
+  };
+  const handleCancel = () => {
+    Swal.fire({
+      title: '¿Está seguro que desea cancelar?',
+      icon: 'question',
+      iconHtml: '?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        history.push('/listadovoluntariado');
+      }
+    });
   };
 
   return (
@@ -181,19 +215,19 @@ const SolicitudVolBox = (props) => {
         onChange={(event) => handleFieldChange('req_name', event.target.value)}
       ></NombreVolSolicitudBox>
       <Group>
-      <TeryCondCheckbox
-  checked={acceptTerms}
-  onChange={() => handleAcceptTermsChange(!acceptTerms)}
-/>
+        <TeryCondCheckbox
+          checked={acceptTerms}
+          onChange={() => handleAcceptTermsChange(!acceptTerms)}
+        />
         <MaterialButtonWithShadow></MaterialButtonWithShadow>
       </Group>
       {errors.accept_terms && (
         <span style={{ color: 'red', marginTop: '5px' }}>{errors.accept_terms}</span>
       )}
       <ButtonContainer>
-      <MaterialButtonViolet onClick={handleAccept}></MaterialButtonViolet>
-      <ButtonSeparator />
-        <CancelarButton />
+        <MaterialButtonViolet onClick={handleAccept}></MaterialButtonViolet>
+        <ButtonSeparator />
+        <CancelarButton onClick={handleCancel} />
       </ButtonContainer>
     </Container>
   );

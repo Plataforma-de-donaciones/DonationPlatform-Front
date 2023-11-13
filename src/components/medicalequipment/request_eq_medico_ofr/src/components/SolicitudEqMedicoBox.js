@@ -163,7 +163,6 @@ const SolicitudEqMedicoBox = (props) => {
           '',
           'success'
         )
-        // Redirigir a la página de solicitudes o a donde sea necesario
         history.push('/listadoequipamiento');
       } else {
         // Manejar otros casos de respuesta si es necesario
@@ -210,9 +209,7 @@ const SolicitudEqMedicoBox = (props) => {
       cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
-        // Realizar acciones cuando se confirma la cancelación
-        // Por ejemplo, redirigir a una página o realizar otra acción
-        // window.location.href = '/otra-pagina';
+        history.push('/listadoequipamiento');
       }
     });
   };

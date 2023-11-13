@@ -13,6 +13,7 @@ import Cookies from "universal-cookie";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import { useHistory } from 'react-router-dom';
 
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -101,6 +102,7 @@ const EquipamientoMedicoBox = (props) => {
   const token = cookies.get("token");
   const [user_id, setUserId] = useState(null);
   const [file, setFile] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     // Obtener el user_id al montar el componente
@@ -254,6 +256,8 @@ const EquipamientoMedicoBox = (props) => {
         '',
         'success'
       );
+      history.push('/listadoequipamiento');
+      
     } else {
       const serverError = response.data;
       console.log(response);
@@ -285,9 +289,7 @@ const EquipamientoMedicoBox = (props) => {
       cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
-        // Realizar acciones cuando se confirma la cancelación
-        // Por ejemplo, redirigir a una página o realizar otra acción
-    
+        history.push('/listadoequipamiento');
       }
     });
   };

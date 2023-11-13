@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from "../../../../../AuthContext";
+import Swal from 'sweetalert2';
 
 const VoluntarioCardContainer = styled.div`
   background-color: #fff;
@@ -81,7 +82,7 @@ const VoluntarioListItem = ({ volunteer }) => {
   };
 
   const handleAction = () => {
-    if(isAuthenticated) {
+    if (isAuthenticated) {
       if (volunteer.type === 1) {
         history.push(`/donarvoluntariado/${volunteer.vol_id}`);
       } else {
@@ -90,10 +91,21 @@ const VoluntarioListItem = ({ volunteer }) => {
         history.push(`/solicitarvoluntariado/${volunteer.vol_id}`);
       }
     } else {
-      alert("Debes iniciar sesión para completar esta acción.");
-  }
+      Swal.fire({
+        title: 'Debes iniciar sesión para completar esta acción',
+        text: '¿Desea ir al login en este momento?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push('/login');
+        }
+      });
+    }
   };
-  
+
 
   const handleUbicacion = () => {
     // Lógica para manejar la acción de ubicación
@@ -107,9 +119,9 @@ const VoluntarioListItem = ({ volunteer }) => {
       </HeaderContainer>
       <Description>{volunteer.vol_description}</Description>
       <div>
-          <label style={{ textAlign: "left" }}>Estado:</label>
-          <span style={{ textAlign: "left" }}>{stateMap[volunteer.state]}</span>
-        </div>
+        <label style={{ textAlign: "left" }}>Estado:</label>
+        <span style={{ textAlign: "left" }}>{stateMap[volunteer.state]}</span>
+      </div>
       <ActionButtons>
         <ActionButton onClick={handleAction}>
           <IconContainer>

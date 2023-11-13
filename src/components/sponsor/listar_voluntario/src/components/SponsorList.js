@@ -10,6 +10,7 @@ import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
 import TypeButtons from "./TypeButtons";
+import Swal from "sweetalert2";
 
 const cookies = new Cookies();
 
@@ -180,7 +181,18 @@ const SponsorList = () => {
     if (isAuthenticated) {
       history.push("/altasponsor");
     } else {
-      alert("Debes iniciar sesión para completar esta acción.");
+      Swal.fire({
+        title: 'Debes iniciar sesión para completar esta acción',
+        text: '¿Desea ir al login en este momento?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push('/login');
+        }
+      });
     }
   };
 

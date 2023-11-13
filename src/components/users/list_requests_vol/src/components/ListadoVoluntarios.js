@@ -3,6 +3,7 @@ import instance from "../../../../../axios_instance";
 import styled from "styled-components";
 import Cookies from "universal-cookie";
 import { useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const StyledTable = styled.table`
   border-collapse: collapse;
@@ -132,33 +133,49 @@ const ListadoVoluntarios = ({ voluntarioId }) => {
   };
 
   const handleUpdateRequest = async (solicitudId) => {
-    try {
-      const response = await instance.patch(`/requests/${solicitudId}/`, {
-        has_confirmation: true,
-      }, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      });
-      setSolicitudes((prevSolicitudes) =>
-        prevSolicitudes.map((solicitud) =>
-          solicitud.id === solicitudId
-            ? { ...solicitud, confirmationAlert: "Confirmación enviada con éxito" }
-            : solicitud
-        )
-      );
-      setTimeout(() => {
+    const confirmation = await Swal.fire({
+      title: "¿Está seguro que desea confirmar la solicitud?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí",
+      cancelButtonText: "No"
+    });
+    if (confirmation.isConfirmed) {
+      try {
+        const response = await instance.patch(`/requests/${solicitudId}/`, {
+          has_confirmation: true,
+        }, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        });
         setSolicitudes((prevSolicitudes) =>
           prevSolicitudes.map((solicitud) =>
             solicitud.id === solicitudId
-              ? { ...solicitud, confirmationAlert: "" }
+              ? { ...solicitud, confirmationAlert: "Confirmación enviada con éxito" }
               : solicitud
           )
         );
-        obtenerSolicitudes();
-      }, 3000);
-    } catch (error) {
-      console.error("Error al actualizar la solicitud:", error);
+        setTimeout(() => {
+          setSolicitudes((prevSolicitudes) =>
+            prevSolicitudes.map((solicitud) =>
+              solicitud.id === solicitudId
+                ? { ...solicitud, confirmationAlert: "" }
+                : solicitud
+            )
+          );
+          obtenerSolicitudes();
+        }, 3000);
+        Swal.fire({
+          title: "Confirmación realizada correctamente!",
+          text: "Ha confirmado una solicitud",
+          icon: "success"
+        });
+      } catch (error) {
+        console.error("Error al actualizar la solicitud:", error);
+      }
     }
   };
 
