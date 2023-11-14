@@ -50,7 +50,7 @@ const ListadoPaginado = ({ tipo }) => {
         },
       });
 
-      const itemsPorPagina = 5;
+      const itemsPorPagina = 10;
       const inicio = (paginaActual - 1) * itemsPorPagina;
       const fin = inicio + itemsPorPagina;
       const datosPaginados = response.data.slice(inicio, fin);
@@ -67,7 +67,6 @@ const ListadoPaginado = ({ tipo }) => {
   };
 
   const eliminarItem = async (id) => {
-    // Mostrar un cuadro de confirmación
     console.log("id a eliminar", id);
     const confirmacion = window.confirm(`¿Desea eliminar el ${tipo}?`);
 
@@ -92,7 +91,6 @@ const ListadoPaginado = ({ tipo }) => {
 
   return (
     <div>
-      {/* Barra de paginación */}
       <div>
         {Array.from({ length: totalPaginas }).map((_, index) => (
           <button key={index} onClick={() => cambiarPagina(index + 1)}>
@@ -101,7 +99,6 @@ const ListadoPaginado = ({ tipo }) => {
         ))}
       </div>
 
-      {/* Aquí renderizas tu lista con los datos en forma de tabla */}
       <StyledTable>
         <thead>
           <tr>
@@ -113,7 +110,6 @@ const ListadoPaginado = ({ tipo }) => {
             <TableHeaderCell>Tiene solicitudes</TableHeaderCell>
             <TableHeaderCell>Editar</TableHeaderCell>
             <TableHeaderCell>Eliminar</TableHeaderCell>
-            {/* Otros encabezados según el tipo */}
           </tr>
         </thead>
         <tbody>
@@ -144,7 +140,7 @@ const ListadoPaginado = ({ tipo }) => {
                 <>
                   <TableCell>{item.eq_name}</TableCell>
                   <TableCell>{item.eq_description}</TableCell>
-                  <TableCell>{item.don_created_at}</TableCell>
+                  <TableCell>{item.eq_created_at}</TableCell>
                   <TableCell>
                     <Link to={`/listadorequesteq/${item.eq_id}`}>{item.request_count}</Link>
                   </TableCell>
@@ -168,6 +164,7 @@ const ListadoPaginado = ({ tipo }) => {
                   <TableCell>
                     <Link to={`/listadorequestvol/${item.vol_id}`}>{item.request_count}</Link>
                   </TableCell>
+                  <TableCell>{item.confirmed_at}</TableCell>
                   <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
                   <TableCell>
                     <Link to={`/editarvoluntario/${item.vol_id}`}>Editar</Link>
@@ -194,6 +191,24 @@ const ListadoPaginado = ({ tipo }) => {
                   </TableCell>
                   <TableCell>
                   <button onClick={() => eliminarItem(item.sponsor_id || item.id)}>
+                       Eliminar
+                  </button>
+                  </TableCell>
+                </>
+              )}
+              {tipo === "events" && (
+                <>
+                  <TableCell>{item.event_name}</TableCell>
+                  <TableCell>{item.event_description}</TableCell>
+                  <TableCell>{item.start_date}</TableCell>
+                  <TableCell>{item.request_count}</TableCell>
+                  <TableCell>{item.eve_confirmation_date}</TableCell>
+                  <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
+                  <TableCell>
+                    <Link to={`/editarevento/${item.event_id}`}>Editar</Link>
+                  </TableCell>
+                  <TableCell>
+                  <button onClick={() => eliminarItem(item.event_id || item.id)}>
                        Eliminar
                   </button>
                   </TableCell>

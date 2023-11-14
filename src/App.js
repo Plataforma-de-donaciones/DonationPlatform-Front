@@ -1,12 +1,7 @@
 import logo from './logo.svg';
-//import './App.css';
-//import { Login } from './components/general Component (1)';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-//import Login from './components/general Component (1)/src/screens/Login';
 import { Login } from './components/users/login';
-//import { AltaDeUsuario } from './components/alta';
 import { AltaDeUsuario } from './components/users/alta/'
-//import { ModificarUsuario } from './components/modificacion/modificacion';
 import ModificarUsuario from './components/users/modificacion/modificacion/src/screens/ModificarUsuario'
 import HomeScreen from './components/news/inicio/src/screens/HomeScreen';
 import { AuthProvider } from './AuthContext';
@@ -38,7 +33,9 @@ import DonarPadrino from './components/sponsor/request_sponsor_ofr/src/screens/D
 import EditarSponsor from './components/sponsor/editar_sponsor/src/screens/EditarSponsor';
 import ListarReqOfrecimientoVol from './components/users/list_requests_vol/src/screens/ListarReqOfrecimientoVol';
 import ListarReqOfrecimientoSponsor from './components/users/list_requests_sponsor/src/screens/ListarReqOfrecimientoSponsor';
-
+import AltaEvento from './components/events/alta_evento/screens/AltaEvento';
+import ListEveScreen from './components/events/listar_evento/src/screens/ListEveScreen';
+import EditarEvento from './components/events/editar_evento/src/screens/EditarEvento';
 
 function App() {
   return (
@@ -64,12 +61,15 @@ function App() {
           <Route path="/editarequipamiento/:eq_id" component={EditarEquipamiento} />
           <Route path="/altadonacion/" component={AltaDonacion} />
           <Route path="/altasponsor/" component={AltaSponsor} />
+          <Route path="/altaevento/" component={AltaEvento} />
           <Route path="/listadodonacion/" component={Listdonscreen} />
           <Route path="/editardonacion/:don_id" component={EditarDonacion} />
           <Route path="/editarvoluntario/:vol_id" component={EditarVoluntario} />
           <Route path="/editarsponsor/:sponsor_id" component={EditarSponsor} />
+          <Route path="/editarevento/:event_id" component={EditarEvento} />
           <Route path="/altavoluntariado/" component={AltaVoluntariado} />
           <Route path="/listadovoluntariado/" component={ListVolscreen} />
+          <Route path="/listadoeventos/" component={ListEveScreen} />
           <Route path="/listadorequesteq/:eqId" component={ListarReqOfrecimiento} />
           <Route path="/conversaciones/:convId" component={ChatScreen} />
           <Route path="/listaconversaciones/" component={ConversationScreen} />

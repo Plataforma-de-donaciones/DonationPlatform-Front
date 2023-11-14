@@ -84,7 +84,9 @@ function ListarOfrecimientosPropios(props) {
           <button onClick={() => setTipo("donations")}>Donaciones</button>
           <button onClick={() => setTipo("medicalequipments")}>Equipamiento Médico</button>
           <button onClick={() => setTipo("volunteers")}>Voluntarios</button>
-          <button onClick={() => setTipo("sponsors")}>Sponsor</button>
+          <button onClick={() => setTipo("sponsors")}>Padrinos</button>          
+          <button onClick={() => setTipo("events")}>Eventos</button>
+
         </ButtonContainer>
       </GeneralHeaderColumn>
       <GeneralHeaderColumnFiller />

@@ -1,10 +1,21 @@
 import React from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 function CancelarButton(props) {
+  const history = useHistory();
+
+  const handleClick = () => {
+    if (history) {
+      history.push("/inicio");
+    } else {
+      console.warn("La prop 'history' no está presente. No se puede realizar la redirección.");
+    }
+  };
+
   return (
-    <Container {...props}>
-      <CancelarText>Cancelar</CancelarText>
+    <Container onClick={handleClick} {...props}>
+      <Cancelar>Cancelar</Cancelar>
     </Container>
   );
 }
@@ -20,17 +31,17 @@ const Container = styled.div`
   padding-left: 16px;
   padding-right: 16px;
   box-shadow: 0px 1px 5px 0.35px #000;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(155, 155, 155, 0.8);
+  }
 
-  @media screen and (max-width: 768px) {
-    /* Ajustar estilos para pantallas más pequeñas */
-    min-width: 60px;
-    padding-left: 12px;
-    padding-right: 12px;
+  &:active {
+    background-color: rgba(155, 155, 155, 0.6);
   }
 `;
 
-const CancelarText = styled.span`
-  font-family: Roboto;
+const Cancelar = styled.span`
   color: #fff;
   font-size: 14px;
   font-style: normal;

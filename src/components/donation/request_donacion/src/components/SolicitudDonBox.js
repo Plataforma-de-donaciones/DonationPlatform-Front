@@ -85,6 +85,7 @@ const SolicitudDonBox = (props) => {
       user: user_id || '', // Asegurarse de que user sea una cadena vacía si user_id es null
       don: donacionId || '', // Asegurarse de que eq sea una cadena vacía si equipamientoId es null
     }));
+    console.log(donacionId);
   }, [donacionId, user_id]);
 
   const handleFieldChange = (fieldName, value) => {

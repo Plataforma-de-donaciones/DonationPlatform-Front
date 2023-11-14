@@ -155,9 +155,8 @@ const EditarDonBox = (props) => {
       let donAttachmentToSend = donAttachment;
   
       if (file) {
-        // Si hay un archivo nuevo, enviarlo y obtener la nueva ruta
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("don_attachment", file);
   
         const response = await instance.patch(`/donations/${don_id}/`, formData, {
           headers: {
@@ -176,7 +175,7 @@ const EditarDonBox = (props) => {
           don_description: donDescription,
           type: donType,
           zone: donZone,
-          eq_attachment: donAttachmentToSend,
+          don_attachment: donAttachmentToSend,
         },
         {
           headers: {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-//import axios from "axios";
 import Cookies from "universal-cookie";
 import instance from "../../../../../../axios_instance";
 import { useAuth } from "../../../../../../AuthContext";
@@ -42,6 +41,30 @@ const Rect = styled.div`
   text-align: center;
 `;
 
+const ButtonContainer = styled.div`
+  height: 36px;
+  flex-direction: row;
+  display: flex;
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+
+`;
+const ButtonContainerEliminar = styled.div`
+  height: 36px;
+  flex-direction: row;
+  display: flex;
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+
+`;
+
+const ButtonSeparator = styled.div`
+  width: 10px; /* Espacio entre los botones */
+`;
 
 const PerfilText = styled.span`
   font-style: normal;
@@ -50,11 +73,6 @@ const PerfilText = styled.span`
   font-size: 20px;
   text-align: center;
   margin-top: 6px;
-`;
-
-const NombrePerfilBoxStack = styled.div`
-  width: 100%;
-  margin-top: 20px;
 `;
 
 const AceptarButtonRow = styled.div`
@@ -72,6 +90,8 @@ const PreguntaEliminarText = styled.span`
   font-size: 20px;
   text-align: center;
   margin-top: 30px;
+  justify-content: center;
+
 `;
 
 const cookies = new Cookies();
@@ -87,6 +107,8 @@ function PerfilBox(props) {
   const [contrasenaNueva, setContrasenaNueva] = useState("");
   const [confirmarContrasena, setConfirmarContrasena] = useState("");
   const [contrasenasCoinciden, setContrasenasCoinciden] = useState(true);
+  const [userId, setUserId] = useState("");
+
 
   const [token, setToken] = useState("");
 
@@ -95,26 +117,32 @@ function PerfilBox(props) {
       try {
         const retrievedToken = cookies.get("token");
         setToken(retrievedToken);
-        const userDataCookie = cookies.get("user_data");
-        const user_email = userDataCookie.user_email;
 
-        const response = await instance.post(
-          "/users/search/",
-          { user_email },
-          {
-            headers: {
-              Authorization: `Token ${retrievedToken}`,
-            },
-          }
-        );
-        const userDataFromApi = response.data[0];
-        console.log("Respuesta de la API:", userDataFromApi);
-        setUserData({
-          user_name: userDataFromApi.user_name,
-          user_email: userDataFromApi.user_email,
-          organization: userDataFromApi.organization,
-        });
-        console.log(userDataFromApi.user_name);
+        const userDataCookie = cookies.get("user_data");
+        if (userDataCookie) {
+          const user_id = userDataCookie.user_id;
+          setUserId(user_id);
+
+          const user_email = userDataCookie.user_email;
+
+          const response = await instance.post(
+            "/users/search/",
+            { user_email },
+            {
+              headers: {
+                Authorization: `Token ${retrievedToken}`,
+              },
+            }
+          );
+          const userDataFromApi = response.data[0];
+          console.log("Respuesta de la API:", userDataFromApi);
+          setUserData({
+            user_name: userDataFromApi.user_name,
+            user_email: userDataFromApi.user_email,
+            organization: userDataFromApi.organization,
+          });
+          console.log(userDataFromApi.user_name);
+        }
       } catch (error) {
         console.error("Error al obtener datos del usuario:", error);
       }
@@ -122,12 +150,19 @@ function PerfilBox(props) {
 
     fetchData();
   }, []);
+  
+
+  const obtenerDatos = async () => {
+    // Lógica para obtener datos
+    // ...
+  };
 
   const handleContrasenaNuevaChange = (e) => {
     setContrasenaNueva(e.target.value);
     setContrasenasCoinciden(true);
+    // Configurar la nueva contraseña en las cookies
+    cookies.set("new_password", e.target.value, { path: "/" });
   };
-
   const handleConfirmarContrasenaChange = (e) => {
     setConfirmarContrasena(e.target.value);
     setContrasenasCoinciden(true);
@@ -144,36 +179,53 @@ function PerfilBox(props) {
       organization: selectedOrganization,
     }));
   };
-
-  const handleSubmit = async () => {
-    if (contrasenaNueva !== confirmarContrasena) {
-      setContrasenasCoinciden(false);
-      return;
+  const eliminarItem = async (userId, tipo) => {
+    console.log("id a eliminar", userId);
+    const confirmacion = window.confirm(`¿Desea eliminar el usuario?`);
+  
+    if (confirmacion) {
+      try {
+        await instance.delete(`/users/${userId}/`, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        });
+  
+        obtenerDatos();
+      } catch (error) {
+        console.error(`Error al eliminar user:`, error);
+      }
     }
-
+  };
+  const handleSubmit = async () => {
+    let requestData = {
+      user_name: userData.user_name,
+      organization: userData.organization,
+    };
+  
+    if (contrasenaNueva) {
+      requestData.new_password = contrasenaNueva;
+    }
+  
     try {
       const token = cookies.get("token");
       const userDataCookie = cookies.get("user_data");
       const user_id = userDataCookie.user_id;
       const response = await instance.patch(
         `/users/${user_id}/`,
-        {
-          user_name: userData.user_name,
-          organization: userData.organization,
-          new_password: contrasenaNueva,
-        },
+        requestData,
         {
           headers: {
             Authorization: `Token ${token}`,
           },
         }
       );
-
+  
       console.log("Respuesta del servidor:", response.data);
     } catch (error) {
       console.error("Error al actualizar la información del usuario:", error);
     }
-
+  
     setContrasenasCoinciden(true);
     setContrasenaNueva("");
     setConfirmarContrasena("");
@@ -208,12 +260,15 @@ function PerfilBox(props) {
         selectedOrganization={userData.organization}
         onChange={handleOrganizacionChange}
       />
-        <AceptarButtonRow>
-          <AceptarButton onClick={handleSubmit} />
-          <CancelarButton />
-        </AceptarButtonRow>
-        <PreguntaEliminarText>¿Desea eliminar su cuenta?</PreguntaEliminarText>
-        <EliminarCuentaButton />
+      <ButtonContainer>
+        <AceptarButton onClick={handleSubmit} />
+        <ButtonSeparator />
+        <CancelarButton />
+      </ButtonContainer>
+      <PreguntaEliminarText>¿Desea eliminar su cuenta?</PreguntaEliminarText>
+      <ButtonContainerEliminar>
+        <EliminarCuentaButton onClickEliminar={eliminarItem} userId={userId} />
+      </ButtonContainerEliminar>
       </ContentContainer>
     </Container>
   );

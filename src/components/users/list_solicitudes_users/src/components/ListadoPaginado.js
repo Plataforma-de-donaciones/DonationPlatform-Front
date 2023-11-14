@@ -49,6 +49,9 @@ const ListadoPaginado = ({ tipo }) => {
       case "volunteers":
         history.push(`/editarvoluntario/${id}`);
         break;
+      case "sponsors":
+        history.push(`/editarsponsor/${id}`);
+        break;
 
       default:
         break;
@@ -135,7 +138,9 @@ const ListadoPaginado = ({ tipo }) => {
                   <TableCell>{item.don_name}</TableCell>
                   <TableCell>{item.don_description}</TableCell>
                   <TableCell>{item.don_created_at}</TableCell>
-                  <TableCell>{item.request_count}</TableCell>
+                  <TableCell>
+                    <Link to={`/listadorequestdon/${item.don_id}`}>{item.request_count}</Link>
+                  </TableCell>
                   <TableCell>{item.don_confirmation_date}</TableCell>
                   <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
                   <TableCell>
@@ -153,7 +158,9 @@ const ListadoPaginado = ({ tipo }) => {
                   <TableCell>{item.eq_name}</TableCell>
                   <TableCell>{item.eq_description}</TableCell>
                   <TableCell>{item.don_created_at}</TableCell>
-                  <TableCell>{item.request_count}</TableCell>
+                  <TableCell>
+                    <Link to={`/listadorequesteq/${item.eq_id}`}>{item.request_count}</Link>
+                  </TableCell>
                   <TableCell>{item.eq_confirmation_date}</TableCell>
                   <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
                   <TableCell>
@@ -171,7 +178,9 @@ const ListadoPaginado = ({ tipo }) => {
                   <TableCell>{item.vol_name}</TableCell>
                   <TableCell>{item.vol_description}</TableCell>
                   <TableCell>{item.vol_created_at}</TableCell>
-                  <TableCell>{item.request_count}</TableCell>
+                  <TableCell>
+                    <Link to={`/listadorequestvol/${item.vol_id}`}>{item.request_count}</Link>
+                  </TableCell>
                   <TableCell>{item.vol_confirmation_date}</TableCell>
                   <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
                   <TableCell>
@@ -189,7 +198,9 @@ const ListadoPaginado = ({ tipo }) => {
                   <TableCell>{item.sponsor_name}</TableCell>
                   <TableCell>{item.sponsor_description}</TableCell>
                   <TableCell>{item.sponsor_created_at}</TableCell>
-                  <TableCell>{item.request_count}</TableCell>
+                  <TableCell>
+                    <Link to={`/listadorequestsponsor/${item.sponsor_id}`}>{item.request_count}</Link>
+                  </TableCell>
                   <TableCell>{item.sponsor_confirmation_date}</TableCell>
                   <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
                   <TableCell>
