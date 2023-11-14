@@ -16,20 +16,32 @@ function Registratebutton1(props) {
 }
 
 const Container = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  background-color: rgba(255, 152, 0, 1);
-  padding: 10px 20px; // Espaciado interior
-  border: none; /* Elimina el borde predeterminado de los botones */
-  cursor: pointer; // Cambia el cursor al pasar el mouse
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+
+  width: 100px;
+  height: 30px;
+
+  background-color: rgba(141, 202, 170, 1);
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition-duration: 0.4s;
+
+  &:hover {
+    background-color: rgba(79,181,139, 1);
+  }
 `;
 
 const RegistrateText = styled.span`
-  color: #fff; // Texto en color blanco
+  color: #FFFFFF;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 550;
+  text-decoration: underline;
+
+  @media (max-width: 350px) {
+    font-size: 12px;
+  }
 `;
 
 export default Registratebutton1;

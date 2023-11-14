@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Container = styled.div`
   opacity: 1;
   position: fixed; /* Cambia 'absolute' a 'fixed' */
-  display: flex;
+  display: flex; /* al sacar esto se agrega una capa blanca al fondo del login */
   top: 0;
   left: 0;
   width: 100%;

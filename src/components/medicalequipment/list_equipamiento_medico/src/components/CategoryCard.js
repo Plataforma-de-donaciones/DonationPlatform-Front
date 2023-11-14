@@ -3,13 +3,32 @@ import styled from "styled-components";
 import instance from "../../../../../axios_instance";
 
 const CardContainer = styled.div`
-  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  margin-top: 8px;
+  margin-left: 8px;
+  margin-right: 8px;
+  grid-row: 3;
+
+  background-color: rgba(141, 202, 170, 0.5);
   border: 1px solid #ddd;
-  padding: 16px;
   border-radius: 8px;
-  margin-right: 16px;
-  max-height: 400px;
-  min-width: 200px;
+
+  width: 120px;
+
+  @media (max-width: 1350px) {
+    grid-row: 1;
+    margin-bottom: 20px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    width: 500px;
+    margin-top: 8px;
+    margin-left: 8px;
+    margin-right: 8px;
+  }
 `;
 
 const StyledButton = styled.button`

@@ -13,12 +13,12 @@ const CardContainer = styled.div`
 `;
 
 const Titlee = styled.h3`
-  color: rgba(20,20,20, 1); /* Color del texto titulo */
+  color: rgba(80,80,80, 1); /* Color del texto titulo */
 `;
 
 const Description = styled.p`
   display: ${props => (props.expanded ? 'block' : 'none')}; /* Mostrar u ocultar la descripción */
-  color: rgba(20,20,20, 1); /* Color del texto descripcion */
+  color: rgba(100,100,100, 1); /* Color del texto descripcion */
 `;
 
 const ExpandButton = styled.button`
@@ -30,11 +30,13 @@ const ExpandButton = styled.button`
   height: 22px;
 
   background-color: rgba(141, 202, 170, 0.5);
-  color: rgba(20,20,20, 1);
+  color: rgba(80,80,80, 1);
   cursor: pointer; /* No funciona */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition-duration: 0.4s;
 
   &:hover { /* No funciona */
-    color: #FFFFFF; 
+    background-color: rgba(79,181,139, 1); 
   }
 `;
 

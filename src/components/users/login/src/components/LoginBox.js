@@ -18,7 +18,7 @@ const Container = styled.div`
   padding: 20px;
   max-width: 800px;
   margin: 0 auto;
-  background-color: #FFF;
+  background-color: #FFFFFF;
   
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -32,19 +32,21 @@ const InputWrapper = styled.div`
 `;
 
 const CorreoNombreText = styled.span`
-  font-weight: 700;
-  color: #121212;
-  text-align: left;
-  margin-top: 10px;
-  width: 100%;
-`;
-
-const ContrasenaText = styled.span`
-  font-weight: 700;
-  color: #121212;
+  font-weight: 500;
+  color: rgba(80,80,80, 1);
   text-align: left;
   margin-top: 20px;
   width: 100%;
+  font-Size: 14px;
+`;
+
+const ContrasenaText = styled.span`
+  font-weight: 500;
+  color: rgba(80,80,80, 1);
+  text-align: left;
+  margin-top: 20px;
+  width: 100%;
+  font-Size: 14px;
 `;
 
 const NotienescuentaaunWrapper = styled.div`
@@ -56,9 +58,9 @@ const NotienescuentaaunWrapper = styled.div`
 `;
 
 const NotienescuentaaunText = styled.span`
-  font-weight: 700;
-  color: #121212;
+  color: rgba(80,80,80, 1);
   text-align: left;
+  font-Size: 16px;
 `;
 
 const SocialLogosWrapper = styled.div`
@@ -149,7 +151,7 @@ const LoginBox = () => {
       <InputWrapper>
         <FaUser
           style={{
-            color: 'rgba(0, 0, 0, 1)',
+            color: 'rgba(80,80,80, 1)',
             fontSize: 20,
             marginRight: 10,
           }}
@@ -164,14 +166,14 @@ const LoginBox = () => {
             width: '100%',
             marginTop: 10,
           }}
-          group="rgba(155,155,155,1)"
+          group="rgba(100,100,100, 1)"
         />
       </InputWrapper>
       <ContrasenaText>Contraseña</ContrasenaText>
       <InputWrapper>
         <FaLock
           style={{
-            color: 'rgba(0, 0, 0, 1)',
+            color: 'rgba(80,80,80, 1)',
             fontSize: 20,
             marginRight: 10,
           }}
@@ -190,11 +192,11 @@ const LoginBox = () => {
         />
       </InputWrapper>
       <NotienescuentaaunWrapper>
-        <NotienescuentaaunText>No tienes una cuenta aún?</NotienescuentaaunText>
+        <NotienescuentaaunText>¿No tienes una cuenta aún?</NotienescuentaaunText>
         <Link to="/alta">
           <Registratebutton1
             style={{
-              height: 17,
+              height: 30,
               width: 100,
               marginLeft: 10,
             }}

@@ -17,14 +17,15 @@ function UserInput(props) {
 const Container = styled.div`
   display: flex;
   border-bottom: 1px solid rgba(230, 230, 230, 1);
-  background-color: rgba(255, 255, 255, 1);
+  background-color: transparent;
   flex-direction: row;
   align-items: center;
+  position: relative;
   width: 100%; // Ocupar todo el ancho disponible
 `;
 
 const EmailUserPlaceholder = styled.input`
-  color: rgba(0, 0, 0, 1);
+  color: rgba(80,80,80, 1);
   padding-right: 16px;
   font-size: 14px;
   align-self: center;

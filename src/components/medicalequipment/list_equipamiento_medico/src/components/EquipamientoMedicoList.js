@@ -16,20 +16,113 @@ const cookies = new Cookies();
 
 const EquipamientoMedicoListContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  margin: 16px;
+  flex-direction : column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  padding: 32px;
+  margin-top: 0px;
+  border-radius: 8px;
+
+  position: relative; /* Agrega esta propiedad */
+
+  @media (max-width: 1350px) {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto; /* Ajuste de las filas */
+  }
 `;
 
-const ListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-right: 16px;
+const FilterBarContainer = styled.div`
+  justify-content: center;
+  flex-direction: row; 
+  align-items: center; 
+  margin-bottom: 16px;
+  margin-left: 10px;
+
+  @media (min-width: 1350px) {
+    display: flex;
+  }
+  @media (max-width: 1350px) {
+    grid-row: 1;
+    display: grid;
+  }
 `;
-const ListAndCategoryContainer = styled.div`
+
+const FilterBarForType = styled(TypeFilterButton)`
   display: flex;
-  flex-direction: row;
+  flex-direction : row; 
+  justify-content: flex-start;
+  background-color: transparent;
+  width: 500px;
+  margin-right: -140px;
+
+  @media (max-width: 1350px) {
+    grid-row: 1;
+  }
 `;
+
+const TypeFilterButton1 = styled(TypeFilterButton)`
+  justify-content: center;
+  align-items: center;
+  flex-direction : row; 
+  width: 100px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-right: 10px;
+
+  &:hover {
+    background-color: rgba(79,181,139, 1);
+  }
+`;
+
+const TypeFilterButton2 = styled(TypeFilterButton)`
+  justify-content: center;
+  align-items: center;
+  flex-direction : row; 
+  width: 120px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-right: 10px;
+
+  &:hover {
+    background-color: rgba(79,181,139, 1);
+  }
+
+`;
+
+const ClearTypeFilterButton1 = styled(ClearTypeFilterButton)`
+  justify-content: center;
+  align-items: center;
+  flex-direction : row; 
+  width: 100px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: -113px;
+  margin-top: 0px;
+
+  &:hover {
+    background-color:  rgba(100,100,100, 1);
+  }
+
+  @media (max-width: 1350px) {
+    width: 100px;
+    grid-row: 1;
+  }
+`;
+
+
+
+
+
 
 const SearchBarContainer = styled.div`
   display: flex;
@@ -38,48 +131,14 @@ const SearchBarContainer = styled.div`
   margin-bottom: 16px;
   max-width: 800px;
   justify-content: flex-end;
+  grid-row: 2;
 `;
+
 const SearchBarAndAddEquipment = styled.div`
   display: flex;
   flex: 1;
   justify-content: space-between; 
   align-items: center;
-`;
-
-const FilterBarContainer = styled.div`
-  display: flex;
-  flex-direction: row; 
-  align-items: center; 
-  margin-bottom: 16px;
-  max-width: 800px;
-  justify-content: flex-end;
-`;
-const FilterBarForType = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: space-around; 
-  align-items: center;
-`;
-const SearchInput = styled.input`
-  padding: 8px;
-  margin-right: 8px;
-  border: none;
-  outline: none;
-  flex: 2;
-  font-size: 16px;
-  background: transparent;
-  max-width: 200px;
-
-`;
-
-const SearchIcon = styled.span`
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-  margin-left: 8px;
-  cursor: pointer;
-  font-size: 20px;
-  color: #007bff;
 `;
 
 const AddEquipment = styled.div`
@@ -97,16 +156,69 @@ const AddIcon = styled.button`
   color: #28a745;
   margin-right: 0px;
 `;
+const SearchInput = styled.input`
+  padding: 8px;
+  margin-right: 8px;
+  border: none;
+  outline: none;
+  flex: 2;
+  font-size: 16px;
+  background: transparent;
+  max-width: 200px;
+
+`;
+const SearchIcon = styled.span`
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #007bff;
+`;
+
+const CategoryBox = styled(CategoryCard)`
+
+`;
+
+const ListAndCategoryContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 6px;
+  margin-left: 8px;
+  margin-right: 8px;
+  grid-row: 3;
+
+  @media (max-width: 1350px) {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto; /* Ajuste de las filas */
+  }
+`;
+
+const ListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinea a la izquierda */
+  flex: 1; /* Ajuste de flex para ocupar el espacio disponible */
+
+  @media (max-width: 1350px) {
+    grid-row: 2;
+    margin-bottom: 20px;
+  }
+`;
+
 const Pagination = styled.div`
   display: flex;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 8px;
+  padding-left: 8px;
 `;
 
 const PageButton = styled.button`
   padding: 8px;
   cursor: pointer;
-  background-color: ${(props) => (props.isActive ? "#ddd" : "transparent")};
+  background-color: ${(props) => (props.isActive ? "rgba(221,221,221, 1)" : "transparent")};
   border: 1px solid #ddd;
 `;
 
@@ -218,23 +330,22 @@ const EquipamientoMedicoList = () => {
     <EquipamientoMedicoListContainer>
       <FilterBarContainer>
         <FilterBarForType>
-        <TypeFilterButton
+          <TypeFilterButton1
             isActive={selectedType === 1}
             onClick={() => handleTypeClick(1)}
           >
               Solicitud
-          </TypeFilterButton>
-        <TypeFilterButton
+          </TypeFilterButton1>
+          <TypeFilterButton2
             isActive={selectedType === 2}
             onClick={() => handleTypeClick(2)}
           >
               Ofrecimiento
-        </TypeFilterButton>
-        
+          </TypeFilterButton2>
         </FilterBarForType>
-        <ClearTypeFilterButton onClick={() => handleTypeClick(null)}>
+        <ClearTypeFilterButton1 onClick={() => handleTypeClick(null)}>
           Borrar Filtro
-          </ClearTypeFilterButton>
+          </ClearTypeFilterButton1>
       </FilterBarContainer>
       <SearchBarContainer>
         <SearchBarAndAddEquipment>
@@ -281,7 +392,7 @@ const EquipamientoMedicoList = () => {
         </Pagination>
       </ListContainer>
 
-      <CategoryCard
+      <CategoryBox
         onCategoryClick={handleCategoryClick}
         onClearCategory={handleClearCategory}
       />

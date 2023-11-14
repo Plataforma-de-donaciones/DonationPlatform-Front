@@ -12,10 +12,14 @@ import { useHistory } from "react-router-dom"; // Importa useHistory
 const cookies = new Cookies();
 
 const Container = styled.div`
-  display: grid;
-  grid-template-rows: auto 1fr auto; /* Ajuste de las filas */
-  min-height: 100vh;
-  width: 100%;
+  @media (min-width: 1px) {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto; /* Ajuste de las filas */
+    padding-top: 130px;
+    padding-bottom: 50px;
+    min-height: 100vh;
+    width: 100%;
+  }
 `;
 
 const Header = styled(GeneralHeader)`
@@ -27,14 +31,18 @@ const Menus = styled(Menu)`
 `;
 
 const Content = styled.div`
+@media (min-width: 1px) {
   grid-row: 3;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: rgba(255, 255, 255, 0.8);
-  padding: 16px;
-  margin-top: 16px;
+  padding: 32px;
+  margin-top: 0px;
+  position: relative; /* Agrega esta propiedad */
+  z-index: 0; /* Asegura que esté detrás de otros elementos */
+}
 `;
 
 const Footer = styled(GeneralFooter)`

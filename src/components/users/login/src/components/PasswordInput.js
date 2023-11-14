@@ -22,10 +22,10 @@ function PasswordInput(props) {
         <FaEyeSlash
           onClick={togglePasswordVisibility}
           style={{
-            color: "rgba(128, 128, 128, 1)",
+            color: "rgba(80,80,80, 1)",
             fontSize: "20px",
             position: "absolute",
-            top: "50%",
+            top: "60%",
             right: "1rem",
             transform: "translateY(-50%)",
             cursor: "pointer",
@@ -35,10 +35,10 @@ function PasswordInput(props) {
         <FaEye
           onClick={togglePasswordVisibility}
           style={{
-            color: "rgba(128, 128, 128, 1)",
+            color: "rgba(80,80,80, 1)",
             fontSize: "20px",
             position: "absolute",
-            top: "50%",
+            top: "60%",
             right: "1rem",
             transform: "translateY(-50%)",
             cursor: "pointer",
@@ -56,10 +56,11 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   position: relative;
+  width: 100%;
 `;
 
 const PasswordPlaceholder = styled.input`
-  color: #000;
+  color: rgba(80,80,80, 1);
   padding-right: 16px;
   font-size: 14px;
   align-self: center;

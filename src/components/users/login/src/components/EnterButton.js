@@ -2,24 +2,19 @@ import React from "react";
 import styled from "styled-components";
 
 const Button = styled.button`
-  display: flex;
-  background-color: rgba(255, 152, 0, 1);
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
+  margin-top: 8px;
   border-radius: 100px;
-  min-width: 88px;
-  padding-left: 16px;
-  padding-right: 16px;
-  box-shadow: 0px 1px 5px 0.35px #000;
-  border: none; 
-  cursor: pointer;
-  &:hover {
-    background-color: rgba(255, 152, 0, 0.8);
-  }
+  border: 1px solid #ddd;
 
-  &:active {
-    background-color: rgba(155, 155, 155, 0.6);
+  min-width: 88px;
+
+  background-color: rgba(141, 202, 170, 1);
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition-duration: 0.4s;
+
+  &:hover {
+    background-color: rgba(79,181,139, 1);
   }
 
   @media (max-width: 768px) {
@@ -30,10 +25,11 @@ const Button = styled.button`
 `;
 
 const EnterText = styled.span`
-  color: #fff;
+  color: #FFFFFF;
   font-size: 14px;
+  font-weight: 550;
 
-  @media (max-width: 768px) {
+  @media (max-width: 350px) {
     font-size: 12px;
   }
 `;

@@ -4,24 +4,18 @@ import styled from "styled-components";
 
 const TypeFilterButton = styled.button`
 display: flex;
-background-color: transparent;
 justify-content: center;
 align-items: center;
 flex-direction: row;
-border-radius: 5px;
+border-radius: 8px;
 border: none;
 cursor: pointer;
-color: #454A2C; 
-  font-weight: bold;
-  &:hover {
-    background-color: #454A2C; 
-    color: #fff;
-  }
 
-  &:not(:last-child) {
-    margin-right: -100px; 
-    margin-bottom: 10px; 
-  }
+background-color: rgba(141, 202, 170, 1);
+
+color: #FFFFFF;
+font-weight: bold;
+font-size: 14px;
 `;
 
 export default TypeFilterButton;

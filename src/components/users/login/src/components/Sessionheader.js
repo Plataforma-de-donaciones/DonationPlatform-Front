@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 
 const Container = styled.div`
   display: flex;
-  background-color: rgba(255, 152, 0, 0.59);
+  background-color: rgba(79,181,139, 1);
   flex-direction: row;
   align-items: center;
   padding: 4px;
@@ -13,10 +13,6 @@ const Container = styled.div`
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-  @media (max-width: 768px) {
-    padding: 2px; /* Ajusta el padding en pantallas más pequeñas */
-  }
 `;
 
 const Center = styled.div`
@@ -51,15 +47,16 @@ const TextWrapper = styled.div`
 
 const LoginTittle = styled.span`
   font-size: 20px;
-  color: rgba(0, 0, 0, 1);
+  color: #FFFFFF;
+  text-shadow:  0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: transparent;
   line-height: 18px;
-  font-weight: 600;
+  font-weight: 500;
   align-self: center;
   text-align: left;
 
-  @media (max-width: 768px) {
-    font-size: 16px; /* Reduzca el tamaño del texto en pantallas más pequeñas */
+  @media (max-width: 350px) {
+    font-size: 18px; /* Reduzca el tamaño del texto en pantallas más pequeñas */
     padding-left: 8px; /* Ajusta el padding izquierdo en pantallas más pequeñas */
     padding-right: 8px; /* Ajusta el padding derecho en pantallas más pequeñas */
   }
