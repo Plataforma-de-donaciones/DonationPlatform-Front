@@ -4,45 +4,8 @@ import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from "../../../../../AuthContext";
 import Swal from 'sweetalert2';
-
-const VoluntarioCardContainer = styled.div`
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 8px;
-  width: 800px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 8px;
-`;
-
-const Title = styled.h3`
-  margin: 0;
-`;
-
-const Description = styled.p`
-  display: block;
-`;
-
-const ExpandButton = styled.button`
-  margin-top: 8px;
-  align-self: flex-end;
-`;
-
-const Image = styled.img`
-  max-width: 200px;
-  margin-bottom: 10px;
-`;
+import { Container, Row, Col } from 'react-bootstrap';
+import CardItem from '../../../../generales/src/components/CardItem';
 
 const ActionButtons = styled.div`
   display: flex;
@@ -77,10 +40,6 @@ const VoluntarioListItem = ({ volunteer }) => {
   const history = useHistory();
   const { isAuthenticated } = useAuth();
 
-  const handleExpand = () => {
-    setExpanded(!expanded);
-  };
-
   const handleAction = () => {
     if (isAuthenticated) {
       if (volunteer.type === 1) {
@@ -113,30 +72,34 @@ const VoluntarioListItem = ({ volunteer }) => {
   };
 
   return (
-    <VoluntarioCardContainer>
-      <HeaderContainer>
-        <Title>{volunteer.vol_name}</Title>
-      </HeaderContainer>
-      <Description>{volunteer.vol_description}</Description>
-      <div>
-        <label style={{ textAlign: "left" }}>Estado:</label>
-        <span style={{ textAlign: "left" }}>{stateMap[volunteer.state]}</span>
-      </div>
-      <ActionButtons>
-        <ActionButton onClick={handleAction}>
-          <IconContainer>
-            <FaUser />
-          </IconContainer>
-          {volunteer.type === 1 ? "Donar" : "Solicitar"}
-        </ActionButton>
-        <ActionButton onClick={handleUbicacion}>
-          <IconContainer>
-            <FaMapMarkerAlt />
-          </IconContainer>
-          Ubicación
-        </ActionButton>
-      </ActionButtons>
-    </VoluntarioCardContainer>
+    <>
+      <Container fluid>
+        <Row className='mb-3'>
+          <Col >
+            <CardItem
+              name={volunteer.vol_name}
+              state={stateMap[volunteer.state]}
+              descriptions={volunteer.vol_description}
+              childrens={<ActionButtons>
+                <ActionButton onClick={handleAction}>
+                  <IconContainer>
+                    <FaUser />
+                  </IconContainer>
+                  {volunteer.type === 1 ? "Donar" : "Solicitar"}
+                </ActionButton>
+                <ActionButton onClick={handleUbicacion}>
+                  <IconContainer>
+                    <FaMapMarkerAlt />
+                  </IconContainer>
+                  Ubicación
+                </ActionButton>
+              </ActionButtons>}
+            />
+          </Col>
+        </Row>
+      </Container>
+
+    </>
   );
 };
 

@@ -4,6 +4,9 @@ import GeneralFooter from "../../../generales/src/components/GeneralFooter";
 import Menu from "../../../generales/src/components/Menu";
 import EquipamientoMedicoBox from "../components/EquipamientoMedicoBox";
 import styled from "styled-components"; // Importa styled-components
+import Layout from "../../../generales/src/components/layout/Layout";
+import { Row, Col, Card, CardBody, CardHeader } from "react-bootstrap";
+
 
 const Container = styled.div`
   display: grid;
@@ -33,14 +36,18 @@ const Footer = styled(GeneralFooter)`
 
 function AltaEquipamiento(props) {
   return (
-    <Container>
-      <Header />
-      <Menu />
-      <Content>
-        <EquipamientoMedicoBox />
-      </Content>
-      <Footer />
-    </Container>
+
+<Layout>
+      <Row>
+        <Col>
+          <Card className='mt-5'>
+            <CardBody>
+            <EquipamientoMedicoBox />
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
+    </Layout>
   );
 }
 

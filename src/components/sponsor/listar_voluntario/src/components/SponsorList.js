@@ -4,13 +4,13 @@ import instance from "../../../../../axios_instance";
 import SponsorListItem from "./SponsorListItem";
 import Cookies from "universal-cookie";
 import TypeFilterButton from "./TypeFilterButton";
-import ClearTypeFilterButton from "./ClearTypeFilterButton";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
-import TypeButtons from "./TypeButtons";
+import TypeButtons from "../../../../volunteer/listar_voluntario/src/components/TypeButtons";
 import Swal from "sweetalert2";
+import { Button } from "react-bootstrap";
 
 const cookies = new Cookies();
 
@@ -27,17 +27,11 @@ const ListContainer = styled.div`
   margin-right: 16px;
 `;
 
-const ListAndCategoryContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
 const SearchBarContainer = styled.div`
   display: flex;
   flex-direction: row; 
   align-items: center; 
   margin-bottom: 16px;
-  max-width: 800px;
   justify-content: flex-end;
 `;
 
@@ -52,22 +46,7 @@ const FilterBarContainer = styled.div`
   flex-direction: row; 
   align-items: center; 
   margin-bottom: 16px;
-  max-width: 800px;
-  justify-content: flex-end;
-`;
-const FilterPageContainer = styled.div`
-  display: flex;
-  flex-direction: row; 
-  align-items: center; 
-  margin-bottom: 16px;
-  max-width: 800px;
-  justify-content: flex-end;
-`;
-const FilterBarForPage = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: space-around; 
-  align-items: center;
+  justify-content: center;
 `;
 const FilterBarForType = styled.div`
   display: flex;
@@ -85,12 +64,10 @@ const SearchInput = styled.input`
   background: transparent;
   max-width: 200px;
 `;
-
 const SearchIcon = styled.span`
   cursor: pointer;
   background-color: transparent;
   border: none;
-  margin-left: 8px;
   cursor: pointer;
   font-size: 20px;
   color: #007bff;
@@ -147,8 +124,8 @@ const SponsorList = () => {
         }
         setOriginalSponsorList(response.data);
         const sponsorList = selectedType
-            ? response.data.filter((sponsor) => sponsor.type === selectedType)
-            : response.data;
+          ? response.data.filter((sponsor) => sponsor.type === selectedType)
+          : response.data;
         setSponsorList(sponsorList);
       } catch (error) {
         console.error("Error fetching sponsors:", error);
@@ -157,7 +134,7 @@ const SponsorList = () => {
 
     fetchSponsor();
   }, [selectedRating, selectedType, token]);
-  
+
   const handleTypeClick = (type) => {
     console.log(`Selected type: ${type}`);
     setSelectedType(type);
@@ -215,31 +192,8 @@ const SponsorList = () => {
 
   return (
     <SponsorListContainer>
-      <FilterPageContainer>
-        <FilterBarForPage>
-        <TypeButtons></TypeButtons>
-        </FilterBarForPage>
-      </FilterPageContainer>
-      <FilterBarContainer>
-        <FilterBarForType>
-        <TypeFilterButton
-            isActive={selectedType === 1}
-            onClick={() => handleTypeClick(1)}
-          >
-              Solicitud
-          </TypeFilterButton>
-        <TypeFilterButton
-            isActive={selectedType === 2}
-            onClick={() => handleTypeClick(2)}
-          >
-              Ofrecimiento
-        </TypeFilterButton>
-        
-        </FilterBarForType>
-        <ClearTypeFilterButton onClick={() => handleTypeClick(null)}>
-          Borrar Filtro
-          </ClearTypeFilterButton>
-      </FilterBarContainer>
+      <TypeButtons />
+
       <SearchBarContainer>
         <SearchBarAndAddEquipment>
           <AddEquipment onClick={handleAddDonationClick}>
@@ -248,6 +202,7 @@ const SponsorList = () => {
             </AddIcon>
             Agregar apadrinamiento
           </AddEquipment>
+
           <SearchInput
             type="text"
             placeholder="Buscar por nombre..."
@@ -257,8 +212,30 @@ const SponsorList = () => {
           <SearchIcon onClick={handleSearch}>
             <FontAwesomeIcon icon={faSearch} />
           </SearchIcon>
+
         </SearchBarAndAddEquipment>
       </SearchBarContainer>
+
+      <FilterBarContainer>
+        <FilterBarForType>
+          <TypeFilterButton
+            isActive={selectedType === 1}
+            onClick={() => handleTypeClick(1)}
+          >
+            Solicitud
+          </TypeFilterButton>
+          <TypeFilterButton
+            isActive={selectedType === 2}
+            onClick={() => handleTypeClick(2)}>
+            Ofrecimiento
+          </TypeFilterButton>
+
+        </FilterBarForType>
+
+        <Button onClick={() => handleTypeClick(null)} variant="outline-danger" >Borrar Filtro</Button>{' '}
+  
+      </FilterBarContainer>
+
       <ListContainer>
         {currentSponsor.map((sponsor) => (
           <SponsorListItem key={sponsor.sponsor_id} sponsor={sponsor} />

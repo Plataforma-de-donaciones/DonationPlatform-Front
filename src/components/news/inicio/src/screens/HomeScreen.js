@@ -9,6 +9,8 @@ import NewsList from "../components/NewsList";
 import MyCalendar from "../components/MyCalendar";
 import Menu from "../../../../generales/src/components/Menu";
 import instance from "../../../../../axios_instance";
+import CarouselNews from "../components/CarouselNews";
+import Layout from "../../../../generales/src/components/layout/Layout";
 
 const cookies = new Cookies();
 const Container = styled.div`
@@ -77,6 +79,7 @@ const HomeScreen = () => {
     const fetchNews = async () => {
       try {
         const response = await instance.get("/news/", {});
+        console.log(response.data);
         setNewsList(response.data);
       } catch (error) {
         console.error("Error fetching news:", error);
@@ -99,22 +102,19 @@ const HomeScreen = () => {
   const highlightedNews = newsList.filter((news) => news.is_highlighted);
 
   return (
-    <Container>
-      <Header />
-      <Menus />
-      <Content>
-        <NewsCarousel newsList={highlightedNews} />
-        <ContentContainer>
-          <NewsListContainer>
-            <NewsList newsList={newsList} />
-          </NewsListContainer>
-          <CalendarContainer>
-            <MyCalendar events={events} />
-          </CalendarContainer>
-        </ContentContainer>
-      </Content>
-      <Footer />
-    </Container>
+    <Layout>
+      <CarouselNews news={highlightedNews}></CarouselNews>
+
+      <ContentContainer>
+        <NewsListContainer>
+          <NewsList newsList={newsList} />
+        </NewsListContainer>
+        <CalendarContainer>
+          <MyCalendar events={events} />
+        </CalendarContainer>
+      </ContentContainer>
+
+    </Layout>
   );
 };
 

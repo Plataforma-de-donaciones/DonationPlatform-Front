@@ -2,8 +2,8 @@ import React from "react";
 import styled, { css } from "styled-components";
 import AcercaDeButton from "./AcercaDeButton";
 import ContactoButton from "./ContactoButton";
-import PreguntasButton from "./PreguntasButton";
 import TerminosCondicionesButton from "./TerminosCondicionesButton";
+import PreguntasButton from "./PreguntasButton";
 
 const Container = styled.div`
   display: grid;

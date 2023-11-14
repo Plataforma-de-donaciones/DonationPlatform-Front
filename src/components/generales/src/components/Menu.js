@@ -12,6 +12,7 @@ const MenuContainer = styled.div`
   flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente línea si no caben en el ancho disponible */
   overflow: hidden; /* Oculta cualquier contenido que desborde del contenedor */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: unset;
 `;
 
 const MenuItem = styled(Link)`

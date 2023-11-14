@@ -1,0 +1,31 @@
+.card-header {
+  padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
+  margin-bottom: 0;
+  color: var(--bs-card-cap-color);
+  background-color: rgba(255, 152, 0, 0.59);
+  border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
+}
+
+.btn-primary
+{
+  --bs-btn-bg: rgba(255, 152, 0, 0.59);
+  --bs-btn-border-color: rgba(255, 152, 0, 0.89);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: rgba(255, 152, 0, 0.75);
+  --bs-btn-focus-shadow-rgb: 49,132,253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: rgba(255, 152, 0, 1);
+  --bs-btn-active-border-color: #0a53be;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #0d6efd;
+  --bs-btn-disabled-border-color: #0d6efd;
+}
+
+.avatar
+{
+  width: 600px;
+  height: 200px;
+  border:none;
+  margin: auto; max-width: 300px;
+}

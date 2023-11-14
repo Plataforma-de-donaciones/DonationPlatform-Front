@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 function AcercaDeButton(props) {
-  // Agrega un manejador de eventos onClick
+  const history = useHistory();
+
   const handleClick = () => {
-    // Agrega aquí el código que deseas ejecutar cuando se haga clic en el botón
-    console.log("Botón Acerca de clickeado");
+    history.push("/acercadenosotros");
   };
 
   return (

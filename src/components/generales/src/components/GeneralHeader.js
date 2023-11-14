@@ -7,7 +7,6 @@ import { useAuth } from "../../../../AuthContext";
 import Cookies from "universal-cookie";
 import Swal from 'sweetalert2';
 
-
 const cookies = new Cookies();
 
 function GeneralHeader(props) {
@@ -23,34 +22,31 @@ function GeneralHeader(props) {
   const handleLogout = () => {
     // Realizar acciones necesarias antes de cerrar sesión
     // ...
-      Swal.fire({
-        title: '¿Está seguro que desea cerrar sesión?',
-        text: 'Esta acción lo devolverá al login',
-        icon: 'question',
-        iconHtml: '?',
-        showCancelButton: true,
-        confirmButtonText: 'Sí',
-        cancelButtonText: 'No',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          logout();
+    Swal.fire({
+      title: '¿Está seguro que desea cerrar sesión?',
+      text: 'Esta acción lo devolverá al login',
+      icon: 'question',
+      iconHtml: '?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
 
-          // Limpiar las cookies de sesión (o cualquier otra acción necesaria)
-          cookies.remove('token');
-          cookies.remove('user_data');
-      
-          // Cerrar el menú desplegable
-          setMenuOpen(false);
-      
+        // Limpiar las cookies de sesión (o cualquier otra acción necesaria)
+        cookies.remove('token');
+        cookies.remove('user_data');
+
+        // Cerrar el menú desplegable
+        setMenuOpen(false);
+
         history.push('/login');
-          // Realizar acciones cuando se confirma la cancelación
-          // Por ejemplo, redirigir a una página o realizar otra acción
-          // window.location.href = '/otra-pagina';
-        }
-      });
-    
+      }
+    });
+
     // Cerrar sesión
-  
+
   };
 
   return (
@@ -71,11 +67,11 @@ function GeneralHeader(props) {
       )}
       <LogoContainer>
         <LogoContent>
-        <Link to="/inicio">
+          <Link to="/inicio">
             <Isotype src={require("../assets/images/logowhite1.png")} alt="Logo" />
           </Link>
           <LogoText>
-            <StyledLink to="/inicio">Donaciones.uy</StyledLink>
+            <StyledLink to="/inicio">DonacionesUy</StyledLink>
           </LogoText>
         </LogoContent>
       </LogoContainer>

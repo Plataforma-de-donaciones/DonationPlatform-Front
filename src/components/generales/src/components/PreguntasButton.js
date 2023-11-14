@@ -1,11 +1,13 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 function PreguntasButton(props) {
-  // Agrega un manejador de eventos onClick
+
+  const history = useHistory();
+
   const handleClick = () => {
-    // Agrega aquí el código que deseas ejecutar cuando se haga clic en el botón
-    console.log("Botón Preguntas Frecuentes clickeado");
+    history.push("/preguntasfrecuentes");
   };
 
   return (

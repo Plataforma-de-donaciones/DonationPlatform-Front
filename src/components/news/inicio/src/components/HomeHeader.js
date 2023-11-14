@@ -1,8 +1,5 @@
 // HomeScreen.js
 import React, { useEffect, useState } from "react";
-//import axios from "axios";
-import NewsCarousel from "../components/NewsCarousel";
-import { useAuth } from "../../../../AuthContext";
 import Cookies from "universal-cookie";
 import GeneralFooter from "../components/GeneralFooter";
 import GeneralHeader from "../components/GeneralHeader";

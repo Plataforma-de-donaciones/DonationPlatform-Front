@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 function ContactoButton(props) {
+  const history = useHistory();
   // Agrega un manejador de eventos onClick
   const handleClick = () => {
+    history.push("/contacto");
     // Agrega aquí el código que deseas ejecutar cuando se haga clic en el botón
     console.log("Botón Contacto clickeado");
   };

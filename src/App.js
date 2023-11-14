@@ -1,12 +1,6 @@
-import logo from './logo.svg';
-//import './App.css';
-//import { Login } from './components/general Component (1)';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-//import Login from './components/general Component (1)/src/screens/Login';
 import { Login } from './components/users/login';
-//import { AltaDeUsuario } from './components/alta';
 import { AltaDeUsuario } from './components/users/alta/'
-//import { ModificarUsuario } from './components/modificacion/modificacion';
 import ModificarUsuario from './components/users/modificacion/modificacion/src/screens/ModificarUsuario'
 import HomeScreen from './components/news/inicio/src/screens/HomeScreen';
 import { AuthProvider } from './AuthContext';
@@ -38,7 +32,10 @@ import DonarPadrino from './components/sponsor/request_sponsor_ofr/src/screens/D
 import EditarSponsor from './components/sponsor/editar_sponsor/src/screens/EditarSponsor';
 import ListarReqOfrecimientoVol from './components/users/list_requests_vol/src/screens/ListarReqOfrecimientoVol';
 import ListarReqOfrecimientoSponsor from './components/users/list_requests_sponsor/src/screens/ListarReqOfrecimientoSponsor';
-
+import TerminosCondiciones from './components/generales/src/components/TerminosCondiciones';
+import Contacto from './components/generales/src/components/Contacto';
+import AcercaDe from './components/generales/src/components/AcercaDe';
+import PreguntasFrecuentes from './components/generales/src/components/PreguntasFrecuentes';
 
 function App() {
   return (
@@ -77,6 +74,10 @@ function App() {
           <Route path="/listadorequestvol/:voluntarioId" component={ListarReqOfrecimientoVol} />
           <Route path="/listadorequestsponsor/:sponsorId" component={ListarReqOfrecimientoSponsor} />
           <Route path="/listadoapadrinamiento/" component={ListSponsorscreen} />
+          <Route path="/terminoscondiciones/" component={TerminosCondiciones} />
+          <Route path="/contacto" component={Contacto}/>
+          <Route path="/acercadenosotros" component={AcercaDe}/>
+          <Route path="/preguntasfrecuentes" component={PreguntasFrecuentes}/>
         </Switch>
       </AuthProvider>
     </Router>

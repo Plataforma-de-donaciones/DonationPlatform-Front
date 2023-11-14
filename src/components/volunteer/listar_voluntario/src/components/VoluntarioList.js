@@ -4,14 +4,14 @@ import instance from "../../../../../axios_instance";
 import VoluntarioListItem from "./VoluntarioListItem";
 import Cookies from "universal-cookie";
 import TypeFilterButton from "./TypeFilterButton";
-import ClearTypeFilterButton from "./ClearTypeFilterButton";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import Swal from "sweetalert2";
 import TypeButtons from "./TypeButtons";
+import { Button } from "react-bootstrap";
 
 const cookies = new Cookies();
 
@@ -28,17 +28,11 @@ const ListContainer = styled.div`
   margin-right: 16px;
 `;
 
-const ListAndCategoryContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
 const SearchBarContainer = styled.div`
   display: flex;
   flex-direction: row; 
   align-items: center; 
   margin-bottom: 16px;
-  max-width: 800px;
   justify-content: flex-end;
 `;
 
@@ -53,7 +47,6 @@ const FilterBarContainer = styled.div`
   flex-direction: row; 
   align-items: center; 
   margin-bottom: 16px;
-  max-width: 800px;
   justify-content: flex-end;
 `;
 const FilterBarForType = styled.div`
@@ -62,20 +55,7 @@ const FilterBarForType = styled.div`
   justify-content: space-around; 
   align-items: center;
 `;
-const FilterPageContainer = styled.div`
-  display: flex;
-  flex-direction: row; 
-  align-items: center; 
-  margin-bottom: 16px;
-  max-width: 800px;
-  justify-content: flex-end;
-`;
-const FilterBarForPage = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: space-around; 
-  align-items: center;
-`;
+
 const SearchInput = styled.input`
   padding: 8px;
   margin-right: 8px;
@@ -148,8 +128,8 @@ const VoluntarioList = () => {
         }
         setOriginalVoluntarioList(response.data);
         const voluntarioList = selectedType
-            ? response.data.filter((volunteer) => volunteer.type === selectedType)
-            : response.data;
+          ? response.data.filter((volunteer) => volunteer.type === selectedType)
+          : response.data;
         setVoluntarioList(voluntarioList);
       } catch (error) {
         console.error("Error fetching voluntarios:", error);
@@ -158,7 +138,7 @@ const VoluntarioList = () => {
 
     fetchVoluntario();
   }, [selectedRating, selectedType, token]);
-  
+
   const handleTypeClick = (type) => {
     console.log(`Selected type: ${type}`);
     setSelectedType(type);
@@ -216,31 +196,7 @@ const VoluntarioList = () => {
 
   return (
     <VoluntarioListContainer>
-      <FilterPageContainer>
-        <FilterBarForPage>
-        <TypeButtons></TypeButtons>
-        </FilterBarForPage>
-      </FilterPageContainer>
-      <FilterBarContainer>
-        <FilterBarForType>
-        <TypeFilterButton
-            isActive={selectedType === 1}
-            onClick={() => handleTypeClick(1)}
-          >
-              Solicitud
-          </TypeFilterButton>
-        <TypeFilterButton
-            isActive={selectedType === 2}
-            onClick={() => handleTypeClick(2)}
-          >
-              Ofrecimiento
-        </TypeFilterButton>
-        
-        </FilterBarForType>
-        <ClearTypeFilterButton onClick={() => handleTypeClick(null)}>
-          Borrar Filtro
-          </ClearTypeFilterButton>
-      </FilterBarContainer>
+      <TypeButtons />
       <SearchBarContainer>
         <SearchBarAndAddEquipment>
           <AddEquipment onClick={handleAddDonationClick}>
@@ -260,6 +216,28 @@ const VoluntarioList = () => {
           </SearchIcon>
         </SearchBarAndAddEquipment>
       </SearchBarContainer>
+
+      <FilterBarContainer>
+        <FilterBarForType>
+          <TypeFilterButton
+            isActive={selectedType === 1}
+            onClick={() => handleTypeClick(1)}
+          >
+            Solicitud
+          </TypeFilterButton>
+          <TypeFilterButton
+            isActive={selectedType === 2}
+            onClick={() => handleTypeClick(2)}
+          >
+            Ofrecimiento
+          </TypeFilterButton>
+
+        </FilterBarForType>
+        <Button onClick={() => handleTypeClick(null)} variant="outline-danger" >Borrar Filtro</Button>{' '}
+
+      </FilterBarContainer>
+
+
       <ListContainer>
         {currentVoluntario.map((volunteer) => (
           <VoluntarioListItem key={volunteer.vol_id} volunteer={volunteer} />
