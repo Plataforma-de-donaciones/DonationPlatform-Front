@@ -59,7 +59,7 @@ const ButtonSeparator = styled.div`
 const cookies = new Cookies();
 
 const SolicitudDonBox = (props) => {
-  const { equipamientoId } = useParams();
+  const { donacionId } = useParams();
   const [solicitudData, setSolicitudData] = useState({
     req_name: '',
     req_description: '',
@@ -81,21 +81,19 @@ const SolicitudDonBox = (props) => {
   const [user_id, setUserId] = useState(null);
   const [acceptTerms, setAcceptTerms] = useState(false);
 
-  const history = useHistory(); // Obtén la función history
+  const history = useHistory();
 
   useEffect(() => {
-    // Obtener el user_id y equipamientoId al montar el componente
     const userDataCookie = cookies.get('user_data');
     if (userDataCookie) {
       setUserId(userDataCookie.user_id);
     }
-    // Asegurémonos de que equipamientoId está disponible
     setSolicitudData((prevData) => ({
       ...prevData,
-      user: user_id || '', // Asegurarse de que user sea una cadena vacía si user_id es null
-      eq: equipamientoId || '', // Asegurarse de que eq sea una cadena vacía si equipamientoId es null
+      user: user_id || '', 
+      don: donacionId || '', 
     }));
-  }, [equipamientoId, user_id]);
+  }, [donacionId, user_id]);
 
   const handleFieldChange = (fieldName, value) => {
     setSolicitudData((prevData) => ({
@@ -103,7 +101,6 @@ const SolicitudDonBox = (props) => {
       [fieldName]: value,
     }));
 
-    // Limpiar el error al cambiar el campo
     setErrors((prevErrors) => ({
       ...prevErrors,
       [fieldName]: '',
@@ -127,17 +124,14 @@ const SolicitudDonBox = (props) => {
   };
 
   const handleAccept = async () => {
-    // Validar todos los campos antes de enviar la solicitud
     Object.keys(solicitudData).forEach((name) => {
       validateField(name, solicitudData[name]);
     });
 
-    // Verificar si hay errores en los campos
     if (Object.values(errors).some((error) => error !== '')) {
       return;
     }
 
-    // Verificar si se aceptaron los términos
     if (!solicitudData.accept_terms) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -146,7 +140,6 @@ const SolicitudDonBox = (props) => {
       return;
     }
 
-    // Intentar enviar la solicitud
     try {
       const response = await instance.post('/requests/', solicitudData, {
         headers: {
@@ -156,10 +149,8 @@ const SolicitudDonBox = (props) => {
 
       if (response.status === 201) {
         alert('Solicitud creada correctamente');
-        // Redirigir a la página de solicitudes o a donde sea necesario
         history.push('/listadodonacion');
       } else {
-        // Manejar otros casos de respuesta si es necesario
       }
     } catch (error) {
       console.error('Error al crear solicitud:', error);

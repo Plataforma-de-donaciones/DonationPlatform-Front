@@ -84,14 +84,12 @@ const EditarEqMedicoBox = (props) => {
   const token = cookies.get("token");
   const [file, setFile] = useState(null);
 
-  // Usa useParams para obtener eq_id de la URL
   const { eq_id } = useParams();
   console.log(eq_id);
 
   useEffect(() => {
     const cargarDatosEquipamiento = async () => {
       try {
-        // Utiliza eq_id de la URL
         const response = await instance.post(
           "/medicalequipments/searchbyid/",
           { eq_id: eq_id },
@@ -116,7 +114,6 @@ const EditarEqMedicoBox = (props) => {
       }
     };
 
-    // Cargar datos solo si hay un eq_id válido
     if (eq_id) {
       cargarDatosEquipamiento();
     }
@@ -150,6 +147,7 @@ const EditarEqMedicoBox = (props) => {
 
   const handleFileChange = (selectedFile) => {
     setFile(selectedFile);
+    setEqAttachment("");
   };
 
   const handleSubmit = async () => {
@@ -157,9 +155,8 @@ const EditarEqMedicoBox = (props) => {
       let eqAttachmentToSend = eqAttachment;
   
       if (file) {
-        // Si hay un archivo nuevo, enviarlo y obtener la nueva ruta
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("eq_attachment", file);
   
         const response = await instance.patch(`/medicalequipments/${eq_id}/`, formData, {
           headers: {

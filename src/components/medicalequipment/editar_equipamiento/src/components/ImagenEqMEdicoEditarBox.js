@@ -3,18 +3,10 @@ import styled from "styled-components";
 import SubirArchivoBox from "./SubirArchivoBox";
 
 function ImagenEqMEdicoEditarBox({ handleFileChange, eqAttachment, ...props }) {
-  const [previewImage, setPreviewImage] = useState(null);
-
-  useEffect(() => {
-    // Actualizar la previsualización cuando eqAttachment cambie
-    setPreviewImage(eqAttachment);
-  }, [eqAttachment]);
+  const [previewImage, setPreviewImage] = useState(eqAttachment);
 
   const handleFileChangeInParent = async (file) => {
-    // Actualizar la previsualización de la imagen
     setPreviewImage(URL.createObjectURL(file));
-    
-    // Propagar el cambio al componente padre
     await handleFileChange(file);
   };
 
