@@ -49,6 +49,9 @@ const ListadoPaginado = ({ }) => {
       case "volunteers":
         history.push(`/editarvoluntario/${id}`);
         break;
+      case "sponsors":
+        history.push(`/editarsponsor/${id}`);
+        break;
 
       default:
         break;
@@ -66,7 +69,7 @@ const ListadoPaginado = ({ }) => {
         },
       });
 
-      const itemsPorPagina = 5;
+      const itemsPorPagina = 6;
       const inicio = (paginaActual - 1) * itemsPorPagina;
       const fin = inicio + itemsPorPagina;
       const datosPaginados = response.data.slice(inicio, fin);
@@ -153,7 +156,7 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.don_name}</td>
                       <td>{item.don_description}</td>
                       <td>{item.don_created_at}</td>
-                      <td>{item.request_count}</td>
+                      <td><Link to={`/listadorequestdon/${item.don_id}`}>{item.request_count}</Link></td>
                       <td>{item.don_confirmation_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
                       <td>
@@ -171,7 +174,7 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.eq_name}</td>
                       <td>{item.eq_description}</td>
                       <td>{item.don_created_at}</td>
-                      <td>{item.request_count}</td>
+                      <td> <Link to={`/listadorequesteq/${item.eq_id}`}>{item.request_count}</Link></td>
                       <td>{item.eq_confirmation_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
                       <td>
@@ -189,7 +192,7 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.vol_name}</td>
                       <td>{item.vol_description}</td>
                       <td>{item.vol_created_at}</td>
-                      <td>{item.request_count}</td>
+                      <td><Link to={`/listadorequestvol/${item.vol_id}`}>{item.request_count}</Link></td>
                       <td>{item.vol_confirmation_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
                       <td>
@@ -207,7 +210,7 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.sponsor_name}</td>
                       <td>{item.sponsor_description}</td>
                       <td>{item.sponsor_created_at}</td>
-                      <td>{item.request_count}</td>
+                      <td><Link to={`/listadorequestsponsor/${item.sponsor_id}`}>{item.request_count}</Link></td>
                       <td>{item.sponsor_confirmation_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
                       <td>

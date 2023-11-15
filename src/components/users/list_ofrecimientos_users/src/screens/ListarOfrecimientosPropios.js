@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ListadoPaginado from "../components/ListadoPaginado";
 import GeneralFooter from "../../../login/src/components/GeneralFooter";
 import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
-import { Row,Col} from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import Layout from "../../../../generales/src/components/layout/Layout";
 
 
@@ -74,7 +74,6 @@ function ListarOfrecimientosPropios(props) {
   return (
 
     <>
-
       <Layout haveMenu={false}>
         <Row>
           <Col className="col-12">
@@ -84,10 +83,7 @@ function ListarOfrecimientosPropios(props) {
           </Col>
         </Row>
       </Layout>
-
-
     </>
-
   );
 }
 

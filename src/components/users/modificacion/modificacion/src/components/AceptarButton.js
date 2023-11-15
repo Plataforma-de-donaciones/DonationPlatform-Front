@@ -19,20 +19,22 @@ const Container = styled.div`
   min-width: 88px;
   padding-left: 16px;
   padding-right: 16px;
-  box-shadow: 0px 1px 5px 0.35px #000;
+  box-shadow: 0px 1px 5px  0.35px #000 ;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(255, 152, 0, 0.8);
+  }
 
-  @media screen and (max-width: 768px) {
-    /* Ajustar estilos para pantallas más pequeñas */
-    min-width: 60px;
-    padding-left: 12px;
-    padding-right: 12px;
+  &:active {
+    background-color: rgba(155, 155, 155, 0.6);
   }
 `;
 
 const AceptarText = styled.span`
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
+color: #fff;
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
 `;
 
 export default AceptarButton;

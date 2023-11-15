@@ -22,11 +22,9 @@ const Button = styled.button`
     cursor: not-allowed;
   }
 
-  @media (max-width: 768px) {
-    min-width: 60px;
-    padding-left: 12px;
-    padding-right: 12px;
-  }
+&:active {
+  background-color: rgba(155, 155, 155, 0.6);
+}
 `;
 
 const AceptarText = styled.span`

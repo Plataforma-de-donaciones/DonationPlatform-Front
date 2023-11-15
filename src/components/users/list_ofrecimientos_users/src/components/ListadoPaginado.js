@@ -9,22 +9,6 @@ import { Card, Table, Button } from "react-bootstrap";
 const cookies = new Cookies();
 
 // Define estilos con styled-components
-const StyledTable = styled.table`
-  border-collapse: collapse;
-  width: 100%;
-`;
-
-const TableHeaderCell = styled.th`
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-`;
-
-const TableCell = styled.td`
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-`;
 
 const ListadoPaginado = ({ }) => {
   const [datos, setDatos] = useState([]);
@@ -55,7 +39,7 @@ const ListadoPaginado = ({ }) => {
         },
       });
 
-      const itemsPorPagina = 5;
+      const itemsPorPagina = 6;
       const inicio = (paginaActual - 1) * itemsPorPagina;
       const fin = inicio + itemsPorPagina;
       const datosPaginados = response.data.slice(inicio, fin);
@@ -72,7 +56,6 @@ const ListadoPaginado = ({ }) => {
   };
 
   const eliminarItem = async (id) => {
-    // Mostrar un cuadro de confirmación
     console.log("id a eliminar", id);
 
     const confirmation = await Swal.fire({
@@ -111,9 +94,6 @@ const ListadoPaginado = ({ }) => {
   }, [paginaActual, tipo]);
 
   return (
-
-
-
     <>
       <Card className='mt-5'>
         <Card.Header className="text-center h5">
@@ -186,7 +166,7 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.vol_description}</td>
                       <td>{item.vol_created_at}</td>
                       <td><Link to={`/listadorequestvol/${item.vol_id}`}>{item.request_count}</Link></td>
-                      <td>{item.vol_confirmation_date}</td>
+                      <td>{item.confirmed_at}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
                       <td>
                         <Link to={`/editarvoluntario/${item.vol_id}`}>Editar</Link>
@@ -204,7 +184,7 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.sponsor_description}</td>
                       <td>{item.sponsor_created_at}</td>
                       <td>{item.request_count} <Link to={`/listadorequestsponsor/${item.sponsor_id}`}>{item.request_count}</Link> </td>
-                      <td>{item.sponsor_confirmation_date}</td>
+                      <td>{item.confirmed_at}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
                       <td>
                         <Link to={`/editarsponsor/${item.sponsor_id}`}>Editar</Link>
@@ -236,11 +216,6 @@ const ListadoPaginado = ({ }) => {
 
    
     </>
-
-
-
-
-
   );
 };
 

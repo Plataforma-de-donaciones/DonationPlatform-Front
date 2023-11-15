@@ -36,6 +36,9 @@ import TerminosCondiciones from './components/generales/src/components/TerminosC
 import Contacto from './components/generales/src/components/Contacto';
 import AcercaDe from './components/generales/src/components/AcercaDe';
 import PreguntasFrecuentes from './components/generales/src/components/PreguntasFrecuentes';
+import AltaEvento from './components/events/alta_evento/screens/AltaEvento';
+import ListEveScreen from './components/events/listar_evento/src/screens/ListEveScreen';
+import EditarEvento from './components/events/editar_evento/src/screens/EditarEvento';
 
 function App() {
   return (
@@ -61,12 +64,15 @@ function App() {
           <Route path="/editarequipamiento/:eq_id" component={EditarEquipamiento} />
           <Route path="/altadonacion/" component={AltaDonacion} />
           <Route path="/altasponsor/" component={AltaSponsor} />
+          <Route path="/altaevento/" component={AltaEvento} />
           <Route path="/listadodonacion/" component={Listdonscreen} />
           <Route path="/editardonacion/:don_id" component={EditarDonacion} />
           <Route path="/editarvoluntario/:vol_id" component={EditarVoluntario} />
           <Route path="/editarsponsor/:sponsor_id" component={EditarSponsor} />
+          <Route path="/editarevento/:event_id" component={EditarEvento} />
           <Route path="/altavoluntariado/" component={AltaVoluntariado} />
           <Route path="/listadovoluntariado/" component={ListVolscreen} />
+          <Route path="/listadoeventos/" component={ListEveScreen} />
           <Route path="/listadorequesteq/:eqId" component={ListarReqOfrecimiento} />
           <Route path="/conversaciones/:convId" component={ChatScreen} />
           <Route path="/listaconversaciones/" component={ConversationScreen} />

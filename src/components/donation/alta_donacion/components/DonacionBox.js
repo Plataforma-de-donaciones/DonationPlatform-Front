@@ -106,7 +106,6 @@ const DonacionBox = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    // Obtener el user_id al montar el componente
     const userDataCookie = cookies.get("user_data");
     if (userDataCookie) {
       setUserId(userDataCookie.user_id);
@@ -114,7 +113,6 @@ const DonacionBox = (props) => {
   }, []);
 
   useEffect(() => {
-    // Sincronizar el user_id en el equipmentData
     setDonationData((prevData) => ({
       ...prevData,
       user: user_id || "",
@@ -133,7 +131,6 @@ const DonacionBox = (props) => {
       [fieldName]: value,
     }));
 
-    // Limpiar el error al cambiar el campo
     setErrors((prevErrors) => ({
       ...prevErrors,
       [fieldName]: "",
@@ -195,16 +192,13 @@ const DonacionBox = (props) => {
       }));
     }
 
-    // Agrega otras validaciones según sea necesario
   };
 
   const handleAccept = async () => {
-    // Validar todos los campos antes de enviar la solicitud
     Object.keys(donationData).forEach((name) => {
       validateField(name, donationData[name]);
     });
 
-    // Verificar si hay errores en los campos
     if (Object.values(errors).some((error) => error !== "")) {
       return;
     }
@@ -222,12 +216,11 @@ const DonacionBox = (props) => {
       cancelButtonText: 'No',
     });
    if(confirmation.isConfirmed){
+
     try {
-      // Crear un objeto FormData para enviar archivos
       const formData = new FormData();
       formData.append("don_attachment", file);
 
-      // Agregar otros campos al formData
       Object.entries(donationData).forEach(([key, value]) => {
         formData.append(key, value);
       });
@@ -235,11 +228,10 @@ const DonacionBox = (props) => {
       const formDataEntries = [...formData.entries()];
       console.log(formDataEntries);
 
-      // Enviar la solicitud con el formData
       const response = await instance.post("/donations/", formData, {
         headers: {
           Authorization: `Token ${token}`,
-          "Content-Type": "multipart/form-data", // Asegura el tipo de contenido correcto
+          "Content-Type": "multipart/form-data", 
         },
       });
 

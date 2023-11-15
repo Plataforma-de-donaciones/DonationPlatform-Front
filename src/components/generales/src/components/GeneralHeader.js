@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -6,14 +6,19 @@ import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../../../AuthContext";
 import Cookies from "universal-cookie";
 import Swal from 'sweetalert2';
+import instance from "../../../../axios_instance";
 
 const cookies = new Cookies();
 
 function GeneralHeader(props) {
   const { logout } = useAuth();
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const [userRole, setUserRole] = useState(null);
   const history = useHistory();
-  const isUserLoggedIn = cookies.get('token'); // Verifica la existencia de la cookie de sesión
+  const isUserLoggedIn = cookies.get('token');
+  const token = cookies.get("token");
+  const userDataCookie = cookies.get("user_data");
+  const user_id = userDataCookie ? userDataCookie.user_id : null;
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
@@ -45,6 +50,28 @@ function GeneralHeader(props) {
     });
 
   };
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      if (user_id) {
+        try {
+          const response = await instance.post(`/users/searchrole/`, {
+            id: user_id,
+          }, {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          });
+          setUserRole(response.data.user_role);
+        } catch (error) {
+          console.error('Error fetching user role:', error);
+        }
+      }
+    };
+  
+    if (isUserLoggedIn && user_id) {
+      fetchUserRole();
+    }
+  }, [isUserLoggedIn, user_id]);
 
   return (
     <Container {...props}>
@@ -73,7 +100,7 @@ function GeneralHeader(props) {
           </LogoText>
         </LogoContent>
       </LogoContainer>
-      {isUserLoggedIn && ( // Renderiza solo si el usuario está conectado
+      {isUserLoggedIn && userRole && ( 
         <UserIcon>
           <ButtonOverlay onClick={toggleMenu}>
             <FontAwesomeIcon
@@ -96,6 +123,11 @@ function GeneralHeader(props) {
               <MenuItem>
                 <Link to="/listadoofrecimientos">Mis ofrecimientos</Link>
               </MenuItem>
+              {userRole === "administrator" && (
+                <MenuItem>
+                  <Link to="/paneladministrador">Panel de Administrador</Link>
+                </MenuItem>
+              )}
               <MenuItem>
                 <Button onClick={handleLogout}>Cerrar sesión</Button>
               </MenuItem>

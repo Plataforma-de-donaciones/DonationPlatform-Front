@@ -60,7 +60,7 @@ const Menu = () => {
       <MenuItem to="/listadovoluntariado" showOnMobile={true}>
         Voluntarios y Padrinos
       </MenuItem>
-      <MenuItem to="/eventos" showOnMobile={true}>
+      <MenuItem to="/listadoeventos" showOnMobile={true}>
         Eventos
       </MenuItem>
     </MenuContainer>

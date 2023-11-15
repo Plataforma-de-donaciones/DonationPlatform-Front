@@ -96,7 +96,6 @@ const ListarOfrecimientosPropiosBox = ({ ofrecimientos }) => {
           />
         ))}
 
-        {/* Paginación */}
         <Pagination>
           <PageButton onClick={prevPage} disabled={currentPage === 1}>
             Anterior
