@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
+import { Card, Col, Row } from "react-bootstrap";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 const ChatComponent = ({ convId }) => {
   const [message, setMessage] = useState("");
@@ -42,10 +46,9 @@ const ChatComponent = ({ convId }) => {
   };
 
   const messageRightStyle = {
-    ...messageStyle,
-    backgroundColor: "#007bff",
-    color: "white",
-    alignSelf: "flex-end",
+    left: "-12px",
+    borderBottom: "20px solid transparent",
+    borderRight: "20px solid #5a99ee"
   };
 
   const messageLeftStyle = {
@@ -88,31 +91,63 @@ const ChatComponent = ({ convId }) => {
   };
 
   return (
-    <div>
-      <div className="chat-messages">
-        {Array.isArray(messages) && messages.length > 0 ? (
-          messages.map((msg) => (
-            <div
-              key={msg.id}
-              style={msg.user === user_id ? messageRightStyle : messageLeftStyle}
-            >
-              {msg.content}
-            </div>
-          ))
-        ) : (
-          <div>No hay mensajes disponibles</div>
-        )}
-      </div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Escribe un mensaje..."
-        />
-        <button type="submit">Enviar</button>
-      </form>
-    </div>
+    <>
+      <Row>
+        <Col>
+          <Card className='mt-5'>
+            <Card.Header className="text-center h5">
+              Chat
+            </Card.Header>
+            <Card.Body>
+              <ul class="chat-list">
+                {Array.isArray(messages) && messages.length > 0 ? (
+                  messages.map((msg) => (
+                    <li
+                      key={msg.id}
+                      className={msg.user === user_id ? 'out' : 'in'}
+                    >
+                      <div className="chat-body">
+                        <div className="chat-message">
+                          <h5>{msg.user === user_id ? 'Enviado' : 'Recibido'}</h5>
+                          <p>
+                            {msg.content}
+                          </p>
+                        </div>
+
+                      </div>
+                    </li>
+                  ))
+                ) : (
+                  <div>No hay mensajes disponibles</div>
+                )}
+              </ul>
+
+            </Card.Body>
+            <Card.Footer className="text-center">
+              <form onSubmit={handleSubmit}>
+                <InputGroup className="mb-3 mt-3">
+                  <Form.Control
+                    aria-label="Recipient's username"
+                    aria-describedby="basic-addon2"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Escribe un mensaje..."
+                  />
+                  
+                  <Button type="submit"  id="button-addon2">
+                    Enviar
+                  </Button>
+
+                </InputGroup>
+               
+              </form>
+
+            </Card.Footer>
+          </Card >
+        </Col >
+      </Row >
+    </>
+
   );
 };
 

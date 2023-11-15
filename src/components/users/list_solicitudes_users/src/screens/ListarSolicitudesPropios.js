@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
-import GeneralFooter from "../../../../generales/src/components/GeneralFooter";
 import ListadoPaginado from "../components/ListadoPaginado";
+import GeneralFooter from "../../../login/src/components/GeneralFooter";
+import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
+import Layout from "../../../../generales/src/components/layout/Layout";
+import {  Col, Row,  } from "react-bootstrap";
+
 
 const Container = styled.div`
   display: grid;
@@ -68,40 +71,19 @@ function ListarSolicitudesPropios(props) {
   const [tipo, setTipo] = useState("donations");
 
   return (
-    <Container>
-      <GeneralHeaderColumn>
-        <GeneralHeader
-          style={{
-            width: "100%",
-            margin: "0 auto",
-          }}
-        />
-        <Rect>
-          <PerfilText>Mis Solicitudes</PerfilText>
-        </Rect>
-        <ButtonContainer>
-          <button onClick={() => setTipo("donations")}>Donaciones</button>
-          <button onClick={() => setTipo("medicalequipments")}>Equipamiento Médico</button>
-          <button onClick={() => setTipo("volunteers")}>Voluntarios</button>
-          <button onClick={() => setTipo("sponsors")}>Sponsor</button>
-        </ButtonContainer>
-      </GeneralHeaderColumn>
-      <GeneralHeaderColumnFiller />
-      <Content>
-        <ListadoPaginado tipo={tipo} />
-      </Content>
-      <GeneralFooterStyled
-        style={{
-          width: "100%",
-          maxWidth: "1366px",
-          margin: "0 auto",
-          height: "60px",
-          shadowRadius: 0,
-          alignSelf: "center",
-          boxShadow: "3px 3px 0px  0.01px rgba(0,0,0,1) "
-        }}
-      />
-    </Container>
+
+    <>
+      <Layout haveMenu={false}>
+        <Row>
+          <Col className="col-12">
+
+            <ListadoPaginado tipo={tipo} />
+
+          </Col>
+        </Row>
+      </Layout>
+    </>
+
   );
 }
 

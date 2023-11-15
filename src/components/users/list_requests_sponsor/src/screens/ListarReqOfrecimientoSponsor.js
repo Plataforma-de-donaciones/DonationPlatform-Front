@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import GeneralFooter from "../../../login/src/components/GeneralFooter";
 import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
-import GeneralFooter from "../../../../generales/src/components/GeneralFooter";
 import ListadoSponsors from "../components/ListadoSponsors";
 import { useParams } from "react-router-dom";
 

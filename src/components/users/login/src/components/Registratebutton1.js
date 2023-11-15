@@ -20,7 +20,7 @@ const Container = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  background-color: rgba(255, 152, 0, 1);
+  background-color: rgba(79,181,139, 1);
   padding: 10px 20px; // Espaciado interior
   border: none; /* Elimina el borde predeterminado de los botones */
   cursor: pointer; // Cambia el cursor al pasar el mouse

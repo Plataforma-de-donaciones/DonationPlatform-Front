@@ -34,7 +34,6 @@ function GeneralHeader(props) {
       if (result.isConfirmed) {
         logout();
 
-        // Limpiar las cookies de sesión (o cualquier otra acción necesaria)
         cookies.remove('token');
         cookies.remove('user_data');
 
@@ -45,13 +44,11 @@ function GeneralHeader(props) {
       }
     });
 
-    // Cerrar sesión
-
   };
 
   return (
     <Container {...props}>
-      {isUserLoggedIn && ( // Renderiza solo si el usuario está conectado
+      {isUserLoggedIn && (
         <MenuIcon>
           <ButtonOverlay onClick={props.onMenuClick}>
             <FontAwesomeIcon
@@ -65,6 +62,7 @@ function GeneralHeader(props) {
           </ButtonOverlay>
         </MenuIcon>
       )}
+
       <LogoContainer>
         <LogoContent>
           <Link to="/inicio">
@@ -111,16 +109,15 @@ function GeneralHeader(props) {
 
 const Container = styled.div`
   display: flex;
-  background-color: rgba(255, 152, 0, 1);
+  background-color: rgba(79,181,139, 1);
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  position: relative;
+  position: sticky;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-
+  top: 0;
+  z-index: 9999;
   @media (max-width: 768px) {
-    flex-direction: column;
     align-items: center;
   }
 `;
@@ -132,12 +129,15 @@ const ButtonOverlay = styled.button`
   width: 100%;
   border: none;
   cursor: pointer;
+  z-index: 2000;
+
 `;
 
 const MenuIcon = styled.div`
   padding: 0.5rem;
   width: 2.5rem;
   border: none;
+  flex-grow: 0.1px;
 `;
 
 const LogoContainer = styled.div`
@@ -156,7 +156,11 @@ const Isotype = styled.img`
   object-fit: contain;
   align-items: center;
 
-  @media (max-width: 768px) {
+  @media (min-width: 10px) {
+    width: 80px;
+    height: auto;
+    object-fit: contain;
+    align-items: center;
     margin-bottom: 0.5rem;
   }
 `;
@@ -171,7 +175,12 @@ const LogoText = styled.span`
 
   @media (max-width: 768px) {
     margin-left: 0;
-    font-size: 1.2rem;
+    font-family: "Gloria Hallelujah", cursive;
+    font-size: 2rem;
+    color: #FFFFFF;
+    background-color: transparent;
+    font-weight: 400;
+    text-align: center;
   }
 `;
 
@@ -186,12 +195,17 @@ const DropdownMenu = styled.ul`
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 9.4rem;
+  text-align: right;
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   list-style: none;
   padding: 0;
   margin: 0;
+  font-family: "Roboto";
+  font-size: 1rem;
 `;
+
 
 const MenuItem = styled.li`
   padding: 10px;
@@ -199,7 +213,7 @@ const MenuItem = styled.li`
 
   a {
     text-decoration: none;
-    color: #333;
+    color: rgba(80,80,80, 1);
   }
 
   &:last-child {

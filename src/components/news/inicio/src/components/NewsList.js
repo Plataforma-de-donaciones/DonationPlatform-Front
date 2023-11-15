@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import NewsListItem from "./NewsListtItem"; // Ajusta la importación según la ubicación de tu componente NewsListItem
+import { Col, Row } from "react-bootstrap";
 
 const NewsListContainer = styled.div`
   display: flex;
@@ -51,10 +52,13 @@ const NewsList = ({ newsList }) => {
   };
 
   return (
-    <NewsListContainer>
+    <>
+
       {currentNews.map((news) => (
         <NewsListItem key={news.new_id} news={news} />
       ))}
+
+
 
       {/* Paginación */}
       <Pagination>
@@ -74,7 +78,8 @@ const NewsList = ({ newsList }) => {
           Siguiente
         </PageButton>
       </Pagination>
-    </NewsListContainer>
+    </>
+
   );
 };
 

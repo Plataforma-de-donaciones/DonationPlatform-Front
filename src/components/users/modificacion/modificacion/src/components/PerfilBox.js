@@ -180,7 +180,7 @@ function PerfilBox(props) {
   };
 
   return (
-    <Container {...props}>
+    <Container {...props} className="mx-auto">
       <Rect>
         <PerfilText>Perfil</PerfilText>
       </Rect>

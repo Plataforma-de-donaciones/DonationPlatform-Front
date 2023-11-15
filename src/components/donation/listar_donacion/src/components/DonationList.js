@@ -12,25 +12,28 @@ import TypeFilterButton from "./TypeFilterButton";
 import ClearTypeFilterButton from "./ClearTypeFilterButton";
 import { toast, ToastContainer } from 'react-toastify';
 import Swal from "sweetalert2";
+import { Col, Row, Button } from "react-bootstrap";
+import EncabezadoListado from "../../../../generales/src/components/layout/EncabezadoListado";
+
 
 
 const cookies = new Cookies();
 
 const DonationListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 16px;
+  // display: flex;
+  // flex-direction: column;
+  // margin: 16px;
 `;
 
 const ListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-right: 16px;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: flex-start;
+  // margin-right: 16px;
 `;
 const ListAndCategoryContainer = styled.div`
-  display: flex;
-  flex-direction: row;
+  // display: flex;
+  // flex-direction: row;
 `;
 
 const SearchBarContainer = styled.div`
@@ -64,14 +67,14 @@ const FilterBarForType = styled.div`
 `;
 
 const SearchInput = styled.input`
-  padding: 8px;
-  margin-right: 8px;
-  border: none;
-  outline: none;
-  flex: 2;
-  font-size: 16px;
-  background: transparent;
-  max-width: 200px;
+  // padding: 8px;
+  // margin-right: 8px;
+  // border: none;
+  // outline: none;
+  // flex: 2;
+  // font-size: 16px;
+  // background: transparent;
+  // max-width: 200px;
 
 `;
 
@@ -114,7 +117,7 @@ const PageButton = styled.button`
 `;
 
 const DonationList = () => {
-  const itemsPerPage = 5;
+  const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [originalDonationList, setOriginalDonationList] = useState([]);
@@ -137,15 +140,15 @@ const DonationList = () => {
           const filteredDonationByType = selectedType
             ? filteredDonation.filter((donation) => donation.type === selectedType)
             : filteredDonation;
-  
+
           setDonationList(filteredDonationByType);
         } else {
           response = await instance.get("/donations/");
           setOriginalDonationList(response.data);
 
           const donationList = selectedType
-          ? response.data.filter((donation) => donation.type === selectedType)
-          : response.data;
+            ? response.data.filter((donation) => donation.type === selectedType)
+            : response.data;
 
           setDonationList(donationList);
         }
@@ -203,7 +206,7 @@ const DonationList = () => {
           history.push('/login');
         }
       });
-     }
+    }
   };
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -225,75 +228,60 @@ const DonationList = () => {
 
   return (
     <DonationListContainer>
-      <FilterBarContainer>
-        <FilterBarForType>
-        <TypeFilterButton
-            isActive={selectedType === 1}
-            onClick={() => handleTypeClick(1)}
-          >
-              Solicitud
-          </TypeFilterButton>
-        <TypeFilterButton
-            isActive={selectedType === 2}
-            onClick={() => handleTypeClick(2)}
-          >
-              Ofrecimiento
-        </TypeFilterButton>
-        
-        </FilterBarForType>
-        <ClearTypeFilterButton onClick={() => handleTypeClick(null)}>
-          Borrar Filtro
-          </ClearTypeFilterButton>
-      </FilterBarContainer>
-      <SearchBarContainer>
-        <SearchBarAndAddEquipment>
-        <AddEquipment onClick={handleAddDonationClick}>
-          <AddIcon>
-            <FontAwesomeIcon icon={faPlus} />
-          </AddIcon>
-          Agregar donación
-        </AddEquipment>
-          <SearchInput
-            type="text"
-            placeholder="Buscar por nombre..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <SearchIcon onClick={handleSearch}>
-            <FontAwesomeIcon icon={faSearch} />
-          </SearchIcon>
-        </SearchBarAndAddEquipment>
-      </SearchBarContainer>
-      <ListAndCategoryContainer>
-      <ListContainer>
-        {currentDonation.map((donation) => (
-          <DonationListItem key={donation.don_id} donation={donation} />
-        ))}
 
-        {/* Paginación */}
-        <Pagination>
-          <PageButton onClick={prevPage} disabled={currentPage === 1}>
-            Anterior
-          </PageButton>
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <PageButton
-              key={index}
-              onClick={() => setCurrentPage(index + 1)}
-              isActive={currentPage === index + 1}
-            >
-              {index + 1}
-            </PageButton>
-          ))}
-          <PageButton onClick={nextPage} disabled={currentPage === totalPages}>
-            Siguiente
-          </PageButton>
-        </Pagination>
-      </ListContainer>
-
-      <CategoryCard
-        onCategoryClick={handleCategoryClick}
-        onClearCategory={handleClearCategory}
+      <EncabezadoListado
+        onActionSolicitud={() => handleTypeClick(1)}
+        onActionOfrecimiento={() => handleTypeClick(2)}
+        onActionBorrar={() => handleTypeClick(null)}
+        onActionAdd={handleAddDonationClick}
+        searchValue={searchTerm}
+        searchOnChange={setSearchTerm}
+        onSearch={handleSearch}
+        textButton={'Agregar donación'}
       />
+
+      <ListAndCategoryContainer>
+
+        <ListContainer>
+          <Row>
+            <Col className="col-12 col-sm-10 col-xl-10 col-md-9 mb-3 mt-3">
+              <Row>
+                {currentDonation.map((donation) => (
+                  <DonationListItem key={donation.don_id} donation={donation} />
+                ))}
+              </Row>
+            </Col>
+
+            <Col className="col-12 col-sm-2 col-xl-2 col-md-3 mb-3 mt-3">
+              <CategoryCard
+                onCategoryClick={handleCategoryClick}
+                onClearCategory={handleClearCategory}
+              />
+            </Col>
+
+          </Row>
+
+          <Pagination>
+            <PageButton onClick={prevPage} disabled={currentPage === 1}>
+              Anterior
+            </PageButton>
+            {Array.from({ length: totalPages }).map((_, index) => (
+              <PageButton
+                key={index}
+                onClick={() => setCurrentPage(index + 1)}
+                isActive={currentPage === index + 1}
+              >
+                {index + 1}
+              </PageButton>
+            ))}
+            <PageButton onClick={nextPage} disabled={currentPage === totalPages}>
+              Siguiente
+            </PageButton>
+          </Pagination>
+        </ListContainer>
+
+
+
       </ListAndCategoryContainer>
       <ToastContainer
         position="top-right"

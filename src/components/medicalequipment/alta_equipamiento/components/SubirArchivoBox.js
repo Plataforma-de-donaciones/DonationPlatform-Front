@@ -56,7 +56,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const Button = styled.div`
-  color: rgba(255, 152, 0, 1);
+  color: rgba(79,181,139, 1);
   font-size: 25px;
   margin-right: 8px;
 `;

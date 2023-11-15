@@ -11,6 +11,7 @@ import Menu from "../../../../generales/src/components/Menu";
 import instance from "../../../../../axios_instance";
 import CarouselNews from "../components/CarouselNews";
 import Layout from "../../../../generales/src/components/layout/Layout";
+import { Col, Row } from "react-bootstrap";
 
 const cookies = new Cookies();
 const Container = styled.div`
@@ -61,7 +62,6 @@ const NewsListContainer = styled.div`
 
 const CalendarContainer = styled.div`
   margin-top: 24px;
-  flex: 1; /* Ajuste de flex para ocupar el espacio disponible */
 `;
 
 const Footer = styled(GeneralFooter)`
@@ -105,14 +105,15 @@ const HomeScreen = () => {
     <Layout>
       <CarouselNews news={highlightedNews}></CarouselNews>
 
-      <ContentContainer>
-        <NewsListContainer>
+      <Row className="mt-3 mx-auto">
+        <Col className="col-xl-8 col-sm-12 order-sm-2 order-xl-1 order-1">
           <NewsList newsList={newsList} />
-        </NewsListContainer>
-        <CalendarContainer>
+        </Col>
+
+        <Col className="col-xl-4 col-sm-12 order-sm-1  mb-3">
           <MyCalendar events={events} />
-        </CalendarContainer>
-      </ContentContainer>
+        </Col>
+      </Row>
 
     </Layout>
   );

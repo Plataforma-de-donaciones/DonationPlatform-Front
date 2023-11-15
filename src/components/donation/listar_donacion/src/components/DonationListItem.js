@@ -4,6 +4,8 @@ import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom'; // Importa useHistory
 import Swal from 'sweetalert2';
 import { useAuth } from "../../../../../AuthContext";
+import { Container, Col, Row } from 'react-bootstrap';
+import CardItem from '../../../../generales/src/components/CardItem';
 
 const DonationCardContainer = styled.div`
   background-color: #fff;
@@ -54,7 +56,7 @@ const ActionButton = styled.button`
   display: flex;
   align-items: center;
   padding: 8px;
-  background-color: rgba(255, 152, 0, 1);
+  background-color: rgba(79,181,139, 1);
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -64,6 +66,7 @@ const ActionButton = styled.button`
 
 const IconContainer = styled.span`
   margin-right: 8px;
+  margin-bottom: 3px;
 `;
 
 const stateMap = {
@@ -114,31 +117,39 @@ const DonationListItem = ({ donation }) => {
   };
 
   return (
-    <DonationCardContainer>
-      <HeaderContainer>
-        <Title>{donation.don_name}</Title>
-      </HeaderContainer>
-      {donation.don_attachment && <Image src={donation.don_attachment} alt="Donacion" />}
-      <Description>{donation.don_description}</Description>
-      <div>
-        <label style={{ textAlign: "left" }}>Estado:</label>
-        <span style={{ textAlign: "left" }}>{stateMap[donation.state]}</span>
-      </div>
-      <ActionButtons>
-        <ActionButton onClick={handleAction}>
-          <IconContainer>
-            <FaUser />
-          </IconContainer>
-          {donation.type === 1 ? "Donar" : "Solicitar"}
-        </ActionButton>
-        <ActionButton onClick={handleUbicacion}>
-          <IconContainer>
-            <FaMapMarkerAlt />
-          </IconContainer>
-          Ubicación
-        </ActionButton>
-      </ActionButtons>
-    </DonationCardContainer>
+    <>
+      <CardItem
+        name={donation.don_name}
+        state={stateMap[donation.state]}
+        descriptions={donation.don_description}
+        image={donation.don_attachment}
+        isGrid
+        childrens={
+          <>
+
+            <ActionButtons className='mb-3'>
+              <ActionButton onClick={handleAction}>
+                <IconContainer>
+                  <FaUser />
+                </IconContainer>
+                {donation.type === 1 ? "Donar" : "Solicitar"}
+              </ActionButton>
+              <ActionButton onClick={handleUbicacion}>
+                <IconContainer>
+                  <FaMapMarkerAlt />
+                </IconContainer>
+                Ubicación
+              </ActionButton>
+            </ActionButtons>
+
+          </>
+
+
+        }
+      />
+
+    </>
+
   );
 };
 

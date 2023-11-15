@@ -26,7 +26,7 @@ const Content = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente para el contenido */
+  background-color: rgba(255, 255, 255, 0.4); /* Fondo semi-transparente para el contenido */
   position: relative; /* Agrega esta propiedad */
 `;
 
@@ -37,7 +37,7 @@ const Footer = styled(GeneralFooter)`
 const Login = () => {
   return (
     <Container>
-      <BackgroundLogin /> {/* Coloca BackgroundLogin antes que los otros componentes */}
+      <BackgroundLogin /> 
       <Header />
       <Content>
         <LoginBox />

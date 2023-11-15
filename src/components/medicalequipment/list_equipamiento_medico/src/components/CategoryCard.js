@@ -8,15 +8,13 @@ const CardContainer = styled.div`
   padding: 16px;
   border-radius: 8px;
   margin-right: 16px;
-  max-height: 400px;
-  min-width: 200px;
 `;
 
 const StyledButton = styled.button`
   padding: 8px;
   margin: 4px;
   cursor: pointer;
-  background-color: rgba(255, 152, 0, 1);
+  background-color: rgba(79,181,139, 1);
   color: white; /* Color del texto */
   border: none;
   border-radius: 4px;

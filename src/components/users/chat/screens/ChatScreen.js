@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import GeneralHeader from "../../../generales/src/components/GeneralHeader";
-import GeneralFooter from "../../../generales/src/components/GeneralFooter";
 import ChatComponent from "../components/ChatComponent";
 import { useParams } from "react-router-dom";
+import GeneralFooter from "../../login/src/components/GeneralFooter";
+import Layout from "../../../generales/src/components/layout/Layout";
+import { Card, Col, Row } from "react-bootstrap";
 
 const Container = styled.div`
   display: grid;
@@ -69,34 +70,13 @@ function ChatScreen(props) {
   const { convId } = useParams();
 
   return (
-    <Container>
-      <GeneralHeaderColumn>
-        <GeneralHeader
-          style={{
-            width: "100%",
-            margin: "0 auto",
-          }}
-        />
-        <Rect>
-          <PerfilText>Chat</PerfilText>
-        </Rect>
-      </GeneralHeaderColumn>
-      <GeneralHeaderColumnFiller />
-      <Content>
-      <ChatComponent convId={convId} />
-      </Content>
-      <GeneralFooterStyled
-        style={{
-          width: "100%",
-          maxWidth: "1366px",
-          margin: "0 auto",
-          height: "60px",
-          shadowRadius: 0,
-          alignSelf: "center",
-          boxShadow: "3px 3px 0px  0.01px rgba(0,0,0,1) "
-        }}
-      />
-    </Container>
+    <>
+      <Layout haveMenu={false}>
+
+        <ChatComponent convId={convId} />
+
+      </Layout>
+    </>
   );
 }
 

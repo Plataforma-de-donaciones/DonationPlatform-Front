@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
-import GeneralFooter from "../../../../generales/src/components/GeneralFooter";
 import ListadoDonacion from "../components/ListadoDonacion";
 import { useParams } from "react-router-dom";
+import GeneralFooter from "../../../login/src/components/GeneralFooter";
+import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
 
 const Container = styled.div`
   display: grid;

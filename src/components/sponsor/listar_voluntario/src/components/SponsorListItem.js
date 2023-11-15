@@ -17,7 +17,7 @@ const ActionButton = styled.button`
   display: flex;
   align-items: center;
   padding: 8px;
-  background-color: rgba(255, 152, 0, 1);
+  background-color: rgba(79,181,139, 1);
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -27,6 +27,8 @@ const ActionButton = styled.button`
 
 const IconContainer = styled.span`
   margin-right: 8px;
+  margin-bottom: 3px;
+
 `;
 
 const stateMap = {
@@ -72,33 +74,33 @@ const SponsorListItem = ({ sponsor }) => {
 
   return (
     <>
-      <Container fluid>
-        <Row className='mb-3'>
-          <Col >
-            <CardItem
-              name={sponsor.sponsor_name}
-              state={stateMap[sponsor.state]}
-              descriptions={sponsor.sponsor_description}
-              childrens={
-                <ActionButtons>
-                <ActionButton onClick={handleAction}>
-                  <IconContainer>
-                    <FaUser />
-                  </IconContainer>
-                  {sponsor.type === 1 ? "Donar" : "Solicitar"}
-                </ActionButton>
-                <ActionButton onClick={handleUbicacion}>
-                  <IconContainer>
-                    <FaMapMarkerAlt />
-                  </IconContainer>
-                  Ubicación
-                </ActionButton>
-              </ActionButtons>
-              }
-            />
-          </Col>
-        </Row>
-      </Container>
+
+      <CardItem
+        name={sponsor.sponsor_name}
+        state={stateMap[sponsor.state]}
+        descriptions={sponsor.sponsor_description}
+        childrens={
+
+          <ActionButtons className='mb-3'>
+
+            <ActionButton onClick={handleAction}>
+              <IconContainer>
+                <FaUser />
+              </IconContainer>
+              {sponsor.type === 1 ? "Donar" : "Solicitar"}
+            </ActionButton>
+            <ActionButton onClick={handleUbicacion}>
+              <IconContainer>
+                <FaMapMarkerAlt />
+              </IconContainer>
+              Ubicación
+            </ActionButton>
+
+          </ActionButtons>
+
+        }
+      />
+
     </>
 
   );

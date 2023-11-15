@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../../../../../AuthContext";
 import Cookies from "universal-cookie";
 import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
 import GeneralFooter from "../../../../generales/src/components/GeneralFooter";
@@ -8,6 +7,8 @@ import EquipamientoMedicoList from "../components/EquipamientoMedicoList";
 import instance from "../../../../../axios_instance";
 import Menu from "../../../../generales/src/components/Menu";
 import { useHistory } from "react-router-dom"; // Importa useHistory
+import Layout from "../../../../generales/src/components/layout/Layout";
+import { Card, CardBody } from "react-bootstrap";
 
 const cookies = new Cookies();
 
@@ -66,14 +67,18 @@ const Listeqscreen = () => {
   }, [token]);
 
   return (
-    <Container>
-      <Header />
-      <Menus />
-      <Content>
-        <EquipamientoMedicoList equipamientoList={equipamientoList} />
-      </Content>
-      <Footer />
-    </Container>
+    <>
+      <Layout>
+        <Card className='mt-5'>
+          <CardBody>
+
+            <EquipamientoMedicoList equipamientoList={equipamientoList} />
+
+          </CardBody>
+        </Card>
+      </Layout>
+    </>
+
   );
 };
 

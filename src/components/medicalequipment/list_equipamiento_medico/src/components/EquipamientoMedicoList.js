@@ -12,6 +12,8 @@ import TypeFilterButton from "./TypeFilterButton";
 import ClearTypeFilterButton from "./ClearTypeFilterButton";
 import { toast, ToastContainer } from 'react-toastify';
 import Swal from "sweetalert2";
+import { Button, Col, Row } from "react-bootstrap";
+import EncabezadoListado from "../../../../generales/src/components/layout/EncabezadoListado";
 
 const cookies = new Cookies();
 
@@ -28,8 +30,8 @@ const ListContainer = styled.div`
   margin-right: 16px;
 `;
 const ListAndCategoryContainer = styled.div`
-  display: flex;
-  flex-direction: row;
+  // display: flex;
+  // flex-direction: row;
 `;
 
 const SearchBarContainer = styled.div`
@@ -48,18 +50,18 @@ const SearchBarAndAddEquipment = styled.div`
 `;
 
 const FilterBarContainer = styled.div`
-  display: flex;
-  flex-direction: row; 
-  align-items: center; 
-  margin-bottom: 16px;
-  max-width: 800px;
-  justify-content: flex-end;
+  // display: flex;
+  // flex-direction: row; 
+  // align-items: center; 
+  // margin-bottom: 16px;
+  // max-width: 800px;
+  // justify-content: flex-end;
 `;
 const FilterBarForType = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: space-around; 
-  align-items: center;
+  // display: flex;
+  // flex: 1;
+  // justify-content: space-around; 
+  // align-items: center;
 `;
 const SearchInput = styled.input`
   padding: 8px;
@@ -112,7 +114,7 @@ const PageButton = styled.button`
 `;
 
 const EquipamientoMedicoList = () => {
-  const itemsPerPage = 5;
+  const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [originalEquipamientoList, setOriginalEquipamientoList] = useState([]);
@@ -121,35 +123,35 @@ const EquipamientoMedicoList = () => {
   const [selectedType, setSelectedType] = useState(null);
 
   const token = cookies.get("token");
-  
+
   useEffect(() => {
     const fetchEquipamiento = async () => {
       try {
         let response;
-  
+
         if (selectedCategory !== null) {
           response = await instance.get(`/categoriesmeq/search/${selectedCategory}/`);
           const equipamientoIds = response.data.map((entry) => entry.eq_id);
           const filteredEquipamiento = originalEquipamientoList.filter((equipamiento) =>
             equipamientoIds.includes(equipamiento.eq_id)
           );
-  
+
           // Aplicar el filtro por tipo
           const filteredEquipamientoByType = selectedType
             ? filteredEquipamiento.filter((equipamiento) => equipamiento.type === selectedType)
             : filteredEquipamiento;
-  
+
           // Actualizar el estado equipamientoList con los resultados del filtro
           setEquipamientoList(filteredEquipamientoByType);
         } else {
           response = await instance.get("/medicalequipments/");
           setOriginalEquipamientoList(response.data);
-  
+
           // Aplicar el filtro por tipo
           const equipamientoList = selectedType
             ? response.data.filter((equipamiento) => equipamiento.type === selectedType)
             : response.data;
-  
+
           // Actualizar el estado equipamientoList con los resultados del filtro
           setEquipamientoList(equipamientoList);
         }
@@ -157,7 +159,7 @@ const EquipamientoMedicoList = () => {
         console.error("Error fetching equipamiento médico:", error);
       }
     };
-  
+
     fetchEquipamiento();
   }, [selectedCategory, selectedType, token]);
 
@@ -225,77 +227,62 @@ const EquipamientoMedicoList = () => {
   };
 
   return (
-    <EquipamientoMedicoListContainer>
-      <FilterBarContainer>
-        <FilterBarForType>
-        <TypeFilterButton
-            isActive={selectedType === 1}
-            onClick={() => handleTypeClick(1)}
-          >
-              Solicitud
-          </TypeFilterButton>
-        <TypeFilterButton
-            isActive={selectedType === 2}
-            onClick={() => handleTypeClick(2)}
-          >
-              Ofrecimiento
-        </TypeFilterButton>
-        
-        </FilterBarForType>
-        <ClearTypeFilterButton onClick={() => handleTypeClick(null)}>
-          Borrar Filtro
-          </ClearTypeFilterButton>
-      </FilterBarContainer>
-      <SearchBarContainer>
-        <SearchBarAndAddEquipment>
-        <AddEquipment onClick={handleAddEquipmentClick}>
-          <AddIcon>
-            <FontAwesomeIcon icon={faPlus} />
-          </AddIcon>
-          Agregar equipamiento
-        </AddEquipment>
-          <SearchInput
-            type="text"
-            placeholder="Buscar por nombre..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <SearchIcon onClick={handleSearch}>
-            <FontAwesomeIcon icon={faSearch} />
-          </SearchIcon>
-        </SearchBarAndAddEquipment>
-      </SearchBarContainer>
-      <ListAndCategoryContainer>
-      <ListContainer>
-        {currentEquipamiento.map((equipamiento) => (
-          <EquipamientoMedicoListItem key={equipamiento.eq_id} equipamiento={equipamiento} />
-        ))}
+    <>
 
-        {/* Paginación */}
-        <Pagination>
-          <PageButton onClick={prevPage} disabled={currentPage === 1}>
-            Anterior
-          </PageButton>
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <PageButton
-              key={index}
-              onClick={() => setCurrentPage(index + 1)}
-              isActive={currentPage === index + 1}
-            >
-              {index + 1}
-            </PageButton>
-          ))}
-          <PageButton onClick={nextPage} disabled={currentPage === totalPages}>
-            Siguiente
-          </PageButton>
-        </Pagination>
-      </ListContainer>
-
-      <CategoryCard
-        onCategoryClick={handleCategoryClick}
-        onClearCategory={handleClearCategory}
+      <EncabezadoListado
+        onActionSolicitud={() => handleTypeClick(1)}
+        onActionOfrecimiento={() => handleTypeClick(2)}
+        onActionBorrar={() => handleTypeClick(null)}
+        onActionAdd={handleAddEquipmentClick}
+        searchValue={searchTerm}
+        searchOnChange={setSearchTerm}
+        onSearch={handleSearch}
+        textButton={'Agregar equipamiento'}
       />
+
+      <ListAndCategoryContainer>
+
+        <ListContainer>
+          <Row>
+            <Col className="col-12 col-sm-12 col-xl-10 col-md-12 order-xl-1 order-sm-2 order-md-2 mb-3 mt-3">
+              <Row>
+                {currentEquipamiento.map((equipamiento) => (
+                  <EquipamientoMedicoListItem key={equipamiento.eq_id} equipamiento={equipamiento} />
+                ))}
+              </Row>
+            </Col>
+
+            <Col className="col-12 col-sm-12 col-xl-2 col-md-12 order-xl-2 order-sm-1 order-md-1 mb-3 mt-3 d-flex flex-row flex-sm-column">
+              <CategoryCard
+                onCategoryClick={handleCategoryClick}
+                onClearCategory={handleClearCategory}
+              />
+            </Col>
+
+          </Row>
+
+          {/* Paginación */}
+          <Pagination>
+            <PageButton onClick={prevPage} disabled={currentPage === 1}>
+              Anterior
+            </PageButton>
+            {Array.from({ length: totalPages }).map((_, index) => (
+              <PageButton
+                key={index}
+                onClick={() => setCurrentPage(index + 1)}
+                isActive={currentPage === index + 1}
+              >
+                {index + 1}
+              </PageButton>
+            ))}
+            <PageButton onClick={nextPage} disabled={currentPage === totalPages}>
+              Siguiente
+            </PageButton>
+          </Pagination>
+        </ListContainer>
+
       </ListAndCategoryContainer>
+
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -308,10 +295,10 @@ const EquipamientoMedicoList = () => {
         pauseOnHover
         theme="light"
       />
-      {/* Same as */}
+
       <ToastContainer />
-    </EquipamientoMedicoListContainer>
-    
+    </>
+
   );
 };
 

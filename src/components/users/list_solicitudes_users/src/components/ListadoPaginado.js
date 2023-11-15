@@ -4,38 +4,37 @@ import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
 import Swal from "sweetalert2";
+import { Button, Card, Col, Row, Table } from "react-bootstrap";
 
 const cookies = new Cookies();
-
-// Define estilos con styled-components
 const StyledTable = styled.table`
-  border-collapse: collapse;
-  width: 100%;
+  // border-collapse: collapse;
+  // width: 100%;
 `;
 
-const TableHeaderCell = styled.th`
+const th = styled.th`
+  // border: 1px solid #ddd;
+  // padding: 8px;
+  // text-align: left;
+`;
+
+const td = styled.td`
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
 `;
-
-const TableCell = styled.td`
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-`;
-
-const ListadoPaginado = ({ tipo }) => {
+const ListadoPaginado = ({ }) => {
   const [datos, setDatos] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
-  const [idEnEdicion, setIdEnEdicion] = useState(null);
-
+  const [tipo, setTipo] = useState("donations");
+  const [titulo, setTitulo] = useState(["Donaciones"]);
   const history = useHistory();
   const location = useLocation();
   const token = cookies.get("token");
   const userDataCookie = cookies.get("user_data");
   const user_email = userDataCookie.user_email;
+  const [idEnEdicion, setIdEnEdicion] = useState(null);
 
   const editarItem = (idField, id) => {
     setIdEnEdicion(id);
@@ -85,7 +84,7 @@ const ListadoPaginado = ({ tipo }) => {
 
   const eliminarItem = async (id) => {
     console.log("id a eliminar", id);
-    
+
     const confirmation = await Swal.fire({
       title: "¿Está seguro que desea eliminar?",
       text: "¡No podrá recuperar el dato!",
@@ -120,107 +119,124 @@ const ListadoPaginado = ({ tipo }) => {
   }, [paginaActual, tipo]);
 
   return (
-    <div>
-      <div>
-        {Array.from({ length: totalPaginas }).map((_, index) => (
-          <button key={index} onClick={() => cambiarPagina(index + 1)}>
-            {index + 1}
-          </button>
-        ))}
-      </div>
-      <StyledTable>
-        <thead>
-          <tr>
-            <TableHeaderCell>Nombre</TableHeaderCell>
-            <TableHeaderCell>Descripción</TableHeaderCell>
-            <TableHeaderCell>Fecha creado</TableHeaderCell>
-            <TableHeaderCell>Solicitudes</TableHeaderCell>
-            <TableHeaderCell>Fecha confirmación</TableHeaderCell>
-            <TableHeaderCell>Tiene solicitudes</TableHeaderCell>
-            <TableHeaderCell>Editar</TableHeaderCell>
-            <TableHeaderCell>Eliminar</TableHeaderCell>
-          </tr>
-        </thead>
-        <tbody>
-          {datos.map((item) => (
-            <tr key={item.id}>
-              {tipo === "donations" && (
-                <>
-                  <TableCell>{item.don_name}</TableCell>
-                  <TableCell>{item.don_description}</TableCell>
-                  <TableCell>{item.don_created_at}</TableCell>
-                  <TableCell>{item.request_count}</TableCell>
-                  <TableCell>{item.don_confirmation_date}</TableCell>
-                  <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
-                  <TableCell>
-                    <Link to={`/editardonacion/${item.don_id}`}>Editar</Link>
-                  </TableCell>
-                  <TableCell>
-                    <button onClick={() => eliminarItem(item.don_id || item.id)}>
-                      Eliminar
-                    </button>
-                  </TableCell>
-                </>
-              )}
-              {tipo === "medicalequipments" && (
-                <>
-                  <TableCell>{item.eq_name}</TableCell>
-                  <TableCell>{item.eq_description}</TableCell>
-                  <TableCell>{item.don_created_at}</TableCell>
-                  <TableCell>{item.request_count}</TableCell>
-                  <TableCell>{item.eq_confirmation_date}</TableCell>
-                  <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
-                  <TableCell>
-                    <Link to={`/editarequipamiento/${item.eq_id}`}>Editar</Link>
-                  </TableCell>
-                  <TableCell>
-                    <button onClick={() => eliminarItem(item.eq_id || item.id)}>
-                      Eliminar
-                    </button>
-                  </TableCell>
-                </>
-              )}
-              {tipo === "volunteers" && (
-                <>
-                  <TableCell>{item.vol_name}</TableCell>
-                  <TableCell>{item.vol_description}</TableCell>
-                  <TableCell>{item.vol_created_at}</TableCell>
-                  <TableCell>{item.request_count}</TableCell>
-                  <TableCell>{item.vol_confirmation_date}</TableCell>
-                  <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
-                  <TableCell>
-                    <Link to={`/editarvoluntario/${item.vol_id}`}>Editar</Link>
-                  </TableCell>
-                  <TableCell>
-                    <button onClick={() => eliminarItem(item.vol_id || item.id)}>
-                      Eliminar
-                    </button>
-                  </TableCell>
-                </>
-              )}
-              {tipo === "sponsors" && (
-                <>
-                  <TableCell>{item.sponsor_name}</TableCell>
-                  <TableCell>{item.sponsor_description}</TableCell>
-                  <TableCell>{item.sponsor_created_at}</TableCell>
-                  <TableCell>{item.request_count}</TableCell>
-                  <TableCell>{item.sponsor_confirmation_date}</TableCell>
-                  <TableCell>{item.has_requests ? "Yes" : "No"}</TableCell>
-                  <TableCell>
-                    <Link to={`/editarsponsor/${item.sponsor_id}`}>Editar</Link>
-                  </TableCell>
-                  <TableCell>
-                    <button onClick={() => eliminarItem(item.sponsor_id || item.id)}>
-                      Eliminar
-                    </button>
-                  </TableCell>
-                </>
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </StyledTable>
-    </div>
+    <>
+      <Card className='mt-5'>
+        <Card.Header className="text-center h5">
+          Mis solicitudes - {titulo}
+        </Card.Header>
+        <Card.Body>
+          <div className="text-center">
+            <Button className={"me-3 mb-3"} onClick={() => { setTipo("donations", setTitulo("Donaciones")) }}>Donaciones</Button>
+            <Button className={"me-3 mb-3"} onClick={() => setTipo("medicalequipments", setTitulo("Equipamiento médico"))}>Equipamiento Médico</Button>
+            <Button className={"me-3 mb-3"} onClick={() => setTipo("volunteers", setTitulo("Voluntarios"))}>Voluntarios</Button>
+            <Button className={"me-3 mb-3"} onClick={() => setTipo("sponsors", setTitulo("Padrinos"))}>Padrinos</Button>
+          </div>
+
+          <Table responsive striped bordered hover>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Fecha creado</th>
+                <th>Ofrecimientos</th>
+                <th>Fecha confirmación</th>
+                <th>Tiene solicitudes</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {datos.map((item) => (
+                <tr key={item.id}>
+                  {tipo === "donations" && (
+                    <>
+                      <td>{item.don_name}</td>
+                      <td>{item.don_description}</td>
+                      <td>{item.don_created_at}</td>
+                      <td>{item.request_count}</td>
+                      <td>{item.don_confirmation_date}</td>
+                      <td>{item.has_requests ? "Yes" : "No"}</td>
+                      <td>
+                        <Link to={`/editardonacion/${item.don_id}`}>Editar</Link>
+                      </td>
+                      <td>
+                        <Button variant="danger" onClick={() => eliminarItem(item.don_id || item.id)}>
+                          Eliminar
+                        </Button>
+                      </td>
+                    </>
+                  )}
+                  {tipo === "medicalequipments" && (
+                    <>
+                      <td>{item.eq_name}</td>
+                      <td>{item.eq_description}</td>
+                      <td>{item.don_created_at}</td>
+                      <td>{item.request_count}</td>
+                      <td>{item.eq_confirmation_date}</td>
+                      <td>{item.has_requests ? "Yes" : "No"}</td>
+                      <td>
+                        <Link to={`/editarequipamiento/${item.eq_id}`}>Editar</Link>
+                      </td>
+                      <td>
+                        <Button variant="danger" onClick={() => eliminarItem(item.eq_id || item.id)}>
+                          Eliminar
+                        </Button>
+                      </td>
+                    </>
+                  )}
+                  {tipo === "volunteers" && (
+                    <>
+                      <td>{item.vol_name}</td>
+                      <td>{item.vol_description}</td>
+                      <td>{item.vol_created_at}</td>
+                      <td>{item.request_count}</td>
+                      <td>{item.vol_confirmation_date}</td>
+                      <td>{item.has_requests ? "Yes" : "No"}</td>
+                      <td>
+                        <Link to={`/editarvoluntario/${item.vol_id}`}>Editar</Link>
+                      </td>
+                      <td>
+                        <Button variant="danger" onClick={() => eliminarItem(item.vol_id || item.id)}>
+                          Eliminar
+                        </Button>
+                      </td>
+                    </>
+                  )}
+                  {tipo === "sponsors" && (
+                    <>
+                      <td>{item.sponsor_name}</td>
+                      <td>{item.sponsor_description}</td>
+                      <td>{item.sponsor_created_at}</td>
+                      <td>{item.request_count}</td>
+                      <td>{item.sponsor_confirmation_date}</td>
+                      <td>{item.has_requests ? "Yes" : "No"}</td>
+                      <td>
+                        <Link to={`/editarsponsor/${item.sponsor_id}`}>Editar</Link>
+                      </td>
+                      <td>
+                        <Button variant="danger" onClick={() => eliminarItem(item.sponsor_id || item.id)}>
+                          Eliminar
+                        </Button>
+                      </td>
+                    </>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Card.Body>
+        <Card.Footer>
+          <div className="text-center">
+            {Array.from({ length: totalPaginas }).map((_, index) => (
+              <Button key={index} onClick={() => cambiarPagina(index + 1)}>
+                {index + 1}
+              </Button>
+            ))}
+          </div>
+        </Card.Footer>
+      </Card>
+
+    </>
   );
 };
 

@@ -16,7 +16,7 @@ const StyledButton = styled.button`
   padding: 8px;
   margin: 4px;
   cursor: pointer;
-  background-color: rgba(255, 152, 0, 1);
+  background-color: rgba(79,181,139, 1);
   color: white; /* Color del texto */
   border: none;
   border-radius: 4px;

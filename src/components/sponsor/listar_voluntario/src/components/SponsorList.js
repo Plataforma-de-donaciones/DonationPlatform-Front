@@ -10,7 +10,8 @@ import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
 import TypeButtons from "../../../../volunteer/listar_voluntario/src/components/TypeButtons";
 import Swal from "sweetalert2";
-import { Button } from "react-bootstrap";
+import { Button, Row } from "react-bootstrap";
+import EncabezadoListado from "../../../../generales/src/components/layout/EncabezadoListado";
 
 const cookies = new Cookies();
 
@@ -18,75 +19,6 @@ const SponsorListContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 16px;
-`;
-
-const ListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-right: 16px;
-`;
-
-const SearchBarContainer = styled.div`
-  display: flex;
-  flex-direction: row; 
-  align-items: center; 
-  margin-bottom: 16px;
-  justify-content: flex-end;
-`;
-
-const SearchBarAndAddEquipment = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: space-between;
-  align-items: center;
-`;
-const FilterBarContainer = styled.div`
-  display: flex;
-  flex-direction: row; 
-  align-items: center; 
-  margin-bottom: 16px;
-  justify-content: center;
-`;
-const FilterBarForType = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: space-around; 
-  align-items: center;
-`;
-const SearchInput = styled.input`
-  padding: 8px;
-  margin-right: 8px;
-  border: none;
-  outline: none;
-  flex: 2;
-  font-size: 16px;
-  background: transparent;
-  max-width: 200px;
-`;
-const SearchIcon = styled.span`
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-  color: #007bff;
-`;
-
-const AddEquipment = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 300px;
-  cursor: pointer;
-`;
-
-const AddIcon = styled.button`
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-  color: #28a745;
-  margin-right: 0px;
 `;
 
 const Pagination = styled.div`
@@ -103,7 +35,7 @@ const PageButton = styled.button`
 `;
 
 const SponsorList = () => {
-  const itemsPerPage = 5;
+  const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [originalSponsorList, setOriginalSponsorList] = useState([]);
   const [sponsorList, setSponsorList] = useState([]);
@@ -194,70 +126,40 @@ const SponsorList = () => {
     <SponsorListContainer>
       <TypeButtons />
 
-      <SearchBarContainer>
-        <SearchBarAndAddEquipment>
-          <AddEquipment onClick={handleAddDonationClick}>
-            <AddIcon>
-              <FontAwesomeIcon icon={faPlus} />
-            </AddIcon>
-            Agregar apadrinamiento
-          </AddEquipment>
+      <EncabezadoListado
+        onActionSolicitud={() => handleTypeClick(1)}
+        onActionOfrecimiento={() => handleTypeClick(2)}
+        onActionBorrar={() => handleTypeClick(null)}
+        onActionAdd={handleAddDonationClick}
+        searchValue={searchTerm}
+        searchOnChange={setSearchTerm}
+        onSearch={handleSearch}
+        textButton={"Agregar apadrinamiento"}
+      />
 
-          <SearchInput
-            type="text"
-            placeholder="Buscar por nombre..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <SearchIcon onClick={handleSearch}>
-            <FontAwesomeIcon icon={faSearch} />
-          </SearchIcon>
-
-        </SearchBarAndAddEquipment>
-      </SearchBarContainer>
-
-      <FilterBarContainer>
-        <FilterBarForType>
-          <TypeFilterButton
-            isActive={selectedType === 1}
-            onClick={() => handleTypeClick(1)}
-          >
-            Solicitud
-          </TypeFilterButton>
-          <TypeFilterButton
-            isActive={selectedType === 2}
-            onClick={() => handleTypeClick(2)}>
-            Ofrecimiento
-          </TypeFilterButton>
-
-        </FilterBarForType>
-
-        <Button onClick={() => handleTypeClick(null)} variant="outline-danger" >Borrar Filtro</Button>{' '}
-  
-      </FilterBarContainer>
-
-      <ListContainer>
+      <Row>
         {currentSponsor.map((sponsor) => (
           <SponsorListItem key={sponsor.sponsor_id} sponsor={sponsor} />
         ))}
-        <Pagination>
-          <PageButton onClick={prevPage} disabled={currentPage === 1}>
-            Anterior
+      </Row>
+
+      <Pagination>
+        <PageButton onClick={prevPage} disabled={currentPage === 1}>
+          Anterior
+        </PageButton>
+        {Array.from({ length: totalPages }).map((_, index) => (
+          <PageButton
+            key={index}
+            onClick={() => setCurrentPage(index + 1)}
+            isActive={currentPage === index + 1}
+          >
+            {index + 1}
           </PageButton>
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <PageButton
-              key={index}
-              onClick={() => setCurrentPage(index + 1)}
-              isActive={currentPage === index + 1}
-            >
-              {index + 1}
-            </PageButton>
-          ))}
-          <PageButton onClick={nextPage} disabled={currentPage === totalPages}>
-            Siguiente
-          </PageButton>
-        </Pagination>
-      </ListContainer>
+        ))}
+        <PageButton onClick={nextPage} disabled={currentPage === totalPages}>
+          Siguiente
+        </PageButton>
+      </Pagination>
     </SponsorListContainer>
   );
 };

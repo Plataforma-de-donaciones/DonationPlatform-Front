@@ -10,15 +10,15 @@ const EventMarker = styled.div`
   position: relative;
   width: 10px;
   height: 10px;
-  background-color: red;
+  background-color: rgba(79,181,139, 1);;
   border-radius: 50%;
   cursor: pointer;
 `;
 
 const StyledCalendar = styled(Calendar)`
   border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  // border-radius: 8px;
+  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const formatDate = (date) => {
@@ -70,9 +70,9 @@ const MyCalendar = ({ events }) => {
   };
 
   return (
-    <div>
+    <>
       <ToastContainer />
-      <StyledCalendar
+      <StyledCalendar className={"mx-auto"}
         tileContent={({ date }) => {
           const formattedDate = formatDate(date);
           const matchingEvent = events.find(
@@ -85,7 +85,7 @@ const MyCalendar = ({ events }) => {
           ) : null;
         }}
       />
-    </div>
+    </>
   );
 };
 

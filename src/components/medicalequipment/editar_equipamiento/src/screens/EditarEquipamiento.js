@@ -1,10 +1,9 @@
 import React from "react";
-import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
-import GeneralFooter from "../../../../generales/src/components/GeneralFooter";
 import EditarEqMedicoBox from "../components/EditarEqMedicoBox";
 import styled from "styled-components";
 import Menu from "../../../../generales/src/components/Menu";
-
+import GeneralFooter from "../../../../users/login/src/components/GeneralFooter";
+import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
 const Container = styled.div`
   display: grid;
   grid-template-rows: auto 1fr auto;

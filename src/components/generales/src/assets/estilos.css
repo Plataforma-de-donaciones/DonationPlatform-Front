@@ -2,30 +2,184 @@
   padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
   margin-bottom: 0;
   color: var(--bs-card-cap-color);
-  background-color: rgba(255, 152, 0, 0.59);
+  background-color: rgba(141, 202, 170, 1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
 }
 
-.btn-primary
-{
-  --bs-btn-bg: rgba(255, 152, 0, 0.59);
-  --bs-btn-border-color: rgba(255, 152, 0, 0.89);
-  --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: rgba(255, 152, 0, 0.75);
-  --bs-btn-focus-shadow-rgb: 49,132,253;
+.btn-primary {
+  --bs-btn-bg: rgba(79, 181, 139, 1);
+  --bs-btn-border-color: rgba(141, 202, 170, 0.89);
+  --bs-btn-hover-color: rgba(79, 181, 139, 1);
+  --bs-btn-hover-bg: rgba(141, 202, 170, , 0.75);
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
   --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: rgba(255, 152, 0, 1);
-  --bs-btn-active-border-color: #0a53be;
+  --bs-btn-active-bg: rgba(141, 202, 170, 1);
+  --bs-btn-active-border-color: #008972;
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   --bs-btn-disabled-color: #fff;
-  --bs-btn-disabled-bg: #0d6efd;
-  --bs-btn-disabled-border-color: #0d6efd;
+  --bs-btn-disabled-bg: #008972;
+  --bs-btn-disabled-border-color: #008972;
 }
 
-.avatar
-{
+.avatar {
   width: 600px;
   height: 200px;
-  border:none;
-  margin: auto; max-width: 300px;
+  border: none;
+  margin: auto;
+  max-width: 300px;
+}
+
+.lista-chat {
+  padding: 0;
+  font-size: .8rem;
+}
+
+.lista-chat li {
+  margin-bottom: 10px;
+  overflow: auto;
+  color: #ffffff;
+}
+
+.lista-chat .chat-body {
+  margin-left: 20px;
+  float: left;
+  width: 70%;
+}
+
+.lista-chat .mensaje {
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  background: #5a99ee;
+  display: inline-block;
+  padding: 10px 20px;
+  position: relative;
+}
+
+.lista-chat .mensaje h5 {
+  margin: 0 0 5px 0;
+  font-weight: 600;
+  line-height: 100%;
+  font-size: .9rem;
+}
+
+.lista-chat .mensaje p {
+  line-height: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+.lista-chat .in .mensaje:before {
+  left: -12px;
+  border-bottom: 20px solid transparent;
+  border-right: 20px solid #5a99ee;
+}
+
+
+
+.chat-list {
+  padding: 0;
+  font-size: .8rem;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.chat-list li {
+  margin-bottom: 10px;
+  overflow: auto;
+  color: #ffffff;
+}
+
+.chat-list .chat-img {
+  float: left;
+  width: 48px;
+}
+
+.chat-list .chat-img img {
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  width: 100%;
+}
+
+.chat-list .chat-message {
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  background: #5a99ee;
+  display: inline-block;
+  padding: 10px 20px;
+  position: relative;
+}
+
+.chat-list .chat-message:before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  width: 0;
+  height: 0;
+}
+
+.chat-list .chat-message h5 {
+  margin: 0 0 5px 0;
+  font-weight: 600;
+  line-height: 100%;
+  font-size: .9rem;
+}
+
+.chat-list .chat-message p {
+  line-height: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+.chat-list .chat-body {
+  margin-left: 20px;
+  float: left;
+  width: 70%;
+}
+
+.chat-list .in .chat-message:before {
+  left: -12px;
+  border-bottom: 20px solid transparent;
+  border-right: 20px solid #5a99ee;
+}
+
+.chat-list .out .chat-img {
+  float: right;
+}
+
+.chat-list .out .chat-body {
+  float: right;
+  margin-right: 20px;
+  text-align: right;
+}
+
+.chat-list .out .chat-message {
+  background: #fc6d4c;
+}
+
+.chat-list .out .chat-message:before {
+  right: -12px;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid #fc6d4c;
+}
+
+.card .card-header-chat:first-child {
+  -webkit-border-radius: 0.3rem 0.3rem 0 0;
+  -moz-border-radius: 0.3rem 0.3rem 0 0;
+  border-radius: 0.3rem 0.3rem 0 0;
+}
+.card .card-header-chat {
+  border: 0;
+  font-size: 1rem;
+  padding: .65rem 1rem;
+  position: relative;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.content{
+  margin-top:40px;    
 }

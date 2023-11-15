@@ -9,7 +9,7 @@ const CarouselNews = ({ news }) => {
         return (
           <Carousel.Item>
             
-            <div style={{ width: '1500px', height: '300px', backgroundColor: '#ffcc80', marginTop:'30px' }}></div>
+            <div style={{ width: '1500px', height: '300px', backgroundColor: 'rgba(190, 219, 57, 1)', marginTop:'30px' }}></div>
 
             <Carousel.Caption>
               <h5>{noticia.new_name}</h5>

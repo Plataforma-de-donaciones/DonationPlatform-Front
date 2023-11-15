@@ -60,7 +60,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const Button = styled.div`
-  color: rgba(255, 152, 0, 1);
+  color: rgba(141, 202, 170, 1);
   font-size: 25px;
   margin-right: 8px;
 `;
