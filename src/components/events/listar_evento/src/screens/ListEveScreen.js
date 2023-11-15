@@ -9,6 +9,8 @@ import { useHistory } from "react-router-dom";
 import MyCalendar from "../components/MyCalendar";
 import GeneralFooter from "../../../../users/login/src/components/GeneralFooter";
 import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
+import Layout from "../../../../generales/src/components/layout/Layout";
+import { Card } from "react-bootstrap";
 
 const cookies = new Cookies();
 
@@ -90,21 +92,17 @@ const ListEveScreen = () => {
   }, [token]);
 
   return (
-    <Container>
-      <Header />
-      <Menus />
-      <Content>
-      <ContentContainer>
-          <EventListContainer>
-            <EventList eventList={eventList} />
-          </EventListContainer>
-          <CalendarContainer>
-            <MyCalendar eventList={eventList} />
-          </CalendarContainer>
-      </ContentContainer>
-        </Content>
-      <Footer />
-    </Container>
+    <>
+      <Layout>
+        <Card className='mt-5'>
+
+          <EventList listaEventos={eventList} />
+
+        </Card>
+      </Layout>
+
+    </>
+
   );
 };
 

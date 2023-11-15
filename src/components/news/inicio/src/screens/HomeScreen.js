@@ -11,7 +11,7 @@ import Menu from "../../../../generales/src/components/Menu";
 import instance from "../../../../../axios_instance";
 import CarouselNews from "../components/CarouselNews";
 import Layout from "../../../../generales/src/components/layout/Layout";
-import { Col, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 
 const cookies = new Cookies();
 const Container = styled.div`
@@ -105,16 +105,17 @@ const HomeScreen = () => {
     <Layout>
       <CarouselNews news={highlightedNews}></CarouselNews>
 
-      <Row className="mt-3 mx-auto">
-        <Col className="col-xl-8 col-sm-12 order-sm-2 order-xl-1 order-1">
-          <NewsList newsList={newsList} />
-        </Col>
+        <Row className="mt-3 mx-auto">
+     
+          <Col className="col-xl-8 col-sm-12 order-sm-2 order-xl-1 order-1">
+            <NewsList newsList={newsList} />
+          </Col>
 
-        <Col className="col-xl-4 col-sm-12 order-sm-1  mb-3">
-          <MyCalendar events={events} />
-        </Col>
-      </Row>
-
+          <Col className="col-xl-4 col-sm-12 order-sm-1  mb-3">
+            <MyCalendar events={events} />
+          </Col>
+     
+        </Row>
     </Layout>
   );
 };

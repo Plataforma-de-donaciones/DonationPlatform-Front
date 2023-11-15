@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
+import CardItem from '../../../../generales/src/components/CardItem';
+import { Button, Card, Col, Row } from 'react-bootstrap';
 
 const EventCardContainer = styled.div`
   display: flex;
@@ -92,46 +94,63 @@ const EventListItem = ({ evento }) => {
   };
 
   return (
-    <EventCardContainer>
-      
-      <TextContainer>
-        <HeaderContainer>
-          <Title>{evento.event_name}</Title>
-        </HeaderContainer>
-        <Description>{evento.event_description}</Description>
-        <div>
-          <label style={{ textAlign: "left" }}>Estado:</label>
-          <span style={{ textAlign: "left" }}>{stateMap[evento.state]}</span>
-        </div>
-        <div>
-          <label style={{ textAlign: "left" }}>Fecha de Inicio:</label>
-          <span style={{ textAlign: "left" }}>{evento.formattedDateTime.formattedDate}</span>
-        </div>
-        <div>
-          <label style={{ textAlign: "left" }}>Hora de Inicio:</label>
-          <span style={{ textAlign: "left" }}>{evento.formattedDateTime.formattedTime}</span>
-        </div>
-        <div>
-          <label style={{ textAlign: "left" }}>Fecha de Finalización:</label>
-          <span style={{ textAlign: "left" }}>{evento.formattedEndDate.formattedDate}</span>
-        </div>
-        <div>
-          <label style={{ textAlign: "left" }}>Hora de Finalización:</label>
-          <span style={{ textAlign: "left" }}>{evento.formattedEndDate.formattedTime}</span>
-        </div>
-        <ActionButtons>
-          <ActionButton onClick={handleUbicacion}>
-            <IconContainer>
-              <FaMapMarkerAlt />
-            </IconContainer>
-            Ubicación
-          </ActionButton>
-        </ActionButtons>
-      </TextContainer>
-      <ImageContainer>
-        {evento.attachments && <Image src={evento.attachments} alt="Evento" />}
-      </ImageContainer>
-    </EventCardContainer>
+    <>
+      <Card className='mb-3'>
+
+        <Card.Title className='text-center mt-3 card-titulo'>{evento.event_name}</Card.Title>
+        <span className='text-center'>{evento.event_description}</span>
+        <Card.Body>
+
+          <Row className='text-center'>
+            <Col>
+              {evento.attachments && <Image src={evento.attachments} alt="Evento" />}
+            </Col>
+          </Row>
+
+          <Row className='text-center'>
+            <Col>
+              <div>
+                <label className="font-weight-bold">Fecha de Inicio:</label>
+                <span style={{ textAlign: "left" }}> {evento.formattedDateTime.formattedDate}</span>
+              </div>
+              <div>
+                <label style={{ textAlign: "left" }}>Hora de Inicio:</label>
+                <span style={{ textAlign: "left" }}> {evento.formattedDateTime.formattedTime}</span>
+              </div>
+            </Col>
+
+            <Col className='align-middle'>
+              <div>
+                <label className="align-middle">Fecha de Finalización:</label>
+                <span className='align-middle'> {evento.formattedEndDate.formattedDate}</span>
+              </div>
+              <div>
+                <label style={{ textAlign: "left" }}>Hora de Finalización:</label>
+                <span style={{ textAlign: "left" }}> {evento.formattedEndDate.formattedTime}</span>
+              </div>
+            </Col>
+          </Row>
+
+        </Card.Body>
+        <Card.Footer>
+          <div className='text-center mb-3'>
+            <label style={{ textAlign: "left" }}>Estado:</label>
+            <span style={{ textAlign: "left" }}>{stateMap[evento.state]}</span>
+          </div>
+          <ActionButtons className='text-center mx-auto mb-2'>
+            <Button onClick={handleUbicacion}>
+              <IconContainer>
+                <FaMapMarkerAlt />
+              </IconContainer>
+              Ubicación
+            </Button>
+          </ActionButtons>
+         
+        </Card.Footer>
+      </Card >
+
+    
+    </>
   );
 };
 

@@ -7,11 +7,11 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Col, Row } from "react-bootstrap";
 
-const EncabezadoListado = ({ onActionSolicitud, onActionOfrecimiento, textButton, onActionBorrar, onActionAdd, searchValue, onSearch, searchOnChange }) => {
+const EncabezadoListado = ({ onActionSolicitud, onActionOfrecimiento, textButton, onActionBorrar, onActionAdd, searchValue, onSearch, searchOnChange, showTabs =true}) => {
     return (
         <>
 
-
+        {showTabs && (
             <div className="mt-3 text-center">
                 <ButtonFn
                     onAction={onActionSolicitud}
@@ -32,6 +32,7 @@ const EncabezadoListado = ({ onActionSolicitud, onActionOfrecimiento, textButton
                 />
 
             </div >
+        )}
 
             <Row className="mt-3">
                 <Col className="col-8 mx-auto">

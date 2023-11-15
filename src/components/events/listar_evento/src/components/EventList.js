@@ -7,6 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
+import { Row, Col, Button, Form, InputGroup } from "react-bootstrap";
+import EncabezadoListado from "../../../../generales/src/components/layout/EncabezadoListado";
+import MyCalendar from "../../../../news/inicio/src/components/MyCalendar";
+import CardItem from './../../../../generales/src/components/CardItem';
 
 const cookies = new Cookies();
 
@@ -89,7 +93,7 @@ const PageButton = styled.button`
   border: 1px solid #ddd;
 `;
 
-const EventList = () => {
+const EventList = ({ listaEventos }) => {
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [originalEventList, setOriginalEventList] = useState([]);
@@ -160,58 +164,85 @@ const EventList = () => {
   };
 
   return (
-    <EventListContainer>
-      <SearchBarContainer>
-        <SearchBarAndAddEquipment>
-          <AddEquipment onClick={handleAddEventClick}>
-            <AddIcon>
-              <FontAwesomeIcon icon={faPlus} />
-            </AddIcon>
-            Agregar evento
-          </AddEquipment>
-          <SearchInput
-            type="text"
-            placeholder="Buscar por nombre..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <SearchIcon onClick={handleSearch}>
-            <FontAwesomeIcon icon={faSearch} />
-          </SearchIcon>
-        </SearchBarAndAddEquipment>
-      </SearchBarContainer>
-      <ListContainer>
+    <>
+
+      <Row className="m-3">
+        <Col className="ms-5 me-5">
+
+          <EncabezadoListado showTabs={false}
+            onActionAdd={handleAddEventClick}
+            searchValue={searchTerm}
+            searchOnChange={setSearchTerm}
+            onSearch={handleSearch}
+            textButton={'Agregar evento'}>
+          </EncabezadoListado>
+        </Col>
+      </Row>
+
+      <Row className="m-3">
+        <Col className="col-xl-8 col-sm-12 order-sm-2 order-xl-1 order-1">
+          {currentEvent.map((evento) => (
+            <EventListItem
+              key={evento.event_id}
+              evento={{
+                ...evento,
+                formattedDateTime: formatDateAndTime(evento.start_date),
+                formattedEndDate: formatDateAndTime(evento.end_date),
+              }}
+            />
+          ))}
+        </Col>
+
+        <Col className="col-xl-4 col-sm-12 order-sm-1  mb-3">
+          <MyCalendar events={listaEventos} filterText={searchTerm} />
+        </Col>
+
+      </Row>
+
+
+
+
+
+
+
+      {/* <ListContainer>
         {currentEvent.map((evento) => (
           <EventListItem
-          key={evento.event_id}
-          evento={{
-            ...evento,
-            formattedDateTime: formatDateAndTime(evento.start_date),
-            formattedEndDate: formatDateAndTime(evento.end_date),
-          }}
-        />
-        ))}
+            key={evento.event_id}
+            evento={{
+              ...evento,
+              formattedDateTime: formatDateAndTime(evento.start_date),
+              formattedEndDate: formatDateAndTime(evento.end_date),
+            }}
+          />
+        ))} */}
 
-        {/* Paginación */}
-        <Pagination>
-          <PageButton onClick={prevPage} disabled={currentPage === 1}>
-            Anterior
+      {/* Paginación */}
+      <Pagination>
+        <PageButton onClick={prevPage} disabled={currentPage === 1}>
+          Anterior
+        </PageButton>
+        {Array.from({ length: totalPages }).map((_, index) => (
+          <PageButton
+            key={index}
+            onClick={() => setCurrentPage(index + 1)}
+            isActive={currentPage === index + 1}
+          >
+            {index + 1}
           </PageButton>
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <PageButton
-              key={index}
-              onClick={() => setCurrentPage(index + 1)}
-              isActive={currentPage === index + 1}
-            >
-              {index + 1}
-            </PageButton>
-          ))}
-          <PageButton onClick={nextPage} disabled={currentPage === totalPages}>
-            Siguiente
-          </PageButton>
-        </Pagination>
-      </ListContainer>
-    </EventListContainer>
+        ))}
+        <PageButton onClick={nextPage} disabled={currentPage === totalPages}>
+          Siguiente
+        </PageButton>
+      </Pagination>
+
+
+    </>
+
+
+
+
+
   );
 };
 

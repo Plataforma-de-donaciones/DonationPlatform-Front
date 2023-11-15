@@ -70,7 +70,7 @@ const MyCalendar = ({ events }) => {
   };
 
   return (
-    <>
+    <>{console.log(events)}
       <ToastContainer />
       <StyledCalendar className={"mx-auto"}
         tileContent={({ date }) => {
