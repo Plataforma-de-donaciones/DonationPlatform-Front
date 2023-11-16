@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Container, Pagination } from 'react-bootstrap';
 import instance from '../../../../axios_instance';
 import Cookies from 'universal-cookie';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import { useHistory } from 'react-router-dom'; 
 import MenuComponent from '../../list_users/components/MenuComponent';
 
