@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import TituloLine from "./TituloLine";
-import NombreVolBox from "./NombreVolBox";
-import DescripcionVolBox from "./DescripcionVolBox";
 import TipodePublicacionBox from "./TipodePublicacionBox";
 import LocalidadBox from "./LocalidadBox";
-import AceptarButton from "./AceptarButton";
-import CancelarButton from "./CancelarButton";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
-import TareasVolBox from "./TareasVolBox";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
+import {
+  Form,
+  Row,
+  Col,
+  InputGroup,
+  Button,
+  Card,
+  CardBody,
+} from "react-bootstrap";
 
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -81,6 +84,15 @@ const UntitledComponent1Stack = styled.div`
   position: relative;
 `;
 
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+`;
 const cookies = new Cookies();
 
 const VoluntariadoBox = (props) => {
@@ -102,6 +114,18 @@ const VoluntariadoBox = (props) => {
   const token = cookies.get("token");
   const [user_id, setUserId] = useState(null);
   const history = useHistory();
+  const [validated, setValidated] = useState(false);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+  };
 
   useEffect(() => {
     // Obtener el user_id al montar el componente
@@ -132,6 +156,7 @@ const VoluntariadoBox = (props) => {
       ...prevErrors,
       [fieldName]: "",
     }));
+    console.log(voluntarioData);
   };
 
   const handleZoneSelect = (zoneId) => {
@@ -151,15 +176,15 @@ const VoluntariadoBox = (props) => {
 
   const validateField = (fieldName, value) => {
     if (fieldName === "vol_name" && (!value || !value.toString().trim())) {
-      toast.error('Por favor, complete los campos requeridos', {
-        position: 'bottom-center',
+      toast.error("Por favor, complete los campos requeridos", {
+        position: "bottom-center",
         autoClose: 4000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: 'colored',
+        theme: "colored",
       });
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -173,7 +198,10 @@ const VoluntariadoBox = (props) => {
         [fieldName]: "Debe seleccionar una localidad",
       }));
     }
-    if (fieldName === "vol_description" && (!value || !value.toString().trim())) {
+    if (
+      fieldName === "vol_description" &&
+      (!value || !value.toString().trim())
+    ) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "La descripción del voluntario no puede estar vacía",
@@ -197,7 +225,8 @@ const VoluntariadoBox = (props) => {
     // Agrega otras validaciones según sea necesario
   };
 
-  const handleAccept = async () => {
+  const handleAccept = async (event) => {
+    event.preventDefault();
     // Validar todos los campos antes de enviar la solicitud
     Object.keys(voluntarioData).forEach((name) => {
       validateField(name, voluntarioData[name]);
@@ -208,17 +237,17 @@ const VoluntariadoBox = (props) => {
       return;
     }
     const confirmation = await Swal.fire({
-      title: 'Protege tu Privacidad',
+      title: "Protege tu Privacidad",
       html: `
         <p>Por su seguridad y la de los demás, le recordamos evitar publicar fotos y/o videos, o descripción en la publicación que contengan información personal o la de otras personas. Estos pueden incluir Nombre, Teléfono, Dirección, entre otros.</p>
         <p>En caso de necesitar brindar datos personales para concretar el acto benéfico, le sugerimos que lo realice de manera segura mediante el chat privado.</p>
         <p>Ayuda a crear un entorno en línea seguro para todos.</p>
         <p>¡Gracias por su colaboración!</p>
         <p>¿Usted confirma que esta publicación no incluye contenido que revele información sensible?</p>`,
-      icon: 'info',
+      icon: "info",
       showCancelButton: true,
-      confirmButtonText: 'Sí',
-      cancelButtonText: 'No',
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
     });
 
     if (confirmation.isConfirmed) {
@@ -243,12 +272,8 @@ const VoluntariadoBox = (props) => {
         });
 
         if (response.status === 201) {
-          Swal.fire(
-            'Voluntariado registrado correctamente!',
-            '',
-            'success'
-          )
-          history.push('/listadovoluntariado');
+          Swal.fire("Voluntariado registrado correctamente!", "", "success");
+          history.push("/listadovoluntariado");
         } else {
           const serverError = response.data;
           console.log(response);
@@ -264,64 +289,159 @@ const VoluntariadoBox = (props) => {
         // Manejar errores de la solicitud
       }
     }
-
   };
   const handleCancel = () => {
     Swal.fire({
-      title: '¿Está seguro que desea cancelar?',
-      icon: 'question',
-      iconHtml: '?',
+      title: "¿Está seguro que desea cancelar?",
+      icon: "question",
+      iconHtml: "?",
       showCancelButton: true,
-      confirmButtonText: 'Sí',
-      cancelButtonText: 'No',
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
-        history.push('/listadovoluntariado');
+        history.push("/listadovoluntariado");
       }
     });
   };
 
   return (
     <Container {...props}>
-      <ToastContainer />
-      <UntitledComponent1Stack>
-        <TituloLine
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            height: 35,
-            width: 400,
-            backgroundColor: "rgba(255,152,0,1)",
-            opacity: 0.5
-          }}
-        ></TituloLine>
-        <LoremIpsum>Registra el Voluntariado</LoremIpsum>
-      </UntitledComponent1Stack>
-      <FormContainer>
-        <NombreVolBox
-          onChange={(event) => handleFieldChange("vol_name", event)}
-        />
-        {errors.vol_name && <span style={{ color: "red" }}>{errors.vol_name}</span>}
-        <DescripcionVolBox
-          onChange={(event) => handleFieldChange("vol_description", event)}
-        />
-        {errors.vol_description && <span style={{ color: "red" }}>{errors.vol_description}</span>}
-        <TareasVolBox
-          onChange={(event) => handleFieldChange("vol_tasks", event)}
-        />
-        {errors.vol_tasks && <span style={{ color: "red" }}>{errors.vol_tasks}</span>}
-        <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
-        {errors.type && <span style={{ color: "red" }}>{errors.type}</span>}
-        <LocalidadBox onSelect={handleZoneSelect} />
-        {errors.zone && <span style={{ color: "red" }}>{errors.zone}</span>}
-        {/* Agrega un mensaje de error para la localidad si es necesario */}
-      </FormContainer>
-      <ButtonContainer>
-        <AceptarButton onClick={handleAccept} />
-        <ButtonSeparator />
-        <CancelarButton onClick={handleCancel} />
-      </ButtonContainer>
+      <Card className="m-3">
+        <Card.Header className="card-titulo text-center">
+          Registra el Voluntariado
+        </Card.Header>
+        <CardBody>
+          <Form validated={validated} onSubmit={handleAccept}>
+            <Row className="mb-3">
+              <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <Form.Label>¿Cuál es su nombre? *</Form.Label>
+
+                <Form.Control
+                  value={voluntarioData["vol_name"]}
+                  required
+                  type="text"
+                  placeholder="Nombre del voluntario/a"
+                  onChange={(event) => handleFieldChange("vol_name", event)}
+                  maxlength={50}
+                  minLength={3}
+                />
+
+                <Form.Control.Feedback type="invalid">
+                  Por favor digite su nombre
+                </Form.Control.Feedback>
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <HelperText>
+                  Este dato se visualiza en la publicación.
+                </HelperText>
+              </Form.Group>
+              <p></p>
+              <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <Form.Label>
+                  ¿Describa su trayectoria como voluntario/a *?{" "}
+                </Form.Label>
+
+                <Form.Control
+                  as="textarea"
+                  value={voluntarioData["vol_description"]}
+                  required
+                  type="text"
+                  placeholder="Describa el voluntariado"
+                  onChange={(event) =>
+                    handleFieldChange("vol_description", event)
+                  }
+                  maxlength={250}
+                  minLength={3}
+                />
+
+                <Form.Control.Feedback type="invalid">
+                  La descripción de la tarea no puede estar vacía
+                </Form.Control.Feedback>
+                <Form.Control.Feedback>válido!</Form.Control.Feedback>
+                <HelperText>
+                  Este dato se visualiza en la publicación.
+                </HelperText>
+              </Form.Group>
+              <p></p>
+
+              <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <Form.Label>
+                  Describa las tareas que ha realizado como voluntario/a *{" "}
+                </Form.Label>
+
+                <Form.Control
+                  as="textarea"
+                  value={voluntarioData["vol_tasks"]}
+                  required
+                  type="text"
+                  placeholder="Describa las tareas"
+                  maxLength={250}
+                  onChange={(event) => handleFieldChange("vol_tasks", event)}
+                />
+
+                <Form.Control.Feedback type="invalid">
+                  La descripción de la tarea no puede estar vacía
+                </Form.Control.Feedback>
+                <Form.Control.Feedback>Válido!</Form.Control.Feedback>
+                <HelperText>
+                  Este dato se visualiza en la publicación.
+                </HelperText>
+              </Form.Group>
+
+              <p></p>
+              <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
+              <HelperText>Este dato se visualiza en la publicación.</HelperText>
+
+              <p></p>
+              <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <LocalidadBox onSelect={handleZoneSelect} />
+                {errors.zone && (
+                  <span style={{ color: "red" }}>{errors.zone}</span>
+                )}
+
+                <Form.Control.Feedback type="invalid">
+                  Localidad requerida
+                </Form.Control.Feedback>
+
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+
+                <HelperText>
+                  Este dato se visualiza en la publicación.
+                </HelperText>
+              </Form.Group>
+              <p></p>
+            </Row>
+
+            <Form.Group className="mb-3">
+              {/* <Form.Check
+                required
+                label="Agree to terms and conditions"
+                feedback="You must agree before submitting."
+                feedbackType="invalid"
+              /> */}
+            </Form.Group>
+
+            <Row className="text-center">
+              <Col>
+                <Button style={{ width: "30%" }} type="submit">
+                  Aceptar
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  style={{ width: "30%" }}
+                  variant="secondary"
+                  onClick={handleCancel}
+                >
+                  Cancelar
+                </Button>
+              </Col>
+            </Row>
+            <div className="text-center mx-auto"></div>
+          </Form>
+        </CardBody>
+      </Card>
+
       <ToastContainer
         position="top-right"
         autoClose={5000}

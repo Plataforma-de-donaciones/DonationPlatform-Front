@@ -4,6 +4,7 @@ import SolicitudEqMedicoBox from "../components/SolicitudEqMedicoBox";
 import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
 import GeneralFooter from "../../../../generales/src/components/GeneralFooter";
 import Menu from "../../../../generales/src/components/Menu";
+import Layout from "../../../../generales/src/components/layout/Layout";
 
 const Container = styled.div`
   display: grid;
@@ -39,14 +40,9 @@ const Footer = styled(GeneralFooter)`
 
 const DonarEquipamiento = () => {
   return (
-    <Container>
-      <Header />
-      <Menus />
-      <Content>
-        <SolicitudEqMedicoBox />
-      </Content>
-      <Footer />
-    </Container>
+    <Layout haveMenu={false}>
+      <SolicitudEqMedicoBox />
+    </Layout>
   );
 };
 

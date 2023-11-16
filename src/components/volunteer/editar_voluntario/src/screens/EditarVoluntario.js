@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Menu from "../../../../generales/src/components/Menu";
 import GeneralFooter from "../../../../users/login/src/components/GeneralFooter";
 import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
+import Layout from "../../../../generales/src/components/layout/Layout";
 
 const Container = styled.div`
   display: grid;
@@ -34,14 +35,10 @@ const Footer = styled(GeneralFooter)`
 
 function EditarVoluntario(props) {
   return (
-    <Container>
-      <Header />
-      <Menus />
-      <Content>
-        <EditarVolBox />
-      </Content>
-      <Footer />
-    </Container>
+    <Layout>
+      <EditarVolBox />
+    </Layout>
+      
   );
 }
 

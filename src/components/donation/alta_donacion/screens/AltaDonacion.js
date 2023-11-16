@@ -4,6 +4,7 @@ import GeneralFooter from "../../../generales/src/components/GeneralFooter";
 import Menu from "../../../generales/src/components/Menu";
 import DonacionBox from "../components/DonacionBox";
 import styled from "styled-components"; // Importa styled-components
+import Layout from './../../../generales/src/components/layout/Layout';
 
 const Container = styled.div`
   display: grid;
@@ -32,15 +33,12 @@ const Footer = styled(GeneralFooter)`
 `;
 
 function AltaDonacion(props) {
-  return (
-    <Container>
-      <Header />
-      <Menu />
+  return (  
+     <Layout>
       <Content>
         <DonacionBox />
       </Content>
-      <Footer />
-    </Container>
+     </Layout>
   );
 }
 

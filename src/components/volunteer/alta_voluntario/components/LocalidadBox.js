@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
+import { Form, Col } from "react-bootstrap";
 
 const Container = styled.div`
   display: flex;
@@ -69,9 +70,11 @@ function LocalidadBox({ onSelect }) {
   };
 
   return (
-    <Container>
-      <Label>¿En qué localidad se encuentra? *</Label>
-      <SelectStyle value={selectedZone} onChange={handleZoneChange}>
+    <Form.Group as={Col} md="12" controlId="validationCustom01">
+      <Form.Label>¿En qué localidad se encuentra? *</Form.Label>
+
+      <Form.Select value={selectedZone} onChange={handleZoneChange}
+      aria-label="Default select example">
         <option value="" disabled>
           Seleccione una localidad
         </option>
@@ -80,9 +83,8 @@ function LocalidadBox({ onSelect }) {
             {zone.zone_name}
           </option>
         ))}
-      </SelectStyle>
-      <Helper>Este dato se visualiza en la publicación.</Helper>
-    </Container>
+      </Form.Select>
+    </Form.Group>
   );
 }
 

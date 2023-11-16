@@ -10,7 +10,7 @@ const PreguntasFrecuentes = () => {
                     <Col>
                         <Card className='mt-5'>
                             <CardHeader className='text-center'>
-                                <h2>Preguntas frecuentes</h2>
+                                <h4>Preguntas frecuentes</h4>
                             </CardHeader>
                             <CardBody>
 

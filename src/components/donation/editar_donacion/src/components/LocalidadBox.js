@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
+import { Form, Col } from "react-bootstrap";
 
-const Container = styled.div`
-  display: flex;
-  background-color: transparent;
-  flex-direction: column;
-`;
+const Container = styled.div``;
 
 const Label = styled.span`
   font-size: 12px;
@@ -21,7 +18,7 @@ const Label = styled.span`
 
 const SelectStyle = styled.select`
   border-bottom-width: 1px;
-  border-color: #D9D5DC;
+  border-color: #d9d5dc;
   color: #000;
   font-size: 14px;
   align-self: stretch;
@@ -44,8 +41,7 @@ const cookies = new Cookies();
 
 function LocalidadBox({ onChange, donZone, setDonZone }) {
   const [zones, setZones] = useState([]);
-  const [selectedZone, setSelectedZone] = useState("");
-  console.log("coso zona", donZone);
+  const [selectedZone, setSelectedZone] = useState(0);
   const token = cookies.get("token");
 
   useEffect(() => {
@@ -83,30 +79,58 @@ function LocalidadBox({ onChange, donZone, setDonZone }) {
   const handleZoneChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedZone(selectedValue);
-  
     if (onChange) {
       onChange(selectedValue);
+      console.log(selectedValue, "VALOR DEL OPTION");
     }
-    if (setDonZone && typeof setDonZone === 'function') {
+    if (setDonZone && typeof setDonZone === "function") {
       setDonZone(selectedValue);
+      console.log(donZone);
     }
   };
-  
+
   return (
-    <Container>
-      <Label>¿En qué localidad se encuentra? *</Label>
-      <SelectStyle value={selectedZone} onChange={handleZoneChange}>
-        <option value="" disabled>
-          Seleccione una localidad
-        </option>
-        {zones.map((zone) => (
-          <option key={zone.zone_id} value={zone.zone_id}>
-            {zone.zone_name}
+    <>
+      <Form.Group as={Col} md="12" controlId="validationCustom01">
+        <Form.Label>Su localidad: </Form.Label>
+
+        <Form.Select
+          value={selectedZone}
+          onChange={handleZoneChange}
+          aria-label="Default select example"
+        >
+          <option value="" disabled>
+            Seleccione una localidad
           </option>
-        ))}
-      </SelectStyle>
-      <Helper>Este dato se visualiza en la publicación.</Helper>
-    </Container>
+          {zones.map((zone) => (
+            <option key={zone.zone_id} value={zone.zone_id}>
+              {zone.zone_name}
+            </option>
+          ))}
+        </Form.Select>
+
+        <Form.Control.Feedback required type="invalid">
+          Debe seleccionar tipo de publicación
+        </Form.Control.Feedback>
+        <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+      </Form.Group>
+      {/* 
+      <Container>
+        <Label>¿En qué localidad se encuentra? *</Label>
+
+        <SelectStyle value={selectedZone} onChange={handleZoneChange}>
+          <option value="" disabled>
+            Seleccione una localidad
+          </option>
+          {zones.map((zone) => (
+            <option key={zone.zone_id} value={zone.zone_id}>
+              {zone.zone_name}
+            </option>
+          ))}
+        </SelectStyle>
+        <Helper>Este dato se visualiza en la publicación.</Helper>
+      </Container> */}
+    </>
   );
 }
 

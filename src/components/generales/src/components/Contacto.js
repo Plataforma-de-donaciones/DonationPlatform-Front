@@ -9,7 +9,7 @@ const Contacto = () => {
                     <Col>
                         <Card className='mt-5'>
                             <CardHeader className='text-center'>
-                                <h2>Contáctenos</h2>
+                                <h4>Contáctenos</h4>
                             </CardHeader>
                             <CardBody className="text-center">
                     

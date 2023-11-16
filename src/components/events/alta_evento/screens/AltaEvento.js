@@ -4,6 +4,8 @@ import GeneralFooter from "../../../generales/src/components/GeneralFooter";
 import Menu from "../../../generales/src/components/Menu";
 import EventoBox from "../components/EventoBox";
 import styled from "styled-components"; 
+import Layout from './../../../generales/src/components/layout/Layout';
+
 
 const Container = styled.div`
   display: grid;
@@ -33,14 +35,9 @@ const Footer = styled(GeneralFooter)`
 
 function AltaEvento(props) {
   return (
-    <Container>
-      <Header />
-      <Menu />
-      <Content>
-        <EventoBox />
-      </Content>
-      <Footer />
-    </Container>
+    <Layout>
+      <EventoBox />
+    </Layout>
   );
 }
 

@@ -11,6 +11,7 @@ import { Row, Col, Button, Form, InputGroup } from "react-bootstrap";
 import EncabezadoListado from "../../../../generales/src/components/layout/EncabezadoListado";
 import MyCalendar from "../../../../news/inicio/src/components/MyCalendar";
 import CardItem from './../../../../generales/src/components/CardItem';
+import Swal from "sweetalert2";
 
 const cookies = new Cookies();
 
@@ -93,7 +94,7 @@ const PageButton = styled.button`
   border: 1px solid #ddd;
 `;
 
-const EventList = ({ listaEventos }) => {
+const EventList = () => {
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [originalEventList, setOriginalEventList] = useState([]);
@@ -107,8 +108,7 @@ const EventList = ({ listaEventos }) => {
         const response = await instance.get("/events/");
         setOriginalEventList(response.data);
 
-        const eventList = response.data;
-        setEventList(eventList);
+        setEventList(response.data);
       } catch (error) {
         console.error("Error fetching donaciones:", error);
       }
@@ -142,14 +142,25 @@ const EventList = ({ listaEventos }) => {
     if (isAuthenticated) {
       history.push("/altaevento");
     } else {
-      alert("Debes iniciar sesión para completar esta acción.");
+      Swal.fire({
+        title: 'Debes iniciar sesión para completar esta acción',
+        text: '¿Desea ir al login en este momento?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push('/login');
+        }
+      });
     }
   };
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentEvent = eventList.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(eventList.length / itemsPerPage);
+  const currentEvent = originalEventList.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(originalEventList.length / itemsPerPage);
 
   const nextPage = () => {
     if (currentPage < totalPages) {
@@ -194,7 +205,9 @@ const EventList = ({ listaEventos }) => {
         </Col>
 
         <Col className="col-xl-4 col-sm-12 order-sm-1  mb-3">
-          <MyCalendar events={listaEventos} filterText={searchTerm} />
+          <MyCalendar events={eventList}
+           filterText={searchTerm} 
+           setEventList={setOriginalEventList}/>
         </Col>
 
       </Row>

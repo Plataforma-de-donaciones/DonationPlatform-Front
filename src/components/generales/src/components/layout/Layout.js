@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../assets/estilos.css'
 import BackgroundLogin from "../../../../users/login/src/components/BackgroundLogin";
 
-const Layout = ({ children, isFluid, haveMenu = true }) => {
+const Layout = ({ children, isFluid, haveFooter = true, haveMenu = true }) => {
     return (
         <>
             <BackgroundLogin />
@@ -19,7 +19,7 @@ const Layout = ({ children, isFluid, haveMenu = true }) => {
                 </Container>
 
             </main>
-            <Footer />
+            {haveFooter && <Footer/>}       
         </>
     )
 }

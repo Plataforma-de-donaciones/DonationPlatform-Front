@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
-import TituloLine from "./TituloLine";
-import NombreVolEdicionBox from "./NombreVolEdicionBox";
-import DescripcionVolEditarBox from "./DescripcionVolEditarBox";
-import TipoDePublicacionVolEdicionBox from "./TipoDePublicacionVolEdicionBox";
-import LocalidadBox from "./LocalidadBox";
-import AceptarButton from "./AceptarButton";
-import CancelarButton from "./CancelarButton";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useHistory } from 'react-router-dom';
+import CardComponente from "../../../../generales/card/CardComponente";
+import { Col, Row, Button, Form } from "react-bootstrap";
+import NombreDonEdicionBox from "../../../../donation/editar_donacion/src/components/NombreDonEdicionBox";
+import DescripcionDonEditarBox from "../../../../donation/editar_donacion/src/components/DescripcionDonEditarBox";
+import TipodePublicacionBox from "../../../alta_voluntario/components/TipodePublicacionBox";
+import LocalidadBox from "../../../../donation/editar_donacion/src/components/LocalidadBox";
+
 
 const cookies = new Cookies();
 
@@ -30,13 +30,7 @@ const Container = styled.div`
 
 `;
 
-const Voluntario = styled.span`
-  font-style: normal;
-  font-weight: 700;
-  color: #121212;
-  font-size: 20px;
-  margin-top: 5px;
-`;
+
 
 const UntitledComponent1Stack = styled.div`
   width: 100%;
@@ -85,7 +79,7 @@ const EditarVolBox = (props) => {
   const token = cookies.get("token");
   const [file, setFile] = useState(null);
   const history = useHistory();
-
+  const [validated, setValidated] = useState(false);
   const { vol_id } = useParams();
   console.log(vol_id);
 
@@ -196,33 +190,63 @@ const EditarVolBox = (props) => {
   };
 
   return (
-    <Container {...props}>
-      <UntitledComponent1Stack>
-      <Rect>
-        <TitleText>Editar voluntariado</TitleText>
-      </Rect>
-        <NombreVolEdicionBox
-          style={{ width: "100%" }}
-          value={volName}
-          onChange={handleVolNameChange}
-        />
-      </UntitledComponent1Stack>
-      <DescripcionVolEditarBox
-        style={{ width: "100%" }}
-        value={volDescription}
-        onChange={handleVolDescriptionChange}
-      />
-      <TipoDePublicacionVolEdicionBox
-        style={{ width: "100%" }}
-        selectedType={volType}
-        onChange={handleVolTypeChange}
-      />
-      <LocalidadBox style={{ width: "100%" }} volZone={volZone} onChange={handleVolZoneChange} setEqZone={setVolZoneValue}/>
-      <MaterialButtonViolet2Row>
-        <AceptarButton style={{ width: "48%" }} onClick={handleSubmit} />
-        <CancelarButton history={props.history} style={{ width: "48%", marginLeft: "4%" }} onClick={handleCancel} />
-      </MaterialButtonViolet2Row>
-    </Container>
+
+<>
+
+<CardComponente
+        titulo={"Editar voluntariado"}
+        body={
+          <>
+            <NombreDonEdicionBox
+              style={{ width: "100%" }}
+              value={volName}
+              onChange={handleVolNameChange}
+            />
+
+            <DescripcionDonEditarBox
+              style={{ width: "100%" }}
+              value={volDescription}
+              onChange={handleVolDescriptionChange}
+            />
+<p></p>
+            <TipodePublicacionBox defaultValue={volType}></TipodePublicacionBox>
+<p></p>
+            <LocalidadBox donZone={volZone} onChange={setVolZone} />
+
+
+            <Row className="text-center mt-4">
+              <Col>
+                <Button style={{ width: "38%" }} onClick={handleSubmit}>
+                  Aceptar
+                </Button>
+              </Col>
+
+              <Col>
+                <Button
+                  history={props.history}
+                  style={{ width: "38%", marginLeft: "4%" }}
+                  onClick={handleCancel}
+                  variant="secondary"
+                >
+                  Volver
+                </Button>
+              </Col>
+            </Row>
+
+            {/* Mover la pregunta de eliminar y el botón al final */}
+
+            <Form validated={validated} onSubmit={handleSubmit}>
+              <Row className="mb-3"></Row>
+            </Form>
+          </>
+        }
+      ></CardComponente>
+
+</>
+
+
+
+
   );
 };
 

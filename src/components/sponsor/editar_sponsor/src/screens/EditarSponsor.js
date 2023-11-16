@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Menu from "../../../../generales/src/components/Menu";
 import GeneralFooter from "../../../../users/login/src/components/GeneralFooter";
 import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
+import { Last } from "react-bootstrap/esm/PageItem";
+import Layout from "../../../../generales/src/components/layout/Layout";
 
 const Container = styled.div`
   display: grid;
@@ -34,14 +36,9 @@ const Footer = styled(GeneralFooter)`
 
 function EditarSponsor(props) {
   return (
-    <Container>
-      <Header />
-      <Menus />
-      <Content>
-        <EditarBox />
-      </Content>
-      <Footer />
-    </Container>
+    <Layout>
+      <EditarBox />
+    </Layout>
   );
 }
 

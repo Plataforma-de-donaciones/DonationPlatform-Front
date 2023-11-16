@@ -10,7 +10,7 @@ const cookies = new Cookies();
 
 // Define estilos con styled-components
 
-const ListadoPaginado = ({ }) => {
+const ListadoPaginado = ({}) => {
   const [datos, setDatos] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
@@ -22,22 +22,24 @@ const ListadoPaginado = ({ }) => {
   const user_email = userDataCookie.user_email;
   const [idEnEdicion, setIdEnEdicion] = useState(null);
 
-
-
   useEffect(() => {
     obtenerDatos();
   }, [paginaActual, tipo]);
 
   const obtenerDatos = async () => {
     try {
-      const response = await instance.post(`/${tipo}/searchbytypeuser/`, {
-        search_type: 2,
-        search_user: user_email,
-      }, {
-        headers: {
-          Authorization: `Token ${token}`,
+      const response = await instance.post(
+        `/${tipo}/searchbytypeuser/`,
+        {
+          search_type: 2,
+          search_user: user_email,
         },
-      });
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
 
       const itemsPorPagina = 6;
       const inicio = (paginaActual - 1) * itemsPorPagina;
@@ -66,7 +68,7 @@ const ListadoPaginado = ({ }) => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Sí, eliminar!",
-      cancelButtonText: "Cancelar"
+      cancelButtonText: "Cancelar",
     });
 
     if (confirmation.isConfirmed) {
@@ -81,7 +83,7 @@ const ListadoPaginado = ({ }) => {
         Swal.fire({
           title: "Eliminado correctamente!",
           text: "Su ofrecimiento ha sido eliminado",
-          icon: "success"
+          icon: "success",
         });
       } catch (error) {
         console.error(`Error al eliminar ${tipo}:`, error);
@@ -95,17 +97,41 @@ const ListadoPaginado = ({ }) => {
 
   return (
     <>
-      <Card className='mt-5'>
+      <Card className="mt-5">
         <Card.Header className="text-center h5">
           Mis ofrecimientos - {titulo}
         </Card.Header>
 
         <Card.Body>
           <div className="text-center">
-            <Button className={"me-3 mb-3"} onClick={() => { setTipo("donations", setTitulo("Donaciones")) }}>Donaciones</Button>
-            <Button className={"me-3 mb-3"} onClick={() => setTipo("medicalequipments", setTitulo("Equipamiento médico"))}>Equipamiento Médico</Button>
-            <Button className={"me-3 mb-3"} onClick={() => setTipo("volunteers", setTitulo("Voluntarios"))}>Voluntarios</Button>
-            <Button className={"me-3 mb-3"} onClick={() => setTipo("sponsors", setTitulo("Padrinos"))}>Padrinos</Button>
+            <Button
+              className={"me-3 mb-3"}
+              onClick={() => {
+                setTipo("donations", setTitulo("Donaciones"));
+              }}
+            >
+              Donaciones
+            </Button>
+            <Button
+              className={"me-3 mb-3"}
+              onClick={() =>
+                setTipo("medicalequipments", setTitulo("Equipamiento médico"))
+              }
+            >
+              Equipamiento Médico
+            </Button>
+            <Button
+              className={"me-3 mb-3"}
+              onClick={() => setTipo("volunteers", setTitulo("Voluntarios"))}
+            >
+              Voluntarios
+            </Button>
+            <Button
+              className={"me-3 mb-3"}
+              onClick={() => setTipo("sponsors", setTitulo("Padrinos"))}
+            >
+              Padrinos
+            </Button>
           </div>
 
           <Table responsive striped bordered hover>
@@ -117,8 +143,7 @@ const ListadoPaginado = ({ }) => {
                 <th>Solicitudes</th>
                 <th>Fecha confirmación</th>
                 <th>Tiene solicitudes</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -129,14 +154,24 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.don_name}</td>
                       <td>{item.don_description}</td>
                       <td>{item.don_created_at}</td>
-                      <td><Link to={`/listadorequestdon/${item.don_id}`}>{item.request_count}</Link></td>
+                      <td>
+                        <Link to={`/listadorequestdon/${item.don_id}`}>
+                          {item.request_count}
+                        </Link>
+                      </td>
                       <td>{item.don_confirmation_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
-                      <td>
-                        <Link to={`/editardonacion/${item.don_id}`}>Editar</Link>
-                      </td>
-                      <td>
-                        <Button variant="danger" onClick={() => eliminarItem(item.don_id || item.id)}>
+                      <td className="text-center">
+                        <Button
+                          variant="secondary me-2"
+                          href={`/editardonacion/${item.don_id}`}
+                        >
+                          Editar
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => eliminarItem(item.don_id || item.id)}
+                        >
                           Eliminar
                         </Button>
                       </td>
@@ -147,14 +182,27 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.eq_name}</td>
                       <td>{item.eq_description}</td>
                       <td>{item.don_created_at}</td>
-                      <td>{<Link to={`/listadorequesteq/${item.eq_id}`}>{item.request_count}</Link>}</td>
+                      <td>
+                        {
+                          <Link to={`/listadorequesteq/${item.eq_id}`}>
+                            {item.request_count}
+                          </Link>
+                        }
+                      </td>
                       <td>{item.eq_confirmation_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
-                      <td>
-                        <Link to={`/editarequipamiento/${item.eq_id}`}>Editar</Link>
-                      </td>
-                      <td>
-                        <Button variant="danger" onClick={() => eliminarItem(item.eq_id || item.id)}>
+
+                      <td className="text-center">
+                        <Button
+                          variant="secondary me-2"
+                          href={`/editarequipamiento/${item.eq_id}`}
+                        >
+                          Editar
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => eliminarItem(item.eq_id || item.id)}
+                        >
                           Eliminar
                         </Button>
                       </td>
@@ -165,14 +213,25 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.vol_name}</td>
                       <td>{item.vol_description}</td>
                       <td>{item.vol_created_at}</td>
-                      <td><Link to={`/listadorequestvol/${item.vol_id}`}>{item.request_count}</Link></td>
+                      <td>
+                        <Link to={`/listadorequestvol/${item.vol_id}`}>
+                          {item.request_count}
+                        </Link>
+                      </td>
                       <td>{item.confirmed_at}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
-                      <td>
-                        <Link to={`/editarvoluntario/${item.vol_id}`}>Editar</Link>
-                      </td>
-                      <td>
-                        <Button variant="danger" onClick={() => eliminarItem(item.vol_id || item.id)}>
+
+                      <td className="text-center">
+                        <Button
+                          variant="secondary me-2"
+                          href={`/editarvoluntario/${item.vol_id}`}
+                        >
+                          Editar
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => eliminarItem(item.vol_id || item.id)}
+                        >
                           Eliminar
                         </Button>
                       </td>
@@ -183,14 +242,28 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.sponsor_name}</td>
                       <td>{item.sponsor_description}</td>
                       <td>{item.sponsor_created_at}</td>
-                      <td>{item.request_count} <Link to={`/listadorequestsponsor/${item.sponsor_id}`}>{item.request_count}</Link> </td>
+                      <td>
+                        {item.request_count}{" "}
+                        <Link to={`/listadorequestsponsor/${item.sponsor_id}`}>
+                          {item.request_count}
+                        </Link>{" "}
+                      </td>
                       <td>{item.confirmed_at}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
-                      <td>
-                        <Link to={`/editarsponsor/${item.sponsor_id}`}>Editar</Link>
-                      </td>
-                      <td>
-                        <Button variant="danger" onClick={() => eliminarItem(item.sponsor_id || item.id)}>
+
+                      <td className="text-center">
+                        <Button
+                          variant="secondary me-2"
+                          href={`/editarsponsor/${item.sponsor_id}`}
+                        >
+                          Editar
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() =>
+                            eliminarItem(item.sponsor_id || item.id)
+                          }
+                        >
                           Eliminar
                         </Button>
                       </td>
@@ -211,10 +284,7 @@ const ListadoPaginado = ({ }) => {
             ))}
           </div>
         </Card.Footer>
-
       </Card>
-
-   
     </>
   );
 };

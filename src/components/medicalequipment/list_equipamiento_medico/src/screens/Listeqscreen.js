@@ -6,7 +6,7 @@ import styled from "styled-components";
 import EquipamientoMedicoList from "../components/EquipamientoMedicoList";
 import instance from "../../../../../axios_instance";
 import Menu from "../../../../generales/src/components/Menu";
-import { useHistory } from "react-router-dom"; // Importa useHistory
+import { useHistory } from "react-router-dom";
 import Layout from "../../../../generales/src/components/layout/Layout";
 import { Card, CardBody } from "react-bootstrap";
 

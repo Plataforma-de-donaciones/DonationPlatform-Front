@@ -144,8 +144,7 @@ const ListadoPaginado = ({ }) => {
                 <th>Ofrecimientos</th>
                 <th>Fecha confirmación</th>
                 <th>Tiene solicitudes</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -159,14 +158,18 @@ const ListadoPaginado = ({ }) => {
                       <td><Link to={`/listadorequestdon/${item.don_id}`}>{item.request_count}</Link></td>
                       <td>{item.don_confirmation_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
-                      <td>
-                        <Link to={`/editardonacion/${item.don_id}`}>Editar</Link>
-                      </td>
-                      <td>
+                 
+                      <td className="text-center" >
+                        
+                        <Button  variant="secondary me-2" href={`/editardonacion/${item.don_id}`}>Editar</Button>
                         <Button variant="danger" onClick={() => eliminarItem(item.don_id || item.id)}>
                           Eliminar
                         </Button>
+              
                       </td>
+
+
+
                     </>
                   )}
                   {tipo === "medicalequipments" && (
@@ -177,13 +180,14 @@ const ListadoPaginado = ({ }) => {
                       <td> <Link to={`/listadorequesteq/${item.eq_id}`}>{item.request_count}</Link></td>
                       <td>{item.eq_confirmation_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
-                      <td>
-                        <Link to={`/editarequipamiento/${item.eq_id}`}>Editar</Link>
-                      </td>
-                      <td>
+                     
+                      <td className="text-center" >
+                        
+                        <Button  variant="secondary me-2" href={`/editarequipamiento/${item.eq_id}`}>Editar</Button>
                         <Button variant="danger" onClick={() => eliminarItem(item.eq_id || item.id)}>
                           Eliminar
                         </Button>
+              
                       </td>
                     </>
                   )}
@@ -195,14 +199,16 @@ const ListadoPaginado = ({ }) => {
                       <td><Link to={`/listadorequestvol/${item.vol_id}`}>{item.request_count}</Link></td>
                       <td>{item.vol_confirmation_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
-                      <td>
-                        <Link to={`/editarvoluntario/${item.vol_id}`}>Editar</Link>
-                      </td>
-                      <td>
+                      
+                      <td className="text-center" >
+                        
+                        <Button  variant="secondary me-2" href={`/editarvoluntario/${item.vol_id}`}>Editar</Button>
                         <Button variant="danger" onClick={() => eliminarItem(item.vol_id || item.id)}>
                           Eliminar
                         </Button>
+              
                       </td>
+                      
                     </>
                   )}
                   {tipo === "sponsors" && (
@@ -213,13 +219,14 @@ const ListadoPaginado = ({ }) => {
                       <td><Link to={`/listadorequestsponsor/${item.sponsor_id}`}>{item.request_count}</Link></td>
                       <td>{item.sponsor_confirmation_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
-                      <td>
-                        <Link to={`/editarsponsor/${item.sponsor_id}`}>Editar</Link>
-                      </td>
-                      <td>
+
+                      <td className="text-center" >
+                        
+                        <Button  variant="secondary me-2" href={`/editarsponsor/${item.sponsor_id}`}>Editar</Button>
                         <Button variant="danger" onClick={() => eliminarItem(item.sponsor_id || item.id)}>
                           Eliminar
                         </Button>
+              
                       </td>
                     </>
                   )}

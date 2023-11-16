@@ -10,7 +10,7 @@ const TerminosCondiciones = () => {
                     <Col>
                         <Card className='mt-5'>
                             <CardHeader className='text-center'>
-                                <h2>Términos y condiciones</h2>
+                                <h4>Términos y condiciones</h4>
                             </CardHeader>
                             <CardBody>
                                 <p>

@@ -1,80 +1,19 @@
 import React, { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
-import styled from "styled-components";
-import TituloLine from "./TituloLine";
-import NombreEdicionBox from "./NombreEdicionBox";
-import DescripcionEditarBox from "./DescripcionEditarBox";
-import TipoDePublicacionEdicionBox from "./TipoDePublicacionEdicionBox";
-import LocalidadBox from "./LocalidadBox";
-import AceptarButton from "./AceptarButton";
-import CancelarButton from "./CancelarButton";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useHistory } from 'react-router-dom';
+import LocalidadBox from "../../../../donation/editar_donacion/src/components/LocalidadBox";
+import TipodePublicacionBox from "../../../../volunteer/alta_voluntario/components/TipodePublicacionBox";
+import DescripcionDonEditarBox from "../../../../donation/editar_donacion/src/components/DescripcionDonEditarBox";
+import NombreDonEdicionBox from "../../../../donation/editar_donacion/src/components/NombreDonEdicionBox";
+import { Row, Col, Button, Form } from "react-bootstrap";
+import CardComponente from "../../../../generales/card/CardComponente";
 
 const cookies = new Cookies();
 
-const Container = styled.div`
-  display: flex;
-  background-color: rgba(255, 255, 255, 1);
-  flex-direction: column;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 15px;
-  margin-bottom: 100px;
-  min-height: 70vh;
-  align-items: center;
-  justify-content: center;
 
-`;
-
-const Sponsor = styled.span`
-  font-style: normal;
-  font-weight: 700;
-  color: #121212;
-  font-size: 20px;
-  margin-top: 5px;
-`;
-
-const UntitledComponent1Stack = styled.div`
-  width: 100%;
-  height: auto;
-  margin-top: 15px;
-  position: relative;
-`;
-
-const MaterialButtonViolet2Row = styled.div`
-  height: 36px;
-  flex-direction: row;
-  display: flex;
-  margin-top: 15px;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
-const Rect = styled.div`
-  width: 100%;
-  background-color: rgba(255, 152, 0, 0.6);
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 5px;
-  padding: 6px 0px 0px 0px;
-
-  text-align: center;
-`;
-
-
-const TitleText = styled.span`
-  font-style: normal;
-  font-weight: 700;
-  color: #121212;
-  font-size: 20px;
-  text-align: center;
-  margin-top: 6px;
-`;
 
 const EditarBox = (props) => {
   const [datosSponsor, setDatosSponsor] = useState({});
@@ -84,7 +23,7 @@ const EditarBox = (props) => {
   const [sponsorZone, setSponsorZone] = useState("");
   const token = cookies.get("token");
   const history = useHistory();
-
+  const [validated, setValidated] = useState(false);
   const { sponsor_id } = useParams();
   console.log(sponsor_id);
 
@@ -171,7 +110,7 @@ const EditarBox = (props) => {
         text: "Los datos han sido editados",
         icon: "success"
       });
-      history.push('/listadosolicitudes');
+      history.push('/listadoofrecimientos');
       console.log("Respuesta del servidor:", response.data);
     } catch (error) {
       console.error("Error al actualizar la información de la donación:", error);
@@ -189,39 +128,66 @@ const EditarBox = (props) => {
       cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
-        history.push('/listadosolicitudes');
+        history.push('/listadoofrecimientos');
       }
     });
   };
 
   return (
-    <Container {...props}>
-      <UntitledComponent1Stack>
-      <Rect>
-        <TitleText>Editar padrino</TitleText>
-      </Rect>
-        <NombreEdicionBox
-          style={{ width: "100%" }}
-          value={sponsorName}
-          onChange={handleSponsorNameChange}
-        />
-      </UntitledComponent1Stack>
-      <DescripcionEditarBox
-        style={{ width: "100%" }}
-        value={sponsorDescription}
-        onChange={handleSponsorDescriptionChange}
-      />
-      <TipoDePublicacionEdicionBox
-        style={{ width: "100%" }}
-        selectedType={sponsorType}
-        onChange={handleSponsorTypeChange}
-      />
-      <LocalidadBox style={{ width: "100%" }} sponsorZone={sponsorZone} onChange={handleSponsorZoneChange} setEqZone={setSponsorZoneValue}/>
-      <MaterialButtonViolet2Row>
-        <AceptarButton style={{ width: "48%" }} onClick={handleSubmit} />
-        <CancelarButton history={props.history} style={{ width: "48%", marginLeft: "4%" }} onClick={handleCancel} />
-      </MaterialButtonViolet2Row>
-    </Container>
+    <>
+    
+  
+    <CardComponente
+        titulo={"Editar padrino"}
+        body={
+          <>
+            <NombreDonEdicionBox
+              style={{ width: "100%" }}
+              value={sponsorName}
+              onChange={handleSponsorNameChange}
+            />
+
+            <DescripcionDonEditarBox
+              style={{ width: "100%" }}
+              value={sponsorDescription}
+              onChange={handleSponsorDescriptionChange}
+            />
+<p></p>
+            <TipodePublicacionBox defaultValue={sponsorType}></TipodePublicacionBox>
+<p></p>
+            <LocalidadBox donZone={sponsorZone} onChange={setSponsorZone} />
+
+
+            <Row className="text-center mt-4">
+              <Col>
+                <Button style={{ width: "38%" }} onClick={handleSubmit}>
+                  Aceptar
+                </Button>
+              </Col>
+
+              <Col>
+                <Button
+                  history={props.history}
+                  style={{ width: "38%", marginLeft: "4%" }}
+                  onClick={handleCancel}
+                  variant="secondary"
+                >
+                  Volver
+                </Button>
+              </Col>
+            </Row>
+
+            {/* Mover la pregunta de eliminar y el botón al final */}
+
+            <Form validated={validated} onSubmit={handleSubmit}>
+              <Row className="mb-3"></Row>
+            </Form>
+          </>
+        }
+      ></CardComponente>
+    </>
+
+
   );
 };
 

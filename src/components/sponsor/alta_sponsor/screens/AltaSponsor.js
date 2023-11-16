@@ -4,6 +4,7 @@ import GeneralFooter from "../../../generales/src/components/GeneralFooter";
 import Menu from "../../../generales/src/components/Menu";
 import SponsorBox from "../components/SponsorBox";
 import styled from "styled-components";
+import Layout from "../../../generales/src/components/layout/Layout";
 
 const Container = styled.div`
   display: grid;
@@ -33,14 +34,12 @@ const Footer = styled(GeneralFooter)`
 
 function AltaSponsor(props) {
   return (
-    <Container>
-      <Header />
-      <Menu />
+    <Layout>
       <Content>
         <SponsorBox />
       </Content>
-      <Footer />
-    </Container>
+    </Layout>
+
   );
 }
 

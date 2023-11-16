@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Menu from "../../../../generales/src/components/Menu";
 import GeneralFooter from "../../../../users/login/src/components/GeneralFooter";
 import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
+import Layout from "./../../../../generales/src/components/layout/Layout";
+import { Card, CardBody } from "react-bootstrap";
 
 const Container = styled.div`
   display: grid;
@@ -16,8 +18,8 @@ const Header = styled(GeneralHeader)`
   grid-row: 1;
 `;
 const Menus = styled(Menu)`
-grid-row: 2;
-margin-bottom: 10px;
+  grid-row: 2;
+  margin-bottom: 10px;
 `;
 const Content = styled.div`
   grid-row: 3;
@@ -34,14 +36,11 @@ const Footer = styled(GeneralFooter)`
 
 function EditarDonacion(props) {
   return (
-    <Container>
-      <Header />
-      <Menus />
-      <Content>
-        <EditarDonBox />
-      </Content>
-      <Footer />
-    </Container>
+    <>
+      <Layout>
+          <EditarDonBox />
+      </Layout>
+    </>
   );
 }
 

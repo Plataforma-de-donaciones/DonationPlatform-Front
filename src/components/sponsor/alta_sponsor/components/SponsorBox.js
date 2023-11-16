@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import TituloLine from "./TituloLine";
-import NombreBox from "./NombreBox";
-import DescripcionBox from "./DescripcionBox";
-import TipodePublicacionBox from "./TipodePublicacionBox";
-import LocalidadBox from "./LocalidadBox";
-import AceptarButton from "./AceptarButton";
-import CancelarButton from "./CancelarButton";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
-import TareasBox from "./TareasBox";
 import Swal from "sweetalert2";
 import { useHistory, useParams } from 'react-router-dom';
 import { toast, ToastContainer } from "react-toastify";
+import { Card, Form, Row, CardBody, Col, Button } from "react-bootstrap";
+import TipodePublicacionBox from "../../../volunteer/alta_voluntario/components/TipodePublicacionBox";
+import LocalidadBox from "../../../volunteer/alta_voluntario/components/LocalidadBox";
+
 
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -26,6 +22,15 @@ const Container = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 10px;
   margin-bottom: 10px;
+`;
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
 `;
 
 const TitleContainer = styled.div`
@@ -69,7 +74,7 @@ const LoremIpsum = styled.span`
   font-style: normal;
   font-weight: 400;
   color: #121212;
-  font-size: 20px;
+  font-size: 10px;
   top: 5px;
 `;
 
@@ -101,6 +106,20 @@ const SponsorBox = (props) => {
   const token = cookies.get("token");
   const [user_id, setUserId] = useState(null);
   const history = useHistory();
+  const [validated, setValidated] = useState(false);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+  };
+
+
 
   useEffect(() => {
     // Obtener el user_id al montar el componente
@@ -185,7 +204,8 @@ const SponsorBox = (props) => {
 
   };
 
-  const handleAccept = async () => {
+  const handleAccept = async (event) => {
+    event.preventDefault();
     Object.keys(sponsorData).forEach((name) => {
       validateField(name, sponsorData[name]);
     });
@@ -226,11 +246,7 @@ const SponsorBox = (props) => {
         });
 
         if (response.status === 201) {
-          Swal.fire(
-            'Apadrinamiento creado correctamente!',
-            '',
-            'success'
-          )
+          Swal.fire('Apadrinamiento registrado correctamente!','','success');
           history.push('/listadoapadrinamiento');
         } else {
           const serverError = response.data;
@@ -263,44 +279,146 @@ const SponsorBox = (props) => {
     });
   };
   return (
-    <Container {...props}>
-      <UntitledComponent1Stack>
-        <TituloLine
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            height: 35,
-            width: 400,
-            backgroundColor: "rgba(255,152,0,1)",
-            opacity: 0.5
-          }}
-        ></TituloLine>
-        <LoremIpsum>Registra el Apadrinamiento</LoremIpsum>
-      </UntitledComponent1Stack>
-      <FormContainer>
-        <NombreBox
-          onChange={(event) => handleFieldChange("sponsor_name", event)}
-        />
-        {errors.sponsor_name && <span style={{ color: "red" }}>{errors.sponsor_name}</span>}
-        <DescripcionBox
-          onChange={(event) => handleFieldChange("sponsor_description", event)}
-        />
-        {errors.sponsor_description && <span style={{ color: "red" }}>{errors.sponsor_description}</span>}
-        <TareasBox
-          onChange={(event) => handleFieldChange("sponsor_attachment", event)}
-        />
-        {errors.sponsor_attachment && <span style={{ color: "red" }}>{errors.sponsor_attachment}</span>}
-        <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
-        {errors.type && <span style={{ color: "red" }}>{errors.type}</span>}
-        <LocalidadBox onSelect={handleZoneSelect} />
-        {errors.zone && <span style={{ color: "red" }}>{errors.zone}</span>}
-      </FormContainer>
-      <ButtonContainer>
-        <AceptarButton onClick={handleAccept} />
-        <ButtonSeparator />
-        <CancelarButton onClick={handleCancel} />
-      </ButtonContainer>
+<>
+
+
+<Container {...props}>
+      <Card className="m-3">
+        <Card.Header className="card-titulo text-center">
+        Registra el Apadrinamiento
+        </Card.Header>
+        <CardBody>
+          <Form validated={validated} onSubmit={handleAccept}>
+            <Row className="mb-3">
+              <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <Form.Label>¿Cuál es su nombre o el de su organización? *</Form.Label>
+
+                <Form.Control
+                  value={sponsorData["sponsor_name"]}
+                  required
+                  type="text"
+                  placeholder="Nombre del apadrinador/a o solicitante"
+                  onChange={(event) => handleFieldChange("sponsor_name", event)}
+                  maxlength={50}
+                  minLength={3}
+                />
+
+                <Form.Control.Feedback type="invalid">
+                  Por favor digite su nombre
+                </Form.Control.Feedback>
+                <Form.Control.Feedback>Valido!</Form.Control.Feedback>
+                <HelperText>
+                  Este dato se visualiza en la publicación.
+                </HelperText>
+              </Form.Group>
+              <p></p>
+              <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <Form.Label>
+                Agregue una descripción *{" "}
+                </Form.Label>
+
+                <Form.Control
+                  as="textarea"
+                  value={sponsorData["sponsor_description"]}
+                  required
+                  type="text"
+                  placeholder="Describa..."
+                  onChange={(event) =>
+                    handleFieldChange("sponsor_description", event)
+                  }
+                  maxlength={250}
+                  minLength={3}
+                />
+
+                <Form.Control.Feedback type="invalid">
+                  La descripción no puede estar vacía
+                </Form.Control.Feedback>
+                <Form.Control.Feedback>Válido!</Form.Control.Feedback>
+                <HelperText>
+                  Este dato se visualiza en la publicación.
+                </HelperText>
+              </Form.Group>
+              <p></p>
+
+              <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <Form.Label>
+                Describa las condiciones del apadrinamiento * {" "}
+                </Form.Label>
+
+                <Form.Control
+                  as="textarea"
+                  value={sponsorData["sponsor_attachment"]}
+                  required
+                  type="text"
+                  placeholder="Describa las condiciones"
+                  maxLength={250}
+                  onChange={(event) => handleFieldChange("sponsor_attachment", event)}
+                />
+
+                <Form.Control.Feedback type="invalid">
+                  La condicion no puede estar vacía
+                </Form.Control.Feedback>
+                <Form.Control.Feedback>Válido!</Form.Control.Feedback>
+                <HelperText>
+                  Este dato se visualiza en la publicación.
+                </HelperText>
+              </Form.Group>
+
+              <p></p>
+              <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
+              <HelperText>Este dato se visualiza en la publicación.</HelperText>
+              
+
+              <p></p>
+              <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <LocalidadBox onSelect={handleZoneSelect} />
+                {errors.zone && (
+                  <span style={{ color: "red" }}>{errors.zone}</span>
+                )}
+
+                <Form.Control.Feedback type="invalid">
+                  Localidad requerida
+                </Form.Control.Feedback>
+
+                <Form.Control.Feedback>Valido!</Form.Control.Feedback>
+                <HelperText>
+                  Este dato se visualiza en la publicación.
+                </HelperText>
+             
+              </Form.Group>
+              <p></p>
+            </Row>
+
+            <Form.Group className="mb-3">
+              {/* <Form.Check
+                required
+                label="Agree to terms and conditions"
+                feedback="You must agree before submitting."
+                feedbackType="invalid"
+              /> */}
+            </Form.Group>
+
+            <Row className="text-center">
+              <Col>
+                <Button style={{ width: "30%" }} type="submit">
+                  Aceptar
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  style={{ width: "30%" }}
+                  variant="secondary"
+                  onClick={handleCancel}
+                >
+                  Cancelar
+                </Button>
+              </Col>
+            </Row>
+            <div className="text-center mx-auto"></div>
+          </Form>
+        </CardBody>
+      </Card>
+
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -316,6 +434,8 @@ const SponsorBox = (props) => {
       {/* Same as */}
       <ToastContainer />
     </Container>
+
+   </>
   );
 };
 

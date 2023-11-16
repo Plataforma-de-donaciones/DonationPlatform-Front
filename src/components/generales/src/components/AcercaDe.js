@@ -10,7 +10,7 @@ const AcercaDe = () => {
                     <Col>
                         <Card className='mt-5'>
                             <CardHeader className='text-center'>
-                                <h2>Acerca de nosotros</h2>
+                                <h4>Acerca de nosotros</h4>
                             </CardHeader>
                             <CardBody>
                             <div className="row featurette">

@@ -112,7 +112,7 @@ const HomeScreen = () => {
           </Col>
 
           <Col className="col-xl-4 col-sm-12 order-sm-1  mb-3">
-            <MyCalendar events={events} />
+            <MyCalendar events={events} isHome={true} />
           </Col>
      
         </Row>

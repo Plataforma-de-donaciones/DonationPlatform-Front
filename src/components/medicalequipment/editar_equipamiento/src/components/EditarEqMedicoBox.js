@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
-import TituloLine from "./TituloLine";
-import NombreEqMedicoEdicionBox from "./NombreEqMedicoEdicionBox";
-import DescripcionEqMedicoEditarBox from "./DescripcionEqMedicoEditarBox";
-import TipoDePublicacionEqMedicoEdicionBox from "./TipoDePublicacionEqMedicoEdicionBox";
-import LocalidadBox from "./LocalidadBox";
-import ImagenEqMEdicoEditarBox from "./ImagenEqMEdicoEditarBox";
-import AceptarButton from "./AceptarButton";
-import CancelarButton from "./CancelarButton";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
+import CardComponente from "../../../../generales/card/CardComponente";
+import DescripcionDonEditarBox from "../../../../donation/editar_donacion/src/components/DescripcionDonEditarBox";
+import TipodePublicacionBox from "../../../../volunteer/alta_voluntario/components/TipodePublicacionBox";
+import LocalidadBox from "../../../../donation/editar_donacion/src/components/LocalidadBox";
+import ImagenDonEditarBox from "../../../../donation/editar_donacion/src/components/ImagenDonEditarBox";
+import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
+import { urlBackendDev } from "../../../../generales/variables/constantes";
+import NombreDonEdicionBox from "../../../../donation/editar_donacion/src/components/NombreDonEdicionBox";
 
 const cookies = new Cookies();
 
@@ -28,7 +28,6 @@ const Container = styled.div`
   min-height: 70vh;
   align-items: center;
   justify-content: center;
-
 `;
 
 const EquipamientoMedico = styled.span`
@@ -66,7 +65,6 @@ const Rect = styled.div`
   text-align: center;
 `;
 
-
 const TitleText = styled.span`
   font-style: normal;
   font-weight: 700;
@@ -86,6 +84,8 @@ const EditarEqMedicoBox = (props) => {
   const token = cookies.get("token");
   const [file, setFile] = useState(null);
   const history = useHistory();
+  const [imagenCargando, setImagenCargando] = useState(true);
+  const [validated, setValidated] = useState(false);
 
   const { eq_id } = useParams();
   console.log(eq_id);
@@ -112,6 +112,7 @@ const EditarEqMedicoBox = (props) => {
         setEqZone(equipamiento.zone);
         console.log(equipamiento.zone);
         setEqAttachment(equipamiento.eq_attachment);
+        setImagenCargando(false);
       } catch (error) {
         console.error("Error al cargar datos del equipamiento:", error);
       }
@@ -162,22 +163,26 @@ const EditarEqMedicoBox = (props) => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Sí, editar",
-      cancelButtonText: "Cancelar"
+      cancelButtonText: "Cancelar",
     });
     if (confirmation.isConfirmed) {
       try {
         let eqAttachmentToSend = eqAttachment;
 
         if (file) {
-            const formData = new FormData();
+          const formData = new FormData();
           formData.append("eq_attachment", file);
 
-          const response = await instance.patch(`/medicalequipments/${eq_id}/`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Token ${token}`,
-            },
-          });
+          const response = await instance.patch(
+            `/medicalequipments/${eq_id}/`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Token ${token}`,
+              },
+            }
+          );
 
           eqAttachmentToSend = response.data.filePath;
         }
@@ -200,65 +205,100 @@ const EditarEqMedicoBox = (props) => {
         Swal.fire({
           title: "Editado correctamente!",
           text: "Los datos han sido editados",
-          icon: "success"
+          icon: "success",
         });
-        history.push('/listadosolicitudes');
+        history.push("/listadoofrecimientos");
         console.log("Respuesta del servidor:", response.data);
       } catch (error) {
-        console.error("Error al actualizar la información del equipamiento:", error);
+        console.error(
+          "Error al actualizar la información del equipamiento:",
+          error
+        );
       }
     }
   };
 
   const handleCancel = () => {
     Swal.fire({
-      title: '¿Está seguro que desea cancelar?',
-      icon: 'question',
-      iconHtml: '?',
+      title: "¿Está seguro que desea cancelar?",
+      icon: "question",
+      iconHtml: "?",
       showCancelButton: true,
-      confirmButtonText: 'Sí',
-      cancelButtonText: 'No',
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
-        history.push('/listadosolicitudes');
+        history.push("/listadosolicitudes");
       }
     });
   };
 
   return (
-    <Container {...props}>
-      <UntitledComponent1Stack>
-        <Rect>
-          <TitleText>Editar equipamiento</TitleText>
-        </Rect>
-        <NombreEqMedicoEdicionBox
-          style={{ width: "100%" }}
-          value={eqName}
-          onChange={handleEqNameChange}
-        />
-      </UntitledComponent1Stack>
-      <DescripcionEqMedicoEditarBox
-        style={{ width: "100%" }}
-        value={eqDescription}
-        onChange={handleEqDescriptionChange}
-      />
-      <TipoDePublicacionEqMedicoEdicionBox
-        style={{ width: "100%" }}
-        selectedType={eqType}
-        onChange={handleEqTypeChange}
-      />
-      <LocalidadBox style={{ width: "100%" }} eqZone={eqZone} onChange={handleEqZoneChange} setEqZone={setEqZoneValue} />
-      <ImagenEqMEdicoEditarBox
-        style={{ width: "100%" }}
-        handleFileChange={handleFileChange}
-        eqAttachment={eqAttachment}
-      />
-      <MaterialButtonViolet2Row>
-        <AceptarButton style={{ width: "48%" }} onClick={handleSubmit} />
-        <CancelarButton history={props.history} style={{ width: "48%", marginLeft: "4%" }} onClick={handleCancel} />
-      </MaterialButtonViolet2Row>
-      {/* Mover la pregunta de eliminar y el botón al final */}
-    </Container>
+    <>
+      <CardComponente
+        titulo={"Editar donaciones"}
+        body={
+          <>
+            <NombreDonEdicionBox
+              style={{ width: "100%" }}
+              value={eqName}
+              onChange={handleEqNameChange}
+            />
+
+            <DescripcionDonEditarBox
+              style={{ width: "100%" }}
+              value={eqDescription}
+              onChange={handleEqDescriptionChange}
+            />
+
+            <TipodePublicacionBox defaultValue={eqType}></TipodePublicacionBox>
+
+            <LocalidadBox donZone={eqZone} onChange={setEqZone} />
+
+            <div className="text-center">
+              {imagenCargando ? (
+                <Spinner variant="success" animation="border" role="status">
+                  <span className="visually-hidden">Cargando...</span>
+                </Spinner>
+              ) : (
+                <ImagenDonEditarBox
+                  className="text-center"
+                  style={{ width: "20%" }}
+                  handleFileChange={handleFileChange}
+                  imagen={urlBackendDev + eqAttachment}
+                  descripcion={eqDescription}
+                />
+              )}
+            </div>
+
+            <Row className="text-center">
+              <Col>
+                <Button style={{ width: "38%" }} onClick={handleSubmit}>
+                  Aceptar
+                </Button>
+              </Col>
+
+              <Col>
+                <Button
+                  history={props.history}
+                  style={{ width: "38%", marginLeft: "4%" }}
+                  onClick={handleCancel}
+                  variant="secondary"
+                >
+                  Volver
+                </Button>
+              </Col>
+            </Row>
+
+            {/* Mover la pregunta de eliminar y el botón al final */}
+
+            <Form validated={validated} onSubmit={handleSubmit}>
+              <Row className="mb-3"></Row>
+            </Form>
+          </>
+        }
+      ></CardComponente>
+    </>
   );
 };
 

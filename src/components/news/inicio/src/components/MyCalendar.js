@@ -1,16 +1,17 @@
-import React from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import styled from 'styled-components';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Swal from 'sweetalert2';
+import React from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import styled from "styled-components";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const EventMarker = styled.div`
   position: relative;
   width: 10px;
   height: 10px;
-  background-color: rgba(79,181,139, 1);;
+  background-color: rgba(79, 181, 139, 1);
   border-radius: 50%;
   cursor: pointer;
 `;
@@ -23,46 +24,39 @@ const StyledCalendar = styled(Calendar)`
 
 const formatDate = (date) => {
   const year = date.getFullYear();
-  const month = `${date.getMonth() + 1}`.padStart(2, '0');
-  const day = `${date.getDate()}`.padStart(2, '0');
+  const month = `${date.getMonth() + 1}`.padStart(2, "0");
+  const day = `${date.getDate()}`.padStart(2, "0");
   const formattedDate = `${year}-${month}-${day}`;
   return formattedDate;
 };
 
-const MyCalendar = ({ events }) => {
-  const openEventToast = (eventName) => {
+const MyCalendar = ({ events, setEventList, isHome }) => {
+  const history = useHistory();
 
+  const openEventToast = (eventName) => {
     Swal.fire({
       title: eventMessage(eventName),
-      icon: 'info',
-      html:
-        'Desea leer más info del evento?, ' +
-        '<a href="WWW.google.com">links</a> ' + //link a todos los eventos?
-        '',
+      icon: "info",
+      html: "Desea leer más info del evento? ",
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: false,
-      position: 'bottom-end',
-      confirmButtonText:
-        'Si', 
-      cancelButtonText:
-        'No',
+      position: "bottom-end",
+      confirmButtonText: "Si",
+      cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
-        window.location.href = '/login';
+        {
+          setEventList &&
+            setEventList([
+              events.find((evento) => evento.event_name == eventName),
+            ]);
+        }
+        {
+          isHome && history.push("/listadoeventos");
+        }
       }
     });
-
-    // toast.info(eventMessage(eventName), {
-    //   position: "bottom-right",
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "colored",
-    //   });
   };
 
   const eventMessage = (eventName) => {
@@ -70,9 +64,10 @@ const MyCalendar = ({ events }) => {
   };
 
   return (
-    <>{console.log(events)}
+    <>
       <ToastContainer />
-      <StyledCalendar className={"mx-auto"}
+      <StyledCalendar
+        className={"mx-auto"}
         tileContent={({ date }) => {
           const formattedDate = formatDate(date);
           const matchingEvent = events.find(
