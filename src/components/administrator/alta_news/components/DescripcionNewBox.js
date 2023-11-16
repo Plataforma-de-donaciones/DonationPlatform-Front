@@ -5,10 +5,10 @@ function DescripcionNewBox(props) {
   return (
     <Container {...props}>
       <Label>Descripción de la noticia: *</Label>
-      <InputStyle
+      <TextareaStyle
         placeholder="Describa la noticia"
-        maxLength={100}
-      ></InputStyle>
+        maxLength={250}
+      ></TextareaStyle>
       <HelperText>Este dato se visualiza en la publicación.</HelperText>
     </Container>
   );
@@ -34,21 +34,15 @@ const Label = styled.span`
   font-weight: 700;
 `;
 
-const InputStyle = styled.input`
-  border-bottom-width: 1px;
-  border-color: #D9D5DC;
+const TextareaStyle = styled.textarea`
+  border: 1px solid #D9D5DC;
   color: #000;
   font-size: 14px;
-  align-self: stretch;
   line-height: 16px;
-  padding-top: 8px;
-  flex: 1 1 0%;
-  padding-bottom: 8px;
+  padding: 8px;
   width: 375px;
-  border: none;
   background: transparent;
-  display: flex;
-  flex-direction: column;
+  resize: vertical; 
 `;
 
 const HelperText = styled.span`

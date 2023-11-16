@@ -1,3 +1,5 @@
+// SubirArchivoBox.js
+
 import React, { useState } from "react";
 import styled from "styled-components";
 import Explorebutton from "./Explorebutton";
@@ -9,7 +11,11 @@ function SubirArchivoBox(props) {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-    props.onChangeFile(file);
+  
+    // Verifica si props.onChangeFile es una función antes de llamarla
+    if (typeof props.onChangeFile === 'function') {
+      props.onChangeFile(file);
+    }
   };
 
   const handleButtonClick = () => {
@@ -45,7 +51,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  /* Añade estilos adicionales para hacerlo responsive según sea necesario */
 `;
 
 const ButtonWrapper = styled.div`

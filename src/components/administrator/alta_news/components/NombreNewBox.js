@@ -4,9 +4,9 @@ import styled, { css } from "styled-components";
 function NombreDonBox(props) {
   return (
     <Container {...props}>
-      <StackedLabel>¿Cuál es el nombre de la donación? *</StackedLabel>
+      <StackedLabel>Título de la noticia *</StackedLabel>
       <InputStyle
-        placeholder="Nombre de la donación"
+        placeholder="Título de la noticia"
         maxLength={50}
       ></InputStyle>
       <HelperText>Esto dato se visualiza en la publicación.</HelperText>

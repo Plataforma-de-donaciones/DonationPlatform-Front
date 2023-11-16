@@ -207,7 +207,7 @@ const EditarEqMedicoBox = (props) => {
         onChange={handleEqTypeChange}
       />
       <LocalidadBox style={{ width: "100%" }} eqZone={eqZone} onChange={handleEqZoneChange} setEqZone={setEqZoneValue}/>
-      {eqAttachment && <img src={eqAttachment} alt="Equipamiento" style={{ maxWidth: "100%", marginTop: "10px" }} />}
+      {eqAttachment && <img src={`https://plataformadonaciones-qa.azurewebsites.net${eqAttachment}`} alt="Equipamiento" style={{ maxWidth: "100%", marginTop: "10px" }} />}
       <ImagenEqMEdicoEditarBox
         style={{ width: "100%" }}
         handleFileChange={handleFileChange}

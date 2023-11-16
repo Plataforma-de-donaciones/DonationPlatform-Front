@@ -40,7 +40,8 @@ import ListUsers from './components/administrator/list_users/screens/ListUsers';
 import ListadoUsuarios from './components/administrator/list_users/components/ListadoUsuarios';
 import ListModerators from './components/administrator/list_moderators/screens/ListModerators';
 import ListNews from './components/administrator/list_news/screens/ListNews';
-import CrearNoticia from './components/administrator/alta_noticia/screens/CrearNoticia';
+import AltaNew from './components/administrator/alta_news/screens/AltaNew';
+import EditarNoticia from './components/administrator/editar_news/src/screens/EditarNoticia';
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
           <Route path="/editarvoluntario/:vol_id" component={EditarVoluntario} />
           <Route path="/editarsponsor/:sponsor_id" component={EditarSponsor} />
           <Route path="/editarevento/:event_id" component={EditarEvento} />
+          <Route path="/editarnoticia/:new_id" component={EditarNoticia} />
           <Route path="/altavoluntariado/" component={AltaVoluntariado} />
           <Route path="/listadovoluntariado/" component={ListVolscreen} />
           <Route path="/listadoeventos/" component={ListEveScreen} />
@@ -86,7 +88,7 @@ function App() {
           <Route path="/listadousuarios/" component={ListadoUsuarios} />
           <Route path="/listadomoderadores/" component={ListModerators} />
           <Route path="/listadonoticias/" component={ListNews} />
-          <Route path="/altanoticia/" component={CrearNoticia} />          
+          <Route path="/altanoticia/" component={AltaNew} />          
 
         </Switch>
       </AuthProvider>

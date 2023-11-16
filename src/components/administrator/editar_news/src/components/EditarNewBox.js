@@ -3,14 +3,13 @@ import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
 import TituloLine from "./TituloLine";
-import NombreDonEdicionBox from "./NombreDonEdicionBox";
-import DescripcionDonEditarBox from "./DescripcionDonEditarBox";
-import TipoDePublicacionDonEdicionBox from "./TipoDePublicacionDonEdicionBox";
-import LocalidadBox from "./LocalidadBox";
-import ImagenDonEditarBox from "./ImagenDonEditarBox";
+import NombreNewEdicionBox from "./NombreNewEdicionBox";
+import DescripcionNewEditarBox from "./DescripcionNewEditarBox";
+import ImagenNewEditarBox from "./ImagenNewEditarBox";
 import AceptarButton from "./AceptarButton";
 import CancelarButton from "./CancelarButton";
 import { useParams } from "react-router-dom";
+import TemaNewEdicionBox from "./TemaNewEdicionBox";
 
 const cookies = new Cookies();
 
@@ -28,7 +27,7 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const Donacion = styled.span`
+const Noticia = styled.span`
   font-style: normal;
   font-weight: 700;
   color: #121212;
@@ -72,25 +71,24 @@ const TitleText = styled.span`
   margin-top: 6px;
 `;
 
-const EditarDonBox = (props) => {
-  const [datosDonacion, setDatosDonacion] = useState({});
-  const [donName, setDonName] = useState("");
-  const [donDescription, setDonDescription] = useState("");
-  const [donType, setDonType] = useState("");
-  const [donZone, setDonZone] = useState("");
-  const [donAttachment, setDonAttachment] = useState("");
+const EditarNewBox = (props) => {
+  const [datosNoticia, setDatosNoticia] = useState({});
+  const [newName, setNewName] = useState("");
+  const [newDescription, setNewDescription] = useState("");
+  const [newSubject, setNewSubject] = useState("");
+  const [newAttachment, setNewAttachment] = useState("");
   const token = cookies.get("token");
   const [file, setFile] = useState(null);
 
-  const { don_id } = useParams();
-  console.log(don_id);
+  const { new_id } = useParams();
+  console.log(new_id);
 
   useEffect(() => {
-    const cargarDatosDonacion = async () => {
+    const cargarDatosNoticia = async () => {
       try {
         const response = await instance.post(
-          "/donations/searchbyid/",
-          { don_id: don_id },
+          "/news/searchbyid/",
+          { new_id: new_id },
           {
             headers: {
               Authorization: `Token ${token}`,
@@ -98,47 +96,36 @@ const EditarDonBox = (props) => {
           }
         );
 
-        const donacion = response.data[0];
-        setDatosDonacion(donacion);
-        setDonName(donacion.don_name);
-        setDonDescription(donacion.don_description);
-        setDonType(donacion.type);
-        setDonZone(donacion.zone);
-        setDonAttachment(donacion.don_attachment);
+        const noticia = response.data[0];
+        setDatosNoticia(noticia);
+        setNewName(noticia.new_name);
+        setNewDescription(noticia.new_description);
+        setNewSubject(noticia.new_subject);
+        setNewAttachment(noticia.attachments);
       } catch (error) {
-        console.error("Error al cargar datos de la donación:", error);
+        console.error("Error al cargar datos de la noticia:", error);
       }
     };
 
-    if (don_id) {
-      cargarDatosDonacion();
+    if (new_id) {
+      cargarDatosNoticia();
     }
-  }, [don_id, token]);
+  }, [new_id, token]);
 
-  const handleDonNameChange = (e) => {
-    setDonName(e.target.value);
+  const handleNewNameChange = (e) => {
+    setNewName(e.target.value);
   };
 
-  const handleDonDescriptionChange = (e) => {
-    setDonDescription(e.target.value);
+  const handleNewDescriptionChange = (e) => {
+    setNewDescription(e.target.value);
   };
 
-  const handleDonTypeChange = (selectedType) => {
-    setDonType(selectedType);
+  const handleNewSubjectChange = (e) => {
+    setNewSubject(e.target.value);
   };
 
-  const handleDonZoneChange = (e) => {
-    if (e && e.target && e.target.value) {
-      setDonZone(e.target.value);
-    }
-  };
-
-  const handleDonAttachmentChange = (e) => {
-    setDonAttachment(e.target.value);
-  };
-
-  const setDonZoneValue = (newDonZone) => {
-    setDonZone(newDonZone);
+  const handleNewAttachmentChange = (e) => {
+    setNewAttachment(e.target.value);
   };
 
   const handleFileChange = (selectedFile) => {
@@ -149,21 +136,19 @@ const EditarDonBox = (props) => {
     try {
       const formData = new FormData();
   
-      // Agregar nuevos datos y archivo solo si es diferente al actual
-      if (file && file.name !== donAttachment) {
-        formData.append("don_attachment", file);
+      if (file && file.name !== newAttachment) {
+        formData.append("attachments", file);
       }
   
       Object.entries({
-        don_name: donName,
-        don_description: donDescription,
-        type: donType,
-        zone: donZone,
+        new_name: newName,
+        new_description: newDescription,
+        new_subject: newSubject,
       }).forEach(([key, value]) => {
         formData.append(key, value);
       });
   
-      const response = await instance.patch(`/donations/${don_id}/`, formData, {
+      const response = await instance.patch(`/news/${new_id}/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Token ${token}`,
@@ -172,7 +157,7 @@ const EditarDonBox = (props) => {
   
       console.log("Respuesta del servidor:", response.data);
     } catch (error) {
-      console.error("Error al actualizar la información de la donación:", error);
+      console.error("Error al actualizar la información de la noticia:", error);
     }
   };
 
@@ -180,30 +165,29 @@ const EditarDonBox = (props) => {
     <Container {...props}>
       <UntitledComponent1Stack>
         <Rect>
-          <TitleText>Editar donación</TitleText>
+          <TitleText>Editar noticia</TitleText>
         </Rect>
-        <NombreDonEdicionBox
+        <NombreNewEdicionBox
           style={{ width: "100%" }}
-          value={donName}
-          onChange={handleDonNameChange}
+          value={newName}
+          onChange={handleNewNameChange}
         />
       </UntitledComponent1Stack>
-      <DescripcionDonEditarBox
+      <DescripcionNewEditarBox
         style={{ width: "100%" }}
-        value={donDescription}
-        onChange={handleDonDescriptionChange}
+        value={newDescription}
+        onChange={handleNewDescriptionChange}
       />
-      <TipoDePublicacionDonEdicionBox
+      <TemaNewEdicionBox
         style={{ width: "100%" }}
-        selectedType={donType}
-        onChange={handleDonTypeChange}
+        value={newSubject}
+        onChange={handleNewSubjectChange}
       />
-      <LocalidadBox style={{ width: "100%" }} donZone={donZone} onChange={handleDonZoneChange} setEqZone={setDonZoneValue} />
-      {donAttachment && <img src={`https://plataformadonaciones-qa.azurewebsites.net${donAttachment}`} alt="Donación" style={{ maxWidth: "100%", marginTop: "10px" }} />}
-      <ImagenDonEditarBox
+      {newAttachment && <img src={`https://plataformadonaciones-qa.azurewebsites.net${newAttachment}`} alt="Noticia" style={{ maxWidth: "100%", marginTop: "10px" }} />}
+      <ImagenNewEditarBox
         style={{ width: "100%" }}
         handleFileChange={handleFileChange}
-        eqAttachment={donAttachment}
+        newAttachment={newAttachment}
       />
       <MaterialButtonViolet2Row>
         <AceptarButton style={{ width: "48%" }} onClick={handleSubmit} />
@@ -213,4 +197,4 @@ const EditarDonBox = (props) => {
   );
 };
 
-export default EditarDonBox;
+export default EditarNewBox;

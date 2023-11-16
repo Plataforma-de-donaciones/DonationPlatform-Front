@@ -41,6 +41,9 @@ const ListadoNoticias = () => {
   const handleCreateNews = () => {
     history.push('/altanoticia');
   };
+  const handleEditNews = (newsId) => {
+    history.push(`/editarnoticia/${newsId}`);
+  };
 
   return (
     
@@ -73,7 +76,7 @@ const ListadoNoticias = () => {
               <td>{news.user}</td>
               <td>{news.new_created_at}</td>
               <td>
-                <Button variant="info" size="sm">
+              <Button variant="info" size="sm" onClick={() => handleEditNews(news.new_id)}>
                   Editar
                 </Button>
               </td>

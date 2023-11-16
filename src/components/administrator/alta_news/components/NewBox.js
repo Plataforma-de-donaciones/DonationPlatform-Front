@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TituloLine from "./TituloLine";
-import NombreDonBox from "./NombreDonBox";
-import DescripcionDonBox from "./DescripcionDonBox";
-import TipodePublicacionBox from "./TipodePublicacionBox";
-import LocalidadBox from "./LocalidadBox";
+import NombreNewBox from "./NombreNewBox";
+import DescripcionNewBox from "./DescripcionNewBox";
+import TemaNewBox from "./TemaNewBox";
 import SubirArchivoBox from "./SubirArchivoBox";
 import AceptarButton from "./AceptarButton";
 import CancelarButton from "./CancelarButton";
@@ -79,19 +78,16 @@ const UntitledComponent1Stack = styled.div`
 
 const cookies = new Cookies();
 
-const DonacionBox = (props) => {
-  const [donationData, setDonationData] = useState({
-    don_name: "",
-    don_description: "",
-    type: "",
-    state: 1,
-    don_created_at: new Date().toISOString(),
+const NewBox = (props) => {
+  const [newData, setNewData] = useState({
+    new_name: "",
+    new_description: "",
+    new_subject: "",
+    new_created_at: new Date().toISOString(),
     user: "",
-    zone: null,
-    geom_point: null,
-    has_requests: false,
-    request_count: 0,
-    don_attachment: null,
+    is_highlighted: false,
+    views_count: 0,
+    attachments: null,
   });
 
   const [errors, setErrors] = useState({});
@@ -107,7 +103,7 @@ const DonacionBox = (props) => {
   }, []);
 
   useEffect(() => {
-    setDonationData((prevData) => ({
+    setNewData((prevData) => ({
       ...prevData,
       user: user_id || "",
     }));
@@ -120,7 +116,7 @@ const DonacionBox = (props) => {
   const handleFieldChange = (fieldName, event) => {
     const value = event.target.value;
 
-    setDonationData((prevData) => ({
+    setNewData((prevData) => ({
       ...prevData,
       [fieldName]: value,
     }));
@@ -132,42 +128,31 @@ const DonacionBox = (props) => {
   };
 
   const handleZoneSelect = (zoneId) => {
-    setDonationData((prevData) => ({
+    setNewData((prevData) => ({
       ...prevData,
       zone: zoneId,
     }));
   };
 
-  const handleTipoPublicacionSelect = (selectedValue) => {
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      type: "",
-    }));
-    setDonationData((prevData) => ({
-      ...prevData,
-      type: selectedValue,
-    }));
-  };
 
   const validateField = (fieldName, value) => {
-    if (fieldName === "don_name" && (!value || !value.toString().trim())) {
+    if (fieldName === "new_name" && (!value || !value.toString().trim())) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "El nombre no puede estar vacío",
       }));
-    } else if (fieldName === "don_name" && value) {
+    } else if (fieldName === "new_name" && value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "",
       }));
     }
-
-    if (fieldName === "type" && !value) {
+    if (fieldName === "new_description" && (!value || !value.toString().trim())) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [fieldName]: "Debe seleccionar un tipo de publicación",
+        [fieldName]: "La descripción no puede estar vacía",
       }));
-    }else if (fieldName === "type" && value) {
+    } else if (fieldName === "new_description" && value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "",
@@ -177,8 +162,8 @@ const DonacionBox = (props) => {
   };
 
   const handleAccept = async () => {
-    Object.keys(donationData).forEach((name) => {
-      validateField(name, donationData[name]);
+    Object.keys(newData).forEach((name) => {
+      validateField(name, newData[name]);
     });
 
     if (Object.values(errors).some((error) => error !== "")) {
@@ -188,16 +173,16 @@ const DonacionBox = (props) => {
     try {
       const formData = new FormData();
       if (file) {
-        formData.append("don_attachment", file);
+        formData.append("attachments", file);
       }
-      Object.entries(donationData).forEach(([key, value]) => {
-        if (key !== "don_attachment") {
+      Object.entries(newData).forEach(([key, value]) => {
+        if (key !== "attachments") {
           formData.append(key, value);
         }
       });
     const formDataEntries = [...formData.entries()];
 
-      const response = await instance.post("/donations/", formData, {
+      const response = await instance.post("/news/", formData, {
         headers: {
           Authorization: `Token ${token}`,
           "Content-Type": "multipart/form-data", 
@@ -205,7 +190,7 @@ const DonacionBox = (props) => {
       });
 
       if (response.status === 201) {
-        alert("Donación registrada correctamente");
+        alert("Noticia registrada correctamente");
       } else {
         const serverError = response.data;
         console.log(response);
@@ -214,7 +199,7 @@ const DonacionBox = (props) => {
         }
       }
     } catch (error) {
-      console.error("Error al registrar equipo médico:", error);
+      console.error("Error al registrar la noticia:", error);
       console.log("Respuesta del servidor:", error.response); 
     }
   };
@@ -233,19 +218,20 @@ const DonacionBox = (props) => {
             opacity: 0.5
           }}
         ></TituloLine>
-        <LoremIpsum>Registra tu Donación</LoremIpsum>
+        <LoremIpsum>Crear noticia</LoremIpsum>
       </UntitledComponent1Stack>
       <FormContainer>
-        <NombreDonBox
-          onChange={(event) => handleFieldChange("don_name", event)}
+        <NombreNewBox
+          onChange={(event) => handleFieldChange("new_name", event)}
         />
-        {errors.don_name && <span style={{ color: "red" }}>{errors.don_name}</span>}
-        <DescripcionDonBox
-          onChange={(event) => handleFieldChange("don_description", event)}
+        {errors.new_name && <span style={{ color: "red" }}>{errors.new_name}</span>}
+        <DescripcionNewBox
+          onChange={(event) => handleFieldChange("new_description", event)}
         />
-        <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
-        {errors.type && <span style={{ color: "red" }}>{errors.type}</span>}
-        <LocalidadBox onSelect={handleZoneSelect} />
+        {errors.new_description && <span style={{ color: "red" }}>{errors.new_description}</span>}
+        <TemaNewBox
+          onChange={(event) => handleFieldChange("new_subject", event)}
+        />
         <SubirArchivoBox onChangeFile={(file) => handleFileChange(file)} />
               </FormContainer>
       <ButtonContainer>
@@ -257,4 +243,4 @@ const DonacionBox = (props) => {
   );
 };
 
-export default DonacionBox;
+export default NewBox;

@@ -203,15 +203,12 @@ const SponsorBox = (props) => {
         const serverError = response.data;
         console.log(response);
         if (serverError) {
-          // Manejar errores específicos del servidor si es necesario
         } else {
-          // Manejar otros errores
         }
       }
     } catch (error) {
       console.error("Error al registrar el sponsor:", error);
-      console.log("Respuesta del servidor:", error.response); // Agrega esta línea
-      // Manejar errores de la solicitud
+      console.log("Respuesta del servidor:", error.response); 
     }
   };
 
