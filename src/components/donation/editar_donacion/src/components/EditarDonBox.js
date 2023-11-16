@@ -26,7 +26,6 @@ const Container = styled.div`
   min-height: 70vh;
   align-items: center;
   justify-content: center;
-
 `;
 
 const Donacion = styled.span`
@@ -64,7 +63,6 @@ const Rect = styled.div`
   text-align: center;
 `;
 
-
 const TitleText = styled.span`
   font-style: normal;
   font-weight: 700;
@@ -84,14 +82,12 @@ const EditarDonBox = (props) => {
   const token = cookies.get("token");
   const [file, setFile] = useState(null);
 
-  // Usa useParams para obtener eq_id de la URL
   const { don_id } = useParams();
   console.log(don_id);
 
   useEffect(() => {
     const cargarDatosDonacion = async () => {
       try {
-        // Utiliza eq_id de la URL
         const response = await instance.post(
           "/donations/searchbyid/",
           { don_id: don_id },
@@ -110,11 +106,10 @@ const EditarDonBox = (props) => {
         setDonZone(donacion.zone);
         setDonAttachment(donacion.don_attachment);
       } catch (error) {
-        console.error("Error al cargar datos de la donacion:", error);
+        console.error("Error al cargar datos de la donación:", error);
       }
     };
 
-    // Cargar datos solo si hay un eq_id válido
     if (don_id) {
       cargarDatosDonacion();
     }
@@ -152,37 +147,28 @@ const EditarDonBox = (props) => {
 
   const handleSubmit = async () => {
     try {
-      let donAttachmentToSend = donAttachment;
+      const formData = new FormData();
   
-      if (file) {
-        const formData = new FormData();
+      // Agregar nuevos datos y archivo solo si es diferente al actual
+      if (file && file.name !== donAttachment) {
         formData.append("don_attachment", file);
-  
-        const response = await instance.patch(`/donations/${don_id}/`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Token ${token}`,
-          },
-        });
-  
-        donAttachmentToSend = response.data.filePath;
       }
   
-      const response = await instance.patch(
-        `/donations/${don_id}/`,
-        {
-          don_name: donName,
-          don_description: donDescription,
-          type: donType,
-          zone: donZone,
-          don_attachment: donAttachmentToSend,
+      Object.entries({
+        don_name: donName,
+        don_description: donDescription,
+        type: donType,
+        zone: donZone,
+      }).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+  
+      const response = await instance.patch(`/donations/${don_id}/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Token ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
+      });
   
       console.log("Respuesta del servidor:", response.data);
     } catch (error) {
@@ -193,9 +179,9 @@ const EditarDonBox = (props) => {
   return (
     <Container {...props}>
       <UntitledComponent1Stack>
-      <Rect>
-        <TitleText>Editar donación</TitleText>
-      </Rect>
+        <Rect>
+          <TitleText>Editar donación</TitleText>
+        </Rect>
         <NombreDonEdicionBox
           style={{ width: "100%" }}
           value={donName}
@@ -212,7 +198,8 @@ const EditarDonBox = (props) => {
         selectedType={donType}
         onChange={handleDonTypeChange}
       />
-      <LocalidadBox style={{ width: "100%" }} donZone={donZone} onChange={handleDonZoneChange} setEqZone={setDonZoneValue}/>
+      <LocalidadBox style={{ width: "100%" }} donZone={donZone} onChange={handleDonZoneChange} setEqZone={setDonZoneValue} />
+      {donAttachment && <img src={donAttachment} alt="Donación" style={{ maxWidth: "100%", marginTop: "10px" }} />}
       <ImagenDonEditarBox
         style={{ width: "100%" }}
         handleFileChange={handleFileChange}
@@ -222,7 +209,6 @@ const EditarDonBox = (props) => {
         <AceptarButton style={{ width: "48%" }} onClick={handleSubmit} />
         <CancelarButton history={props.history} style={{ width: "48%", marginLeft: "4%" }} />
       </MaterialButtonViolet2Row>
-      {/* Mover la pregunta de eliminar y el botón al final */}
     </Container>
   );
 };

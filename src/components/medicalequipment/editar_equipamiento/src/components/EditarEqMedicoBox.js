@@ -83,6 +83,7 @@ const EditarEqMedicoBox = (props) => {
   const [eqAttachment, setEqAttachment] = useState("");
   const token = cookies.get("token");
   const [file, setFile] = useState(null);
+  console.log(eqAttachment);
 
   const { eq_id } = useParams();
   console.log(eq_id);
@@ -152,43 +153,36 @@ const EditarEqMedicoBox = (props) => {
 
   const handleSubmit = async () => {
     try {
-      let eqAttachmentToSend = eqAttachment;
+      const formData = new FormData();
   
-      if (file) {
-        const formData = new FormData();
+      // Agregar nuevos datos y archivo solo si es diferente al actual
+      if (file && file.name !== eqAttachment) {
         formData.append("eq_attachment", file);
-  
-        const response = await instance.patch(`/medicalequipments/${eq_id}/`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Token ${token}`,
-          },
-        });
-  
-        eqAttachmentToSend = response.data.filePath;
       }
   
-      const response = await instance.patch(
-        `/medicalequipments/${eq_id}/`,
-        {
-          eq_name: eqName,
-          eq_description: eqDescription,
-          type: eqType,
-          zone: eqZone,
-          eq_attachment: eqAttachmentToSend,
+      Object.entries({
+        eq_name: eqName,
+        eq_description: eqDescription,
+        type: eqType,
+        zone: eqZone,
+      }).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+  
+      const response = await instance.patch(`/medicalequipments/${eq_id}/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Token ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
+      });
   
       console.log("Respuesta del servidor:", response.data);
     } catch (error) {
       console.error("Error al actualizar la información del equipamiento:", error);
     }
   };
+  
+  
 
   return (
     <Container {...props}>
@@ -213,6 +207,7 @@ const EditarEqMedicoBox = (props) => {
         onChange={handleEqTypeChange}
       />
       <LocalidadBox style={{ width: "100%" }} eqZone={eqZone} onChange={handleEqZoneChange} setEqZone={setEqZoneValue}/>
+      {eqAttachment && <img src={eqAttachment} alt="Equipamiento" style={{ maxWidth: "100%", marginTop: "10px" }} />}
       <ImagenEqMEdicoEditarBox
         style={{ width: "100%" }}
         handleFileChange={handleFileChange}
@@ -222,7 +217,6 @@ const EditarEqMedicoBox = (props) => {
         <AceptarButton style={{ width: "48%" }} onClick={handleSubmit} />
         <CancelarButton history={props.history} style={{ width: "48%", marginLeft: "4%" }} />
       </MaterialButtonViolet2Row>
-      {/* Mover la pregunta de eliminar y el botón al final */}
     </Container>
   );
 };

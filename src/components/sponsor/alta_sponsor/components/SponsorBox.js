@@ -86,7 +86,7 @@ const SponsorBox = (props) => {
     type: "",
     state: 1,
     sponsor_created_at: new Date().toISOString(),
-    user: "", // Debes obtener el ID del usuario
+    user: "", 
     zone: null,
     geom_point: null,
     has_requests: false,
@@ -99,7 +99,6 @@ const SponsorBox = (props) => {
   const [user_id, setUserId] = useState(null);
 
   useEffect(() => {
-    // Obtener el user_id al montar el componente
     const userDataCookie = cookies.get("user_data");
     if (userDataCookie) {
       setUserId(userDataCookie.user_id);
@@ -107,7 +106,6 @@ const SponsorBox = (props) => {
   }, []);
 
   useEffect(() => {
-    // Sincronizar el user_id en el equipmentData
     setSponsorData((prevData) => ({
       ...prevData,
       user: user_id || "",
@@ -136,7 +134,10 @@ const SponsorBox = (props) => {
   };
 
   const handleTipoPublicacionSelect = (selectedValue) => {
-    console.log("Tipo de publicación seleccionado:", selectedValue);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      type: "",
+    }));
     setSponsorData((prevData) => ({
       ...prevData,
       type: selectedValue,
@@ -149,12 +150,22 @@ const SponsorBox = (props) => {
         ...prevErrors,
         [fieldName]: "El nombre no puede estar vacío",
       }));
+    }else if (fieldName === "sponsor_name" && value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "",
+      }));
     }
 
     if (fieldName === "type" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "Debe seleccionar un tipo de publicación",
+      }));
+    }else if (fieldName === "type" && value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "",
       }));
     }
 

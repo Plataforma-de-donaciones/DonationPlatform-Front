@@ -123,9 +123,9 @@ const ListadoPaginado = ({ tipo }) => {
             <TableHeaderCell>Nombre</TableHeaderCell>
             <TableHeaderCell>Descripción</TableHeaderCell>
             <TableHeaderCell>Fecha creado</TableHeaderCell>
-            <TableHeaderCell>Solicitudes</TableHeaderCell>
+            <TableHeaderCell>Ofrecimientos</TableHeaderCell>
             <TableHeaderCell>Fecha confirmación</TableHeaderCell>
-            <TableHeaderCell>Tiene solicitudes</TableHeaderCell>
+            <TableHeaderCell>Tiene ofrecimientos</TableHeaderCell>
             <TableHeaderCell>Editar</TableHeaderCell>
             <TableHeaderCell>Eliminar</TableHeaderCell>
           </tr>

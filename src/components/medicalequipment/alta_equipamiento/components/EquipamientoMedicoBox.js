@@ -86,7 +86,7 @@ const EquipamientoMedicoBox = (props) => {
     type: "",
     state: 1,
     eq_created_at: new Date().toISOString(),
-    user: "", // Debes obtener el ID del usuario
+    user: "", 
     zone: null,
     geom_point: null,
     has_requests: false,
@@ -100,7 +100,6 @@ const EquipamientoMedicoBox = (props) => {
   const [file, setFile] = useState(null);
 
   useEffect(() => {
-    // Obtener el user_id al montar el componente
     const userDataCookie = cookies.get("user_data");
     if (userDataCookie) {
       setUserId(userDataCookie.user_id);
@@ -108,10 +107,9 @@ const EquipamientoMedicoBox = (props) => {
   }, []);
 
   useEffect(() => {
-    // Sincronizar el user_id en el equipmentData
     setEquipmentData((prevData) => ({
       ...prevData,
-      user: user_id || "", // Asegurarse de que user sea una cadena vacía si user_id es null
+      user: user_id || "", 
     }));
   }, [user_id]);
 
@@ -127,7 +125,6 @@ const EquipamientoMedicoBox = (props) => {
       [fieldName]: value,
     }));
 
-    // Limpiar el error al cambiar el campo
     setErrors((prevErrors) => ({
       ...prevErrors,
       [fieldName]: "",
@@ -142,9 +139,10 @@ const EquipamientoMedicoBox = (props) => {
   };
 
   const handleTipoPublicacionSelect = (selectedValue) => {
-    // Haz lo que necesites con el valor seleccionado
-    console.log("Tipo de publicación seleccionado:", selectedValue);
-    // Puedes almacenar el valor en el estado del componente si es necesario
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      type: "",
+    }));
     setEquipmentData((prevData) => ({
       ...prevData,
       type: selectedValue,
@@ -157,66 +155,71 @@ const EquipamientoMedicoBox = (props) => {
         ...prevErrors,
         [fieldName]: "El nombre no puede estar vacío",
       }));
+    } else if (fieldName === "eq_name" && value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "",
+      }));
     }
-
+  
     if (fieldName === "type" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "Debe seleccionar un tipo de publicación",
       }));
+    } else if (fieldName === "type" && value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "",
+      }));
     }
-
-    // Agrega otras validaciones según sea necesario
+  
   };
 
   const handleAccept = async () => {
-    // Validar todos los campos antes de enviar la solicitud
     Object.keys(equipmentData).forEach((name) => {
       validateField(name, equipmentData[name]);
     });
-
-    // Verificar si hay errores en los campos
+  
     if (Object.values(errors).some((error) => error !== "")) {
       return;
     }
-
-    // Intentar enviar la solicitud
+  
     try {
-      // Crear un objeto FormData para enviar archivos
       const formData = new FormData();
-      formData.append("eq_attachment", file);
-
-      // Agregar otros campos al formData
+        if (file) {
+        formData.append("eq_attachment", file);
+      }
+  
       Object.entries(equipmentData).forEach(([key, value]) => {
-        formData.append(key, value);
+        if (key !== "eq_attachment") {
+          formData.append(key, value);
+        }
       });
+  
       console.log("Contenido de FormData:");
-    const formDataEntries = [...formData.entries()];
-    console.log(formDataEntries);
-
-      // Enviar la solicitud con el formData
+      const formDataEntries = [...formData.entries()];
+      console.log(formDataEntries);
+  
       const response = await instance.post("/medicalequipments/", formData, {
         headers: {
           Authorization: `Token ${token}`,
-          "Content-Type": "multipart/form-data", // Asegura el tipo de contenido correcto
+          "Content-Type": "multipart/form-data", 
         },
       });
-
+  
       if (response.status === 201) {
         alert("Equipo médico registrado correctamente");
       } else {
         const serverError = response.data;
         console.log(response);
         if (serverError) {
-          // Manejar errores específicos del servidor si es necesario
         } else {
-          // Manejar otros errores
         }
       }
     } catch (error) {
       console.error("Error al registrar equipo médico:", error);
-      console.log("Respuesta del servidor:", error.response); // Agrega esta línea
-      // Manejar errores de la solicitud
+      console.log("Respuesta del servidor:", error.response);
     }
   };
 
@@ -247,7 +250,6 @@ const EquipamientoMedicoBox = (props) => {
         <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
         {errors.type && <span style={{ color: "red" }}>{errors.type}</span>}
         <LocalidadBox onSelect={handleZoneSelect} />
-        {/* Agrega un mensaje de error para la localidad si es necesario */}
         <SubirArchivoBox onChangeFile={(file) => handleFileChange(file)} />
               </FormContainer>
       <ButtonContainer>

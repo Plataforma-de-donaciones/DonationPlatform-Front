@@ -36,6 +36,11 @@ import ListarReqOfrecimientoSponsor from './components/users/list_requests_spons
 import AltaEvento from './components/events/alta_evento/screens/AltaEvento';
 import ListEveScreen from './components/events/listar_evento/src/screens/ListEveScreen';
 import EditarEvento from './components/events/editar_evento/src/screens/EditarEvento';
+import ListUsers from './components/administrator/list_users/screens/ListUsers';
+import ListadoUsuarios from './components/administrator/list_users/components/ListadoUsuarios';
+import ListModerators from './components/administrator/list_moderators/screens/ListModerators';
+import ListNews from './components/administrator/list_news/screens/ListNews';
+import CrearNoticia from './components/administrator/alta_noticia/screens/CrearNoticia';
 
 function App() {
   return (
@@ -77,6 +82,12 @@ function App() {
           <Route path="/listadorequestvol/:voluntarioId" component={ListarReqOfrecimientoVol} />
           <Route path="/listadorequestsponsor/:sponsorId" component={ListarReqOfrecimientoSponsor} />
           <Route path="/listadoapadrinamiento/" component={ListSponsorscreen} />
+          <Route path="/paneladministrador/" component={ListUsers} />
+          <Route path="/listadousuarios/" component={ListadoUsuarios} />
+          <Route path="/listadomoderadores/" component={ListModerators} />
+          <Route path="/listadonoticias/" component={ListNews} />
+          <Route path="/altanoticia/" component={CrearNoticia} />          
+
         </Switch>
       </AuthProvider>
     </Router>
