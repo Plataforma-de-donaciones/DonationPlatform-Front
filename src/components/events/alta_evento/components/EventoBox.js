@@ -144,20 +144,36 @@ const EventoBox = (props) => {
         ...prevErrors,
         [fieldName]: "El nombre no puede estar vacío",
       }));
-    }
-
-    if (fieldName === "type" && !value) {
+    }else if (fieldName === "event_name" && value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [fieldName]: "Debe seleccionar un tipo de publicación",
+        [fieldName]: "",
       }));
     }
+    if (fieldName === "start_date" && !value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "Debe seleccionar una fecha de inicio",
+      }));
+    } else if (fieldName === "start_date" && value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "",
+      }));
+    }
+    
   };
 
   const handleAccept = async () => {
     Object.keys(eventData).forEach((name) => {
       validateField(name, eventData[name]);
     });
+    if (!eventData.start_date) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        start_date: "Debe seleccionar una fecha de inicio",
+      }));
+    }
 
     if (Object.values(errors).some((error) => error !== "")) {
       return;
@@ -165,10 +181,13 @@ const EventoBox = (props) => {
 
     try {
       const formData = new FormData();
-      formData.append("attachments", file);
-      console.log(formData);
+      if (file) {
+        formData.append("attachments", file);
+      }
       Object.entries(eventData).forEach(([key, value]) => {
-        formData.append(key, value);
+        if (key !== "attachments") {
+          formData.append(key, value);
+        }
       });
       console.log("Contenido de FormData:");
     const formDataEntries = [...formData.entries()];

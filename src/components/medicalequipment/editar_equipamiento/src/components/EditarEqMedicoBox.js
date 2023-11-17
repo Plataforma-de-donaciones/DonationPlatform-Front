@@ -232,6 +232,8 @@ const EditarEqMedicoBox = (props) => {
       }
     });
   };
+  
+  
 
   return (
     <>

@@ -101,7 +101,10 @@ const DonacionBox = (props) => {
   };
 
   const handleTipoPublicacionSelect = (selectedValue) => {
-    console.log("Tipo de publicación seleccionado:", selectedValue);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      type: "",
+    }));
     setDonationData((prevData) => ({
       ...prevData,
       type: selectedValue,
@@ -123,6 +126,28 @@ const DonacionBox = (props) => {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "El nombre no puede estar vacío",
+      }));
+    } else if (fieldName === "don_name" && value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "",
+      }));
+    }
+
+    if (
+      fieldName === "don_description" &&
+      (!value || !value.toString().trim())
+    ) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "La descripción no puede estar vacía",
+      }));
+    }
+
+    if (fieldName === "zone" && !value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "Debe seleccionar una localidad",
       }));
     }
 
@@ -147,6 +172,11 @@ const DonacionBox = (props) => {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "Debe seleccionar un tipo de publicación",
+      }));
+    }else if (fieldName === "type" && value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "",
       }));
     }
   };

@@ -98,7 +98,7 @@ const EquipamientoMedicoBox = (props) => {
     type: "",
     state: 1,
     eq_created_at: new Date().toISOString(),
-    user: "", // Debes obtener el ID del usuario
+    user: "", 
     zone: null,
     geom_point: null,
     has_requests: false,
@@ -114,7 +114,6 @@ const EquipamientoMedicoBox = (props) => {
   const [validated, setValidated] = useState(false);
 
   useEffect(() => {
-    // Obtener el user_id al montar el componente
     const userDataCookie = cookies.get("user_data");
     if (userDataCookie) {
       setUserId(userDataCookie.user_id);
@@ -122,10 +121,9 @@ const EquipamientoMedicoBox = (props) => {
   }, []);
 
   useEffect(() => {
-    // Sincronizar el user_id en el equipmentData
     setEquipmentData((prevData) => ({
       ...prevData,
-      user: user_id || "", // Asegurarse de que user sea una cadena vacía si user_id es null
+      user: user_id || "", 
     }));
   }, [user_id]);
 
@@ -141,7 +139,6 @@ const EquipamientoMedicoBox = (props) => {
       [fieldName]: value,
     }));
 
-    // Limpiar el error al cambiar el campo
     setErrors((prevErrors) => ({
       ...prevErrors,
       [fieldName]: "",
@@ -156,7 +153,9 @@ const EquipamientoMedicoBox = (props) => {
   };
 
   const handleTipoPublicacionSelect = (selectedValue) => {
+    // Haz lo que necesites con el valor seleccionado
     console.log("Tipo de publicación seleccionado:", selectedValue);
+    // Puedes almacenar el valor en el estado del componente si es necesario
     setEquipmentData((prevData) => ({
       ...prevData,
       type: selectedValue,
@@ -179,8 +178,13 @@ const EquipamientoMedicoBox = (props) => {
         ...prevErrors,
         [fieldName]: "El nombre no puede estar vacío",
       }));
+    } else if (fieldName === "eq_name" && value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "",
+      }));
     }
-
+  
     if (fieldName === "type" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,

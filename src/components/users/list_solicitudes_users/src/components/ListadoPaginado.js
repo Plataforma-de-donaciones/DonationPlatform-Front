@@ -143,7 +143,7 @@ const ListadoPaginado = ({ }) => {
                 <th>Fecha creado</th>
                 <th>Ofrecimientos</th>
                 <th>Fecha confirmación</th>
-                <th>Tiene solicitudes</th>
+                <th>Tiene ofrecimientos</th>
                 <th>Acciones</th>
               </tr>
             </thead>

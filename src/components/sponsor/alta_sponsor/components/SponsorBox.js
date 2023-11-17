@@ -119,7 +119,6 @@ const SponsorBox = (props) => {
   };
 
   useEffect(() => {
-    // Obtener el user_id al montar el componente
     const userDataCookie = cookies.get("user_data");
     if (userDataCookie) {
       setUserId(userDataCookie.user_id);
@@ -127,7 +126,6 @@ const SponsorBox = (props) => {
   }, []);
 
   useEffect(() => {
-    // Sincronizar el user_id en el equipmentData
     setSponsorData((prevData) => ({
       ...prevData,
       user: user_id || "",
@@ -156,7 +154,10 @@ const SponsorBox = (props) => {
   };
 
   const handleTipoPublicacionSelect = (selectedValue) => {
-    console.log("Tipo de publicación seleccionado:", selectedValue);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      type: "",
+    }));
     setSponsorData((prevData) => ({
       ...prevData,
       type: selectedValue,

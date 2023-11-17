@@ -122,7 +122,7 @@ const EventList = () => {
       const response = await instance.post("/events/searchbyname/", {
         event_name: searchTerm,
       });
-      setEventList(response.data);
+      setOriginalEventList(response.data);
     } catch (error) {
       console.error("Error searching event:", error);
     }

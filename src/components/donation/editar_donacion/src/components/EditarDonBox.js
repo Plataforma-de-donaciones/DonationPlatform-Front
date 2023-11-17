@@ -88,13 +88,11 @@ const EditarDonBox = (props) => {
   const [validated, setValidated] = useState(false);
   const [imagenCargando, setImagenCargando] = useState(true);
 
-  // Usa useParams para obtener eq_id de la URL
   const { don_id } = useParams();
 
   useEffect(() => {
     const cargarDatosDonacion = async () => {
       try {
-        // Utiliza eq_id de la URL
         const response = await instance.post(
           "/donations/searchbyid/",
           { don_id: don_id },
@@ -114,11 +112,10 @@ const EditarDonBox = (props) => {
         setDonAttachment(donacion.don_attachment);
         setImagenCargando(false);
       } catch (error) {
-        console.error("Error al cargar datos de la donacion:", error);
+        console.error("Error al cargar datos de la donación:", error);
       }
     };
 
-    // Cargar datos solo si hay un eq_id válido
     if (don_id) {
       cargarDatosDonacion();
     }

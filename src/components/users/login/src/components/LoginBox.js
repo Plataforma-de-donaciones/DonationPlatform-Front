@@ -6,20 +6,13 @@ import Cookies from "js-cookie";
 import instance from "../../../../../axios_instance";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  Button,
-  Card,
-  CardHeader,
-  Col,
-  Form,
-  FormControl,
-  Row,
-} from "react-bootstrap";
+import {Button, Card, CardHeader, Col, Form, FormControl, Row} from "react-bootstrap";
 import PasswordInput from "./PasswordInput";
 import { FaUser, FaLock } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import Registratebutton1 from "./Registratebutton1";
 import EnterButton from "./EnterButton";
+import bcrypt from 'bcryptjs';
 
 const Container = styled.div`
   display: flex;
@@ -155,7 +148,8 @@ const LoginBox = () => {
     // }
 
     try {
-      const response = await instance.post("/login/", credentials);
+      const hashedPassword = bcrypt.hashSync(credentials.user_password, 10);
+      const response = await instance.post('/login/',credentials);
 
       if (response.status === 200) {
         const { token, user_data } = response.data;
