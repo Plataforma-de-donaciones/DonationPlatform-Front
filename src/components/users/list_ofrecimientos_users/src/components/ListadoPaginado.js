@@ -243,7 +243,6 @@ const ListadoPaginado = ({}) => {
                       <td>{item.sponsor_description}</td>
                       <td>{item.sponsor_created_at}</td>
                       <td>
-                        {item.request_count}{" "}
                         <Link to={`/listadorequestsponsor/${item.sponsor_id}`}>
                           {item.request_count}
                         </Link>{" "}

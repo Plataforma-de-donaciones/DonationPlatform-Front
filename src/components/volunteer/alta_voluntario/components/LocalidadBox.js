@@ -22,7 +22,7 @@ const Label = styled.span`
 
 const SelectStyle = styled.select`
   border-bottom-width: 1px;
-  border-color: #D9D5DC;
+  border-color: #d9d5dc;
   color: #000;
   font-size: 14px;
   align-self: stretch;
@@ -50,11 +50,12 @@ function LocalidadBox({ onSelect }) {
 
   useEffect(() => {
     // Cargar las zonas desde http://192.168.1.14/articleszones/ utilizando Axios
-    instance.get("/articleszones/", {
-      headers: {
-        Authorization: `Token ${token}`, // Reemplaza tu_token_aqui con el token real
-      },
-    })
+    instance
+      .get("/articleszones/", {
+        headers: {
+          Authorization: `Token ${token}`, // Reemplaza tu_token_aqui con el token real
+        },
+      })
       .then((response) => {
         setZones(response.data);
       })
@@ -73,8 +74,12 @@ function LocalidadBox({ onSelect }) {
     <Form.Group as={Col} md="12" controlId="validationCustom01">
       <Form.Label>¿En qué localidad se encuentra? *</Form.Label>
 
-      <Form.Select value={selectedZone} onChange={handleZoneChange}
-      aria-label="Default select example">
+      <Form.Select
+        required
+        value={selectedZone}
+        onChange={handleZoneChange}
+        aria-label="Default select example"
+      >
         <option value="" disabled>
           Seleccione una localidad
         </option>
@@ -84,6 +89,12 @@ function LocalidadBox({ onSelect }) {
           </option>
         ))}
       </Form.Select>
+      <Form.Control.Feedback type="invalid">
+        Localidad requerida
+      </Form.Control.Feedback>
+
+      <Form.Control.Feedback>Campo Campo válido!</Form.Control.Feedback>
+
     </Form.Group>
   );
 }

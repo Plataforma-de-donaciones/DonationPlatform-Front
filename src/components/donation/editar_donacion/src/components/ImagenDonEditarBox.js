@@ -3,7 +3,7 @@ import styled from "styled-components";
 import SubirArchivoBox from "./SubirArchivoBox";
 import { Col, Row } from "react-bootstrap";
 
-function ImagenDonEditarBox({ handleFileChange, donAttachment, ...props }) {
+function ImagenDonEditarBox({ handleFileChange, donAttachment, titulo, ...props }) {
   const [previewImage, setPreviewImage] = useState(props.imagen);
 
   const handleFileChangeInParent = async (file) => {
@@ -13,8 +13,8 @@ function ImagenDonEditarBox({ handleFileChange, donAttachment, ...props }) {
 
   return (
     <>
-      <Row className="text-center">
-        <Imagen className="text-center">Imagen</Imagen>
+      <Row className="text-center mx-auto">
+        <Imagen className="text-center mx-auto">{titulo}</Imagen>
         <Col>
           {previewImage && (
             <PreviewImage src={previewImage} alt={props.descripcion} />

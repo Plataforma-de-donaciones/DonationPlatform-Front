@@ -39,12 +39,10 @@ function AltaEquipamiento(props) {
 
 <Layout>
       <Row>
-        <Col>
-          <Card className='mt-5'>
+        <Col>         
             <CardBody>
             <EquipamientoMedicoBox />
-            </CardBody>
-          </Card>
+            </CardBody>      
         </Col>
       </Row>
     </Layout>

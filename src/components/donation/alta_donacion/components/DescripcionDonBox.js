@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 function DescripcionDonBox(props) {
   return (
     <Container {...props}>
-      <Label>¿Cómo describírias a la donación? *</Label>
+      <Label>¿Cómo describirías a la donación? *</Label>
       <InputStyle
         placeholder="Describa la donación"
         maxLength={100}

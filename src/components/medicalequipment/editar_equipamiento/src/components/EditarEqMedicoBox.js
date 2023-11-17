@@ -267,6 +267,7 @@ const EditarEqMedicoBox = (props) => {
                   handleFileChange={handleFileChange}
                   imagen={urlBackendDev + eqAttachment}
                   descripcion={eqDescription}
+                  titulo={"Imagen"}
                 />
               )}
             </div>

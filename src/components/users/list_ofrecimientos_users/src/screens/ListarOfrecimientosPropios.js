@@ -6,8 +6,6 @@ import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
 import { Row, Col } from "react-bootstrap";
 import Layout from "../../../../generales/src/components/layout/Layout";
 
-
-
 const Container = styled.div`
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -67,19 +65,16 @@ const Content = styled.div`
 const GeneralFooterStyled = styled(GeneralFooter)`
   grid-row: 3;
 `;
-
+//url:listadoofrecimientos
 function ListarOfrecimientosPropios(props) {
   const [tipo, setTipo] = useState("donations");
 
   return (
-
     <>
       <Layout haveMenu={false}>
         <Row>
           <Col className="col-12">
-
             <ListadoPaginado tipo={tipo} />
-
           </Col>
         </Row>
       </Layout>

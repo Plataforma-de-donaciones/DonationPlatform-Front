@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import TituloLine from "./TituloLine";
-import NombreEqMedicoBox from "./NombreEqMedicoBox";
-import DescripcionEqBox from "./DescripcionEqBox";
-import TipodePublicacionBox from "./TipodePublicacionBox";
-import LocalidadBox from "./LocalidadBox";
-import SubirArchivoBox from "./SubirArchivoBox";
-import AceptarButton from "./AceptarButton";
-import CancelarButton from "./CancelarButton";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
+import { Col, Row, Card, Form, Button, CardBody } from "react-bootstrap";
+import ImagenDonEditarBox from "./../../../donation/editar_donacion/src/components/ImagenDonEditarBox";
+import TipodePublicacionBox from "../../../volunteer/alta_voluntario/components/TipodePublicacionBox";
+import LocalidadBox from "../../../volunteer/alta_voluntario/components/LocalidadBox";
+import { validate } from "json-schema";
+import CardComponente from "../../../generales/card/CardComponente";
+
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+`;
 
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -103,6 +111,7 @@ const EquipamientoMedicoBox = (props) => {
   const [user_id, setUserId] = useState(null);
   const [file, setFile] = useState(null);
   const history = useHistory();
+  const [validated, setValidated] = useState(false);
 
   useEffect(() => {
     // Obtener el user_id al montar el componente
@@ -147,9 +156,7 @@ const EquipamientoMedicoBox = (props) => {
   };
 
   const handleTipoPublicacionSelect = (selectedValue) => {
-    // Haz lo que necesites con el valor seleccionado
     console.log("Tipo de publicación seleccionado:", selectedValue);
-    // Puedes almacenar el valor en el estado del componente si es necesario
     setEquipmentData((prevData) => ({
       ...prevData,
       type: selectedValue,
@@ -158,36 +165,29 @@ const EquipamientoMedicoBox = (props) => {
 
   const validateField = (fieldName, value) => {
     if (fieldName === "eq_name" && (!value || !value.toString().trim())) {
-      toast.error('Por favor, complete los campos requeridos', {
-        position: 'bottom-center',
+      toast.error("Por favor, complete los campos requeridos", {
+        position: "bottom-center",
         autoClose: 4000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: 'colored',
+        theme: "colored",
       });
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "El nombre no puede estar vacío",
       }));
     }
-  
+
     if (fieldName === "type" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "Debe seleccionar un tipo de publicación",
       }));
     }
-  
-    if (fieldName === "zone" && !value) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [fieldName]: "Debe seleccionar una localidad",
-      }));
-    }
-  
+
     if (fieldName === "eq_description" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -195,36 +195,40 @@ const EquipamientoMedicoBox = (props) => {
       }));
     }
   };
-  
-  const handleAccept = async () => {
 
-    Object.keys(equipmentData).forEach(async (name) => {
-       validateField(name, equipmentData[name]);
-    });
+  const handleAccept = async (event) => {
+    event.preventDefault();
 
-    if (Object.values(errors).some((error) => error !== "")) {
-      return;
-    }else{
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    } else {
       handleConfirmation();
     }
-    
+
+    setValidated(true);
+
+    Object.keys(equipmentData).forEach(async (name) => {
+      validateField(name, equipmentData[name]);
+    });
   };
-  
+
   const handleConfirmation = async () => {
     const confirmation = await Swal.fire({
-      title: 'Protege tu Privacidad',
+      title: "Protege tu Privacidad",
       html: `
         <p>Por su seguridad y la de los demás, le recordamos evitar publicar fotos y/o videos, o descripción en la publicación que contengan información personal o la de otras personas. Estos pueden incluir Nombre, Teléfono, Dirección, entre otros.</p>
         <p>En caso de necesitar brindar datos personales para concretar el acto benéfico, le sugerimos que lo realice de manera segura mediante el chat privado.</p>
         <p>Ayuda a crear un entorno en línea seguro para todos.</p>
         <p>¡Gracias por su colaboración!</p>
         <p>¿Usted confirma que esta publicación no incluye contenido que revele información sensible?</p>`,
-      icon: 'info',
+      icon: "info",
       showCancelButton: true,
-      confirmButtonText: 'Sí',
-      cancelButtonText: 'No',
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
     });
-  
+
     if (confirmation.isConfirmed) {
       try {
         await handleRequest(); // Lógica de manejo de la solicitud
@@ -233,31 +237,26 @@ const EquipamientoMedicoBox = (props) => {
       }
     }
   };
-  
+
   const handleRequest = async () => {
     const formData = new FormData();
     formData.append("eq_attachment", file);
-  
+
     // Agregar otros campos al formData
     Object.entries(equipmentData).forEach(([key, value]) => {
       formData.append(key, value);
     });
-  
+
     const response = await instance.post("/medicalequipments/", formData, {
       headers: {
         Authorization: `Token ${token}`,
         "Content-Type": "multipart/form-data",
       },
     });
-  
+
     if (response.status === 201) {
-      Swal.fire(
-        'Equipamiento médico registrado correctamente!',
-        '',
-        'success'
-      );
-      history.push('/listadoequipamiento');
-      
+      Swal.fire("Equipamiento médico registrado correctamente!", "", "success");
+      history.push("/listadoequipamiento");
     } else {
       const serverError = response.data;
       console.log(response);
@@ -277,60 +276,140 @@ const EquipamientoMedicoBox = (props) => {
       }
     }
   };
-   
-  
+
   const handleCancel = () => {
     Swal.fire({
-      title: '¿Está seguro que desea cancelar?',
-      icon: 'question',
-      iconHtml: '?',
+      title: "¿Está seguro que desea cancelar?",
+      icon: "question",
+      iconHtml: "?",
       showCancelButton: true,
-      confirmButtonText: 'Sí',
-      cancelButtonText: 'No',
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
-        history.push('/listadoequipamiento');
+        history.push("/listadoequipamiento");
       }
     });
   };
 
   return (
-    <Container {...props}>
-      <UntitledComponent1Stack>
-        <TituloLine
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            height: 35,
-            width: 400,
-            backgroundColor: "rgba(255,152,0,1)",
-            opacity: 0.5
-          }}
-        ></TituloLine>
-        <LoremIpsum>Registra tu equipamiento médico</LoremIpsum>
-      </UntitledComponent1Stack>
-      <FormContainer>
-        <NombreEqMedicoBox
-          onChange={(event) => handleFieldChange("eq_name", event)}
-        />
-        {errors.eq_name && <span style={{ color: "red" }}>{errors.eq_name}</span>}
-        <DescripcionEqBox
-          onChange={(event) => handleFieldChange("eq_description", event)}
-        />
-        {errors.eq_description && <span style={{ color: "red" }}>{errors.eq_description}</span>}
-        <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
-        {errors.type && <span style={{ color: "red" }}>{errors.type}</span>}
-        <LocalidadBox onSelect={handleZoneSelect} />
-        {errors.zone && <span style={{ color: "red" }}>{errors.zone}</span>}
-        {/* Agrega un mensaje de error para la localidad si es necesario */}
-        <SubirArchivoBox onChangeFile={(file) => handleFileChange(file)} />
-      </FormContainer>
-      <ButtonContainer>
-        <AceptarButton onClick={handleAccept} />
-        <ButtonSeparator />
-        <CancelarButton onClick={handleCancel} />
-      </ButtonContainer>
+    <>
+      <CardComponente
+        titulo={"Registra tu equipamiento médico"}
+        body={
+          <>
+            <Form noValidate validated={validated} onSubmit={handleAccept}>
+              <Row className="mb-3">
+                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                  <Form.Label>
+                    ¿Cuál es el nombre del equipamiento médico? *
+                  </Form.Label>
+
+                  <Form.Control
+                    value={equipmentData["eq_name"]}
+                    required
+                    type="text"
+                    placeholder="Nombre de equipamiento médico"
+                    onChange={(event) => handleFieldChange("eq_name", event)}
+                    maxlength={50}
+                    minLength={3}
+                  />
+
+                  <Form.Control.Feedback type="invalid">
+                    Por favor digite su nombre
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback>Valido!</Form.Control.Feedback>
+                  <HelperText>
+                    Este dato se visualiza en la publicación.
+                  </HelperText>
+                </Form.Group>
+                <p></p>
+                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                  <Form.Label>
+                    ¿Cómo describirías al equipamiento médico? *{" "}
+                  </Form.Label>
+
+                  <Form.Control
+                    as="textarea"
+                    value={equipmentData["eq_description"]}
+                    required
+                    type="text"
+                    placeholder="Describa el equipamiento médico"
+                    onChange={(event) =>
+                      handleFieldChange("eq_description", event)
+                    }
+                    maxlength={250}
+                    minLength={3}
+                  />
+
+                  <Form.Control.Feedback type="invalid">
+                    La descripción de la tarea no puede estar vacía
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                  <HelperText>
+                    Este dato se visualiza en la publicación.
+                  </HelperText>
+                </Form.Group>
+
+                <p></p>
+                <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
+                <HelperText>
+                  Este dato se visualiza en la publicación.
+                </HelperText>
+
+                <p></p>
+                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                  <LocalidadBox onSelect={handleZoneSelect} />
+                  {errors.zone && (
+                    <span style={{ color: "red" }}>{errors.zone}</span>
+                  )}
+
+                  <Form.Control.Feedback type="invalid">
+                    Localidad requerida
+                  </Form.Control.Feedback>
+
+                  <Form.Control.Feedback>
+                    Campo Campo válido!
+                  </Form.Control.Feedback>
+
+                  <HelperText>
+                    Este dato se visualiza en la publicación.
+                  </HelperText>
+                </Form.Group>
+                <p></p>
+
+                <ImagenDonEditarBox
+                  className="text-center"
+                  style={{ width: "20%" }}
+                  handleFileChange={handleFileChange}
+                  titulo={"Adjunte una imagen por favor"}
+                />
+              </Row>
+
+              <Form.Group className="mb-3"></Form.Group>
+
+              <Row className="text-center">
+                <Col>
+                  <Button style={{ width: "30%" }} type="submit">
+                    Aceptar
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    style={{ width: "30%" }}
+                    variant="secondary"
+                    onClick={handleCancel}
+                  >
+                    Cancelar
+                  </Button>
+                </Col>
+              </Row>
+              <div className="text-center mx-auto"></div>
+            </Form>
+          </>
+        }
+      ></CardComponente>
+
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -345,7 +424,7 @@ const EquipamientoMedicoBox = (props) => {
       />
       {/* Same as */}
       <ToastContainer />
-    </Container>
+    </>
   );
 };
 

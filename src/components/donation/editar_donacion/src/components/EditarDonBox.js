@@ -268,6 +268,7 @@ const EditarDonBox = (props) => {
                   handleFileChange={handleFileChange}
                   imagen={urlBackendDev + donAttachment}
                   descripcion={donDescription}
+                  titulo={"Imagen"}
                 />
               )}
             </div>

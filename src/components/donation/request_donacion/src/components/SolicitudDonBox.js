@@ -134,6 +134,9 @@ const SolicitudDonBox = (props) => {
   };
 
   const handleAccept = async () => {
+    
+
+    
     // Validar todos los campos antes de enviar la solicitud
     Object.keys(solicitudData).forEach((name) => {
       validateField(name, solicitudData[name]);

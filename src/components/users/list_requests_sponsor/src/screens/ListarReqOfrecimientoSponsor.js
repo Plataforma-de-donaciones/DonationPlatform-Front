@@ -4,6 +4,7 @@ import GeneralFooter from "../../../login/src/components/GeneralFooter";
 import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
 import ListadoSponsors from "../components/ListadoSponsors";
 import { useParams } from "react-router-dom";
+import Layout from "../../../../generales/src/components/layout/Layout";
 
 const Container = styled.div`
   display: grid;
@@ -64,39 +65,14 @@ const Content = styled.div`
 const GeneralFooterStyled = styled(GeneralFooter)`
   grid-row: 3;
 `;
-
+//url:listadorequestsponsor/id
 function ListarReqOfrecimientoSponsor(props) {
   const { sponsorId } = useParams();
 
   return (
-    <Container>
-      <GeneralHeaderColumn>
-        <GeneralHeader
-          style={{
-            width: "100%",
-            margin: "0 auto",
-          }}
-        />
-        <Rect>
-          <PerfilText>Solicitudes a mis ofrecimientos</PerfilText>
-        </Rect>
-      </GeneralHeaderColumn>
-      <GeneralHeaderColumnFiller />
-      <Content>
+    <Layout haveMenu={false}>
       <ListadoSponsors sponsorId={sponsorId} />
-      </Content>
-      <GeneralFooterStyled
-        style={{
-          width: "100%",
-          maxWidth: "1366px",
-          margin: "0 auto",
-          height: "60px",
-          shadowRadius: 0,
-          alignSelf: "center",
-          boxShadow: "3px 3px 0px  0.01px rgba(0,0,0,1) "
-        }}
-      />
-    </Container>
+    </Layout>
   );
 }
 

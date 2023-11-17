@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 function DescripcionEqBox(props) {
   return (
     <Container {...props}>
-      <Label>¿Cómo describírias al equipamiento médico? *</Label>
+      <Label>¿Cómo describirías al equipamiento médico? *</Label>
       <InputStyle
         placeholder="Describa el equipamiento médico"
         maxLength={100}

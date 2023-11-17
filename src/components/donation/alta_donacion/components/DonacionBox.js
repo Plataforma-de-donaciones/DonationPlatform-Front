@@ -3,8 +3,6 @@ import styled from "styled-components";
 import TituloLine from "./TituloLine";
 import NombreDonBox from "./NombreDonBox";
 import DescripcionDonBox from "./DescripcionDonBox";
-import TipodePublicacionBox from "./TipodePublicacionBox";
-import LocalidadBox from "./LocalidadBox";
 import SubirArchivoBox from "./SubirArchivoBox";
 import AceptarButton from "./AceptarButton";
 import CancelarButton from "./CancelarButton";
@@ -13,74 +11,31 @@ import Cookies from "universal-cookie";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
+import TipodePublicacionBox from "./../../../volunteer/alta_voluntario/components/TipodePublicacionBox";
+import LocalidadBox from "./../../../volunteer/alta_voluntario/components/LocalidadBox";
+import ImagenDonEditarBox from "./../../editar_donacion/src/components/ImagenDonEditarBox";
+import {
+  Form,
+  Row,
+  Col,
+  InputGroup,
+  Button,
+  Card,
+  CardBody,
+} from "react-bootstrap";
+import CardComponente from "../../../generales/card/CardComponente";
 
-
-const Container = styled.div`
-  background-color: rgba(255, 255, 255, 1);
-  min-height: 70vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
-const TitleContainer = styled.div`
-  position: relative;
-  background-color: rgba(255, 152, 0, 0.5);
-`;
-
-const Title = styled.h2`
-  font-size: 20px;
-  color: #121212;
-  font-weight: 700;
-  margin: 5px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
-const FormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-`;
-
-const ButtonContainer = styled.div`
-  height: 36px;
-  flex-direction: row;
-  display: flex;
-  margin-top: 15px;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
-const ButtonSeparator = styled.div`
-  width: 10px; /* Espacio entre los botones */
-`;
-
-const LoremIpsum = styled.span`
-  left: 53px;
-  position: absolute;
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
   font-style: normal;
   font-weight: 400;
-  color: #121212;
-  font-size: 20px;
-  top: 5px;
 `;
 
-const UntitledComponent1Stack = styled.div`
-  width: 400px;
-  height: 35px;
-  margin-top: 15px;
-  position: relative;
-`;
 
 const cookies = new Cookies();
 
@@ -91,7 +46,7 @@ const DonacionBox = (props) => {
     type: "",
     state: 1,
     don_created_at: new Date().toISOString(),
-    user: "", 
+    user: "",
     zone: null,
     geom_point: null,
     has_requests: false,
@@ -104,6 +59,7 @@ const DonacionBox = (props) => {
   const [user_id, setUserId] = useState(null);
   const [file, setFile] = useState(null);
   const history = useHistory();
+  const [validated, setValidated] = useState(false);
 
   useEffect(() => {
     const userDataCookie = cookies.get("user_data");
@@ -153,17 +109,16 @@ const DonacionBox = (props) => {
   };
 
   const validateField = (fieldName, value) => {
-
     if (fieldName === "don_name" && (!value || !value.toString().trim())) {
-      toast.error('Por favor, complete los campos requeridos', {
-        position: 'bottom-center',
+      toast.error("Por favor, complete los campos requeridos", {
+        position: "bottom-center",
         autoClose: 4000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: 'colored',
+        theme: "colored",
       });
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -171,7 +126,10 @@ const DonacionBox = (props) => {
       }));
     }
 
-    if (fieldName === "don_description" && (!value || !value.toString().trim())) {
+    if (
+      fieldName === "don_description" &&
+      (!value || !value.toString().trim())
+    ) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: "La descripción no puede estar vacía",
@@ -191,125 +149,213 @@ const DonacionBox = (props) => {
         [fieldName]: "Debe seleccionar un tipo de publicación",
       }));
     }
-
   };
 
-  const handleAccept = async () => {
-    Object.keys(donationData).forEach((name) => {
-      validateField(name, donationData[name]);
-    });
+  const handleAccept = async (event) => {
+    event.preventDefault();
 
-    if (Object.values(errors).some((error) => error !== "")) {
-      return;
-    }
-    const confirmation = await Swal.fire({
-      title: 'Protege tu Privacidad',
-      html: `
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    } else {
+      const confirmation = await Swal.fire({
+        title: "Protege tu Privacidad",
+        html: `
         <p>Por su seguridad y la de los demás, le recordamos evitar publicar fotos y/o videos, o descripción en la publicación que contengan información personal o la de otras personas. Estos pueden incluir Nombre, Teléfono, Dirección, entre otros.</p>
         <p>En caso de necesitar brindar datos personales para concretar el acto benéfico, le sugerimos que lo realice de manera segura mediante el chat privado.</p>
         <p>Ayuda a crear un entorno en línea seguro para todos.</p>
         <p>¡Gracias por su colaboración!</p>
         <p>¿Usted confirma que esta publicación no incluye contenido que revele información sensible?</p>`,
-      icon: 'info',
-      showCancelButton: true,
-      confirmButtonText: 'Sí',
-      cancelButtonText: 'No',
-    });
-   if(confirmation.isConfirmed){
-
-    try {
-      const formData = new FormData();
-      formData.append("don_attachment", file);
-
-      Object.entries(donationData).forEach(([key, value]) => {
-        formData.append(key, value);
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonText: "Sí",
+        cancelButtonText: "No",
       });
-      console.log("Contenido de FormData:");
-      const formDataEntries = [...formData.entries()];
-      console.log(formDataEntries);
+      if (confirmation.isConfirmed) {
+        try {
+          const formData = new FormData();
+          formData.append("don_attachment", file);
 
-      const response = await instance.post("/donations/", formData, {
-        headers: {
-          Authorization: `Token ${token}`,
-          "Content-Type": "multipart/form-data", 
-        },
-      });
+          Object.entries(donationData).forEach(([key, value]) => {
+            formData.append(key, value);
+          });
+          console.log("Contenido de FormData:");
+          const formDataEntries = [...formData.entries()];
+          console.log(formDataEntries);
 
-      if (response.status === 201) {
-        Swal.fire(
-          'Donación registrada correctamente!',
-          '',
-          'success'
-        )
-        history.push('/listadodonacion');
-      } else {
-        const serverError = response.data;
-        console.log(response);
-        if (serverError) {
-          // Manejar errores específicos del servidor si es necesario
-        } else {
-          // Manejar otros errores
+          const response = await instance.post("/donations/", formData, {
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          });
+
+          if (response.status === 201) {
+            Swal.fire("Donación registrada correctamente!", "", "success");
+            history.push("/listadodonacion");
+          } else {
+            const serverError = response.data;
+            console.log(response);
+            if (serverError) {
+              // Manejar errores específicos del servidor si es necesario
+            } else {
+              // Manejar otros errores
+            }
+          }
+        } catch (error) {
+          console.error("Error al registrar equipo médico:", error);
+          console.log("Respuesta del servidor:", error.response); // Agrega esta línea
+          // Manejar errores de la solicitud
         }
       }
-    } catch (error) {
-      console.error("Error al registrar equipo médico:", error);
-      console.log("Respuesta del servidor:", error.response); // Agrega esta línea
-      // Manejar errores de la solicitud
     }
-    }
+
+    setValidated(true);
+
+    Object.keys(donationData).forEach((name) => {
+      validateField(name, donationData[name]);
+    });
   };
+
   const handleCancel = () => {
     Swal.fire({
-      title: '¿Está seguro que desea cancelar?',
-      icon: 'question',
-      iconHtml: '?',
+      title: "¿Está seguro que desea cancelar?",
+      icon: "question",
+      iconHtml: "?",
       showCancelButton: true,
-      confirmButtonText: 'Sí',
-      cancelButtonText: 'No',
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
-        history.push('/listadodonacion');
+        history.push("/listadodonacion");
       }
     });
   };
 
   return (
-    <Container {...props}>
-      <UntitledComponent1Stack>
-        <TituloLine
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            height: 35,
-            width: 400,
-            backgroundColor: "rgba(255,152,0,1)",
-            opacity: 0.5
-          }}
-        ></TituloLine>
-        <LoremIpsum>Registra tu Donación</LoremIpsum>
-      </UntitledComponent1Stack>
-      <FormContainer>
-        <NombreDonBox
-          onChange={(event) => handleFieldChange("don_name", event)}
-        />
-        {errors.don_name && <span style={{ color: "red" }}>{errors.don_name}</span>}
-        <DescripcionDonBox
-          onChange={(event) => handleFieldChange("don_description", event)}
-        />
-        {errors.don_description && <span style={{ color: "red" }}>{errors.don_description}</span>}
-        <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
-        {errors.type && <span style={{ color: "red" }}>{errors.type}</span>}
-        <LocalidadBox onSelect={handleZoneSelect} />
-        {errors.zone && <span style={{ color: "red" }}>{errors.zone}</span>}
-        {/* Agrega un mensaje de error para la localidad si es necesario */}
-        <SubirArchivoBox onChangeFile={(file) => handleFileChange(file)} />
-      </FormContainer>
-      <ButtonContainer>
-        <AceptarButton onClick={handleAccept} />
-        <ButtonSeparator />
-        <CancelarButton onClick={handleCancel} />
-      </ButtonContainer>
+    <>
+      <CardComponente
+        titulo={"Registra tu Donación"}
+        body={
+          <>
+            <Form noValidate validated={validated} onSubmit={handleAccept}>
+              <Row className="mb-3">
+                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                  <Form.Label>¿Cuál es el nombre de la donación? *</Form.Label>
+
+                  <Form.Control
+                    value={donationData["don_name"]}
+                    required
+                    type="text"
+                    placeholder="Nombre de la donación"
+                    onChange={(event) => handleFieldChange("don_name", event)}
+                    maxlength={50}
+                    minLength={3}
+                  />
+
+                  <Form.Control.Feedback type="invalid">
+                    Por favor digite su nombre
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback>
+                    Campo Campo válido!
+                  </Form.Control.Feedback>
+                  <HelperText>
+                    Este dato se visualiza en la publicación.
+                  </HelperText>
+                </Form.Group>
+                <p></p>
+                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                  <Form.Label>¿Cómo describirías a la donación? * </Form.Label>
+
+                  <Form.Control
+                    as="textarea"
+                    value={donationData["don_description"]}
+                    required
+                    type="text"
+                    placeholder="Describa la donación"
+                    onChange={(event) =>
+                      handleFieldChange("don_description", event)
+                    }
+                    maxlength={250}
+                    minLength={3}
+                  />
+
+                  <Form.Control.Feedback type="invalid">
+                    La descripción de la tarea no puede estar vacía
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                  <HelperText>
+                    Este dato se visualiza en la publicación.
+                  </HelperText>
+                </Form.Group>
+
+                <p></p>
+                <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
+                <HelperText>
+                  Este dato se visualiza en la publicación.
+                </HelperText>
+
+                <p></p>
+                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                  <LocalidadBox onSelect={handleZoneSelect} />
+                  {errors.zone && (
+                    <span style={{ color: "red" }}>{errors.zone}</span>
+                  )}
+
+                  <Form.Control.Feedback type="invalid">
+                    Localidad requerida
+                  </Form.Control.Feedback>
+
+                  <Form.Control.Feedback>
+                    Campo Campo válido!
+                  </Form.Control.Feedback>
+
+                  <HelperText>
+                    Este dato se visualiza en la publicación.
+                  </HelperText>
+                </Form.Group>
+                <p></p>
+
+                <ImagenDonEditarBox
+                  className="text-center"
+                  style={{ width: "20%" }}
+                  handleFileChange={handleFileChange}
+                  titulo={"Adjunte una imagen por favor"}
+                />
+              </Row>
+
+              <Form.Group className="mb-3">
+                {/* <Form.Check
+                required
+                label="Agree to terms and conditions"
+                feedback="You must agree before submitting."
+                feedbackType="invalid"
+              /> */}
+              </Form.Group>
+
+              <Row className="text-center">
+                <Col>
+                  <Button style={{ width: "30%" }} type="submit">
+                    Aceptar
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    style={{ width: "30%" }}
+                    variant="secondary"
+                    onClick={handleCancel}
+                  >
+                    Cancelar
+                  </Button>
+                </Col>
+              </Row>
+              <div className="text-center mx-auto"></div>
+            </Form>
+          </>
+        }
+      ></CardComponente>
+
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -322,9 +368,8 @@ const DonacionBox = (props) => {
         pauseOnHover
         theme="light"
       />
-      {/* Same as */}
       <ToastContainer />
-    </Container>
+    </>
   );
 };
 

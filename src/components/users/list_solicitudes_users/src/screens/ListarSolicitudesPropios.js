@@ -67,6 +67,7 @@ const GeneralFooterStyled = styled(GeneralFooter)`
   grid-row: 3;
 `;
 
+//url:listadosolicitudes
 function ListarSolicitudesPropios(props) {
   const [tipo, setTipo] = useState("donations");
 

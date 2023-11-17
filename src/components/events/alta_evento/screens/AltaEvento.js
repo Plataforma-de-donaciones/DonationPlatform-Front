@@ -32,7 +32,7 @@ const Content = styled.div`
 const Footer = styled(GeneralFooter)`
   grid-row: 4; 
 `;
-
+//url:altaevento
 function AltaEvento(props) {
   return (
     <Layout>

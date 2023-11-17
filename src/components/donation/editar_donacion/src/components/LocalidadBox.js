@@ -112,7 +112,7 @@ function LocalidadBox({ onChange, donZone, setDonZone }) {
         <Form.Control.Feedback required type="invalid">
           Debe seleccionar tipo de publicación
         </Form.Control.Feedback>
-        <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+        <Form.Control.Feedback>Campo Campo válido!</Form.Control.Feedback>
       </Form.Group>
       {/* 
       <Container>

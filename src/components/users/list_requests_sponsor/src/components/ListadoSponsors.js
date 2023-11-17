@@ -4,6 +4,9 @@ import styled from "styled-components";
 import Cookies from "universal-cookie";
 import { useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
+import CardComponente from "../../../../generales/card/CardComponente";
+import ComponenteTabla from "../../../../generales/helpers/ComponenteTabla";
+import { Button } from "react-bootstrap";
 
 const StyledTable = styled.table`
   border-collapse: collapse;
@@ -43,7 +46,9 @@ const ListadoSponsors = ({ sponsorId }) => {
 
   const openOrCreateConversation = async (user_1, user_2, solicitudId) => {
     try {
-      const solicitud = solicitudes.find((solicitud) => solicitud.id === solicitudId);
+      const solicitud = solicitudes.find(
+        (solicitud) => solicitud.id === solicitudId
+      );
 
       if (solicitud && solicitud.conv) {
         // Si ya existe una conversación, redirige a esa conversación
@@ -55,24 +60,32 @@ const ListadoSponsors = ({ sponsorId }) => {
         if (existingConvId) {
           history.push(`/conversaciones/${existingConvId}`);
         } else {
-          const response = await instance.post("/conversations/", {
-            user_1,
-            user_2,
-          }, {
-            headers: {
-              Authorization: `Token ${token}`,
+          const response = await instance.post(
+            "/conversations/",
+            {
+              user_1,
+              user_2,
             },
-          });
-
-          if (response.data.conv_id) {
-            const convIdKey = solicitudId;
-            await instance.patch(`/requests/${solicitudId}/`, {
-              conv: response.data.conv_id,
-            }, {
+            {
               headers: {
                 Authorization: `Token ${token}`,
               },
-            });
+            }
+          );
+
+          if (response.data.conv_id) {
+            const convIdKey = solicitudId;
+            await instance.patch(
+              `/requests/${solicitudId}/`,
+              {
+                conv: response.data.conv_id,
+              },
+              {
+                headers: {
+                  Authorization: `Token ${token}`,
+                },
+              }
+            );
             setConversationIds((prevIds) => ({
               ...prevIds,
               [convIdKey]: response.data.conv_id,
@@ -89,13 +102,17 @@ const ListadoSponsors = ({ sponsorId }) => {
 
   const obtenerSolicitudes = async () => {
     try {
-      const response = await instance.post("/requests/searchbysponsor/", {
-        search: sponsorId,
-      }, {
-        headers: {
-          Authorization: `Token ${token}`,
+      const response = await instance.post(
+        "/requests/searchbysponsor/",
+        {
+          search: sponsorId,
         },
-      });
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
       console.log(response.data);
       console.log(sponsorId);
       setSolicitudes(response.data);
@@ -126,7 +143,10 @@ const ListadoSponsors = ({ sponsorId }) => {
     setSolicitudes((prevSolicitudes) =>
       prevSolicitudes.map((solicitud) =>
         solicitud.id === solicitudId
-          ? { ...solicitud, isConfirmationChecked: !solicitud.isConfirmationChecked }
+          ? {
+              ...solicitud,
+              isConfirmationChecked: !solicitud.isConfirmationChecked,
+            }
           : solicitud
       )
     );
@@ -140,21 +160,28 @@ const ListadoSponsors = ({ sponsorId }) => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Sí",
-      cancelButtonText: "No"
+      cancelButtonText: "No",
     });
     if (confirmation.isConfirmed) {
       try {
-        const response = await instance.patch(`/requests/${solicitudId}/`, {
-          has_confirmation: true,
-        }, {
-          headers: {
-            Authorization: `Token ${token}`,
+        const response = await instance.patch(
+          `/requests/${solicitudId}/`,
+          {
+            has_confirmation: true,
           },
-        });
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
         setSolicitudes((prevSolicitudes) =>
           prevSolicitudes.map((solicitud) =>
             solicitud.id === solicitudId
-              ? { ...solicitud, confirmationAlert: "Confirmación enviada con éxito" }
+              ? {
+                  ...solicitud,
+                  confirmationAlert: "Confirmación enviada con éxito",
+                }
               : solicitud
           )
         );
@@ -171,7 +198,7 @@ const ListadoSponsors = ({ sponsorId }) => {
         Swal.fire({
           title: "Confirmación realizada correctamente!",
           text: "Ha confirmado una solicitud",
-          icon: "success"
+          icon: "success",
         });
       } catch (error) {
         console.error("Error al actualizar la solicitud:", error);
@@ -186,47 +213,71 @@ const ListadoSponsors = ({ sponsorId }) => {
 
   return (
     <div>
-      <StyledTable>
-        <thead>
-          <tr>
-            <TableHeaderCell>Nombre</TableHeaderCell>
-            <TableHeaderCell>Descripción</TableHeaderCell>
-            <TableHeaderCell>Zona</TableHeaderCell>
-            <TableHeaderCell>Fecha de Envío</TableHeaderCell>
-            <TableHeaderCell>Confirmada</TableHeaderCell>
-            <TableHeaderCell>Fecha de Confirmación</TableHeaderCell>
-            <TableHeaderCell>Confirmar</TableHeaderCell>
-            <TableHeaderCell>Comunicarse</TableHeaderCell>
-          </tr>
-        </thead>
-        <tbody>
-          {solicitudes.map((solicitud) => (
-            <tr key={solicitud.id}>
-              <TableCell>{solicitud.req_name}</TableCell>
-              <TableCell>{solicitud.req_description}</TableCell>
-              <TableCell>{getZoneName(solicitud.zone)}</TableCell>
-              <TableCell>{solicitud.req_sent_date}</TableCell>
-              <TableCell>{solicitud.has_confirmation ? "Sí" : "No"}</TableCell>
-              <TableCell>{solicitud.confirmed_at}</TableCell>
-              <TableCell>
-                <Checkbox
-                  type="checkbox"
-                  checked={solicitud.isConfirmationChecked}
-                  onChange={() => handleConfirmationChange(solicitud.id)}
-                />
-                <UpdateButton onClick={() => handleUpdateRequest(solicitud.id)}>
-                  Confirmar
-                </UpdateButton>
-              </TableCell>
-              <TableCell>
-                <button onClick={() => openOrCreateConversation(user_id, solicitud.user, solicitud.id)}>
-                  {solicitud.conv ? "Abrir Conversación" : "Iniciar Conversación"}
-                </button>
-              </TableCell>
-            </tr>
-          ))}
-        </tbody>
-      </StyledTable>
+      <CardComponente
+        titulo={"Solicitudes a mis ofrecimientos"}
+        isTable={true}
+        body={
+          <>
+            <ComponenteTabla
+              headers={[
+                "Nombre",
+                "Descripción",
+                "Zona",
+                "Fecha de Envío",
+                "Confirmada",
+                "Fecha de Confirmación",
+                "Confirmar",
+                "Comunicarse",
+              ]}
+              children={
+                <>
+                  {solicitudes.map((solicitud) => (
+                    <tr key={solicitud.id}>
+                      <TableCell>{solicitud.req_name}</TableCell>
+                      <TableCell>{solicitud.req_description}</TableCell>
+                      <TableCell>{getZoneName(solicitud.zone)}</TableCell>
+                      <TableCell>{solicitud.req_sent_date}</TableCell>
+                      <TableCell>
+                        {solicitud.has_confirmation ? "Sí" : "No"}
+                      </TableCell>
+                      <TableCell>{solicitud.confirmed_at}</TableCell>
+                      <TableCell>
+                        <Checkbox
+                          type="checkbox"
+                          checked={solicitud.isConfirmationChecked}
+                          onChange={() =>
+                            handleConfirmationChange(solicitud.id)
+                          }
+                        />
+                        <UpdateButton
+                          onClick={() => handleUpdateRequest(solicitud.id)}
+                        >
+                          Confirmar
+                        </UpdateButton>
+                      </TableCell>
+                      <TableCell>
+                        <button
+                          onClick={() =>
+                            openOrCreateConversation(
+                              user_id,
+                              solicitud.user,
+                              solicitud.id
+                            )
+                          }
+                        >
+                          {solicitud.conv
+                            ? "Abrir Conversación"
+                            : "Iniciar Conversación"}
+                        </button>
+                      </TableCell>
+                    </tr>
+                  ))}
+                </>
+              }
+            />
+          </>
+        }
+      />
     </div>
   );
 };
