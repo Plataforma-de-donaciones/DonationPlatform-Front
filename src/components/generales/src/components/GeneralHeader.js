@@ -110,6 +110,11 @@ function GeneralHeader(props) {
                   <Link to="/paneladministrador">Panel de Administrador</Link>
                 </MenuItem>
               )}
+              {userRole === "moderator" && (
+                <MenuItem>
+                  <Link to="/panelmoderador">Panel de Moderador</Link>
+                </MenuItem>
+              )}
               <MenuItem>
                 <Button onClick={handleLogout}>Cerrar sesión</Button>
               </MenuItem>

@@ -95,13 +95,11 @@ const FormularioBox = (props) => {
       [name]: value,
     });
 
-    // Limpiar el error al cambiar el campo
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: "",
     }));
 
-    // Validar el campo actual
     validateField(name, value);
   };
 

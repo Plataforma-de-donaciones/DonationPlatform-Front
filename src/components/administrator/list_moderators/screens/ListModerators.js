@@ -13,7 +13,7 @@ const ListModerators = () => {
         <Col xs={3}>
           <MenuComponent />
         </Col>
-        <Col xs={9}>
+        <Col xs={15}>
           <ListadoModeradores />
         </Col>
       </Row>

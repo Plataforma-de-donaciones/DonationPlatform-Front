@@ -10,6 +10,7 @@ import { FaUser, FaLock } from 'react-icons/fa';
 import { Link, Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import instance from '../../../../../axios_instance';
+import bcrypt from 'bcryptjs';
 
 const Container = styled.div`
   display: flex;
@@ -107,6 +108,7 @@ const LoginBox = () => {
     setError(null);
 
     try {
+      const hashedPassword = bcrypt.hashSync(credentials.user_password, 10);
       const response = await instance.post(
         '/login/',
         credentials

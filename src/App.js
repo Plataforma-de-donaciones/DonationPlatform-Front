@@ -42,6 +42,14 @@ import ListModerators from './components/administrator/list_moderators/screens/L
 import ListNews from './components/administrator/list_news/screens/ListNews';
 import AltaNew from './components/administrator/alta_news/screens/AltaNew';
 import EditarNoticia from './components/administrator/editar_news/src/screens/EditarNoticia';
+import EditarUser from './components/administrator/editar_user/src/screens/EditarUser';
+import AltaModerador from './components/administrator/alta_moderador/screens/AltaModerador';
+import ListAdministrators from './components/administrator/list_administrators/screens/ListAdministrators';
+import AltaAdministrador from './components/administrator/alta_administrador/screens/AltaAdministrator';
+import ListUsersMod from './components/moderator/list_users/screens/ListUsersMod';
+import ListNewsMod from './components/moderator/list_news/screens/ListNewsMod';
+import AltaNewMod from './components/moderator/alta_news/screens/AltaNewMod';
+import EditarNoticiaMod from './components/moderator/editar_news/src/screens/EditarNoticiaMod';
 
 function App() {
   return (
@@ -74,6 +82,8 @@ function App() {
           <Route path="/editarsponsor/:sponsor_id" component={EditarSponsor} />
           <Route path="/editarevento/:event_id" component={EditarEvento} />
           <Route path="/editarnoticia/:new_id" component={EditarNoticia} />
+          <Route path="/editarnoticiamod/:new_id" component={EditarNoticiaMod} />
+          <Route path="/editarusuario/:user_id" component={EditarUser} />
           <Route path="/altavoluntariado/" component={AltaVoluntariado} />
           <Route path="/listadovoluntariado/" component={ListVolscreen} />
           <Route path="/listadoeventos/" component={ListEveScreen} />
@@ -88,7 +98,17 @@ function App() {
           <Route path="/listadousuarios/" component={ListadoUsuarios} />
           <Route path="/listadomoderadores/" component={ListModerators} />
           <Route path="/listadonoticias/" component={ListNews} />
-          <Route path="/altanoticia/" component={AltaNew} />          
+          <Route path="/altanoticia/" component={AltaNew} /> 
+          <Route path="/altamoderador/" component={AltaModerador} />
+          <Route path="/listadoadministradores/" component={ListAdministrators} />
+          <Route path="/altaadministrador/" component={AltaAdministrador} />
+          <Route path="/panelmoderador/" component={ListUsersMod} />
+          <Route path="/listadonoticiasmod/" component={ListNewsMod} />
+          <Route path="/listadousuariosmod/" component={ListUsersMod} />
+          <Route path="/altanoticiamod/" component={AltaNewMod} /> 
+
+
+              
 
         </Switch>
       </AuthProvider>
