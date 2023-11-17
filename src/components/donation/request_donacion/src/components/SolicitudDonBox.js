@@ -206,7 +206,7 @@ const SolicitudDonBox = (props) => {
     if (fieldName === "zone" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [fieldName]: "Debe seleccionar una localidad",
+        [fieldName]: "",
       }));
     }
 
@@ -270,8 +270,6 @@ const SolicitudDonBox = (props) => {
         pauseOnHover
         theme="light"
       />
-      {/* Same as */}
-      <ToastContainer />
     </Container>
   );
 };

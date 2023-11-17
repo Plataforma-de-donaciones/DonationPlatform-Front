@@ -175,8 +175,6 @@ const VoluntarioList = () => {
         pauseOnHover
         theme="light"
       />
-      {/* Same as */}
-      <ToastContainer />
     </VoluntarioListContainer>
   );
 };

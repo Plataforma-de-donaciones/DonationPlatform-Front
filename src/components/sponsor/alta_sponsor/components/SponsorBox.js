@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { Card, Form, Row, CardBody, Col, Button } from "react-bootstrap";
 import TipodePublicacionBox from "../../../volunteer/alta_voluntario/components/TipodePublicacionBox";
 import LocalidadBox from "../../../volunteer/alta_voluntario/components/LocalidadBox";
+import CardComponente from "../../../generales/card/CardComponente";
 
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -184,7 +185,7 @@ const SponsorBox = (props) => {
     if (fieldName === "zone" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [fieldName]: "Debe seleccionar una localidad",
+        [fieldName]: "",
       }));
     }
     if (fieldName === "sponsor_description" && !value) {
@@ -287,12 +288,10 @@ const SponsorBox = (props) => {
   };
   return (
     <>
-      <Container {...props}>
-        <Card className="m-3">
-          <Card.Header className="card-titulo text-center">
-            Registra el Apadrinamiento
-          </Card.Header>
-          <CardBody>
+      <CardComponente
+        titulo={"Registra el Apadrinamiento"}
+        body={
+          <>
             <Form noValidate validated={validated} onSubmit={handleAccept}>
               <Row className="mb-3">
                 <Form.Group as={Col} md="12" controlId="validationCustom01">
@@ -315,7 +314,7 @@ const SponsorBox = (props) => {
                   <Form.Control.Feedback type="invalid">
                     Por favor digite su nombre
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback>Valido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
                   </HelperText>
@@ -390,7 +389,7 @@ const SponsorBox = (props) => {
                     Localidad requerida
                   </Form.Control.Feedback>
 
-                  <Form.Control.Feedback>Valido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
                   </HelperText>
@@ -425,24 +424,22 @@ const SponsorBox = (props) => {
               </Row>
               <div className="text-center mx-auto"></div>
             </Form>
-          </CardBody>
-        </Card>
+          </>
+        }
+      ></CardComponente>
 
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-        {/* Same as */}
-        <ToastContainer />
-      </Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 };

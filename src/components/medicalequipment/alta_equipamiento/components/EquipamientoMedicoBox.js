@@ -322,7 +322,7 @@ const EquipamientoMedicoBox = (props) => {
                   <Form.Control.Feedback type="invalid">
                     Por favor digite su nombre
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback>Valido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
                   </HelperText>
@@ -373,7 +373,7 @@ const EquipamientoMedicoBox = (props) => {
                   </Form.Control.Feedback>
 
                   <Form.Control.Feedback>
-                    Campo Campo válido!
+                    Campo válido!
                   </Form.Control.Feedback>
 
                   <HelperText>
@@ -426,8 +426,6 @@ const EquipamientoMedicoBox = (props) => {
         pauseOnHover
         theme="light"
       />
-      {/* Same as */}
-      <ToastContainer />
     </>
   );
 };

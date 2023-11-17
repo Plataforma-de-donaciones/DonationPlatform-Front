@@ -110,7 +110,7 @@ const SolicitudVolBox = (props) => {
       if (fieldName === "zone" && !value) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          [fieldName]: "Debe seleccionar una localidad",
+          [fieldName]: "",
         }));
       }
     }

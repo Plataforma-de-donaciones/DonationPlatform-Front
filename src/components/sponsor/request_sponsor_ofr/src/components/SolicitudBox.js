@@ -200,7 +200,7 @@ const SolicitudBox = (props) => {
       if (fieldName === "zone" && !value) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          [fieldName]: "Debe seleccionar una localidad",
+          [fieldName]: "",
         }));
       }
     }
@@ -264,8 +264,6 @@ const SolicitudBox = (props) => {
         pauseOnHover
         theme="light"
       />
-      {/* Same as */}
-      <ToastContainer />
     </Container>
   );
 };

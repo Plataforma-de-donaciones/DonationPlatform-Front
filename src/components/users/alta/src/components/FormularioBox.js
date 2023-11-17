@@ -327,8 +327,6 @@ const FormularioBox = (props) => {
         pauseOnHover
         theme="light"
       />
-      {/* Same as */}
-      <ToastContainer />
     </Container>
   );
 };

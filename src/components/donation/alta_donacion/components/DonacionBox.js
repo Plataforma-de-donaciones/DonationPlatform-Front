@@ -147,7 +147,7 @@ const DonacionBox = (props) => {
     if (fieldName === "zone" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [fieldName]: "Debe seleccionar una localidad",
+        [fieldName]: "",
       }));
     }
 
@@ -164,7 +164,7 @@ const DonacionBox = (props) => {
     if (fieldName === "zone" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [fieldName]: "Debe seleccionar una localidad",
+        [fieldName]: "",
       }));
     }
 
@@ -288,7 +288,7 @@ const DonacionBox = (props) => {
                     Por favor digite su nombre
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>
-                    Campo Campo válido!
+                    Campo válido!
                   </Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
@@ -338,7 +338,7 @@ const DonacionBox = (props) => {
                   </Form.Control.Feedback>
 
                   <Form.Control.Feedback>
-                    Campo Campo válido!
+                    Campo válido!
                   </Form.Control.Feedback>
 
                   <HelperText>
