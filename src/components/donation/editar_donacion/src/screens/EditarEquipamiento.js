@@ -34,6 +34,7 @@ const Footer = styled(GeneralFooter)`
   grid-row: 4;
 `;
 
+//url:editardonacion/id
 function EditarDonacion(props) {
   return (
     <>
