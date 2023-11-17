@@ -196,7 +196,7 @@ const VoluntariadoBox = (props) => {
     if (fieldName === "zone" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [fieldName]: "Debe seleccionar una localidad",
+        [fieldName]: "",
       }));
     }
     if (
@@ -340,7 +340,7 @@ const VoluntariadoBox = (props) => {
                     Por favor digite su nombre
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>
-                    Campo Campo válido!
+                    Campo válido!
                   </Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
@@ -417,7 +417,7 @@ const VoluntariadoBox = (props) => {
                   </Form.Control.Feedback>
 
                   <Form.Control.Feedback>
-                    Campo Campo válido!
+                    Campo válido!
                   </Form.Control.Feedback>
 
                   <HelperText>

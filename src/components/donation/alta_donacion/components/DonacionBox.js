@@ -147,31 +147,7 @@ const DonacionBox = (props) => {
     if (fieldName === "zone" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [fieldName]: "Debe seleccionar una localidad",
-      }));
-    }
-
-    if (
-      fieldName === "don_description" &&
-      (!value || !value.toString().trim())
-    ) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [fieldName]: "La descripción no puede estar vacía",
-      }));
-    }
-
-    if (fieldName === "zone" && !value) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [fieldName]: "Debe seleccionar una localidad",
-      }));
-    }
-
-    if (fieldName === "type" && !value) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [fieldName]: "Debe seleccionar un tipo de publicación",
+        [fieldName]: "",
       }));
     }else if (fieldName === "type" && value) {
       setErrors((prevErrors) => ({
@@ -185,10 +161,12 @@ const DonacionBox = (props) => {
     event.preventDefault();
 
     const form = event.currentTarget;
+
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     } else {
+
       const confirmation = await Swal.fire({
         title: "Protege tu Privacidad",
         html: `
@@ -203,16 +181,23 @@ const DonacionBox = (props) => {
         cancelButtonText: "No",
       });
       if (confirmation.isConfirmed) {
+        
         try {
           const formData = new FormData();
-          formData.append("don_attachment", file);
+
+          if (file) {
+            formData.append("don_attachment", file);
+          }
 
           Object.entries(donationData).forEach(([key, value]) => {
-            formData.append(key, value);
+            if (key !== "don_attachment") {
+              formData.append(key, value);
+            }
           });
-          console.log("Contenido de FormData:");
+            
+        
           const formDataEntries = [...formData.entries()];
-          console.log(formDataEntries);
+       
 
           const response = await instance.post("/donations/", formData, {
             headers: {
@@ -222,13 +207,23 @@ const DonacionBox = (props) => {
           });
 
           if (response.status === 201) {
-            Swal.fire("Donación registrada correctamente!", "", "success");
+            Swal.fire("¡Donación registrada correctamente!", "", "success");
             history.push("/listadodonacion");
           } else {
             const serverError = response.data;
             console.log(response);
             if (serverError) {
-              // Manejar errores específicos del servidor si es necesario
+              toast.error(serverError, {
+                position: "bottom-center",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
+  
             } else {
               // Manejar otros errores
             }
@@ -288,7 +283,7 @@ const DonacionBox = (props) => {
                     Por favor digite su nombre
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>
-                    Campo Campo válido!
+                    Campo válido!
                   </Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
@@ -338,7 +333,7 @@ const DonacionBox = (props) => {
                   </Form.Control.Feedback>
 
                   <Form.Control.Feedback>
-                    Campo Campo válido!
+                    Campo válido!
                   </Form.Control.Feedback>
 
                   <HelperText>

@@ -165,43 +165,35 @@ const EditarDonBox = (props) => {
     });
     if (confirmation.isConfirmed) {
       try {
-        let donAttachmentToSend = donAttachment;
+        const formData = new FormData();
 
-        if (file) {
-          const formData = new FormData();
+        // Agregar nuevos datos y archivo solo si es diferente al actual
+        if (file && file.name !== donAttachment) {
           formData.append("don_attachment", file);
-
-          const response = await instance.patch(
-            `/donations/${don_id}/`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization: `Token ${token}`,
-              },
-            }
-          );
-
-          donAttachmentToSend = response.data.filePath;
         }
+
+        Object.entries({
+          don_name: donName,
+          don_description: donDescription,
+          type: donType,
+          zone: donZone,
+        }).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
 
         const response = await instance.patch(
           `/donations/${don_id}/`,
-          {
-            don_name: donName,
-            don_description: donDescription,
-            type: donType,
-            zone: donZone,
-            don_attachment: donAttachmentToSend,
-          },
+          formData,
           {
             headers: {
+              "Content-Type": "multipart/form-data",
               Authorization: `Token ${token}`,
             },
           }
         );
+
         Swal.fire({
-          title: "Editado correctamente!",
+          title: "¡Editado correctamente!",
           text: "Los datos han sido editados",
           icon: "success",
         });
@@ -266,6 +258,7 @@ const EditarDonBox = (props) => {
                   imagen={urlBackendDev + donAttachment}
                   descripcion={donDescription}
                   titulo={"Imagen"}
+                  eqAttachment={donAttachment}
                 />
               )}
             </div>

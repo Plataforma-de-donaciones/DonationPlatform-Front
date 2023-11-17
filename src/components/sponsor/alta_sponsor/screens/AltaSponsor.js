@@ -34,10 +34,8 @@ const Footer = styled(GeneralFooter)`
 
 function AltaSponsor(props) {
   return (
-    <Layout>
-      <Content>
+    <Layout>   
         <SponsorBox />
-      </Content>
     </Layout>
 
   );

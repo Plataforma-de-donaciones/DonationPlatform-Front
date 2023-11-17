@@ -167,43 +167,35 @@ const EditarEqMedicoBox = (props) => {
     });
     if (confirmation.isConfirmed) {
       try {
-        let eqAttachmentToSend = eqAttachment;
+        const formData = new FormData();
 
-        if (file) {
-          const formData = new FormData();
+        // Agregar nuevos datos y archivo solo si es diferente al actual
+        if (file && file.name !== eqAttachment) {
           formData.append("eq_attachment", file);
-
-          const response = await instance.patch(
-            `/medicalequipments/${eq_id}/`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization: `Token ${token}`,
-              },
-            }
-          );
-
-          eqAttachmentToSend = response.data.filePath;
         }
+
+        Object.entries({
+          eq_name: eqName,
+          eq_description: eqDescription,
+          type: eqType,
+          zone: eqZone,
+        }).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
 
         const response = await instance.patch(
           `/medicalequipments/${eq_id}/`,
-          {
-            eq_name: eqName,
-            eq_description: eqDescription,
-            type: eqType,
-            zone: eqZone,
-            eq_attachment: eqAttachmentToSend,
-          },
+          formData,
           {
             headers: {
+              "Content-Type": "multipart/form-data",
               Authorization: `Token ${token}`,
             },
           }
         );
+
         Swal.fire({
-          title: "Editado correctamente!",
+          title: "¡Editado correctamente!",
           text: "Los datos han sido editados",
           icon: "success",
         });
@@ -232,8 +224,6 @@ const EditarEqMedicoBox = (props) => {
       }
     });
   };
-  
-  
 
   return (
     <>
@@ -270,6 +260,7 @@ const EditarEqMedicoBox = (props) => {
                   imagen={urlBackendDev + eqAttachment}
                   descripcion={eqDescription}
                   titulo={"Imagen"}
+                  eqAttachment={eqAttachment}
                 />
               )}
             </div>

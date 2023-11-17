@@ -295,8 +295,6 @@ const DonationList = () => {
         pauseOnHover
         theme="light"
       />
-      {/* Same as */}
-      <ToastContainer />
     </DonationListContainer>
   );
 };

@@ -98,7 +98,7 @@ const EquipamientoMedicoBox = (props) => {
     type: "",
     state: 1,
     eq_created_at: new Date().toISOString(),
-    user: "", 
+    user: "",
     zone: null,
     geom_point: null,
     has_requests: false,
@@ -123,7 +123,7 @@ const EquipamientoMedicoBox = (props) => {
   useEffect(() => {
     setEquipmentData((prevData) => ({
       ...prevData,
-      user: user_id || "", 
+      user: user_id || "",
     }));
   }, [user_id]);
 
@@ -184,7 +184,7 @@ const EquipamientoMedicoBox = (props) => {
         [fieldName]: "",
       }));
     }
-  
+
     if (fieldName === "type" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -204,6 +204,7 @@ const EquipamientoMedicoBox = (props) => {
     event.preventDefault();
 
     const form = event.currentTarget;
+
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
@@ -243,41 +244,57 @@ const EquipamientoMedicoBox = (props) => {
   };
 
   const handleRequest = async () => {
-    const formData = new FormData();
-    formData.append("eq_attachment", file);
+    try {
+      const formData = new FormData();
 
-    // Agregar otros campos al formData
-    Object.entries(equipmentData).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-
-    const response = await instance.post("/medicalequipments/", formData, {
-      headers: {
-        Authorization: `Token ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
-    if (response.status === 201) {
-      Swal.fire("Equipamiento médico registrado correctamente!", "", "success");
-      history.push("/listadoequipamiento");
-    } else {
-      const serverError = response.data;
-      console.log(response);
-      if (serverError) {
-        toast.error(serverError, {
-          position: "bottom-center",
-          autoClose: 4000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-      } else {
-        // Manejar otros errores
+      if (file) {
+        formData.append("eq_attachment", file);
       }
+
+      // Agregar otros campos al formData
+      Object.entries(equipmentData).forEach(([key, value]) => {
+        if (key !== "eq_attachment") {
+          formData.append(key, value);
+        }
+      });
+
+      const formDataEntries = [...formData.entries()];
+
+      const response = await instance.post("/medicalequipments/", formData, {
+        headers: {
+          Authorization: `Token ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.status === 201) {
+        Swal.fire(
+          "¡Equipamiento médico registrado correctamente!",
+          "",
+          "success"
+        );
+        history.push("/listadoequipamiento");
+      } else {
+        const serverError = response.data;
+        console.log(response);
+        if (serverError) {
+          toast.error(serverError, {
+            position: "bottom-center",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        } else {
+          // Manejar otros errores
+        }
+      }
+    } catch (error) {
+      console.error("Error al registrar equipo médico:", error);
+      console.log("Respuesta del servidor:", error.response);
     }
   };
 
@@ -322,7 +339,7 @@ const EquipamientoMedicoBox = (props) => {
                   <Form.Control.Feedback type="invalid">
                     Por favor digite su nombre
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback>Valido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
                   </HelperText>
@@ -372,9 +389,7 @@ const EquipamientoMedicoBox = (props) => {
                     Localidad requerida
                   </Form.Control.Feedback>
 
-                  <Form.Control.Feedback>
-                    Campo Campo válido!
-                  </Form.Control.Feedback>
+                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
 
                   <HelperText>
                     Este dato se visualiza en la publicación.
@@ -426,8 +441,6 @@ const EquipamientoMedicoBox = (props) => {
         pauseOnHover
         theme="light"
       />
-      {/* Same as */}
-      <ToastContainer />
     </>
   );
 };

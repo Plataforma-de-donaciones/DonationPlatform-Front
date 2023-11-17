@@ -6,14 +6,25 @@ import NombreSolicitudBox from "./NombreSolicitudBox";
 import TeryCondCheckbox from "./TeryCondCheckbox";
 import MaterialButtonWithShadow from "./MaterialButtonWithShadow";
 import MaterialButtonViolet from "./MaterialButtonViolet";
-import LocalidadBox from "./LocalidadBox";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import { useHistory, useParams } from "react-router-dom";
 import CancelarButton from "./CancelarButton";
 import Swal from "sweetalert2";
 import { toast, ToastContainer } from "react-toastify";
-import { Form } from "react-bootstrap";
+import { Form, Row, Col, Button } from "react-bootstrap";
+import CardComponente from "../../../../generales/card/CardComponente";
+import LocalidadBox from './../../../../volunteer/alta_voluntario/components/LocalidadBox';
+
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -86,8 +97,8 @@ const SolicitudBox = (props) => {
   const [user_id, setUserId] = useState(null);
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [validated, setValidated] = useState(false);
-
   const history = useHistory();
+
   useEffect(() => {
     const userDataCookie = cookies.get("user_data");
     if (userDataCookie) {
@@ -136,21 +147,21 @@ const SolicitudBox = (props) => {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      const confirmation = await Swal.fire({
-        title: "Protege tu Privacidad",
-        html: `
-          <p>Por su seguridad y la de los demás, le recordamos evitar publicar fotos y/o videos, o descripción en la publicación que contengan información personal o la de otras personas. Estos pueden incluir Nombre, Teléfono, Dirección, entre otros.</p>
-          <p>En caso de necesitar brindar datos personales para concretar el acto benéfico, le sugerimos que lo realice de manera segura mediante el chat privado.</p>
-          <p>Ayuda a crear un entorno en línea seguro para todos.</p>
-          <p>¡Gracias por su colaboración!</p>
-          <p>¿Usted confirma que esta publicación no incluye contenido que revele información sensible?</p>`,
-        icon: "info",
-        showCancelButton: true,
-        confirmButtonText: "Sí",
-        cancelButtonText: "No",
-      });
+      // const confirmation = await Swal.fire({
+      //   title: "Protege tu Privacidad",
+      //   html: `
+      //     <p>Por su seguridad y la de los demás, le recordamos evitar publicar fotos y/o videos, o descripción en la publicación que contengan información personal o la de otras personas. Estos pueden incluir Nombre, Teléfono, Dirección, entre otros.</p>
+      //     <p>En caso de necesitar brindar datos personales para concretar el acto benéfico, le sugerimos que lo realice de manera segura mediante el chat privado.</p>
+      //     <p>Ayuda a crear un entorno en línea seguro para todos.</p>
+      //     <p>¡Gracias por su colaboración!</p>
+      //     <p>¿Usted confirma que esta publicación no incluye contenido que revele información sensible?</p>`,
+      //   icon: "info",
+      //   showCancelButton: true,
+      //   confirmButtonText: "Sí",
+      //   cancelButtonText: "No",
+      // });
 
-      if (confirmation.isConfirmed) {
+      // if (confirmation.isConfirmed) {
         try {
           const response = await instance.post("/requests/", solicitudData, {
             headers: {
@@ -170,7 +181,7 @@ const SolicitudBox = (props) => {
         } catch (error) {
           console.error("Error al crear solicitud:", error);
         }
-      }
+      
     }
 
     setValidated(true);
@@ -224,63 +235,127 @@ const SolicitudBox = (props) => {
     });
   };
 
+//url:solicitarpadrino/1
+
   return (
-    <Container {...props}>
-      <TituloLineContainer>
-        <TituloLine></TituloLine>
-        <LoremIpsum1>Solicitud de padrino/a</LoremIpsum1>
-      </TituloLineContainer>
-      <MotivoDeSolicitudBox
-        onChange={(event) =>
-          handleFieldChange("req_description", event.target.value)
-        }
-      ></MotivoDeSolicitudBox>
-      {errors.req_description && (
-        <span style={{ color: "red" }}>{errors.req_description}</span>
-      )}
-      <LocalidadBox onSelect={handleZoneSelect}></LocalidadBox>
-      {errors.zone && <span style={{ color: "red" }}>{errors.zone}</span>}
-      <NombreSolicitudBox
-        onChange={(event) => handleFieldChange("req_name", event.target.value)}
-      ></NombreSolicitudBox>
-      <Group>
-        <Form.Check
-          required
-          label="Al enviar este formulario acepta los términos y condiciones"
-          feedback="Es necesario leer y aceptar los términos"
-          feedbackType="invalid"
-        />
-        {/* <TeryCondCheckbox
-          checked={acceptTerms}
-          onChange={() => handleAcceptTermsChange(!acceptTerms)}
-        /> */}
-        <MaterialButtonWithShadow></MaterialButtonWithShadow>
-      </Group>
-      {errors.accept_terms && (
-        <span style={{ color: "red", marginTop: "5px" }}>
-          {errors.accept_terms}
-        </span>
-      )}
-      <ButtonContainer>
-        <MaterialButtonViolet onClick={handleAccept}></MaterialButtonViolet>
-        <ButtonSeparator />
-        <CancelarButton onClick={handleCancel} />
-      </ButtonContainer>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      {/* Same as */}
-      <ToastContainer />
-    </Container>
+    <>
+    <CardComponente
+      titulo={"Solicitud de padrino/a"}
+      body={
+        <>
+          <Form noValidate validated={validated} onSubmit={handleAccept}>
+            <Row className="mb-3">
+              <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <Form.Label>
+                ¿Por qué motivo solicita este apadrinamiento? *{" "}
+                </Form.Label>
+
+                <Form.Control
+                  as="textarea"
+                  value={solicitudData["req_description"]}
+                  required
+                  type="text"
+                  placeholder="Describa el motivo de su solicitud"
+                  onChange={(event) =>
+                    handleFieldChange("req_description", event.target.value)
+                  }
+                  maxlength={250}
+                  minLength={3}
+                />
+
+                <Form.Control.Feedback type="invalid">
+                  La descripción de no puede estar vacía
+                </Form.Control.Feedback>
+                <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                <HelperText>
+                  Este dato se visualiza únicamente por el donatario.
+                  Asimismo, indique las condiciones del voluntariado.
+                </HelperText>
+              </Form.Group>
+
+              <p></p>
+              <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <LocalidadBox onSelect={handleZoneSelect} />
+                {errors.zone && (
+                  <span style={{ color: "red" }}>{errors.zone}</span>
+                )}
+
+                <Form.Control.Feedback type="invalid">
+                  Localidad requerida
+                </Form.Control.Feedback>
+
+                <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+
+                <HelperText>
+                  Este dato se visualiza en la publicación.
+                </HelperText>
+              </Form.Group>
+              <p></p>
+              <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <Form.Label>¿Cuál es su nombre? *</Form.Label>
+
+                <Form.Control
+                  value={solicitudData["req_name"]}
+                  type="text"
+                  required
+                  placeholder="Ingrese su nombre"
+                  onChange={(event) =>
+                    handleFieldChange("req_name", event.target.value)
+                  }
+                  maxlength={50}
+                  minLength={3}
+                />
+                <HelperText>
+                  Este dato se visualiza únicamente por el donatario.
+                </HelperText>
+              </Form.Group>
+              <p></p>
+              <Form.Group className="mb-3">
+                <Form.Check
+                  required
+                  label="Al enviar este formulario acepta los términos y condiciones"
+                  feedback="Es necesario leer y aceptar los términos"
+                  feedbackType="invalid"
+                />
+              </Form.Group>
+            </Row>
+
+            <Row className="text-center">
+              <Col>
+                <Button style={{ width: "30%" }} type="submit">
+                  Aceptar
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  style={{ width: "30%" }}
+                  variant="secondary"
+                  onClick={handleCancel}
+                >
+                  Cancelar
+                </Button>
+              </Col>
+            </Row>
+            <div className="text-center mx-auto"></div>
+          </Form>
+        </>
+      }
+    ></CardComponente>
+
+    <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+    />
+
+        </>
   );
 };
 
