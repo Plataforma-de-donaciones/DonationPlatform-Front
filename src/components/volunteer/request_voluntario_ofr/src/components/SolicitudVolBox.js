@@ -123,7 +123,7 @@ const SolicitudVolBox = (props) => {
           });
 
           if (response.status === 201) {
-            Swal.fire("Voluntariado registrado correctamente!", "", "success");
+            Swal.fire("Ofrecimiento registrado correctamente!", "", "success");
             history.push("/listadovoluntariado");
           } else {
           }
@@ -170,6 +170,8 @@ const SolicitudVolBox = (props) => {
       }
     });
   };
+
+  //url:donarvoluntariado/id
 
   return (
     <>
@@ -287,7 +289,6 @@ const SolicitudVolBox = (props) => {
         pauseOnHover
         theme="light"
       />
-      <ToastContainer />
     </>
   );
 };
