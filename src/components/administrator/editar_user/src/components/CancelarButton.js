@@ -7,7 +7,7 @@ function CancelarButton(props) {
 
   const handleClick = () => {
     if (history) {
-      history.push("/listadonoticias");
+      history.push("/listadousuarios");
     } else {
       console.warn("La prop 'history' no está presente. No se puede realizar la redirección.");
     }

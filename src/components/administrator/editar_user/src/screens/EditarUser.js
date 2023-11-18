@@ -1,9 +1,10 @@
 import React from "react";
-import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
-import GeneralFooter from "../../../../generales/src/components/GeneralFooter";
+//import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
+//import GeneralFooter from "../../../../generales/src/components/GeneralFooter";
 import EditarUserBox from "../components/EditarUserBox";
 import styled from "styled-components";
-import Menu from "../../../../generales/src/components/Menu";
+//import Menu from "../../../../generales/src/components/Menu";
+import MenuComponent from "../../../list_users/components/MenuComponent";
 
 const Container = styled.div`
   display: grid;
@@ -12,13 +13,13 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const Header = styled(GeneralHeader)`
+/*const Header = styled(GeneralHeader)`
   grid-row: 1;
-`;
-const Menus = styled(Menu)`
+`;*/
+/*const Menus = styled(Menu)`
 grid-row: 2;
 margin-bottom: 10px;
-`;
+`;*/
 const Content = styled.div`
   grid-row: 3;
   display: flex;
@@ -28,19 +29,17 @@ const Content = styled.div`
   position: relative;
 `;
 
-const Footer = styled(GeneralFooter)`
+/*const Footer = styled(GeneralFooter)`
   grid-row: 4;
-`;
+`;*/
 
 function EditarUser(props) {
   return (
     <Container>
-      <Header />
-      <Menus />
+      <MenuComponent></MenuComponent>
       <Content>
         <EditarUserBox />
       </Content>
-      <Footer />
     </Container>
   );
 }
