@@ -6,7 +6,7 @@ import { Row, Col, Card } from "react-bootstrap";
 
 function ModificarUsuario(props) {
   return (
-    <Layout haveMenu={false}>
+    <Layout>
       <Row>
         <Col className="col-12">
           <Card className='mt-5'>

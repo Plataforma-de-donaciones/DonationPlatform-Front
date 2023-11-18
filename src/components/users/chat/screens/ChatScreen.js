@@ -71,7 +71,7 @@ function ChatScreen(props) {
 
   return (
     <>
-      <Layout haveMenu={false}>
+      <Layout>
 
         <ChatComponent convId={convId} />
 

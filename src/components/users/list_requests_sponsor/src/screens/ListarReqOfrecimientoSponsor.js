@@ -70,7 +70,7 @@ function ListarReqOfrecimientoSponsor(props) {
   const { sponsorId } = useParams();
 
   return (
-    <Layout haveMenu={false}>
+    <Layout>
       <ListadoSponsors sponsorId={sponsorId} />
     </Layout>
   );

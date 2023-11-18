@@ -4,7 +4,7 @@ import Layout from "../../../../generales/src/components/layout/Layout";
 
 const Login = () => {
   return (
-    <Layout  haveMenu={false} haveFooter={false}>
+    <Layout  haveFooter={false}>
       <LoginBox />
     </Layout>
   );

@@ -6,7 +6,7 @@ import Layout from "../../../../generales/src/components/layout/Layout";
 const DonarDonacion = () => {
   return (
 
-    <Layout haveMenu={false}>
+    <Layout>
       <SolicitudDonBox />
     </Layout>
   );

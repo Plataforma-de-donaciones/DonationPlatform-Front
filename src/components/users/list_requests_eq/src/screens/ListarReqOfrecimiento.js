@@ -71,7 +71,7 @@ function ListarReqOfrecimiento(props) {
   const { eqId } = useParams();
 
   return (
-    <Layout haveMenu={false}>
+    <Layout>
       <ListadoEquipamiento eqId={eqId} />
     </Layout>
   );

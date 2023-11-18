@@ -71,7 +71,7 @@ function ListarOfrecimientosPropios(props) {
 
   return (
     <>
-      <Layout haveMenu={false}>
+      <Layout>
         <Row>
           <Col className="col-12">
             <ListadoPaginado tipo={tipo} />

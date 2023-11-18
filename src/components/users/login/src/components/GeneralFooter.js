@@ -12,11 +12,11 @@ const Container = styled.div`
   display: flex;
   justify-content: space-around;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  background-color: rgba(79,181,139, 1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: rgba(79, 181, 139, 1);
   align-items: center;
-  box-shadow: 0px -2px 1.2px 0.2px #111;
   padding: 10px;
+  color:white;
+  
 `;
 
 const ButtonWrapper = styled.div`
@@ -28,20 +28,22 @@ const ButtonWrapper = styled.div`
 
 const GeneralFooter = () => {
   return (
-    <Container>
-      <ButtonWrapper>
-        <AcercaDeButton />
-      </ButtonWrapper>
-      <ButtonWrapper>
-        <ContactoButton />
-      </ButtonWrapper>
-      <ButtonWrapper>
-        <PreguntasButton />
-      </ButtonWrapper>
-      <ButtonWrapper>
-        <TerminosCondicionesButton />
-      </ButtonWrapper>
-    </Container>
+    <footer>
+      <Container>
+        <ButtonWrapper>
+          <AcercaDeButton />
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <ContactoButton />
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <PreguntasButton />
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <TerminosCondicionesButton />
+        </ButtonWrapper>
+      </Container>
+    </footer>
   );
 };
 

@@ -70,7 +70,7 @@ function ListarReqOfrecimientoDon(props) {
   const { donId } = useParams();
 
   return (
-    <Layout haveMenu={false}>
+    <Layout>
       <ListadoDonacion donId={donId} />
     </Layout>
   );

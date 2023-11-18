@@ -40,7 +40,7 @@ const Footer = styled(GeneralFooter)`
 
 const DonarEquipamiento = () => {
   return (
-    <Layout haveMenu={false}>
+    <Layout>
       <SolicitudEqMedicoBox />
     </Layout>
   );

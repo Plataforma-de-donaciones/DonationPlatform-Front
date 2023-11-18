@@ -5,7 +5,7 @@ import { faBars, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../../../AuthContext";
 import Cookies from "universal-cookie";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import instance from "../../../../axios_instance";
 
 const cookies = new Cookies();
@@ -15,7 +15,7 @@ function GeneralHeader(props) {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const history = useHistory();
-  const isUserLoggedIn = cookies.get('token');
+  const isUserLoggedIn = cookies.get("token");
   const token = cookies.get("token");
   const userDataCookie = cookies.get("user_data");
   const user_id = userDataCookie ? userDataCookie.user_id : null;
@@ -28,46 +28,49 @@ function GeneralHeader(props) {
     // Realizar acciones necesarias antes de cerrar sesión
     // ...
     Swal.fire({
-      title: '¿Está seguro que desea cerrar sesión?',
-      text: 'Esta acción lo devolverá al login',
-      icon: 'question',
-      iconHtml: '?',
+      title: "¿Está seguro que desea cerrar sesión?",
+      text: "Esta acción lo devolverá al login",
+      icon: "question",
+      iconHtml: "?",
       showCancelButton: true,
-      confirmButtonText: 'Sí',
-      cancelButtonText: 'No',
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
         logout();
 
-        cookies.remove('token');
-        cookies.remove('user_data');
+        cookies.remove("token");
+        cookies.remove("user_data");
 
         // Cerrar el menú desplegable
         setMenuOpen(false);
 
-        history.push('/login');
+        history.push("/login");
       }
     });
-
   };
   useEffect(() => {
     const fetchUserRole = async () => {
       if (user_id) {
         try {
-          const response = await instance.post(`/users/searchrole/`, {
-            id: user_id,
-          }, {
-            headers: {
-              Authorization: `Token ${token}`,
+          const response = await instance.post(
+            `/users/searchrole/`,
+            {
+              id: user_id,
             },
-          });
+            {
+              headers: {
+                Authorization: `Token ${token}`,
+              },
+            }
+          );
           setUserRole(response.data.user_role);
         } catch (error) {
-          console.error('Error fetching user role:', error);
+          console.error("Error fetching user role:", error);
         }
       }
     };
-  
+
     if (isUserLoggedIn && user_id) {
       fetchUserRole();
     }
@@ -90,17 +93,22 @@ function GeneralHeader(props) {
         </MenuIcon>
       )}
 
-      <LogoContainer>
-        <LogoContent>
-          <Link to="/inicio">
-            <Isotype src={require("../assets/images/logowhite1.png")} alt="Logo" />
-          </Link>
-          <LogoText>
-            <StyledLink to="/inicio">DonacionesUy</StyledLink>
-          </LogoText>
-        </LogoContent>
-      </LogoContainer>
-      {isUserLoggedIn && userRole && ( 
+      <div className="mx-aut">
+        <LogoContainer>
+          <LogoContent>
+            <Link to="/inicio">
+              <Isotype
+                src={require("../assets/images/logowhite1.png")}
+                alt="Logo"
+              />
+            </Link>
+            <LogoText>
+              <StyledLink to="/inicio">DonacionesUy</StyledLink>
+            </LogoText>
+          </LogoContent>
+        </LogoContainer>
+      </div>
+      {isUserLoggedIn && userRole && (
         <UserIcon>
           <ButtonOverlay onClick={toggleMenu}>
             <FontAwesomeIcon
@@ -146,7 +154,7 @@ function GeneralHeader(props) {
 
 const Container = styled.div`
   display: flex;
-  background-color: rgba(79,181,139, 1);
+  background-color: rgba(79, 181, 139, 1);
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
@@ -167,7 +175,6 @@ const ButtonOverlay = styled.button`
   border: none;
   cursor: pointer;
   z-index: 2000;
-
 `;
 
 const MenuIcon = styled.div`
@@ -178,12 +185,12 @@ const MenuIcon = styled.div`
 `;
 
 const LogoContainer = styled.div`
-  display: flex;
+  // display: flex;
   align-items: center;
 `;
 
 const LogoContent = styled.div`
-  display: flex;
+  // display: flex;
   align-items: center;
 `;
 
@@ -205,7 +212,7 @@ const Isotype = styled.img`
 const LogoText = styled.span`
   font-family: "Gloria Hallelujah", cursive;
   font-size: 2rem;
-  color: #FFFFFF;
+  color: #ffffff;
   background-color: transparent;
   font-weight: 400;
   text-align: center;
@@ -214,7 +221,7 @@ const LogoText = styled.span`
     margin-left: 0;
     font-family: "Gloria Hallelujah", cursive;
     font-size: 2rem;
-    color: #FFFFFF;
+    color: #ffffff;
     background-color: transparent;
     font-weight: 400;
     text-align: center;
@@ -234,7 +241,7 @@ const DropdownMenu = styled.ul`
   right: 0;
   width: 9.4rem;
   text-align: right;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   list-style: none;
   padding: 0;
@@ -243,14 +250,13 @@ const DropdownMenu = styled.ul`
   font-size: 1rem;
 `;
 
-
 const MenuItem = styled.li`
   padding: 10px;
   border-bottom: 1px solid #ccc;
 
   a {
     text-decoration: none;
-    color: rgba(80,80,80, 1);
+    color: rgba(80, 80, 80, 1);
   }
 
   &:last-child {
@@ -293,7 +299,7 @@ const NavItem = styled.li`
 const StyledLink = styled(Link)`
   /* Puedes agregar estilos específicos si es necesario */
   text-decoration: none;
-  color: #FFFFFF;
+  color: #ffffff;
 `;
 
 export default GeneralHeader;
