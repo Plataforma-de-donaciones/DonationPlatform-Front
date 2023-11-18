@@ -312,7 +312,7 @@ const EventoBox = (props) => {
                   <Form.Control.Feedback type="invalid">
                     Nombre del evento no puede estar vacío
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
                   </HelperText>
@@ -337,7 +337,7 @@ const EventoBox = (props) => {
                   <Form.Control.Feedback type="invalid">
                     La descripción del evento no puede estar vacía
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
                   </HelperText>
@@ -351,7 +351,7 @@ const EventoBox = (props) => {
                     Localidad es requerida
                   </Form.Control.Feedback>
 
-                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
 
                   <HelperText>
                     Este dato se visualiza en la publicación.

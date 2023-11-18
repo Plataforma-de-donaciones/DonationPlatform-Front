@@ -244,7 +244,7 @@ const SponsorBox = (props) => {
 
           if (response.status === 201) {
             Swal.fire(
-              "Apadrinamiento registrado correctamente!",
+              "¡Apadrinamiento registrado correctamente!",
               "",
               "success"
             );
@@ -314,7 +314,7 @@ const SponsorBox = (props) => {
                   <Form.Control.Feedback type="invalid">
                     Por favor digite su nombre
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
                   </HelperText>
@@ -339,7 +339,7 @@ const SponsorBox = (props) => {
                   <Form.Control.Feedback type="invalid">
                     La descripción no puede estar vacía
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
                   </HelperText>
@@ -366,7 +366,7 @@ const SponsorBox = (props) => {
                   <Form.Control.Feedback type="invalid">
                     La condicion no puede estar vacía
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
                   </HelperText>
@@ -389,7 +389,7 @@ const SponsorBox = (props) => {
                     Localidad requerida
                   </Form.Control.Feedback>
 
-                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
                   </HelperText>

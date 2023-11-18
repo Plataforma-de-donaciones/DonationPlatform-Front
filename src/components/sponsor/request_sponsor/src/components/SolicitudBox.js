@@ -266,7 +266,7 @@ const SolicitudBox = (props) => {
                 <Form.Control.Feedback type="invalid">
                   La descripción de no puede estar vacía
                 </Form.Control.Feedback>
-                <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                 <HelperText>
                   Este dato se visualiza únicamente por el donatario.
                   Asimismo, indique las condiciones del voluntariado.
@@ -284,7 +284,7 @@ const SolicitudBox = (props) => {
                   Localidad requerida
                 </Form.Control.Feedback>
 
-                <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
 
                 <HelperText>
                   Este dato se visualiza en la publicación.

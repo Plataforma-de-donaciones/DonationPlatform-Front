@@ -156,7 +156,7 @@ const SolicitudVolBox = (props) => {
           });
 
           if (response.status === 201) {
-            Swal.fire("Voluntariado registrado correctamente!", "", "success");
+            Swal.fire("¡Voluntariado registrado correctamente!", "", "success");
             history.push("/listadovoluntariado");
           } else {
           }
@@ -225,7 +225,7 @@ const SolicitudVolBox = (props) => {
                   <Form.Control.Feedback type="invalid">
                     La descripción de la solicitud no puede estar vacía
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza únicamente por el donatario.
                   </HelperText>

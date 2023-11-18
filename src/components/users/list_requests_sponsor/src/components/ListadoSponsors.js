@@ -196,7 +196,7 @@ const ListadoSponsors = ({ sponsorId }) => {
           obtenerSolicitudes();
         }, 3000);
         Swal.fire({
-          title: "Confirmación realizada correctamente!",
+          title: "¡Confirmación realizada correctamente!",
           text: "Ha confirmado una solicitud",
           icon: "success",
         });

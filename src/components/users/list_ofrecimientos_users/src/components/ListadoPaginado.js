@@ -81,7 +81,7 @@ const ListadoPaginado = ({}) => {
         obtenerDatos();
 
         Swal.fire({
-          title: "Eliminado correctamente!",
+          title: "¡Eliminado correctamente!",
           text: "Su ofrecimiento ha sido eliminado",
           icon: "success",
         });

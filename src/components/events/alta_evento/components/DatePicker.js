@@ -27,7 +27,7 @@ const DateTimePicker = ({ value, onChange }) => {
         Localidad es requerida
       </Form.Control.Feedback>
 
-      <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+      <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
       <HelperText>Este dato se visualiza en la publicación.</HelperText>
       </>
    

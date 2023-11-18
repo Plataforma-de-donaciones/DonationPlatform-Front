@@ -93,7 +93,7 @@ function LocalidadBox({ onSelect }) {
         La localidad es requerida
       </Form.Control.Feedback>
 
-      <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+      <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
 
     </Form.Group>
   );

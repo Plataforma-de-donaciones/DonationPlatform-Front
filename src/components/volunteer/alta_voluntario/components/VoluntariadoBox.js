@@ -270,7 +270,7 @@ const VoluntariadoBox = (props) => {
           });
 
           if (response.status === 201) {
-            Swal.fire("Voluntariado registrado correctamente!", "", "success");
+            Swal.fire("¡Voluntariado registrado correctamente!", "", "success");
             history.push("/listadovoluntariado");
           } else {
             const serverError = response.data;
@@ -340,7 +340,7 @@ const VoluntariadoBox = (props) => {
                     Por favor digite su nombre
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>
-                    Campo válido!
+                    ¡Campo válido!
                   </Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
@@ -368,7 +368,7 @@ const VoluntariadoBox = (props) => {
                   <Form.Control.Feedback type="invalid">
                     La descripción de la tarea no puede estar vacía
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
                   </HelperText>
@@ -393,7 +393,7 @@ const VoluntariadoBox = (props) => {
                   <Form.Control.Feedback type="invalid">
                     La descripción de la tarea no puede estar vacía
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza en la publicación.
                   </HelperText>
@@ -417,7 +417,7 @@ const VoluntariadoBox = (props) => {
                   </Form.Control.Feedback>
 
                   <Form.Control.Feedback>
-                    Campo válido!
+                    ¡Campo válido!
                   </Form.Control.Feedback>
 
                   <HelperText>
