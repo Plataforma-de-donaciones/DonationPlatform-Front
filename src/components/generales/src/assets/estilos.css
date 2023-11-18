@@ -1,11 +1,22 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+
+}
+
+main{
+  margin: 0 auto;
+  min-height: calc(100vh - 200px);
+}
+
+
 .card-header {
   padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
   margin-bottom: 0;
   background-color: rgba(141, 202, 170, 1);
   box-shadow: 0 4px 8px rgb(255, 255, 255);
   color: #ffffff;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: rgb(255, 255, 255);
   border: #ffffff;
 
   border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);

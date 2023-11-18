@@ -18,7 +18,7 @@ const MenuContainer = styled.div`
     height: 50px;
     margin-right: auto!important;
     margin-left: auto!important;
-    top: 82px;
+    top: 90px;
     z-index: 1023;
   }
   @media (max-width: 800px) {
@@ -33,7 +33,7 @@ const MenuContainer = styled.div`
 const MenuItem = styled(Link)`
   color: #FFFFFF;
   text-decoration: none;
-  padding-top: 1rem; 
+  padding-top: 12px; 
   
   &:hover {
     color: rgba(79,181,139, 1);

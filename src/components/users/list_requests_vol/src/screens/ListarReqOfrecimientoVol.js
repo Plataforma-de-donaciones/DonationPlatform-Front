@@ -71,7 +71,7 @@ function ListarReqOfrecimientoVol(props) {
   const { voluntarioId } = useParams();
 
   return (
-    <Layout haveMenu={false}>
+    <Layout>
       <ListadoVoluntarios voluntarioId={voluntarioId} />
     </Layout>
   );

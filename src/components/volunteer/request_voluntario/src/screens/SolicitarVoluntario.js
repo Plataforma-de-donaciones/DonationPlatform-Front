@@ -4,7 +4,7 @@ import Layout from "../../../../generales/src/components/layout/Layout";
 
 const SolicitarVoluntario = () => {
   return (
-    <Layout haveMenu={false}>
+    <Layout>
       <SolicitudVolBox />
     </Layout>
   );

@@ -6,7 +6,7 @@ import Layout from "../../../../generales/src/components/layout/Layout";
 const SolicitarEquipamiento = () => {
   return (
 
-    <Layout haveMenu={false}>
+    <Layout>
       <SolicitudEqMedicoBox />
     </Layout>
   );
