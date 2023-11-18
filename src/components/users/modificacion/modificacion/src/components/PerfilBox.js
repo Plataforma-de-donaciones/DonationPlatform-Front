@@ -6,82 +6,13 @@ import { useAuth } from "../../../../../../AuthContext";
 import NombrePerfilBox from "./NombrePerfilBox";
 import CorreoPerfilBox from "./CorreoPerfilBox";
 import ContrasenaNuevaPerfilBox from "./ContrasenaNuevaPerfilBox";
-import OrganizacionPerfilBox from "./OrganizacionPerfilBox";
-import AceptarButton from "./AceptarButton";
-import CancelarButton from "./CancelarButton";
-import EliminarCuentaButton from "./EliminarCuentaButton";
+import CardComponente from "./../../../../../generales/card/CardComponente";
+import { Button, Col, Row ,InputGroup} from "react-bootstrap";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
+import PasswordInput from "../../../../login/src/components/PasswordInput";
 
-const Container = styled.div`
-  max-width: 800px;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  min-height: 100vh;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
 
-const ContentContainer = styled.div`
-  max-width: 600px;
-  width: 100%;
-  margin: 0 auto;
-`;
-
-const Rect = styled.div`
-  width: 100%;
-  background-color: rgba(255, 152, 0, 0.6);
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 5px;
-  padding: 6px 0px 0px 0px;
-  text-align: center;
-`;
-
-const ButtonContainer = styled.div`
-  height: 36px;
-  flex-direction: row;
-  display: flex;
-  margin-top: 15px;
-  margin-left: auto;
-  margin-right: auto;
-  justify-content: center;
-
-`;
-const ButtonContainerEliminar = styled.div`
-  height: 36px;
-  flex-direction: row;
-  display: flex;
-  margin-top: 15px;
-  margin-left: auto;
-  margin-right: auto;
-  justify-content: center;
-
-`;
-
-const ButtonSeparator = styled.div`
-  width: 10px; /* Espacio entre los botones */
-`;
-
-const PerfilText = styled.span`
-  font-style: normal;
-  font-weight: 700;
-  color: #121212;
-  font-size: 20px;
-  text-align: center;
-  margin-top: 6px;
-`;
-
-const AceptarButtonRow = styled.div`
-  height: 36px;
-  flex-direction: row;
-  display: flex;
-  margin-top: 20px;
-  justify-content: center;
-`;
 
 const PreguntaEliminarText = styled.span`
   font-style: normal;
@@ -91,9 +22,17 @@ const PreguntaEliminarText = styled.span`
   text-align: center;
   margin-top: 30px;
   justify-content: center;
-
 `;
-
+const styles = {
+  creaUnaContrasena: {
+    fontSize: "12px",
+    textAlign: "left",
+    color: "rgba(0,0,0,1)",
+    opacity: 0.6,
+    paddingTop: "16px",
+    display: "block",
+  },
+};
 const cookies = new Cookies();
 
 function PerfilBox(props) {
@@ -108,8 +47,7 @@ function PerfilBox(props) {
   const [confirmarContrasena, setConfirmarContrasena] = useState("");
   const [contrasenasCoinciden, setContrasenasCoinciden] = useState(true);
   const [userId, setUserId] = useState("");
-
-
+  const history = useHistory();
   const [token, setToken] = useState("");
 
   useEffect(() => {
@@ -150,7 +88,6 @@ function PerfilBox(props) {
 
     fetchData();
   }, []);
-  
 
   const obtenerDatos = async () => {
     // Lógica para obtener datos
@@ -179,98 +116,198 @@ function PerfilBox(props) {
       organization: selectedOrganization,
     }));
   };
+
   const eliminarItem = async (userId, tipo) => {
     console.log("id a eliminar", userId);
-    const confirmacion = window.confirm(`¿Desea eliminar el usuario?`);
+
+    Swal.fire({
+      title: "¿Está seguro que desea eliminar su cuenta?",
+      icon: "question",
+      iconHtml: "?",
+      showCancelButton: true,
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await instance.delete(`/users/${userId}/`, {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          });
   
-    if (confirmacion) {
-      try {
-        await instance.delete(`/users/${userId}/`, {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        });
-  
-        obtenerDatos();
-      } catch (error) {
-        console.error(`Error al eliminar user:`, error);
+          obtenerDatos();
+          history.push("/inicio");
+        } catch (error) {
+          console.error(`Error al eliminar user:`, error);
+        }
+       
       }
-    }
+    });
+
+    // const confirmacion = window.confirm(`¿Desea eliminar el usuario?`);
   };
   const handleSubmit = async () => {
+
+
+    const confirmation =  Swal.fire({
+      title: "¿Está seguro que desea editar su contraseña?",
+      icon: "question",
+      iconHtml: "?",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, editar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (confirmation.isConfirmed) {
+  
+
     let requestData = {
       user_name: userData.user_name,
       organization: userData.organization,
     };
-  
+
     if (contrasenaNueva) {
       requestData.new_password = contrasenaNueva;
     }
-  
+
     try {
       const token = cookies.get("token");
       const userDataCookie = cookies.get("user_data");
       const user_id = userDataCookie.user_id;
-      const response = await instance.patch(
-        `/users/${user_id}/`,
-        requestData,
-        {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
-  
+      const response = await instance.patch(`/users/${user_id}/`, requestData, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
+
       console.log("Respuesta del servidor:", response.data);
     } catch (error) {
       console.error("Error al actualizar la información del usuario:", error);
     }
-  
+
     setContrasenasCoinciden(true);
     setContrasenaNueva("");
     setConfirmarContrasena("");
+  }
+
   };
 
+
+
+  const handleCancel = () => {
+    Swal.fire({
+      title: "¿Está seguro que desea volver al inicio?",
+      icon: "question",
+      iconHtml: "?",
+      showCancelButton: true,
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        history.push("/inicio");
+      }
+    });
+  };
+
+  //url: modificacion
   return (
-    <Container {...props} className="mx-auto">
-      <Rect>
-        <PerfilText>Perfil</PerfilText>
-      </Rect>
-      <ContentContainer>
-          {/* Asignar valores iniciales a los componentes */}
-          <NombrePerfilBox user_name={userData.user_name} />
-          <CorreoPerfilBox user_email={userData.user_email} />
-        <ContrasenaNuevaPerfilBox
-          value={contrasenaNueva}
-          onChange={handleContrasenaNuevaChange}
-          onBlur={handleBlur}
-        />
-        <ContrasenaNuevaPerfilBox
-          placeholder="Confirmar Contraseña Nueva"
-          value={confirmarContrasena}
-          onChange={handleConfirmarContrasenaChange}
-          onBlur={handleBlur}
-        />
-        {!contrasenasCoinciden && (
-          <div style={{ color: "red", textAlign: "center", marginTop: "10px" }}>
-            Las contraseñas no coinciden
-          </div>
-        )}
-        <OrganizacionPerfilBox
-        selectedOrganization={userData.organization}
-        onChange={handleOrganizacionChange}
-      />
-      <ButtonContainer>
-        <AceptarButton onClick={handleSubmit} />
-        <ButtonSeparator />
-        <CancelarButton />
-      </ButtonContainer>
-      <PreguntaEliminarText>¿Desea eliminar su cuenta?</PreguntaEliminarText>
-      <ButtonContainerEliminar>
-        <EliminarCuentaButton onClickEliminar={eliminarItem} userId={userId} />
-      </ButtonContainerEliminar>
-      </ContentContainer>
-    </Container>
+    <>
+      <CardComponente
+      
+        titulo={"Mi perfil"}
+        body={
+          <>
+      
+            <NombrePerfilBox user_name={userData.user_name} />
+      
+            
+            <CorreoPerfilBox user_email={userData.user_email} 
+            />
+            
+            <label style={styles.creaUnaContrasena}>Contraseña nueva</label>
+            <InputGroup hasValidation>
+            <PasswordInput
+              placeholder="Confirmar Contraseña Nueva"
+              value={contrasenaNueva}
+              onChange={handleContrasenaNuevaChange}
+              onBlur={handleBlur}
+              style={{
+                height: 43,
+                width: "100%",
+                marginTop: 10,
+              }}
+            />
+             </InputGroup>
+            
+            <label style={styles.creaUnaContrasena}>Contraseña nueva</label>
+            <InputGroup hasValidation>
+            <PasswordInput
+              placeholder="Confirmar Contraseña Nueva"
+              value={confirmarContrasena}
+              onChange={handleConfirmarContrasenaChange}
+              onBlur={handleBlur}
+              style={{
+                height: 43,
+                width: "100%",
+                marginTop: 10,
+              }}
+              
+            />
+                  </InputGroup>
+            {!contrasenasCoinciden && (
+              <div
+                style={{ color: "red", textAlign: "center", marginTop: "10px" }}
+              >
+                Las contraseñas no coinciden
+              </div>
+            )}
+          
+         
+
+
+            <Row className="mx-auto text-center mb-3 mt-4">
+              <Col>
+                <Button style={{ width: "45%" }} onClick={handleSubmit}>
+                  Aceptar
+                </Button>
+              </Col>
+
+              <Col>
+                <Button
+                  history={props.history}
+                  style={{ width: "45%", marginLeft: "4%" }}
+                  onClick={handleCancel}
+                  variant="secondary"
+                >
+                  Volver
+                </Button>
+              </Col>
+            </Row>
+
+            <Row className="mx-auto"> 
+
+            <PreguntaEliminarText className="mx-auto">
+              ¿Desea eliminar su cuenta?
+            </PreguntaEliminarText>
+            
+              <Button
+              className="mx-auto mt-3"
+              variant="danger"
+              style={{ width: "28%", marginLeft: "4%" }}
+              onClick={() => eliminarItem(userId)}
+              userId={userId}
+              >   Eliminar cuenta
+              </Button>
+            
+              </Row>
+              <p></p>
+          </>
+        }
+      ></CardComponente>
+    </>
   );
 }
 
