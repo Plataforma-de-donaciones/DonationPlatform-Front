@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import instance from "../../../../../axios_instance";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {Button, Card, CardHeader, Col, Form, FormControl, Row} from "react-bootstrap";
+import {Button, Card, CardHeader, Col, Form, FormControl, InputGroup, Row} from "react-bootstrap";
 import PasswordInput from "./PasswordInput";
 import { FaUser, FaLock } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
@@ -206,30 +206,31 @@ const LoginBox = () => {
   return (
     <>
       <Row className="my-auto justify-content-center h-100">
-        <Col sm={9} md={7} lg={5} className="mt-auto mx-auto">
-          <Card className="border-0 shadow rounded-3 login-box">
+        <Col  className="mt-auto mx-auto  col-xl-5 col-lg-6 col-md-9 col-sm-9 col-xs-9">
+          <Card className="border-0 shadow rounded-3 mt-5 ">
             <CardHeader className="card-title text-center fw-light fs-5">
               Iniciar sesión
             </CardHeader>
-            <Card.Body className="p-4 p-sm-5">
+            <Card.Body className="p-4 p-sm-4">
               <Form >
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>
-                    Correo electrónico o nombre de usuario
+                    Nombre de usuario
                   </Form.Label>
                   <Form.Control
                     name="user_name"
                     value={credentials.user_name}
                     onChange={handleChange}
                     type="email"
-                    placeholder="Correo electrónico o nombre de usuario"
+                    placeholder="Nombre de usuario"
                   />
                 </Form.Group>
 
-                <InputWrapper>
+                
                   <Form.Group className="mb-5" controlId="formBasicPassword">
                     <Form.Label>Contraseña</Form.Label>
                     <div style={{ position: "relative" }}>
+                    <InputGroup hasValidation>
                       <PasswordInput
                         type="password"
                         name="user_password"
@@ -242,9 +243,10 @@ const LoginBox = () => {
                           marginTop: 10,
                         }}
                       />
+                      </InputGroup>
                     </div>
                   </Form.Group>
-                </InputWrapper>
+                
 
                 <div className="d-grid">
                   <Button
@@ -293,8 +295,6 @@ const LoginBox = () => {
                   pauseOnHover
                   theme="light"
                 />
-                {/* Same as */}
-                <ToastContainer />
               </Form>
             </Card.Body>
           </Card>

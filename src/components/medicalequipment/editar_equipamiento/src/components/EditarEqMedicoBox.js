@@ -265,7 +265,7 @@ const EditarEqMedicoBox = (props) => {
               )}
             </div>
 
-            <Row className="text-center">
+            <Row className="mx-auto">
               <Col>
                 <Button style={{ width: "38%" }} onClick={handleSubmit}>
                   Aceptar

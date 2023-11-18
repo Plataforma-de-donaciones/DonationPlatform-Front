@@ -245,7 +245,7 @@ const EditarDonBox = (props) => {
 
             <LocalidadBox donZone={donZone} onChange={setDonZone} />
 
-            <div className="text-center">
+            <div className="text-center mx-auto mb-3">
               {imagenCargando ? (
                 <Spinner variant="success" animation="border" role="status">
                   <span className="visually-hidden">Cargando...</span>
@@ -263,17 +263,17 @@ const EditarDonBox = (props) => {
               )}
             </div>
 
-            <Row className="text-center">
-              <Col>
-                <Button style={{ width: "38%" }} onClick={handleSubmit}>
+            <Row className="text-center mx-auto">
+              <Col className="col-6 col-sm-12 col-xl-6 col-md-12">
+                <Button style={{ width: "50%" }} onClick={handleSubmit}>
                   Aceptar
                 </Button>
               </Col>
 
-              <Col>
+              <Col className="col-6 col-sm-12 col-xl-6 col-md-12">
                 <Button
                   history={props.history}
-                  style={{ width: "38%", marginLeft: "4%" }}
+                  style={{ width: "50%", marginLeft: "4%" }}
                   onClick={handleCancel}
                   variant="secondary"
                 >

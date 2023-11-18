@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-import { Form } from "react-bootstrap";
+import { Form, InputGroup } from "react-bootstrap";
 
 function PasswordInput(props) {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,7 +11,7 @@ function PasswordInput(props) {
   };
 
   return (
-    <Container>
+    <>
       <Form.Control
         type={showPassword ? "text" : "password"}
         placeholder={props.passwordPlaceholder || "Contraseña"}
@@ -19,17 +19,14 @@ function PasswordInput(props) {
         onChange={props.onChange}
         name={props.name}
       />
-      {showPassword ? (
+          <InputGroup.Text id="inputGroupPrepend">
+          {showPassword ? (
         <FaEyeSlash
           onClick={togglePasswordVisibility}
           style={{
             color: "rgba(128, 128, 128, 1)",
             fontSize: "20px",
-            position: "absolute",
-            top: "50%",
-            right: "1rem",
-            transform: "translateY(-50%)",
-            cursor: "pointer",
+           
           }}
         />
       ) : (
@@ -38,15 +35,13 @@ function PasswordInput(props) {
           style={{
             color: "rgba(128, 128, 128, 1)",
             fontSize: "20px",
-            position: "absolute",
-            top: "50%",
-            right: "1rem",
-            transform: "translateY(-50%)",
-            cursor: "pointer",
+           
           }}
         />
       )}
-    </Container>
+                    </InputGroup.Text>
+    
+    </>
   );
 }
 
