@@ -25,6 +25,7 @@ const EditarBox = (props) => {
   const history = useHistory();
   const [validated, setValidated] = useState(false);
   const { sponsor_id } = useParams();
+
   console.log(sponsor_id);
 
   useEffect(() => {
@@ -106,12 +107,15 @@ const EditarBox = (props) => {
         }
       );
       Swal.fire({
-        title: "Editado correctamente!",
+        title: "¡Editado correctamente!",
         text: "Los datos han sido editados",
         icon: "success"
       });
+
       history.push('/listadoofrecimientos');
+
       console.log("Respuesta del servidor:", response.data);
+      
     } catch (error) {
       console.error("Error al actualizar la información de la donación:", error);
     }
@@ -132,6 +136,8 @@ const EditarBox = (props) => {
       }
     });
   };
+
+//url:editarsponsor/27
 
   return (
     <>

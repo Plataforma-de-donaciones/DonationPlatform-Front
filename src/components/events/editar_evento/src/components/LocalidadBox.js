@@ -3,6 +3,8 @@ import styled from "styled-components";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 
+import { Form, Col } from "react-bootstrap";
+
 const Container = styled.div`
   display: flex;
   background-color: transparent;
@@ -90,20 +92,30 @@ function LocalidadBox({ onChange, eveZone, setEveZone }) {
   };
   
   return (
-    <Container>
-      <Label>¿En qué localidad se encuentra? *</Label>
-      <SelectStyle value={selectedZone} onChange={handleZoneChange}>
-        <option value="" disabled>
-          Seleccione una localidad
-        </option>
-        {zones.map((zone) => (
-          <option key={zone.zone_id} value={zone.zone_id}>
-            {zone.zone_name}
+
+<Form.Group as={Col} md="12" controlId="validationCustom01">
+        <Form.Label>¿En qué localidad se encuentra? *</Form.Label>
+
+        <Form.Select
+          value={selectedZone}
+          onChange={handleZoneChange}
+          aria-label="Default select example"
+        >
+          <option value="" disabled>
+            Seleccione una localidad
           </option>
-        ))}
-      </SelectStyle>
-      <Helper>Este dato se visualiza en la publicación.</Helper>
-    </Container>
+          {zones.map((zone) => (
+            <option key={zone.zone_id} value={zone.zone_id}>
+              {zone.zone_name}
+            </option>
+          ))}
+        </Form.Select>
+
+        <Form.Control.Feedback required type="invalid">
+          Debe seleccionar tipo de publicación
+        </Form.Control.Feedback>
+        <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+      </Form.Group>
   );
 }
 

@@ -1,18 +1,40 @@
 import React, { useState, useEffect } from "react";
+import { Col, Form } from "react-bootstrap";
 import styled from "styled-components";
 
 function NombreEveEdicionBox({ value, onChange }) {
   return (
-    <Container>
-      <Label>Nombre del evento *</Label>
-      <InputStyle
-        placeholder="Nombre del evento"
+    <Form.Group as={Col} md="12" controlId="validationCustom01">
+      <Form.Label>Nombre del evento *</Form.Label>
+
+      <Form.Control
         value={value}
+        required
+        type="text"
+        placeholder="Nombre del evento"
         onChange={onChange}
+        maxlength={50}
+        minLength={3}
       />
-    </Container>
+
+      <Form.Control.Feedback type="invalid">
+        Por favor digite nombre del evento
+      </Form.Control.Feedback>
+      <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+      <HelperText>Este dato se visualiza en la publicación.</HelperText>
+    </Form.Group>
   );
 }
+
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+`;
 const Container = styled.div`
   display: flex;
   border-bottom-width: 1px;
