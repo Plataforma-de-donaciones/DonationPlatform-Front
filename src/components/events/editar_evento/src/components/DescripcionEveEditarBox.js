@@ -54,7 +54,7 @@ function DescripcionEveEditarBox({ value, onChange, ...props }) {
         <Form.Control.Feedback type="invalid">
           La descripción de la tarea no puede estar vacía
         </Form.Control.Feedback>
-        <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+        <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
         <HelperText>Este dato se visualiza en la publicación.</HelperText>
       </Form.Group>
         </>

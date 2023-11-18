@@ -134,7 +134,7 @@ const EventListItem = ({ evento }) => {
         </Card.Body>
         <Card.Footer>
           <div className='text-center mb-3'>
-            <label style={{ textAlign: "left" }}>Estado:</label>
+            <label style={{ textAlign: "left" }}>Estado:  </label>
             <span style={{ textAlign: "left" }}>{stateMap[evento.state]}</span>
           </div>
           <ActionButtons className='text-center mx-auto mb-2'>

@@ -109,7 +109,7 @@ const SolicitudDonBox = (props) => {
         });
 
         if (response.status === 201) {
-          Swal.fire("Solicitud creada correctamente!", "", "success");
+          Swal.fire("¡Solicitud creada correctamente!", "", "success");
           history.push("/listadodonacion");
         } else {
           // Manejar otros casos de respuesta si es necesario
@@ -213,7 +213,7 @@ const SolicitudDonBox = (props) => {
                   <Form.Control.Feedback type="invalid">
                     La descripción el motivo de no puede estar vacía
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText>
                     Este dato se visualiza únicamente por el donatario.
                   </HelperText>
@@ -230,7 +230,7 @@ const SolicitudDonBox = (props) => {
                     Localidad requerida
                   </Form.Control.Feedback>
 
-                  <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
 
                   <HelperText>
                     Este dato se visualiza en la publicación.

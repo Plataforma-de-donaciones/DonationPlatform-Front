@@ -37,7 +37,7 @@ const MyCalendar = ({ events, setEventList, isHome }) => {
     Swal.fire({
       title: eventMessage(eventName),
       icon: "info",
-      html: "Desea leer más info del evento? ",
+      html: "¿Desea leer más información del evento?",
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: false,

@@ -24,6 +24,7 @@ function ContrasenaTextBox(props) {
     <Container>
       <label style={styles.creaUnaContrasena}>Crea una contraseña*</label>
       <PasswordInput
+        className="form-control"
         type={showPassword ? "text" : "password"}
         placeholder="Crea una contraseña."
         value={props.value}
@@ -58,7 +59,7 @@ const PasswordInput = styled.input`
   padding-bottom: 8px;
   border: none;
   background: transparent;
-  border-bottom: 1px solid #D9D5DC;
+  border-bottom: 1px solid #d9d5dc;
   width: 100%;
   position: relative;
 `;
