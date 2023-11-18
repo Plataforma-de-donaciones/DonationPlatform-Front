@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import TituloLine from "./TituloLine";
-import NombreDonBox from "./NombreDonBox";
-import DescripcionDonBox from "./DescripcionDonBox";
-import SubirArchivoBox from "./SubirArchivoBox";
-import AceptarButton from "./AceptarButton";
-import CancelarButton from "./CancelarButton";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
 import { toast, ToastContainer } from "react-toastify";
@@ -393,7 +387,7 @@ const DonacionBox = (props) => {
         pauseOnHover
         theme="light"
       />
-      <ToastContainer />
+     
     </>
   );
 };

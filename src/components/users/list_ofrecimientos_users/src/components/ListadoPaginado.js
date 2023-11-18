@@ -41,7 +41,7 @@ const ListadoPaginado = ({}) => {
         }
       );
 
-      const itemsPorPagina = 6;
+      const itemsPorPagina = 10;
       const inicio = (paginaActual - 1) * itemsPorPagina;
       const fin = inicio + itemsPorPagina;
       const datosPaginados = response.data.slice(inicio, fin);
@@ -131,6 +131,12 @@ const ListadoPaginado = ({}) => {
               onClick={() => setTipo("sponsors", setTitulo("Padrinos"))}
             >
               Padrinos
+            </Button>
+            <Button
+              className={"me-3 mb-3"}
+              onClick={() => setTipo("events", setTitulo("Eventos"))}
+            >
+              Eventos
             </Button>
           </div>
 
@@ -261,6 +267,33 @@ const ListadoPaginado = ({}) => {
                           variant="danger"
                           onClick={() =>
                             eliminarItem(item.sponsor_id || item.id)
+                          }
+                        >
+                          Eliminar
+                        </Button>
+                      </td>
+                    </>
+                  )}
+                  {tipo === "events" && (
+                    <>
+                      <td>{item.event_name}</td>
+                      <td>{item.event_description}</td>
+                      <td>{item.start_date}</td>
+                      <td>{item.request_count}</td>
+                      <td>{item.eve_confirmation_date}</td>
+                      <td>{item.has_requests ? "Yes" : "No"}</td>
+                      
+                      <td className="text-center">
+                        <Button
+                          variant="secondary me-2"
+                          href={`/editarevento/${item.event_id}`}
+                        >
+                          Editar
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() =>
+                            eliminarItem(item.event_id || item.id)
                           }
                         >
                           Eliminar

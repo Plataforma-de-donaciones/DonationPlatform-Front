@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Form } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import styled from 'styled-components';
@@ -9,35 +10,31 @@ const DateTimePicker = ({ value, onChange }) => {
   };
 
   return (
-    <Container>
-      <Label>Fecha y Hora de Inicio *</Label>
+    <>
+      <Form.Label>Fecha y Hora de Inicio *</Form.Label>
+      
       <Datetime
         value={value ? new Date(value) : null}
         onChange={handleDateChange}
         dateFormat="YYYY-MM-DD"
         timeFormat="HH:mm:ss"
-        inputProps={{ placeholder: 'Seleccione fecha y hora de inicio del evento' }}
+
+        inputProps={{ placeholder: 'Seleccione fecha y hora de inicio del evento' , required: true}}
+      
       />
+     
+      <Form.Control.Feedback type="invalid">
+        Localidad es requerida
+      </Form.Control.Feedback>
+
+      <Form.Control.Feedback>Campo válido!</Form.Control.Feedback>
       <HelperText>Este dato se visualiza en la publicación.</HelperText>
-    </Container>
-  );
+      </>
+   
+   
+   );
 };
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Label = styled.span`
-  font-size: 12px;
-  text-align: left;
-  color: rgba(0, 0, 0, 1);
-  opacity: 0.6;
-  padding-top: 16px;
-  width: 375px;
-  font-style: normal;
-  font-weight: 700;
-`;
 
 const HelperText = styled.span`
   font-size: 10px;
