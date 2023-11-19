@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Button, Container, Pagination, Form } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
+import { Table, Button, Pagination, Form } from 'react-bootstrap';
 import instance from '../../../../axios_instance';
 import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import MenuComponent from './MenuComponent';
 import { useHistory } from 'react-router-dom';
+import CardComponente from '../../../generales/card/CardComponente';
 
 const cookies = new Cookies();
 
@@ -62,12 +62,24 @@ const ListadoUsuarios = () => {
   };
 
   return (
-    <Container style={{ border: '1px solid lightgray', padding: '20px', marginTop: '50px', textAlign: 'center' }}>
-      <MenuComponent></MenuComponent>
-      <div className="mb-4">
-        <h2 className="h2">Listado de Usuarios</h2>
-      </div>
-      <Form.Group controlId="formSearch">
+    <CardComponente
+    isTable
+    titulo={'Usuarios'}
+    footer={<>
+          <Pagination className="justify-content-center" style={{ display: 'flex' }}>
+        <Pagination.First onClick={() => paginate(1)} />
+        <Pagination.Prev onClick={() => paginate(currentPage - 1)} />
+        {Array.from({ length: Math.ceil(filteredUsers.length / usersPerPage) }).map((_, index) => (
+          <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
+            {index + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next onClick={() => paginate(currentPage + 1)} />
+        <Pagination.Last onClick={() => paginate(Math.ceil(filteredUsers.length / usersPerPage))} />
+      </Pagination>
+    </>}
+    >
+<Form.Group className="mb-3">
         <Form.Control
           type="text"
           placeholder="Buscar por correo de usuario"
@@ -111,18 +123,7 @@ const ListadoUsuarios = () => {
           ))}
         </tbody>
       </Table>
-      <Pagination className="justify-content-center" style={{ display: 'flex' }}>
-        <Pagination.First onClick={() => paginate(1)} />
-        <Pagination.Prev onClick={() => paginate(currentPage - 1)} />
-        {Array.from({ length: Math.ceil(filteredUsers.length / usersPerPage) }).map((_, index) => (
-          <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
-            {index + 1}
-          </Pagination.Item>
-        ))}
-        <Pagination.Next onClick={() => paginate(currentPage + 1)} />
-        <Pagination.Last onClick={() => paginate(Math.ceil(filteredUsers.length / usersPerPage))} />
-      </Pagination>
-    </Container>
+    </CardComponente>
   );
 };
 

@@ -1,25 +1,13 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import MenuComponent from '../../list_users/components/MenuComponent';
-import ListadoNoticias from '../components/ListadoNoticias';
+import React from "react";
+import ListadoNoticias from "../components/ListadoNoticias";
+import Layout from "./../../../generales/src/components/layout/Layout";
 
 const ListNews = () => {
   return (
-    <Container fluid>
-      <Row>
-        <Col xs={12}>
-          <MenuComponent />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} className="mt-4">
-          <ListadoNoticias />
-        </Col>
-      </Row>
-    </Container>
+    <Layout isFluid sidebar>
+      <ListadoNoticias />
+    </Layout>
   );
 };
 
 export default ListNews;
-
-

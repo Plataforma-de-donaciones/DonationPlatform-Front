@@ -1,22 +1,12 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import MenuComponent from '../../list_users/components/MenuComponent';
-import ListadoAdministradores from '../components/ListadoAdministradores';
+import React from "react";
+import ListadoAdministradores from "../components/ListadoAdministradores";
+import Layout from "../../../generales/src/components/layout/Layout";
 
 const ListAdministrators = () => {
   return (
-    
-    <Container fluid>
-      <Row>
-        <Col xs={3}>
-          <MenuComponent />
-        </Col>
-        <Col xs={15}>
-          <ListadoAdministradores />
-        </Col>
-      </Row>
-    </Container>
-    
+    <Layout sidebar isFluid>
+      <ListadoAdministradores />
+    </Layout>
   );
 };
 

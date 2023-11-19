@@ -1,22 +1,12 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import MenuComponent from '../../list_users/components/MenuComponent';
-import ListadoModeradores from '../components/ListadoModeradores';
+import React from "react";
+import ListadoModeradores from "../components/ListadoModeradores";
+import Layout from "../../../generales/src/components/layout/Layout";
 
 const ListModerators = () => {
   return (
-    
-    <Container fluid>
-      <Row>
-        <Col xs={3}>
-          <MenuComponent />
-        </Col>
-        <Col xs={15}>
-          <ListadoModeradores />
-        </Col>
-      </Row>
-    </Container>
-    
+    <Layout sidebar isFluid>
+      <ListadoModeradores />
+    </Layout>
   );
 };
 
