@@ -29,7 +29,7 @@ const CategoryCard = ({ onCategoryClick, onClearCategory }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await instance.get("/categoriesmeq/");
+        const response = await instance.get("/categoriesdon/");
         const uniqueCategories = Array.from(new Set(response.data.map((category) => category.cat_id)));
         const uniqueCategoriesData = uniqueCategories.map((cat_id) =>
           response.data.find((category) => category.cat_id === cat_id)
