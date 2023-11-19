@@ -265,16 +265,16 @@ main {
 }
 
 #root > main > aside > ul > li > a {
-  margin-bottom:3px;
+  margin-bottom: 3px;
   text-decoration: none;
 }
 
-#root > main > aside > ul > li.nav-item > a.active{
+#root > main > aside > ul > li.nav-item > a.active {
   background-color: #4fb58b;
 }
 
-#root > main > aside > ul > li.nav-item > a.active:active{
- background-color: #70c29e;
+#root > main > aside > ul > li.nav-item > a.active:active {
+  background-color: #70c29e;
 }
 
 #root > main > aside > ul > li:hover {
@@ -282,7 +282,7 @@ main {
   border-radius: var(--bs-nav-pills-border-radius);
 }
 
-#root > main > aside > ul.nav{
+#root > main > aside > ul.nav {
   --bs-nav-link-padding-x: 1rem;
   --bs-nav-link-padding-y: 0.5rem;
   --bs-nav-link-font-weight: ;
@@ -294,4 +294,8 @@ main {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+}
+
+article {
+  overflow-x: auto;
 }
