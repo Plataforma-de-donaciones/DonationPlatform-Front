@@ -6,24 +6,36 @@ import TerminosCondicionesButton from "../../../../users/login/src/components/Te
 import AcercaDeButton from "../AcercaDeButton";
 
 const Container = styled.div`
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  background-color: rgba(79, 181, 139, 1);
-  align-items: center;
-  padding: 10px;
-  color:white;
-  
+  @media (min-width: 1px) {
+    display: flex;
+    position: sticky;
+    justify-content: space-between;
+    align-items: center;
+    bottom: 0;
+    left: 0;
+    padding-right: 1rem; 
+    padding-left: 1rem;
+    margin-top: 1rem;
+
+    background-color: rgba(141, 202, 170, 1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 50px;
+
+    z-index: 1; /* Asegura que esté adelante de otros elementos */
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+
+  @media (max-width: 530px) {
+    height: 65px;
+    align-items: start;
+  }
 `;
 
 const ButtonWrapper = styled.div`
-  position: relative;
-  width: 100%;
-  max-width: 200px; /* Ancho máximo para cada botón */
-  margin: 10px; /* Espaciado entre botones */
+  margin: 10px; /* Espaciado entre botones */  
 `;
 
 const GeneralFooter = () => {

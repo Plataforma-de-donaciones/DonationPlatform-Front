@@ -59,7 +59,7 @@ const NotienescuentaaunWrapper = styled.div`
 
 const NotienescuentaaunText = styled.span`
   font-weight: 700;
-  color: #121212;
+  color: rgba(80,80,80, 1);
   text-align: left;
 `;
 
@@ -262,7 +262,7 @@ const LoginBox = () => {
                 <hr className="my-4" />
                 <div className="text-center">
                   <NotienescuentaaunText>
-                    No tienes una cuenta aún?
+                    ¿No tienes una cuenta aún?
                   </NotienescuentaaunText>
 
                   <Registratebutton1 />

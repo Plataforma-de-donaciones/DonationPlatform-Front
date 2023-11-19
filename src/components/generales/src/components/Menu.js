@@ -4,9 +4,11 @@ import styled from "styled-components";
 
 const MenuContainer = styled.div`
   @media (min-width: 1px) {
-    position: sticky;
     display: flex;
-    justify-content: space-around;
+    top: 80px;
+    left: 0;
+    position: sticky;
+    justify-content: space-between;
     
     background-color: rgba(80,80,80, 1);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -16,24 +18,27 @@ const MenuContainer = styled.div`
     
     width: 100%;
     height: 50px;
+    z-index: 1; /* Asegura que esté adelante de otros elementos */
     margin-right: auto!important;
     margin-left: auto!important;
-    top: 90px;
     z-index: 1023;
   }
-  @media (max-width: 800px) {
+
+  @media (max-width: 787px) {
     padding-right: 0.5rem; 
     padding-left: 0.5rem;
   }
+
   @media (max-width: 702px) {
-    height: 70px;
+    align-items: start;
+    height: 65px;
   }
 `;
 
 const MenuItem = styled(Link)`
   color: #FFFFFF;
   text-decoration: none;
-  padding-top: 12px; 
+  padding-top: 0.9rem; 
   
   &:hover {
     color: rgba(79,181,139, 1);
@@ -42,6 +47,9 @@ const MenuItem = styled(Link)`
     padding-right: 0.5rem; 
     padding-left: 0.5rem;
     font-size: 14px;
+  }
+  @media (max-width: 702px) {
+    padding-top: 0.7rem; 
   }
 `;
 

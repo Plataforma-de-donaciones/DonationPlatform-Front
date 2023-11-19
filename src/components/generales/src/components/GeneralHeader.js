@@ -29,7 +29,7 @@ function GeneralHeader(props) {
     // ...
     Swal.fire({
       title: "¿Está seguro que desea cerrar sesión?",
-      text: "Esta acción lo devolverá al login",
+      text: "Esta acción lo redirige al login",
       icon: "question",
       iconHtml: "?",
       showCancelButton: true,
@@ -153,17 +153,23 @@ function GeneralHeader(props) {
 }
 
 const Container = styled.div`
-  display: flex;
-  background-color: rgba(79, 181, 139, 1);
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  position: sticky;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  top: 0;
-  z-index: 9999;
-  @media (max-width: 768px) {
+  @media (min-width: 1px) {
+    display: flex;
+    top: 0;
+    left: 0;
+    position: sticky;
+    justify-content: space-between;
     align-items: center;
+    
+    background-color: rgba(79,181,139, 1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    padding: 1rem;
+
+    width: 100%;
+    height: 80px;
+
+    z-index: 9999; /* Asegura que esté adelante de otros elementos */
   }
 `;
 
@@ -185,21 +191,17 @@ const MenuIcon = styled.div`
 `;
 
 const LogoContainer = styled.div`
-  // display: flex;
+  display: flex;
   align-items: center;
+  margin: auto;
 `;
 
 const LogoContent = styled.div`
-  // display: flex;
+  display: flex;
   align-items: center;
 `;
 
 const Isotype = styled.img`
-  width: 80px;
-  height: auto;
-  object-fit: contain;
-  align-items: center;
-
   @media (min-width: 10px) {
     width: 80px;
     height: auto;
@@ -210,18 +212,11 @@ const Isotype = styled.img`
 `;
 
 const LogoText = styled.span`
-  font-family: "Gloria Hallelujah", cursive;
-  font-size: 2rem;
-  color: #ffffff;
-  background-color: transparent;
-  font-weight: 400;
-  text-align: center;
-
-  @media (max-width: 768px) {
+  @media (min-width: 10px) {
     margin-left: 0;
     font-family: "Gloria Hallelujah", cursive;
     font-size: 2rem;
-    color: #ffffff;
+    color: #FFFFFF;
     background-color: transparent;
     font-weight: 400;
     text-align: center;
@@ -233,13 +228,14 @@ const UserIcon = styled.div`
   padding: 0.5rem;
   width: 2.5rem;
   border: none;
+  flex-grow: 0.1px;
 `;
 
 const DropdownMenu = styled.ul`
   position: absolute;
   top: 100%;
   right: 0;
-  width: 9.4rem;
+  width: 11.7rem;
   text-align: right;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -248,6 +244,7 @@ const DropdownMenu = styled.ul`
   margin: 0;
   font-family: "Roboto";
   font-size: 1rem;
+  z-index: 2; /* Asegura que esté adelante de otros elementos */
 `;
 
 const MenuItem = styled.li`
@@ -268,8 +265,14 @@ const Button = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: #333;
+  color: rgba(80,80,80, 1);
+  font-family: "Roboto";
+  font-size: 1rem;
+  right: 0;
+  padding: 0;
+  margin: 0;
 `;
+
 const NavMenu = styled.ul`
   position: absolute;
   top: 100%;
