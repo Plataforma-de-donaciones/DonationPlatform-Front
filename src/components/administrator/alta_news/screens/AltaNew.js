@@ -1,7 +1,6 @@
-import React from "react";
 import NewBox from "../components/NewBox";
 import styled from "styled-components";
-import MenuComponent from "../../list_users/components/MenuComponent";
+import Layout from "./../../../generales/src/components/layout/Layout";
 
 const Container = styled.div`
   display: grid;
@@ -21,12 +20,9 @@ const Content = styled.div`
 
 function AltaNew(props) {
   return (
-    <Container>
-      <MenuComponent />
-      <Content>
-        <NewBox />
-      </Content>
-    </Container>
+    <Layout isFluid sidebar>
+      <NewBox />
+    </Layout>
   );
 }
 

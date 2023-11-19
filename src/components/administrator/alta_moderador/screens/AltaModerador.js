@@ -1,22 +1,11 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import MenuComponent from '../components/MenuComponent';
-import ListadoUsuarios from '../components/ListadoUsuarios';
+import ListadoUsuarios from "../components/ListadoUsuarios";
+import Layout from "./../../../generales/src/components/layout/Layout";
 
 const AltaModerador = () => {
   return (
-    
-    <Container fluid>
-      <Row>
-        <Col xs={3}>
-          <MenuComponent />
-        </Col>
-        <Col xs={15}>
-          <ListadoUsuarios />
-        </Col>
-      </Row>
-    </Container>
-    
+    <Layout isFluid sidebar>
+      <ListadoUsuarios />
+    </Layout>
   );
 };
 

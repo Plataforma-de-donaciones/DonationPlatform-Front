@@ -1,16 +1,15 @@
-*{
-  margin:0;
-  padding:0;
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-
 }
 
-main{
+main {
   margin: 0 auto;
   min-height: calc(100vh - 200px);
 }
 
-.helper-text{
+.helper-text {
   font-size: 10px;
   text-align: left;
   color: #000;
@@ -19,7 +18,6 @@ main{
   font-style: normal;
   font-weight: 400;
 }
-
 
 .card-header {
   padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
@@ -46,7 +44,6 @@ main{
   --bs-btn-disabled-bg: #008972;
   --bs-btn-disabled-border-color: #008972;
 }
-
 
 .avatar {
   width: 600px;
@@ -259,4 +256,42 @@ main{
   top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.sidebar-admin {
+  background-color: rgba(80, 80, 80, 1);
+  width: 250px;
+  border-radius: 6px;
+}
+
+#root > main > aside > ul > li > a {
+  margin-bottom:3px;
+  text-decoration: none;
+}
+
+#root > main > aside > ul > li.nav-item > a.active{
+  background-color: #4fb58b;
+}
+
+#root > main > aside > ul > li.nav-item > a.active:active{
+ background-color: #70c29e;
+}
+
+#root > main > aside > ul > li:hover {
+  background-color: #70c29e;
+  border-radius: var(--bs-nav-pills-border-radius);
+}
+
+#root > main > aside > ul.nav{
+  --bs-nav-link-padding-x: 1rem;
+  --bs-nav-link-padding-y: 0.5rem;
+  --bs-nav-link-font-weight: ;
+  --bs-nav-link-color: none;
+  --bs-nav-link-hover-color: none;
+  --bs-nav-link-disabled-color: var(--bs-secondary-color);
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
 }

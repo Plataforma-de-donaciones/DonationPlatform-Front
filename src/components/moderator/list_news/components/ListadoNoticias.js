@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Button, Container, Pagination, Form } from 'react-bootstrap';
-import instance from '../../../../axios_instance';
-import Cookies from 'universal-cookie';
-import MenuComponent from '../../list_users/components/MenuComponent';
-import { useHistory } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Table, Button, Pagination, Form } from "react-bootstrap";
+import instance from "../../../../axios_instance";
+import Cookies from "universal-cookie";
+import { useHistory } from "react-router-dom";
+import CardComponente from "../../../generales/card/CardComponente";
 
 const cookies = new Cookies();
 
@@ -11,21 +11,21 @@ const ListadoNoticias = () => {
   const [news, setNews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [newsPerPage] = useState(10);
-  const [searchTerm, setSearchTerm] = useState('');
-  const token = cookies.get('token');
+  const [searchTerm, setSearchTerm] = useState("");
+  const token = cookies.get("token");
   const history = useHistory();
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await instance.get('/news/', {
+        const response = await instance.get("/news/", {
           headers: {
             Authorization: `Token ${token}`,
           },
         });
         setNews(response.data);
       } catch (error) {
-        console.error('Error fetching news:', error);
+        console.error("Error fetching news:", error);
       }
     };
 
@@ -37,14 +37,16 @@ const ListadoNoticias = () => {
   const filteredNews = news.filter(
     (newsItem) =>
       newsItem.new_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      newsItem.new_description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      newsItem.new_description
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
       newsItem.new_subject.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const currentNews = filteredNews.slice(indexOfFirstNews, indexOfLastNews);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const handleCreateNews = () => {
-    history.push('/altanoticiamod');
+    history.push("/altanoticiamod");
   };
   const handleEditNews = (newsId) => {
     history.push(`/editarnoticiamod/${newsId}`);
@@ -53,56 +55,87 @@ const ListadoNoticias = () => {
   const handleHighlight = async (newsId) => {
     try {
       const formData = new FormData();
-      formData.append('is_highlighted', true);
+      formData.append("is_highlighted", true);
 
       const response = await instance.patch(`/news/${newsId}/`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
           Authorization: `Token ${token}`,
         },
       });
 
-      console.log('Respuesta del servidor:', response.data);
+      console.log("Respuesta del servidor:", response.data);
       const updatedNews = news.map((item) =>
         item.new_id === newsId ? { ...item, is_highlighted: true } : item
       );
       setNews(updatedNews);
     } catch (error) {
-      console.error('Error al destacar la noticia:', error);
+      console.error("Error al destacar la noticia:", error);
     }
   };
   const handleNotHighlight = async (newsId) => {
     try {
       const formData = new FormData();
-      formData.append('is_highlighted', false);
+      formData.append("is_highlighted", false);
 
       const response = await instance.patch(`/news/${newsId}/`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
           Authorization: `Token ${token}`,
         },
       });
 
-      console.log('Respuesta del servidor:', response.data);
+      console.log("Respuesta del servidor:", response.data);
       const updatedNews = news.map((item) =>
         item.new_id === newsId ? { ...item, is_highlighted: false } : item
       );
       setNews(updatedNews);
     } catch (error) {
-      console.error('Error al destacar la noticia:', error);
+      console.error("Error al destacar la noticia:", error);
     }
   };
 
   return (
-    <Container style={{ border: '1px solid lightgray', padding: '20px', marginTop: '50px', textAlign: 'center' }}>
-      <MenuComponent></MenuComponent>
-      <div className="mb-4">
-        <h2 className="h2">Listado de Noticias</h2>
-      </div>
-      <Button variant="primary" onClick={handleCreateNews} style={{ marginBottom: '20px' }}>
+    <CardComponente
+      isTable
+      titulo={"Noticias"}
+      footer={
+        <>
+          <Pagination
+            className="justify-content-center"
+            style={{ display: "flex" }}
+          >
+            <Pagination.First onClick={() => paginate(1)} />
+            <Pagination.Prev onClick={() => paginate(currentPage - 1)} />
+            {Array.from({
+              length: Math.ceil(filteredNews.length / newsPerPage),
+            }).map((_, index) => (
+              <Pagination.Item
+                key={index}
+                active={index + 1 === currentPage}
+                onClick={() => paginate(index + 1)}
+              >
+                {index + 1}
+              </Pagination.Item>
+            ))}
+            <Pagination.Next onClick={() => paginate(currentPage + 1)} />
+            <Pagination.Last
+              onClick={() =>
+                paginate(Math.ceil(filteredNews.length / newsPerPage))
+              }
+            />
+          </Pagination>
+        </>
+      }
+    >
+      <Button
+        variant="primary"
+        onClick={handleCreateNews}
+        style={{ marginBottom: "20px" }}
+      >
         Crear noticia
       </Button>
-      <Form.Group controlId="formSearch">
+      <Form.Group className="mb-3">
         <Form.Control
           type="text"
           placeholder="Buscar por título, descripción o asunto"
@@ -110,7 +143,7 @@ const ListadoNoticias = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </Form.Group>
-      
+
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -130,21 +163,33 @@ const ListadoNoticias = () => {
               <td>{newsItem.new_name}</td>
               <td>{newsItem.new_description}</td>
               <td>{newsItem.new_subject}</td>
-              <td>{newsItem.is_highlighted ? 'Sí' : 'No'}</td>
+              <td>{newsItem.is_highlighted ? "Sí" : "No"}</td>
               <td>{newsItem.views_count}</td>
               <td>{newsItem.user}</td>
               <td>{newsItem.new_created_at}</td>
               <td>
-                <Button variant="info" size="sm" onClick={() => handleEditNews(newsItem.new_id)}>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => handleEditNews(newsItem.new_id)}
+                >
                   Editar
                 </Button>
                 {!newsItem.is_highlighted && (
-                  <Button variant="success" size="sm" onClick={() => handleHighlight(newsItem.new_id)}>
+                  <Button
+                    variant="success"
+                    size="sm"
+                    onClick={() => handleHighlight(newsItem.new_id)}
+                  >
                     Destacar
                   </Button>
                 )}
                 {newsItem.is_highlighted && (
-                  <Button variant="success" size="sm" onClick={() => handleNotHighlight(newsItem.new_id)}>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleNotHighlight(newsItem.new_id)}
+                  >
                     No Destacar
                   </Button>
                 )}
@@ -153,18 +198,7 @@ const ListadoNoticias = () => {
           ))}
         </tbody>
       </Table>
-      <Pagination className="justify-content-center" style={{ display: 'flex' }}>
-        <Pagination.First onClick={() => paginate(1)} />
-        <Pagination.Prev onClick={() => paginate(currentPage - 1)} />
-        {Array.from({ length: Math.ceil(filteredNews.length / newsPerPage) }).map((_, index) => (
-          <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
-            {index + 1}
-          </Pagination.Item>
-        ))}
-        <Pagination.Next onClick={() => paginate(currentPage + 1)} />
-        <Pagination.Last onClick={() => paginate(Math.ceil(filteredNews.length / newsPerPage))} />
-      </Pagination>
-    </Container>
+    </CardComponente>
   );
 };
 

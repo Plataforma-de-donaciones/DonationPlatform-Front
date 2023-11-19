@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import Explorebutton from "./Explorebutton";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { Button, Col, Form, Row } from "react-bootstrap";
-import CardComponente from "../../../../generales/card/CardComponente";
+import { Button, Form} from "react-bootstrap";
 
 function SubirArchivoBox(props) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -18,13 +16,13 @@ function SubirArchivoBox(props) {
     }
   };
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (props) => {
     document.getElementById("fileInput").click();
   };
 
   return (
     <>
-      <Form.Group hidden controlId="formFile" className="mb-3">
+      <Form.Group {...props} hidden controlId="formFile" className="mb-3">
         <Form.Control id="fileInput" onChange={handleFileChange} type="file" />
       </Form.Group>
 

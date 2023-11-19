@@ -1,23 +1,12 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import MenuComponent from '../components/MenuComponent';
-import ListadoUsuarios from '../components/ListadoUsuarios';
+import React from "react";
+import ListadoUsuarios from "../components/ListadoUsuarios";
+import Layout from "./../../../generales/src/components/layout/Layout";
 
 const ListUsers = () => {
   return (
-    
-    <Container fluid>
-  
-      <Row>
-        <Col xs={3}>
-          <MenuComponent />
-        </Col>
-        <Col xs={9}>
-          <ListadoUsuarios />
-        </Col>
-      </Row>
-    </Container>
-    
+    <Layout sidebar >
+      <ListadoUsuarios />
+    </Layout>
   );
 };
 

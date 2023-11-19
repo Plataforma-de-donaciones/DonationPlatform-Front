@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import NewsList from "../components/NewsList";
 import MyCalendar from "../components/MyCalendar";
@@ -20,6 +20,7 @@ const HomeScreen = () => {
         const response = await instance.get("/news/", {});
         console.log(response.data);
         setNewsList(response.data);
+
       } catch (error) {
         console.error("Error fetching news:", error);
       }

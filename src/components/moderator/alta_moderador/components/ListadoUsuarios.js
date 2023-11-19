@@ -107,7 +107,7 @@ const ListadoUsuarios = () => {
   return (
     <Container style={{ border: '1px solid lightgray', padding: '20px', marginTop: '50px', textAlign: 'center' }}>
       <MenuComponent></MenuComponent>
-      <Form.Group controlId="formSearch">
+      <Form.Group className="mb-3">
         <Form.Control
           type="text"
           placeholder="Buscar por nombre de usuario"
