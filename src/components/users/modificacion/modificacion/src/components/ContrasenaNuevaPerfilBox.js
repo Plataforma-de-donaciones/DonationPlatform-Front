@@ -37,19 +37,33 @@ const PerfilContraseñaNuevaBbdd = styled.input`
     font-size: 12px;
   }
 `;
+const styles = {
+  creaUnaContrasena: {
+    fontSize: "12px",
+    textAlign: "left",
+    color: "rgba(0,0,0,1)",
+    opacity: 0.6,
+    paddingTop: "16px",
+    display: "block",
+  },
+};
 
 function ContrasenaNuevaPerfilBox({ value, onChange, onBlur }) {
   return (
-    <Container>
-      <PerfilContraseñaNuevaText>Contraseña nueva</PerfilContraseñaNuevaText>
+    <>
+    <label style={styles.creaUnaContrasena}>Contraseña nueva</label>
+     <p>
+      
+     </p>
       <PerfilContraseñaNuevaBbdd
         type="password"
         placeholder="Contraseña nueva"
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-      />
-    </Container>
+        className ="form-control"
+        />
+   </>
   );
 }
 

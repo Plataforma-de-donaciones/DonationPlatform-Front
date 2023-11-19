@@ -93,7 +93,7 @@ function GeneralHeader(props) {
         </MenuIcon>
       )}
 
-      <div className="mx-aut">
+      <div className="mx-auto">
         <LogoContainer>
           <LogoContent>
             <Link to="/inicio">

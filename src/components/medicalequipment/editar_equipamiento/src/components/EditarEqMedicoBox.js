@@ -16,63 +16,6 @@ import NombreDonEdicionBox from "../../../../donation/editar_donacion/src/compon
 
 const cookies = new Cookies();
 
-const Container = styled.div`
-  display: flex;
-  background-color: rgba(255, 255, 255, 1);
-  flex-direction: column;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 15px;
-  margin-bottom: 100px;
-  min-height: 70vh;
-  align-items: center;
-  justify-content: center;
-`;
-
-const EquipamientoMedico = styled.span`
-  font-style: normal;
-  font-weight: 700;
-  color: #121212;
-  font-size: 20px;
-  margin-top: 5px;
-`;
-
-const UntitledComponent1Stack = styled.div`
-  width: 100%;
-  height: auto;
-  margin-top: 15px;
-  position: relative;
-`;
-
-const MaterialButtonViolet2Row = styled.div`
-  height: 36px;
-  flex-direction: row;
-  display: flex;
-  margin-top: 15px;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
-const Rect = styled.div`
-  width: 100%;
-  background-color: rgba(255, 152, 0, 0.6);
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 5px;
-  padding: 6px 0px 0px 0px;
-  text-align: center;
-`;
-
-const TitleText = styled.span`
-  font-style: normal;
-  font-weight: 700;
-  color: #121212;
-  font-size: 20px;
-  text-align: center;
-  margin-top: 6px;
-`;
 
 const EditarEqMedicoBox = (props) => {
   const [datosEquipamiento, setDatosEquipamiento] = useState({});
@@ -224,6 +167,8 @@ const EditarEqMedicoBox = (props) => {
       }
     });
   };
+
+  //url: editarequipamiento/102
 
   return (
     <>
