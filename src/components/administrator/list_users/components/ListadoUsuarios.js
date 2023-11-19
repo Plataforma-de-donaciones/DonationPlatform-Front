@@ -110,7 +110,7 @@ const ListadoUsuarios = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </Form.Group>
-        <Table striped bordered hover>
+        <Table striped bordered hover responsive>
           <thead>
             <tr>
               <th>Nombre de usuario</th>
