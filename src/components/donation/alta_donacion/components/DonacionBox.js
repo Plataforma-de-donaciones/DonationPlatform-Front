@@ -345,12 +345,7 @@ const DonacionBox = (props) => {
               </Row>
 
               <Form.Group className="mb-3">
-                {/* <Form.Check
-                required
-                label="Agree to terms and conditions"
-                feedback="You must agree before submitting."
-                feedbackType="invalid"
-              /> */}
+
               </Form.Group>
 
               <Row className="text-center">

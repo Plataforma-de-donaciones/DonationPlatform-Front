@@ -2,8 +2,6 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import MenuComponent from '../components/MenuComponent';
 import ListadoUsuarios from '../components/ListadoUsuarios';
-//import GeneralFooter from '../../../generales/src/components/GeneralFooter';
-//import GeneralHeader from '../../../generales/src/components/GeneralHeader';
 
 const ListUsersMod = () => {
   return (
