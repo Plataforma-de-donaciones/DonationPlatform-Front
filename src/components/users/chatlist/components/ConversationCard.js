@@ -26,10 +26,15 @@ const AbrirConversacionButton = styled.button`
   margin-top: 8px;
 `;
 
-const ConversationCard = ({ conversacion }) => {
+const ConversationCard = ({ conversacion, userId }) => {
+  const otroUsuario =
+    userId === conversacion.user_1_info.user_id
+      ? conversacion.user_2_info
+      : conversacion.user_1_info;
+
   return (
     <ConversacionTarjetaContainer>
-      <Usuario>{conversacion.conv_id}</Usuario>
+      <Usuario>{`Chat con ${otroUsuario.user_name}`}</Usuario>
       <Link to={`/conversaciones/${conversacion.conv_id}`}>
         <AbrirConversacionButton>Abrir Conversación</AbrirConversacionButton>
       </Link>
@@ -38,3 +43,4 @@ const ConversationCard = ({ conversacion }) => {
 };
 
 export default ConversationCard;
+

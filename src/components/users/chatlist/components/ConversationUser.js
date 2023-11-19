@@ -38,7 +38,13 @@ const ConversationUser = () => {
     <div>
       <h2>Conversaciones del Usuario</h2>
       {conversaciones.map((conversacion) => (
-        <ConversationCard key={conversacion.id} conversacion={conversacion} />
+        <div key={conversacion.id}>
+          <ConversationCard
+            key={conversacion.id}
+            conversacion={conversacion}
+            userId={userId}
+          />
+        </div>
       ))}
     </div>
   );
