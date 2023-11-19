@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
 import { Card, Col, Row } from "react-bootstrap";
@@ -94,7 +94,7 @@ const ChatComponent = ({ convId }) => {
     <>
       <Row>
         <Col>
-          <Card className='mt-5'>
+          <Card className='m-5'>
             <Card.Header className="text-center h5">
               Chat
             </Card.Header>

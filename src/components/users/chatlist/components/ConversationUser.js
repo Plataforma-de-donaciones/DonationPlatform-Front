@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import instance from '../../../../axios_instance';
-import Cookies from 'universal-cookie';
-import ConversationCard from './ConversationCard';
+import { useEffect, useState } from "react";
+import instance from "../../../../axios_instance";
+import Cookies from "universal-cookie";
+import ConversationCard from "./ConversationCard";
+import CardComponente from "../../../generales/card/CardComponente";
 
 const ConversationUser = () => {
   const [conversaciones, setConversaciones] = useState([]);
   const cookies = new Cookies();
-  const userData = cookies.get('user_data');
+  const userData = cookies.get("user_data");
   const userId = userData.user_id;
 
   useEffect(() => {
     const obtenerConversacionesUsuario = async () => {
       try {
-        const token = cookies.get('token');
+        const token = cookies.get("token");
         const response = await instance.post(
-          '/conversations/searchbyuser/',
+          "/conversations/searchbyuser/",
           {
             search: userId,
           },
@@ -24,10 +25,13 @@ const ConversationUser = () => {
             },
           }
         );
-
+        
         setConversaciones(response.data);
       } catch (error) {
-        console.error('Error al obtener las conversaciones del usuario:', error);
+        console.error(
+          "Error al obtener las conversaciones del usuario:",
+          error
+        );
       }
     };
 
@@ -35,18 +39,19 @@ const ConversationUser = () => {
   }, [userId]);
 
   return (
-    <div>
-      <h2>Conversaciones del Usuario</h2>
-      {conversaciones.map((conversacion) => (
-        <div key={conversacion.id}>
-          <ConversationCard
-            key={conversacion.id}
-            conversacion={conversacion}
-            userId={userId}
-          />
-        </div>
-      ))}
-    </div>
+    <CardComponente titulo={"Mis conversaciónes"}>
+      <div className="mx-auto text-center">
+        {conversaciones.map((conversacion) => (
+          <div key={conversacion.id}>
+            <ConversationCard
+              key={conversacion.id}
+              conversacion={conversacion}
+              userId={userId}
+            />
+          </div>
+        ))}
+      </div>
+    </CardComponente>
   );
 };
 
