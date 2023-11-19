@@ -117,7 +117,7 @@ const ListadoModeradores = () => {
           />
         </Form.Group>
 
-        <Table striped bordered hover>
+        <Table striped bordered hover responsive>
           <thead>
             <tr>
               <th>Usuario</th>
