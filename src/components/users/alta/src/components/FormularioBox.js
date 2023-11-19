@@ -123,7 +123,6 @@ const FormularioBox = (props) => {
           errorMessage = "La contraseña no puede estar vacía";
         }
         break;
-      // Puedes agregar más validaciones según tus necesidades
       default:
         break;
     }
@@ -140,12 +139,10 @@ const FormularioBox = (props) => {
   }
 
   function isValidPassword(password) {
-    // Verificar la longitud mínima de la contraseña
     if (password.length < 8) {
       return false;
     }
 
-    // Verificar al menos una mayúscula y un número
     const uppercaseRegex = /[A-Z]/;
     const numberRegex = /[0-9]/;
 
@@ -184,7 +181,7 @@ const FormularioBox = (props) => {
           registrationData,
           {
             headers: {
-              Authorization: "Token e2fa4c057c611857bb0c8aefc62ee3861017fe77",
+              Authorization: "Token d715b622b64cb27a4012562e7c24fd05b5050bbe",
             },
           }
         );
@@ -206,16 +203,13 @@ const FormularioBox = (props) => {
             theme: "colored",
           });
           if (serverError) {
-            // Si hay errores específicos, mostrarlos en los campos correspondientes
             const fieldErrors = {};
 
             Object.keys(serverError).forEach((field) => {
-              // Verificar si el mensaje de error es un array y tomar el primer elemento
               const errorMessage =
                 Array.isArray(serverError[field]) && serverError[field][0];
               fieldErrors[field] = errorMessage || "Error desconocido";
 
-              // Asignar el mensaje de error al campo
             });
 
             setErrors((prevErrors) => ({
@@ -234,7 +228,6 @@ const FormularioBox = (props) => {
               theme: "colored",
             });
           } else {
-            // Si no hay errores específicos, mostrar el mensaje genérico
             setErrors((prevErrors) => ({
               ...prevErrors,
               general: "Hubo un problema al crear el usuario.",
@@ -252,17 +245,14 @@ const FormularioBox = (props) => {
 
     setValidated(true);
 
-    // Validar todos los campos antes de enviar la solicitud
     Object.keys(registrationData).forEach((name) => {
       validateField(name, registrationData[name]);
     });
 
-    // Verificar si hay errores en los campos
     if (Object.values(errors).some((error) => error !== "")) {
       return;
     }
 
-    // Intentar enviar la solicitud
   };
   const handleCancelarClick = () => {
     Swal.fire({
