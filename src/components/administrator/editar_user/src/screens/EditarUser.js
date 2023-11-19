@@ -1,9 +1,6 @@
 import React from "react";
-//import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
-//import GeneralFooter from "../../../../generales/src/components/GeneralFooter";
 import EditarUserBox from "../components/EditarUserBox";
 import styled from "styled-components";
-//import Menu from "../../../../generales/src/components/Menu";
 import MenuComponent from "../../../list_users/components/MenuComponent";
 
 const Container = styled.div`

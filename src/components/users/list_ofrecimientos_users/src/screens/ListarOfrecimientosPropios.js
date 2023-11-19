@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import ListadoPaginado from "../components/ListadoPaginado";
-import GeneralFooter from "../../../login/src/components/GeneralFooter";
-import GeneralHeader from "../../../../generales/src/components/GeneralHeader";
+import GeneralFooter from "../../../../generales/src/components/footer/GeneralFooter";
 import { Row, Col } from "react-bootstrap";
 import Layout from "../../../../generales/src/components/layout/Layout";
 

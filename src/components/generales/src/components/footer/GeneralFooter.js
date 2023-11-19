@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import ContactoButton from "./ContactoButton";
-import PreguntasButton from "../../../../generales/src/components/PreguntasButton";
-import TerminosCondicionesButton from "./TerminosCondicionesButton";
-import AcercaDeButton from "../../../../generales/src/components/AcercaDeButton";
+import ContactoButton from "../../../../users/login/src/components/ContactoButton";
+import PreguntasButton from "../PreguntasButton";
+import TerminosCondicionesButton from "../../../../users/login/src/components/TerminosCondicionesButton";
+import AcercaDeButton from "../AcercaDeButton";
 
 const Container = styled.div`
   bottom: 0;

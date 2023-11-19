@@ -1,7 +1,4 @@
 import React from "react";
-//import GeneralHeader from "../../../generales/src/components/GeneralHeader";
-//import GeneralFooter from "../../../generales/src/components/GeneralFooter";
-//import Menu from "../../../generales/src/components/Menu";
 import NewBox from "../components/NewBox";
 import styled from "styled-components";
 import MenuComponent from "../../list_users/components/MenuComponent";
