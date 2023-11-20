@@ -22,43 +22,43 @@ const Chatbot = () => {
           { text: 'Hola, bienvenido/a a la plataforma de donaciones. ¿En qué puedo ayudarte?', sender: 'bot' },
         ]);
       } else {
-        // Llamada a Wit.ai para analizar la intención del mensaje
+        // llama a wit.ai para encontrar la intencion del mensaje
         const witAiResponse = await analyzeIntent(inputText);
   
-        // Verificar si Wit.ai detectó la intención "Donación"
+        // si detecta la intencion
         if (witAiResponse && witAiResponse.intents && witAiResponse.intents.length > 0) {
-            // Respuestas según la intención detectada
+            
             const intent = witAiResponse.intents[0].name;
     
             switch (intent) {
               case 'donacion':
-                // Respuesta para la intención "Donación"
-                const donationResponse = 'Para realizar una donación, debe dirigirse a la pestaña "Donaciones". Allí podrá visualizar un listado de solicitudes y ofrecimientos. Haga clic en el botón "Agregar donación" para cargarla.';
+                const donationResponse = 'Para realizar una donación, debe dirigirse a la sección "Donaciones". Allí podrá visualizar un listado de solicitudes y ofrecimientos. Haga clic en el botón "Agregar donación" para cargarla.';
                 setMessages([...messages, { text: donationResponse, sender: 'bot' }]);
                 break;
     
               case 'equipamiento_medico':
-                // Respuesta para la intención "Equipamiento_Medico"
-                const medicalEquipmentResponse = 'Para donar equipamiento médico, visite la sección "Equipamiento Médico". Allí podrá encontrar un listado de solicitudes y ofrecimientos de equipamiento médico. Haga clic en el botón "Agregar equipamiento" para cargarlo.';
+                const medicalEquipmentResponse = 'Para donar equipamiento médico, debe dirigirse a la sección "Equipamiento Médico". Allí podrá visualizar un listado de solicitudes y ofrecimientos de equipamiento médico. Haga clic en el botón "Agregar equipamiento" para cargarlo.';
                 setMessages([...messages, { text: medicalEquipmentResponse, sender: 'bot' }]);
                 break;
     
               case 'voluntario':
-                // Respuesta para la intención "Voluntario"
-                const volunteerResponse = 'Si desea ser voluntario, comuníquese con nuestro equipo de voluntariado. Puede encontrar información de contacto en la sección "Voluntariado" de la plataforma.';
+                const volunteerResponse = 'Si desea postularse como voluntario o solicitar voluntarios, dirigirse a la sección "Voluntarios y Padrinos". Allí podrá visualizar un listado de solicitudes y ofrecimientos. Haga clic en el botón "Agregar voluntariado" para cargarlo.';
                 setMessages([...messages, { text: volunteerResponse, sender: 'bot' }]);
                 break;
     
               case 'padrinos':
-                // Respuesta para la intención "Padrino"
-                const sponsorResponse = 'Para convertirse en padrino, explore la sección "Padrinos" en la plataforma. Allí encontrará información sobre cómo apadrinar y hacer una diferencia.';
+                const sponsorResponse = 'Si desea ser padrino de una causa o solicitar apadrinadores, debe dirigirse la sección "Voluntarios y Padrinos" y presionar el botón "Padrinos". Allí podrá visualizar un listado de solicitudes y ogrecimientos. Haga clic en el botón "Agregar padrino" para poder cargarlo.';
                 setMessages([...messages, { text: sponsorResponse, sender: 'bot' }]);
                 break;
     
               case 'eventos':
-                // Respuesta para la intención "Evento"
-                const eventResponse = 'Si está interesado en eventos, visite la sección "Eventos" de la plataforma. Allí podrá encontrar detalles sobre los eventos próximos y cómo participar.';
+                const eventResponse = 'Para visualizar los eventos, visite la sección "Eventos". Allí podrá encontrar un calendario de eventos del mes y sus detalles.';
                 setMessages([...messages, { text: eventResponse, sender: 'bot' }]);
+                break;
+
+              case 'gracias':
+                const thanksResponse = '¡Gracias a usted por comunicarse!. Ante cualquier otra consulta quedo a las órdenes.';
+                setMessages([...messages, { text: thanksResponse, sender: 'bot' }]);
                 break;
     
               default:
@@ -66,8 +66,7 @@ const Chatbot = () => {
                 break;
             }
           } else {
-            // Lógica de respuesta por defecto si no se detecta ninguna intención
-            const defaultResponse = 'No entendí tu solicitud. ¿Puedes reformularla o proporcionar más detalles?';
+            const defaultResponse = 'Disculpe, no logro comprender lo que consulta. ¿Puede brindarme más detalles?';
             const newBotMessage = { text: defaultResponse, sender: 'bot' };
             setMessages([...newMessages, newBotMessage]);
         }
