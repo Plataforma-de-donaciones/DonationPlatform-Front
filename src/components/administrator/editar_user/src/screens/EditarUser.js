@@ -1,7 +1,8 @@
 import React from "react";
 import EditarUserBox from "../components/EditarUserBox";
 import styled from "styled-components";
-import MenuComponent from "../../../list_users/components/MenuComponent";
+//import MenuComponent from "../../../list_users/components/MenuComponent";
+import Layout from "./../../../../generales/src/components/layout/Layout";
 
 const Container = styled.div`
   display: grid;
@@ -32,12 +33,9 @@ const Content = styled.div`
 
 function EditarUser(props) {
   return (
-    <Container>
-      <MenuComponent></MenuComponent>
-      <Content>
-        <EditarUserBox />
-      </Content>
-    </Container>
+    <Layout isFluid sidebar>
+      <EditarUserBox />
+    </Layout>
   );
 }
 

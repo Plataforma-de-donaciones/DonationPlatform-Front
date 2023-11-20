@@ -6,10 +6,26 @@ import NombreUserEdicionBox from "./NombreUserEdicionBox";
 import CorreoUserEditarBox from "./CorreoUserEditarBox";
 import AceptarButton from "./AceptarButton";
 import CancelarButton from "./CancelarButton";
+import CardComponente from "../../../../generales/card/CardComponente";
+import { Button, Col, Row } from "react-bootstrap";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
+
+
 import { useParams } from "react-router-dom";
 
 const cookies = new Cookies();
 
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+`;
+const ButtonSeparator = styled.div`
+  width: 10px; 
+`;
 const Container = styled.div`
   display: flex;
   background-color: rgba(255, 255, 255, 1);
@@ -73,6 +89,7 @@ const EditarUserBox = (props) => {
   const [userName, setUserName] = useState("");
   const [userCorreo, setUserCorreo] = useState("");
   const [emailError, setEmailError] = useState("");
+  const history = useHistory();
   const token = cookies.get("token");
 
   const { user_id } = useParams();
@@ -139,6 +156,29 @@ const EditarUserBox = (props) => {
         },
       });
 
+      if (response.status === 200) {
+        Swal.fire("¡Usuario modificado con éxito!", "", "success");
+        history.push("/listadousuarios");
+      } else {
+        const serverError = response.data;
+        console.log(response);
+        if (serverError) {
+          toast.error(serverError, {
+            position: "bottom-center",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+
+        } else {
+          
+        }
+      }
+
       console.log("Respuesta del servidor:", response.data);
     } catch (error) {
       console.error("Error al actualizar la información de la usuario:", error);
@@ -146,7 +186,7 @@ const EditarUserBox = (props) => {
   };
 
   return (
-    <Container {...props}>
+    /*<Container {...props}>
       <UntitledComponent1Stack>
         <Rect>
           <TitleText>Editar usuario</TitleText>
@@ -163,7 +203,29 @@ const EditarUserBox = (props) => {
         <AceptarButton style={{ width: "48%" }} onClick={handleSubmit} />
         <CancelarButton history={props.history} style={{ width: "48%", marginLeft: "4%" }} />
       </MaterialButtonViolet2Row>
-    </Container>
+    </Container>*/
+    <CardComponente titulo={"Editar usuario"}>
+      <FormContainer>
+      <NombreUserEdicionBox user_name={userName} />
+      <CorreoUserEditarBox
+        style={{ width: "100%" }}
+        value={userCorreo}
+        onChange={handleUserCorreoChange}
+      />
+      {emailError && <div style={{ color: "red" }}>{emailError}</div>}
+      </FormContainer>
+      <Row className="mx-auto text-center">
+        <Col>
+          <Button variant="primary" onClick={handleSubmit}>
+            Aceptar
+          </Button>
+          <ButtonSeparator />
+        </Col>
+        <Col>
+          <CancelarButton />
+        </Col>
+      </Row>
+    </CardComponente>
   );
 };
 

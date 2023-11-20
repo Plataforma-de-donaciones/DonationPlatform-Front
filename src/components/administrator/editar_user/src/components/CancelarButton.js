@@ -1,6 +1,5 @@
-import React from "react";
-import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 function CancelarButton(props) {
   const history = useHistory();
@@ -9,43 +8,17 @@ function CancelarButton(props) {
     if (history) {
       history.push("/listadousuarios");
     } else {
-      console.warn("La prop 'history' no está presente. No se puede realizar la redirección.");
+      console.warn(
+        "La prop 'history' no está presente. No se puede realizar la redirección."
+      );
     }
   };
 
   return (
-    <Container onClick={handleClick} {...props}>
-      <Cancelar>Cancelar</Cancelar>
-    </Container>
+    <Button variant="secondary" onClick={handleClick} {...props}>
+      Cancelar
+    </Button>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  background-color: rgba(155, 155, 155, 1);
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  border-radius: 100px;
-  min-width: 88px;
-  padding-left: 16px;
-  padding-right: 16px;
-  box-shadow: 0px 1px 5px 0.35px #000;
-  cursor: pointer;
-  &:hover {
-    background-color: rgba(155, 155, 155, 0.8);
-  }
-
-  &:active {
-    background-color: rgba(155, 155, 155, 0.6);
-  }
-`;
-
-const Cancelar = styled.span`
-  color: #fff;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-`;
 
 export default CancelarButton;

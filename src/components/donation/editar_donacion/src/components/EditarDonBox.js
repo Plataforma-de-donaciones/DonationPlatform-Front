@@ -88,28 +88,7 @@ const EditarDonBox = (props) => {
   const [validated, setValidated] = useState(false);
   const [imagenCargando, setImagenCargando] = useState(true);
 
-  //const { don_id } = useParams();
-  const { tipo } = useParams();
-  const desenmascararId = (enmascarado) => {
-    if (!enmascarado) {
-      // Manejar el caso en el que la cadena enmascarada es nula o indefinida
-      return null;
-    }
-  
-    // Reemplaza cualquier caracter no numérico por una cadena vacía
-    const desenmascarado = enmascarado.replace(/[^0-9]/g, '');
-  
-    // Convierte la cadena desenmascarada a un número
-    const id = parseInt(desenmascarado, 10);
-  
-    return id;
-  };
-  
-  // Obtén el ID enmascarado del localStorage
-  const enmascarado = localStorage.getItem("currentItemId");
-  
-  // Desenmascara el ID
-  const don_id = desenmascararId(enmascarado);
+  const { don_id } = useParams();
 
   useEffect(() => {
     const cargarDatosDonacion = async () => {
