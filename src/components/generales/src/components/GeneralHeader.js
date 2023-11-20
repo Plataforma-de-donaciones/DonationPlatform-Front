@@ -131,6 +131,9 @@ function GeneralHeader(props) {
               <MenuItem>
                 <Link to="/listadoofrecimientos">Mis ofrecimientos</Link>
               </MenuItem>
+              <MenuItem>
+                <Link to="/listaconversaciones">Mis conversaciones</Link>
+              </MenuItem>
               {userRole === "administrator" && (
                 <MenuItem>
                   <Link to="/paneladministrador">Panel de Administrador</Link>
