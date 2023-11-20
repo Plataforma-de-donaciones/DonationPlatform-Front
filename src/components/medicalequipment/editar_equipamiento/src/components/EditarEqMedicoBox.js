@@ -173,7 +173,7 @@ const EditarEqMedicoBox = (props) => {
   return (
     <>
       <CardComponente
-        titulo={"Editar donaciones"}
+        titulo={"Editar equipamiento médico"}
         body={
           <>
             <NombreDonEdicionBox
