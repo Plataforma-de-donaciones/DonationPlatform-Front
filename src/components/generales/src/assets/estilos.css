@@ -28,21 +28,63 @@ main {
   border: #ffffff;
 
   border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
+  font-size: 1.1rem;
+  font-weight: 500;  
+  font-style: arial;
+}
+.row{
+  margin-top: 15px;
+  margin-bottom: 10px;
 }
 
 .btn-primary {
-  --bs-btn-bg: rgba(79, 181, 139, 1);
-  --bs-btn-border-color: rgba(141, 202, 170, 0.89);
-  --bs-btn-hover-color: rgba(79, 181, 139, 1);
-  --bs-btn-hover-bg: rgba(141, 202, 170, , 0.75);
-  --bs-btn-focus-shadow-rgb: 49, 132, 253;
-  --bs-btn-active-color: #008972;
+  background-color: rgba(141, 202, 170, 1);
+  border: 1px solid rgba(141, 202, 170, 1);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  min-width: 90px;
+  transition-duration: 0.4s;
+  color: #FFFFFF;
+  font-size: 1.1rem;
+  font-weight: 500;  
+  font-style: arial;
+
+  --bs-btn-hover-bg: rgba(79,181,139, 1);
   --bs-btn-active-bg: rgba(141, 202, 170, 1);
-  --bs-btn-active-border-color: #008972;
-  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  --bs-btn-disabled-color: #008972;
-  --bs-btn-disabled-bg: #008972;
-  --bs-btn-disabled-border-color: #008972;
+  
+  --bs-btn-hover-border-color: rgba(79,181,139, 1);
+  --bs-btn-active-border-color: rgba(79,181,139, 1);
+
+  --bs-btn-hover-color: rgba(255, 255, 255, 1); /* texto boton parado arriba*/
+  --bs-btn-active-color: rgba(79,181,139, 1); /* texto boton cliceado*/
+}
+
+.btn-secondary {
+  background-color: rgba(180,180,180, 1);
+  border: 1px solid rgba(180,180,180, 1);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  min-width: 100px;
+  transition-duration: 0.4s;
+  color: #FFFFFF;
+  font-size: 1.1rem;
+  font-weight: 500;  
+  font-style: arial;
+
+  --bs-btn-hover-bg: rgba(80,80,80, 1);
+  --bs-btn-active-bg:  rgba(180,180,180, 1);
+  
+  --bs-btn-hover-border-color: rgba(80,80,80, 1);
+  --bs-btn-active-border-color: rgba(80,80,80, 1);
+
+  --bs-btn-hover-color: rgba(255, 255, 255, 1); /* texto boton parado arriba*/
+  --bs-btn-active-color: rgba(80,80,80, 1); /* texto boton cliceado*/
+
+  @media (max-width: 768px) {
+    margin-top: 1rem;
+  }
 }
 
 .avatar {

@@ -242,7 +242,7 @@ const DropdownMenu = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
-  font-family: "Roboto";
+  font-family: "Arial";
   font-size: 1rem;
   z-index: 2; /* Asegura que esté adelante de otros elementos */
 `;
@@ -266,7 +266,7 @@ const Button = styled.button`
   border: none;
   cursor: pointer;
   color: rgba(80,80,80, 1);
-  font-family: "Roboto";
+  font-family: "Arial";
   font-size: 1rem;
   right: 0;
   padding: 0;

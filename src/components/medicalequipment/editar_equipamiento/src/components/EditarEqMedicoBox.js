@@ -163,7 +163,7 @@ const EditarEqMedicoBox = (props) => {
       cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
-        history.push("/listadosolicitudes");
+        history.push("/listadoofrecimientos");
       }
     });
   };
@@ -210,7 +210,7 @@ const EditarEqMedicoBox = (props) => {
               )}
             </div>
 
-            <Row className="mx-auto">
+            <Row className="text-center">
               <Col>
                 <Button style={{ width: "38%" }} onClick={handleSubmit}>
                   Aceptar
@@ -228,7 +228,7 @@ const EditarEqMedicoBox = (props) => {
                 </Button>
               </Col>
             </Row>
-
+            <div className="text-center mx-auto"></div>
             {/* Mover la pregunta de eliminar y el botón al final */}
 
             <Form validated={validated} onSubmit={handleSubmit}>

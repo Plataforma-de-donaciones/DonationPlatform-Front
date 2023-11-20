@@ -63,12 +63,12 @@ const Boton = styled.div`
 `;
 
 const SubirImagen = styled.span`
-  font-size: 12px;
-  text-align: left;
-  color: #000;
-  opacity: 0.6;
-  font-style: normal;
-  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+  color: #FFFFFF;
+  font-style: arial;
+  font-weight: 500;
+  margin-left: 0.6rem;
 `;
 
 const InputStyle = styled.input`

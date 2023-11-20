@@ -401,7 +401,7 @@ const EquipamientoMedicoBox = (props) => {
                   className="text-center"
                   style={{ width: "20%" }}
                   handleFileChange={handleFileChange}
-                  titulo={"Adjunte una imagen por favor"}
+                  titulo={"Adjunte una imagen"}
                 />
               </Row>
 
