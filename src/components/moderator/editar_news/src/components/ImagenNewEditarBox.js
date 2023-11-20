@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SubirArchivoBox from "./SubirArchivoBox";
+import { Col, Row } from "react-bootstrap";
 
-function ImagenNewEditarBox({ handleFileChange, newAttachment, ...props }) {
-  const [previewImage, setPreviewImage] = useState(newAttachment);
+
+function ImagenNewEditarBox({ handleFileChange, newAttachment, titulo, ...props }) {
+  const [previewImage, setPreviewImage] = useState(props.imagen);
 
   const handleFileChangeInParent = async (file) => {
     setPreviewImage(URL.createObjectURL(file));
@@ -11,24 +13,32 @@ function ImagenNewEditarBox({ handleFileChange, newAttachment, ...props }) {
   };
 
   return (
-    <Container {...props}>
-      <Imagen>Imagen</Imagen>
-      {previewImage && <PreviewImage src={previewImage} alt="Noticia" />}
-      <SubirArchivoBoxWrapper>
-        <SubirArchivoBox onChangeFile={handleFileChangeInParent} />
-      </SubirArchivoBoxWrapper>
-    </Container>
+    <>
+    <Row className="text-center mx-auto">
+      <Imagen className="text-center mx-auto">{titulo}</Imagen>
+      <Col>
+        {previewImage && (
+          <PreviewImage src={previewImage} alt={props.descripcion} />
+        )}
+        {!props.imagenCargando && (
+          <SubirArchivoBoxWrapper>
+            <SubirArchivoBox onChangeFile={handleFileChangeInParent} />
+          </SubirArchivoBoxWrapper>
+        )}
+      </Col>
+    </Row>
+  </>
   );
 }
 
-const Container = styled.div`
+/*const Container = styled.div`
   display: flex;
   border-bottom-width: 1px;
   border-color: #D9D5DC;
   background-color: transparent;
   flex-direction: column;
   position: relative;
-`;
+`;*/
 
 const Imagen = styled.span`
   font-size: 12px;
@@ -49,10 +59,10 @@ const PreviewImage = styled.img`
 `;
 
 const SubirArchivoBoxWrapper = styled.div`
-  position: relative;
-  left: 0;
-  bottom: 0;
-  width: 100%;
+  //position: relative;
+  //left: 0;
+  //bottom: 0;
+  //width: 100%;
 `;
 
 export default ImagenNewEditarBox;

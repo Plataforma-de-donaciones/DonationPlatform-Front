@@ -4,7 +4,7 @@ import Cookies from "universal-cookie";
 import styled from "styled-components";
 //import TituloLine from "./TituloLine";
 import NombreNewEdicionBox from "./NombreNewEdicionBox";
-import DescripcionNewEditarBox from "./DescripcionNewEditarBox";
+import DescripcionNewEditarBoxMod from "./DescripcionNewEditarBoxMod";
 import ImagenNewEditarBox from "./ImagenNewEditarBox";
 //import AceptarButton from "./AceptarButton";
 //import CancelarButton from "./CancelarButton";
@@ -77,7 +77,7 @@ const TitleText = styled.span`
   margin-top: 6px;
 `;
 
-const EditarNewBox = (props) => {
+const EditarNewBoxMod = (props) => {
   const [datosNoticia, setDatosNoticia] = useState({});
   const [newName, setNewName] = useState("");
   const [newDescription, setNewDescription] = useState("");
@@ -198,7 +198,7 @@ const EditarNewBox = (props) => {
       cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
-        history.push("/listadonoticias");
+        history.push("/listadonoticiasmod");
       }
     });
   };
@@ -217,7 +217,7 @@ const EditarNewBox = (props) => {
               onChange={handleNewNameChange}
             />
 
-            <DescripcionNewEditarBox
+            <DescripcionNewEditarBoxMod
               style={{ width: "100%" }}
               value={newDescription}
               onChange={handleNewDescriptionChange}
@@ -278,4 +278,4 @@ const EditarNewBox = (props) => {
   );
 };
 
-export default EditarNewBox;
+export default EditarNewBoxMod;

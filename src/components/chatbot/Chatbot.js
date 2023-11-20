@@ -76,9 +76,9 @@ const Chatbot = () => {
       }
     };
   
-  // Función para llamar a Wit.ai y analizar la intención del mensaje
+
   const analyzeIntent = async (message) => {
-    const witAiToken = 'ASTAXACYVJTNS3VWHGPVPWZWRSRQU5C6'; // Reemplaza con tu token de Wit.ai
+    const witAiToken = 'ASTAXACYVJTNS3VWHGPVPWZWRSRQU5C6'; 
     const response = await fetch(`https://api.wit.ai/message?v=20231119&q=${encodeURIComponent(message)}`, {
       method: 'GET',
       headers: {
@@ -88,8 +88,6 @@ const Chatbot = () => {
   
     return await response.json();
   };
-  
-  // ... (otro código del componente)
   
 
   const handleToggleChatbot = () => {

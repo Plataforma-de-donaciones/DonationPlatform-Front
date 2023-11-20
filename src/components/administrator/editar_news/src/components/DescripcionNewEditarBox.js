@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Col, Form } from "react-bootstrap";
+
 
 function DescripcionNewEditarBox({ value, onChange, ...props }) {
   const [descripcion, setDescripcion] = useState("");
+
+  const HelperText = styled.span`
+    font-size: 10px;
+    text-align: left;
+    color: #000;
+    opacity: 0.6;
+    padding-top: 8px;
+    font-style: normal;
+    font-weight: 400;
+  `;
 
   useEffect(() => {
     if (value !== undefined) {
@@ -19,7 +31,7 @@ function DescripcionNewEditarBox({ value, onChange, ...props }) {
   };
 
   return (
-    <Container {...props}>
+    /*<Container {...props}>
       <Descripcion>Descripción *</Descripcion>
       <TextareaStyle
         value={descripcion}
@@ -29,7 +41,34 @@ function DescripcionNewEditarBox({ value, onChange, ...props }) {
         numberOfLines={3}
         selectTextOnFocus={false}
       />
-    </Container>
+    </Container>*/
+    <>
+      <p></p>
+      <Form.Group as={Col} md="12" controlId="validationCustom01">
+        <Form.Label>Descripción *</Form.Label>
+
+        <Form.Control
+          as="textarea"
+          value={descripcion}
+          required
+          type="text"
+          placeholder="Describa la noticia"
+          onChange={handleDescripcionChange}
+          maxlength={250}
+          minLength={3}
+          autoCorrect={true}
+          inlineImagePadding={0}
+          numberOfLines={1}
+          selectTextOnFocus={false}
+        />
+
+        <Form.Control.Feedback type="invalid">
+          La descripción de la noticia no puede estar vacía
+        </Form.Control.Feedback>
+        <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+        <HelperText>Este dato se visualiza en la publicación.</HelperText>
+      </Form.Group>
+      </>
   );
 }
 

@@ -1,16 +1,31 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Col, Form } from "react-bootstrap";
+
 
 function TemaNewEdicionBox({ value, onChange }) {
   return (
-    <Container>
-      <Label>Tema de la noticia</Label>
-      <InputStyle
-        placeholder="Tema de la noticia"
+    <>
+    <Form.Group as={Col} md="12" controlId="validationCustom01">
+
+      <Form.Label>Tema de la noticia *</Form.Label>
+
+      <Form.Control
         value={value}
+        required
+        type="text"
+        placeholder="Tema de la noticia"
         onChange={onChange}
+        maxlength={50}
+        minLength={3}
       />
-    </Container>
+
+      <Form.Control.Feedback type="invalid">
+        Por favor digite su nombre
+      </Form.Control.Feedback>
+      <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+    </Form.Group>
+    </>
   );
 }
 const Container = styled.div`
