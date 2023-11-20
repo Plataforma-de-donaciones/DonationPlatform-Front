@@ -41,6 +41,7 @@ function PerfilBox(props) {
     user_name: "",
     user_email: "",
     organization: "",
+    user_password: "",
   });
 
   const [contrasenaNueva, setContrasenaNueva] = useState("");
@@ -77,7 +78,6 @@ function PerfilBox(props) {
           setUserData({
             user_name: userDataFromApi.user_name,
             user_email: userDataFromApi.user_email,
-            organization: userDataFromApi.organization,
           });
           console.log(userDataFromApi.user_name);
         }
@@ -96,25 +96,18 @@ function PerfilBox(props) {
 
   const handleContrasenaNuevaChange = (e) => {
     setContrasenaNueva(e.target.value);
-    setContrasenasCoinciden(true);
-    // Configurar la nueva contraseña en las cookies
-    cookies.set("new_password", e.target.value, { path: "/" });
+    setContrasenasCoinciden(e.target.value === confirmarContrasena);
   };
+
   const handleConfirmarContrasenaChange = (e) => {
     setConfirmarContrasena(e.target.value);
-    setContrasenasCoinciden(true);
+    setContrasenasCoinciden(contrasenaNueva === e.target.value);
   };
 
   const handleBlur = () => {
     if (contrasenaNueva !== confirmarContrasena) {
       setContrasenasCoinciden(false);
     }
-  };
-  const handleOrganizacionChange = (selectedOrganization) => {
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      organization: selectedOrganization,
-    }));
   };
 
   const eliminarItem = async (userId, tipo) => {
@@ -148,9 +141,7 @@ function PerfilBox(props) {
     // const confirmacion = window.confirm(`¿Desea eliminar el usuario?`);
   };
   const handleSubmit = async () => {
-
-
-    const confirmation =  Swal.fire({
+    const confirmation = await Swal.fire({
       title: "¿Está seguro que desea editar su contraseña?",
       icon: "question",
       iconHtml: "?",
@@ -160,39 +151,52 @@ function PerfilBox(props) {
       confirmButtonText: "Sí, editar",
       cancelButtonText: "Cancelar",
     });
-
-    if (confirmation.isConfirmed) {
   
-
-    let requestData = {
-      user_name: userData.user_name,
-      organization: userData.organization,
-    };
-
-    if (contrasenaNueva) {
-      requestData.new_password = contrasenaNueva;
+    if (confirmation.isConfirmed) {
+      const requestData = {
+        user_password: contrasenaNueva,
+      };
+  
+      /*if (contrasenaNueva) {
+        requestData.user_password = contrasenaNueva;
+      }*/
+  
+      try {
+        const token = cookies.get("token");
+        const userDataCookie = cookies.get("user_data");
+        const user_id = userDataCookie.user_id;
+        const response = await instance.patch(`/users/${user_id}/`, requestData, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        });
+  
+        console.log("Respuesta del servidor:", response.data);
+  
+        if (response.status === 200) {
+          cookies.remove("token");
+          cookies.remove("user_data");
+  
+          Swal.fire({
+            title: "Contraseña modificada con éxito, deberá iniciar sesión nuevamente.",
+            icon: "success",
+          });
+  
+          history.push("/login");
+        } else {
+          Swal.fire({
+            title: "Error al editar la contraseña",
+            icon: "error",
+          });
+        }
+      } catch (error) {
+        console.error("Error al actualizar la información del usuario:", error);
+      }
+  
+      setContrasenasCoinciden(true);
+      setContrasenaNueva("");
+      setConfirmarContrasena("");
     }
-
-    try {
-      const token = cookies.get("token");
-      const userDataCookie = cookies.get("user_data");
-      const user_id = userDataCookie.user_id;
-      const response = await instance.patch(`/users/${user_id}/`, requestData, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      });
-
-      console.log("Respuesta del servidor:", response.data);
-    } catch (error) {
-      console.error("Error al actualizar la información del usuario:", error);
-    }
-
-    setContrasenasCoinciden(true);
-    setContrasenaNueva("");
-    setConfirmarContrasena("");
-  }
-
   };
 
 

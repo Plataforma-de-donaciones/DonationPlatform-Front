@@ -6,6 +6,8 @@ import instance from "../../../../../axios_instance";
 import CarouselNews from "../components/CarouselNews";
 import Layout from "../../../../generales/src/components/layout/Layout";
 import { Col, Row } from "react-bootstrap";
+import Chatbot from "../../../../chatbot/Chatbot";
+
 
 const cookies = new Cookies();
 
@@ -49,13 +51,13 @@ const HomeScreen = () => {
      
           <Col className="col-xl-8 col-sm-12 order-sm-2 order-xl-1 order-1">
             <NewsList newsList={newsList} />
+            <Chatbot />
           </Col>
 
           <Col className="col-xl-4 col-sm-12 order-sm-1  mb-3">
             <MyCalendar events={events} isHome={true} />
           </Col>
-     
-        </Row>
+        </Row>  
     </Layout>
   );
 };

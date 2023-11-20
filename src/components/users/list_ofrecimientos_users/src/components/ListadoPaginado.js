@@ -57,6 +57,18 @@ const ListadoPaginado = ({}) => {
     setPaginaActual(nuevaPagina);
   };
 
+  const enmascararId = (id) => {
+    const idString = String(id);
+    const enmascarado = idString.replace(/\d/g, 'X');
+    return enmascarado;
+  };
+
+  const editarItem = (id) => {
+    const idEnmascarado = enmascararId(id);
+    localStorage.setItem("currentItemId", idEnmascarado);
+    history.push(`/editar/${tipo}`);
+  };
+
   const eliminarItem = async (id) => {
     console.log("id a eliminar", id);
 
@@ -199,12 +211,12 @@ const ListadoPaginado = ({}) => {
                       <td>{item.has_requests ? "Yes" : "No"}</td>
 
                       <td className="text-center">
-                        <Button
-                          variant="secondary me-2"
-                          href={`/editarequipamiento/${item.eq_id}`}
-                        >
-                          Editar
-                        </Button>
+                      <Button
+                  variant="secondary me-2"
+                  onClick={() => editarItem(item.don_id || item.id)}
+                >
+                  Editar
+                </Button>
                         <Button
                           variant="danger"
                           onClick={() => eliminarItem(item.eq_id || item.id)}

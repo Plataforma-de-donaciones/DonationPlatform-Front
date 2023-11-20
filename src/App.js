@@ -112,9 +112,6 @@ function App() {
           <Route path="/listadonoticiasmod/" component={ListNewsMod} />
           <Route path="/listadousuariosmod/" component={ListUsersMod} />
           <Route path="/altanoticiamod/" component={AltaNewMod} /> 
-
-
-
         </Switch>
       </AuthProvider>
     </Router>
