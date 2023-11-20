@@ -15,7 +15,6 @@ const Container = styled.div`
     left: 0;
     padding-right: 1rem; 
     padding-left: 1rem;
-    margin-top: 1rem;
 
     background-color: rgba(141, 202, 170, 1);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

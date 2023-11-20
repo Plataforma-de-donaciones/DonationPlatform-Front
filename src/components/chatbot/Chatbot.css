@@ -1,10 +1,32 @@
 .chatbot-container {
-    align-items: center;
+  display: flex;
+  position: fixed;
+  right: 10px;
+  z-index: 10000;
+  width: 50px;
+  height: 50px;
+  align-items: center;
+
+
+  justify-content: flex-end;
+  align-items: center;
+  align-content: center;
+
+    bottom: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 5rem;
+    
+    height: 50px;
+
+
+  }
+
+  .logo-container img {
+    width: 4rem; 
+    height: auto;
     display: flex;
-    margin-right: 10px;
-    bottom: 50px;
+
     position: sticky;
-    justify-content: flex-end;
   }
   
   .chat-window {
@@ -12,6 +34,12 @@
     border: 1px solid #ccc;
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+
   }
   
   .message-container {
@@ -48,14 +76,7 @@
     padding: 5px;
     cursor: pointer;
   }
-  .logo-container img {
-    width: 65px; 
-    height: auto;
-    display: flex;
-    right: 50px;
-    bottom: 50px;
-    position: sticky;
-  }
+
   
   .logo-container {
     transition: width 0.3s ease-in-out;

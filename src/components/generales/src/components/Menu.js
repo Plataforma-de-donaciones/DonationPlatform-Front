@@ -18,7 +18,6 @@ const MenuContainer = styled.div`
     
     width: 100%;
     height: 50px;
-    z-index: 1; /* Asegura que esté adelante de otros elementos */
     margin-right: auto!important;
     margin-left: auto!important;
     z-index: 1023;

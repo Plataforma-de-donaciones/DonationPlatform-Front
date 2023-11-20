@@ -46,14 +46,10 @@ const HomeScreen = () => {
   return (
     <Layout>
       <CarouselNews news={highlightedNews}></CarouselNews>
-
         <Row className="mt-3 mx-auto">
-     
           <Col className="col-xl-8 col-sm-12 order-sm-2 order-xl-1 order-1">
             <NewsList newsList={newsList} />
-            <Chatbot />
           </Col>
-
           <Col className="col-xl-4 col-sm-12 order-sm-1  mb-3">
             <MyCalendar events={events} isHome={true} />
           </Col>

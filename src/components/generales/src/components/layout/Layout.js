@@ -8,6 +8,10 @@ import BackgroundLogin from "../../../../users/login/src/components/BackgroundLo
 import MenuComponent from "../../../../administrator/list_users/components/MenuComponent";
 import Sidebar from "../sidebar/Sidebar";
 import SidebarModerator from './../sidebar/SidebarModerator';
+import Chatbot from "../../../../chatbot/Chatbot";
+import '../../../../chatbot/Chatbot.css';
+
+
 
 const Layout = ({
   children,
@@ -34,6 +38,7 @@ const Layout = ({
 
           <Container fluid={isFluid}>{children}</Container>
         </article>
+        <Chatbot />
       </main>
       {haveFooter && <Footer />}
     </>
