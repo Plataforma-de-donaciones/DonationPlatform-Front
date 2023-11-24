@@ -83,11 +83,9 @@ const Helper = styled.span`
 `;
 
 const PreviewImage = styled.img`
-width: 100%;
-height: auto;
-max-width: 100%;
-object-fit: contain;
-margin-top: 8px;
+  max-width: 100px;
+  max-height: 100px;
+  margin-top: 8px;
 `;
 
 export default SubirArchivoBox;

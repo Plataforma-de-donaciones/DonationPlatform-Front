@@ -156,7 +156,7 @@ const SolicitudVolBox = (props) => {
           });
 
           if (response.status === 201) {
-            Swal.fire("¡Voluntariado registrado correctamente!", "", "success");
+            Swal.fire("¡Solicitud registrada correctamente!", "", "success");
             history.push("/listadovoluntariado");
           } else {
           }

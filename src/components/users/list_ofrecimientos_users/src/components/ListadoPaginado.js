@@ -91,6 +91,90 @@ const ListadoPaginado = ({}) => {
     }
   };
 
+  const finalizarItem = async (id) => {
+    const confirmation = await Swal.fire({
+      title: "¿Está seguro que finalizar la publicación?",
+      text: "¡La publicación ya no será visible!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, finalizar!",
+      cancelButtonText: "Cancelar",
+    });
+    
+    
+    if (confirmation.isConfirmed) {
+      try {
+        const formData = new FormData();
+        formData.append("don_confirmation_date", new Date().toISOString());
+        formData.append("eq_confirmation_date", new Date().toISOString());
+
+        const response = await instance.patch(
+          `/${tipo}/${id}/`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
+
+        Swal.fire({
+          title: "¡Finalizado correctamente!",
+          text: "Su publicacion de ofrecimiento ha sido finalizada",
+          icon: "success",
+        });
+        console.log("Respuesta del servidor:", response.data);
+      } catch (error) {
+        console.error(`Error al eliminar ${tipo}:`, error);
+      }
+    }
+  };
+
+  const finalizarVolPadItem = async (id) => {
+    const confirmation = await Swal.fire({
+      title: "¿Está seguro que finalizar la publicación?",
+      text: "¡La publicación ya no será visible!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, finalizar!",
+      cancelButtonText: "Cancelar",
+    });
+    
+    
+    if (confirmation.isConfirmed) {
+      try {
+        const formData = new FormData();
+        formData.append("end_date", new Date().toISOString());
+
+        const response = await instance.patch(
+          `/${tipo}/${id}/`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
+
+        Swal.fire({
+          title: "¡Finalizado correctamente!",
+          text: "Su publicacion de ofrecimiento ha sido finalizada.",
+          icon: "success",
+        });
+        console.log("Respuesta del servidor:", response.data);
+      } catch (error) {
+        console.error(`Error al eliminar ${tipo}:`, error);
+      }
+    }
+  };
+
+
   useEffect(() => {
     obtenerDatos();
   }, [paginaActual, tipo]);
@@ -169,10 +253,16 @@ const ListadoPaginado = ({}) => {
                       <td>{item.has_requests ? "Yes" : "No"}</td>
                       <td className="text-center">
                         <Button
-                          variant="secondary me-2"
+                          variant="primary me-2"
                           href={`/editardonacion/${item.don_id}`}
                         >
                           Editar
+                        </Button>
+                        <Button
+                          variant="secondary me-2"
+                          onClick={() => finalizarItem(item.don_id || item.id)}
+                        >
+                          Finalizar
                         </Button>
                         <Button
                           variant="danger"
@@ -200,10 +290,16 @@ const ListadoPaginado = ({}) => {
 
                       <td className="text-center">
                         <Button
-                          variant="secondary me-2"
+                          variant="primary me-2"
                           href={`/editarequipamiento/${item.eq_id}`}
                         >
                           Editar
+                        </Button>
+                        <Button
+                          variant="secondary me-2"
+                          onClick={() => finalizarItem(item.eq_id || item.id)}
+                        >
+                          Finalizar
                         </Button>
                         <Button
                           variant="danger"
@@ -211,6 +307,7 @@ const ListadoPaginado = ({}) => {
                         >
                           Eliminar
                         </Button>
+                        
                       </td>
                     </>
                   )}
@@ -229,10 +326,16 @@ const ListadoPaginado = ({}) => {
 
                       <td className="text-center">
                         <Button
-                          variant="secondary me-2"
+                          variant="primary me-2"
                           href={`/editarvoluntario/${item.vol_id}`}
                         >
                           Editar
+                        </Button>
+                        <Button
+                          variant="secondary me-2"
+                          onClick={() => finalizarVolPadItem(item.vol_id || item.id)}
+                        >
+                          Finalizar
                         </Button>
                         <Button
                           variant="danger"
@@ -258,10 +361,16 @@ const ListadoPaginado = ({}) => {
 
                       <td className="text-center">
                         <Button
-                          variant="secondary me-2"
+                          variant="primary me-2"
                           href={`/editarsponsor/${item.sponsor_id}`}
                         >
                           Editar
+                        </Button>
+                        <Button
+                          variant="secondary me-2"
+                          onClick={() => finalizarVolPadItem(item.sponsor_id || item.id)}
+                        >
+                          Finalizar
                         </Button>
                         <Button
                           variant="danger"

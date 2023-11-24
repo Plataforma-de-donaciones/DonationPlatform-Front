@@ -147,21 +147,21 @@ const SolicitudBox = (props) => {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      // const confirmation = await Swal.fire({
-      //   title: "Protege tu Privacidad",
-      //   html: `
-      //     <p>Por su seguridad y la de los demás, le recordamos evitar publicar fotos y/o videos, o descripción en la publicación que contengan información personal o la de otras personas. Estos pueden incluir Nombre, Teléfono, Dirección, entre otros.</p>
-      //     <p>En caso de necesitar brindar datos personales para concretar el acto benéfico, le sugerimos que lo realice de manera segura mediante el chat privado.</p>
-      //     <p>Ayuda a crear un entorno en línea seguro para todos.</p>
-      //     <p>¡Gracias por su colaboración!</p>
-      //     <p>¿Usted confirma que esta publicación no incluye contenido que revele información sensible?</p>`,
-      //   icon: "info",
-      //   showCancelButton: true,
-      //   confirmButtonText: "Sí",
-      //   cancelButtonText: "No",
-      // });
+       const confirmation = await Swal.fire({
+         title: "Protege tu Privacidad",
+        html: `
+           <p>Por su seguridad y la de los demás, le recordamos evitar publicar fotos y/o videos, o descripción en la publicación que contengan información personal o la de otras personas. Estos pueden incluir Nombre, Teléfono, Dirección, entre otros.</p>
+           <p>En caso de necesitar brindar datos personales para concretar el acto benéfico, le sugerimos que lo realice de manera segura mediante el chat privado.</p>
+           <p>Ayuda a crear un entorno en línea seguro para todos.</p>
+           <p>¡Gracias por su colaboración!</p>
+           <p>¿Usted confirma que esta publicación no incluye contenido que revele información sensible?</p>`,
+         icon: "info",
+         showCancelButton: true,
+         confirmButtonText: "Sí",
+         cancelButtonText: "No",
+       });
 
-      // if (confirmation.isConfirmed) {
+       if (confirmation.isConfirmed) {
         try {
           const response = await instance.post("/requests/", solicitudData, {
             headers: {
@@ -171,7 +171,7 @@ const SolicitudBox = (props) => {
 
           if (response.status === 201) {
             Swal.fire(
-              "Solicitud de apadrinamiento registrada correctamente!",
+              "Solicitud de padrino registrada correctamente!",
               "",
               "success"
             );
@@ -181,7 +181,7 @@ const SolicitudBox = (props) => {
         } catch (error) {
           console.error("Error al crear solicitud:", error);
         }
-      
+       }
     }
 
     setValidated(true);

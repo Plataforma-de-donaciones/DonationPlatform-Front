@@ -172,7 +172,7 @@ const ListadoNoticias = () => {
                 <Row className="m-1">
 
                 <Button className="mb-2"
-                  variant="secondary"
+                  variant="primary"
                   size="sm"
                   onClick={() => handleEditNews(newsItem.new_id)}
                 >
@@ -189,7 +189,7 @@ const ListadoNoticias = () => {
                 )}
                 {newsItem.is_highlighted && (
                   <Button
-                    variant="danger"
+                    variant="secondary"
                     size="sm"
                     onClick={() => handleNotHighlight(newsItem.new_id)}
                   >
