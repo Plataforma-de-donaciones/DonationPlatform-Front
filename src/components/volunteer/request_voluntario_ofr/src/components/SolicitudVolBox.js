@@ -5,7 +5,7 @@ import { useHistory, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Row, Col, Button, CardBody, Card, Form } from "react-bootstrap";
 import { ToastContainer } from "react-toastify";
-import LocalidadBox from "./../../../alta_voluntario/components/LocalidadBox";
+import LocalidadBox from "../../../../generales/src/components/LocalidadBoxAlta";
 import instance from "../../../../../axios_instance";
 import CardComponente from "../../../../generales/card/CardComponente";
 

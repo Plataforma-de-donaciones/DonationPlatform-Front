@@ -6,13 +6,14 @@ import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
 import CardComponente from "../../../../generales/card/CardComponente";
-import DescripcionDonEditarBox from "../../../../donation/editar_donacion/src/components/DescripcionDonEditarBox";
-import TipodePublicacionBox from "../../../../volunteer/alta_voluntario/components/TipodePublicacionBox";
-import LocalidadBox from "../../../../donation/editar_donacion/src/components/LocalidadBox";
-import ImagenDonEditarBox from "../../../../donation/editar_donacion/src/components/ImagenDonEditarBox";
+import DescripcionDonEditarBox from "../../../../generales/src/components/DescripcionDonEditarBox";
+import TipodePublicacionBox from "../../../../generales/src/components/TipodePublicacionBox";
+import LocalidadBox from "../../../../generales/src/components/LocalidadBoxEditar";
+import ImagenDonEditarBox from "../../../../generales/src/components/ImagenDonEditarBox";
 import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
 import { urlBackendDev } from "../../../../generales/variables/constantes";
-import NombreDonEdicionBox from "../../../../donation/editar_donacion/src/components/NombreDonEdicionBox";
+import NombreDonEdicionBox from "../../../../generales/src/components/NombreDonEdicionBox";
+import { useAuth } from "../../../../../AuthContext";
 
 const cookies = new Cookies();
 
@@ -30,15 +31,17 @@ const EditarEqMedicoBox = (props) => {
   const [imagenCargando, setImagenCargando] = useState(true);
   const [validated, setValidated] = useState(false);
 
-  const { eq_id } = useParams();
-  console.log(eq_id);
+  //const { eq_id } = useParams();
+  
+  const { itemId, setItemId } = useAuth();
+  console.log(itemId);
 
   useEffect(() => {
     const cargarDatosEquipamiento = async () => {
       try {
         const response = await instance.post(
           "/medicalequipments/searchbyid/",
-          { eq_id: eq_id },
+          { eq_id: itemId },
           {
             headers: {
               Authorization: `Token ${token}`,
@@ -61,10 +64,10 @@ const EditarEqMedicoBox = (props) => {
       }
     };
 
-    if (eq_id) {
+    if (itemId) {
       cargarDatosEquipamiento();
     }
-  }, [eq_id, token]);
+  }, [itemId, token]);
 
   const handleEqNameChange = (e) => {
     setEqName(e.target.value);
@@ -127,7 +130,7 @@ const EditarEqMedicoBox = (props) => {
         });
 
         const response = await instance.patch(
-          `/medicalequipments/${eq_id}/`,
+          `/medicalequipments/${itemId}/`,
           formData,
           {
             headers: {

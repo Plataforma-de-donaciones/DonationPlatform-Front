@@ -8,8 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
-import TypeFilterButton from "./TypeFilterButton";
-import ClearTypeFilterButton from "./ClearTypeFilterButton";
 import { toast, ToastContainer } from 'react-toastify';
 import Swal from "sweetalert2";
 import { Button, Col, Row } from "react-bootstrap";

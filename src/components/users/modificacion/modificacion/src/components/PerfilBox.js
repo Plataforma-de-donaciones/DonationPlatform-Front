@@ -5,7 +5,6 @@ import instance from "../../../../../../axios_instance";
 import { useAuth } from "../../../../../../AuthContext";
 import NombrePerfilBox from "./NombrePerfilBox";
 import CorreoPerfilBox from "./CorreoPerfilBox";
-import ContrasenaNuevaPerfilBox from "./ContrasenaNuevaPerfilBox";
 import CardComponente from "./../../../../../generales/card/CardComponente";
 import { Button, Col, Row ,InputGroup} from "react-bootstrap";
 import Swal from "sweetalert2";

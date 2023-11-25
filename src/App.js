@@ -74,15 +74,15 @@ function App() {
           <Route path="/donardonacion/:donacionId" component={DonarDonacion} />
           <Route path="/donarvoluntariado/:voluntarioId" component={DonarVoluntariado} />
           <Route path="/donarpadrino/:sponsorId" component={DonarPadrino} />
-          <Route path="/editarequipamiento/:eq_id" component={EditarEquipamiento} />
+          <Route path="/editarequipamiento" component={EditarEquipamiento} />
           <Route path="/altadonacion/" component={AltaDonacion} />
           <Route path="/altasponsor/" component={AltaSponsor} />
           <Route path="/altaevento/" component={AltaEvento} />
           <Route path="/listadodonacion/" component={Listdonscreen} />
-          <Route path="/editardonacion/:don_id" component={EditarDonacion} />
-          <Route path="/editarvoluntario/:vol_id" component={EditarVoluntario} />
-          <Route path="/editarsponsor/:sponsor_id" component={EditarSponsor} />
-          <Route path="/editarevento/:event_id" component={EditarEvento} />
+          <Route path="/editardonacion" component={EditarDonacion} />
+          <Route path="/editarvoluntario" component={EditarVoluntario} />
+          <Route path="/editarsponsor" component={EditarSponsor} />
+          <Route path="/editarevento" component={EditarEvento} />
           <Route path="/editarnoticia/:new_id" component={EditarNoticia} />
           <Route path="/editarnoticiamod/:new_id" component={EditarNoticiaMod} />
           <Route path="/editarusuario/:user_id" component={EditarUser} />

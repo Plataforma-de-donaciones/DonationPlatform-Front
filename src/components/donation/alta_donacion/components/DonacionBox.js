@@ -6,9 +6,10 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
-import TipodePublicacionBox from "./../../../volunteer/alta_voluntario/components/TipodePublicacionBox";
-import LocalidadBox from "./../../../volunteer/alta_voluntario/components/LocalidadBox";
-import ImagenDonEditarBox from "./../../editar_donacion/src/components/ImagenDonEditarBox";
+import TipodePublicacionBox from "../../../generales/src/components/TipodePublicacionBox";
+import LocalidadBox from "../../../generales/src/components/LocalidadBoxAlta";
+import ImagenDonEditarBox from "../../../generales/src/components/ImagenDonEditarBox";
+
 import {
   Form,
   Row,

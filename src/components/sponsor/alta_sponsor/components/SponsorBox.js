@@ -6,8 +6,8 @@ import Swal from "sweetalert2";
 import { useHistory, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { Card, Form, Row, CardBody, Col, Button } from "react-bootstrap";
-import TipodePublicacionBox from "../../../volunteer/alta_voluntario/components/TipodePublicacionBox";
-import LocalidadBox from "../../../volunteer/alta_voluntario/components/LocalidadBox";
+import TipodePublicacionBox from "../../../generales/src/components/TipodePublicacionBox";
+import LocalidadBox from "../../../generales/src/components/LocalidadBoxAlta";
 import CardComponente from "../../../generales/card/CardComponente";
 
 const Container = styled.div`

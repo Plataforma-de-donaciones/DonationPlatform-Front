@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import TipodePublicacionBox from "./TipodePublicacionBox";
-import LocalidadBox from "./LocalidadBox";
+import TipodePublicacionBox from "../../../generales/src/components/TipodePublicacionBox";
+import LocalidadBox from "../../../generales/src/components/LocalidadBoxAlta";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
 import { toast, ToastContainer } from "react-toastify";

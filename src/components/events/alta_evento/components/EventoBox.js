@@ -6,9 +6,9 @@ import DateTimePicker from "./DatePicker";
 import DateTimePickerFinal from "./DatePickerFinal";
 import CardComponente from "./../../../generales/card/CardComponente";
 import { Form, Row, Col, Button, Card } from "react-bootstrap";
-import LocalidadBox from "./../../../volunteer/alta_voluntario/components/LocalidadBox";
+import LocalidadBox from "../../../generales/src/components/LocalidadBoxAlta";
 import { ToastContainer, toast } from "react-toastify";
-import ImagenDonEditarBox from "./../../../donation/editar_donacion/src/components/ImagenDonEditarBox";
+import ImagenDonEditarBox from "../../../generales/src/components/ImagenDonEditarBox";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 

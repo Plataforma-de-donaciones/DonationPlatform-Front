@@ -4,12 +4,14 @@ import Cookies from "universal-cookie";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useHistory } from 'react-router-dom';
-import LocalidadBox from "../../../../donation/editar_donacion/src/components/LocalidadBox";
-import TipodePublicacionBox from "../../../../volunteer/alta_voluntario/components/TipodePublicacionBox";
-import DescripcionDonEditarBox from "../../../../donation/editar_donacion/src/components/DescripcionDonEditarBox";
-import NombreDonEdicionBox from "../../../../donation/editar_donacion/src/components/NombreDonEdicionBox";
+import LocalidadBox from "../../../../generales/src/components/LocalidadBoxEditar";
+import TipodePublicacionBox from "../../../../generales/src/components/TipodePublicacionBox";
+import DescripcionDonEditarBox from "../../../../generales/src/components/DescripcionDonEditarBox";
+import NombreDonEdicionBox from "../../../../generales/src/components/NombreDonEdicionBox";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import CardComponente from "../../../../generales/card/CardComponente";
+import { useAuth } from "../../../../../AuthContext";
+
 
 const cookies = new Cookies();
 
@@ -24,16 +26,17 @@ const EditarBox = (props) => {
   const token = cookies.get("token");
   const history = useHistory();
   const [validated, setValidated] = useState(false);
-  const { sponsor_id } = useParams();
+  //const { sponsor_id } = useParams();
 
-  console.log(sponsor_id);
+  const { itemId, setItemId } = useAuth();
+  console.log(itemId);
 
   useEffect(() => {
     const cargarDatosSponsor = async () => {
       try {
         const response = await instance.post(
           "/sponsors/searchbyid/",
-          { sponsor_id: sponsor_id },
+          { sponsor_id: itemId },
           {
             headers: {
               Authorization: `Token ${token}`,
@@ -52,10 +55,10 @@ const EditarBox = (props) => {
       }
     };
 
-    if (sponsor_id) {
+    if (itemId) {
       cargarDatosSponsor();
     }
-  }, [sponsor_id, token]);
+  }, [itemId, token]);
 
   const handleSponsorNameChange = (e) => {
     setSponsorName(e.target.value);
@@ -93,7 +96,7 @@ const EditarBox = (props) => {
     if(confirmation.isConfirmed){
     try {
       const response = await instance.patch(
-        `/sponsors/${sponsor_id}/`,
+        `/sponsors/${itemId}/`,
         {
           sponsor_name: sponsorName,
           sponsor_description: sponsorDescription,

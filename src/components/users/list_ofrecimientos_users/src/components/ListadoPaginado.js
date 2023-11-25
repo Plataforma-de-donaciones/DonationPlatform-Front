@@ -5,12 +5,16 @@ import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Card, Table, Button } from "react-bootstrap";
+import { useAuth } from "../../../../../AuthContext";
+
 
 const cookies = new Cookies();
 
 // Define estilos con styled-components
 
-const ListadoPaginado = ({}) => {
+const ListadoPaginado = ({ }) => {
+
+  const { setItemId } = useAuth();
   const [datos, setDatos] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
@@ -56,7 +60,36 @@ const ListadoPaginado = ({}) => {
   const cambiarPagina = (nuevaPagina) => {
     setPaginaActual(nuevaPagina);
   };
+  const editarItemEq = (id) => {
+    setItemId(id);
+    setTipo(tipo);
 
+    history.push("/editarequipamiento");
+  };
+  const editarItemDon = (id) => {
+    setItemId(id);
+    setTipo(tipo);
+
+    history.push("/editardonacion");
+  };
+  const editarItemVol = (id) => {
+    setItemId(id);
+    setTipo(tipo);
+
+    history.push("/editarvoluntario");
+  };
+  const editarItemSponsor = (id) => {
+    setItemId(id);
+    setTipo(tipo);
+
+    history.push("/editarsponsor");
+  };
+  const editarItemEve = (id) => {
+    setItemId(id);
+    setTipo(tipo);
+
+    history.push("/editarevento");
+  };
   const eliminarItem = async (id) => {
     console.log("id a eliminar", id);
 
@@ -102,8 +135,8 @@ const ListadoPaginado = ({}) => {
       confirmButtonText: "Sí, finalizar!",
       cancelButtonText: "Cancelar",
     });
-    
-    
+
+
     if (confirmation.isConfirmed) {
       try {
         const formData = new FormData();
@@ -144,8 +177,8 @@ const ListadoPaginado = ({}) => {
       confirmButtonText: "Sí, finalizar!",
       cancelButtonText: "Cancelar",
     });
-    
-    
+
+
     if (confirmation.isConfirmed) {
       try {
         const formData = new FormData();
@@ -252,9 +285,9 @@ const ListadoPaginado = ({}) => {
                       <td>{item.don_confirmation_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
                       <td className="text-center">
-                        <Button
+                      <Button
                           variant="primary me-2"
-                          href={`/editardonacion/${item.don_id}`}
+                          onClick={() => editarItemDon(item.don_id || item.id)}
                         >
                           Editar
                         </Button>
@@ -291,7 +324,7 @@ const ListadoPaginado = ({}) => {
                       <td className="text-center">
                         <Button
                           variant="primary me-2"
-                          href={`/editarequipamiento/${item.eq_id}`}
+                          onClick={() => editarItemEq(item.eq_id || item.id)}
                         >
                           Editar
                         </Button>
@@ -307,7 +340,7 @@ const ListadoPaginado = ({}) => {
                         >
                           Eliminar
                         </Button>
-                        
+
                       </td>
                     </>
                   )}
@@ -321,13 +354,13 @@ const ListadoPaginado = ({}) => {
                           {item.request_count}
                         </Link>
                       </td>
-                      <td>{item.confirmed_at}</td>
+                      <td>{item.end_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
 
                       <td className="text-center">
-                        <Button
+                      <Button
                           variant="primary me-2"
-                          href={`/editarvoluntario/${item.vol_id}`}
+                          onClick={() => editarItemVol(item.vol_id || item.id)}
                         >
                           Editar
                         </Button>
@@ -356,13 +389,13 @@ const ListadoPaginado = ({}) => {
                           {item.request_count}
                         </Link>{" "}
                       </td>
-                      <td>{item.confirmed_at}</td>
+                      <td>{item.end_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
 
                       <td className="text-center">
-                        <Button
+                      <Button
                           variant="primary me-2"
-                          href={`/editarsponsor/${item.sponsor_id}`}
+                          onClick={() => editarItemSponsor(item.sponsor_id || item.id)}
                         >
                           Editar
                         </Button>
@@ -391,11 +424,11 @@ const ListadoPaginado = ({}) => {
                       <td>{item.request_count}</td>
                       <td>{item.eve_confirmation_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
-                      
+
                       <td className="text-center">
-                        <Button
-                          variant="secondary me-2"
-                          href={`/editarevento/${item.event_id}`}
+                      <Button
+                          variant="primary me-2"
+                          onClick={() => editarItemEve(item.event_id || item.id)}
                         >
                           Editar
                         </Button>

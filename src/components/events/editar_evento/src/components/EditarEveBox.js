@@ -4,17 +4,17 @@ import Cookies from "universal-cookie";
 import styled from "styled-components";
 import NombreEveEdicionBox from "./NombreEveEdicionBox";
 import DescripcionEveEditarBox from "./DescripcionEveEditarBox";
-import AceptarButton from "./AceptarButton";
-import CancelarButton from "./CancelarButton";
 import { useParams, useHistory } from "react-router-dom";
 import DateTimePicker from "./DatePicker";
 import DateTimePickerFinal from "./DatePickerFinal";
 import CardComponente from "./../../../../generales/card/CardComponente";
 import Swal from "sweetalert2";
-import LocalidadBox from "./LocalidadBox";
+import LocalidadBox from "../../../../generales/src/components/LocalidadBoxEditar";
 import { Row, Col, Button, Form, Spinner } from "react-bootstrap";
-import ImagenDonEditarBox from './../../../../donation/editar_donacion/src/components/ImagenDonEditarBox';
+import ImagenDonEditarBox from "../../../../generales/src/components/ImagenDonEditarBox";
 import { urlBackendDev } from "../../../../generales/variables/constantes";
+import { useAuth } from "../../../../../AuthContext";
+
 
 const cookies = new Cookies();
 
@@ -74,17 +74,18 @@ const EditarEveBox = (props) => {
   const [eventEndDate, setEventEndDate] = useState("");
   const history = useHistory();
   const [validated, setValidated] = useState(false);
-  const { event_id } = useParams();
+  //const { event_id } = useParams();
   const [imagenCargando, setImagenCargando] = useState(true);
 
-  console.log(event_id);
+  const { itemId, setItemId } = useAuth();
+  console.log(itemId);
 
   useEffect(() => {
     const cargarDatosEvento = async () => {
       try {
         const response = await instance.post(
           "/events/searchbyid/",
-          { event_id: event_id },
+          { event_id: itemId },
           {
             headers: {
               Authorization: `Token ${token}`,
@@ -107,10 +108,10 @@ const EditarEveBox = (props) => {
       }
     };
 
-    if (event_id) {
+    if (itemId) {
       cargarDatosEvento();
     }
-  }, [event_id, token]);
+  }, [itemId, token]);
 
   const handleEveNameChange = (e) => {
     setEveName(e.target.value);
@@ -179,7 +180,7 @@ const EditarEveBox = (props) => {
         }
 
         const response = await instance.patch(
-          `/events/${event_id}/`,
+          `/events/${itemId}/`,
           formData,
           {
             headers: {

@@ -7,10 +7,11 @@ import Swal from "sweetalert2";
 import { useHistory } from 'react-router-dom';
 import CardComponente from "../../../../generales/card/CardComponente";
 import { Col, Row, Button, Form } from "react-bootstrap";
-import NombreDonEdicionBox from "../../../../donation/editar_donacion/src/components/NombreDonEdicionBox";
-import DescripcionDonEditarBox from "../../../../donation/editar_donacion/src/components/DescripcionDonEditarBox";
-import TipodePublicacionBox from "../../../alta_voluntario/components/TipodePublicacionBox";
-import LocalidadBox from "../../../../donation/editar_donacion/src/components/LocalidadBox";
+import NombreDonEdicionBox from "../../../../generales/src/components/NombreDonEdicionBox";
+import DescripcionDonEditarBox from "../../../../generales/src/components/DescripcionDonEditarBox";
+import TipodePublicacionBox from "../../../../generales/src/components/TipodePublicacionBox";
+import LocalidadBox from "../../../../generales/src/components/LocalidadBoxEditar";
+import { useAuth } from "../../../../../AuthContext";
 
 
 const cookies = new Cookies();
@@ -80,15 +81,17 @@ const EditarVolBox = (props) => {
   const [file, setFile] = useState(null);
   const history = useHistory();
   const [validated, setValidated] = useState(false);
-  const { vol_id } = useParams();
-  console.log(vol_id);
+  //const { vol_id } = useParams();
+  
+  const { itemId, setItemId } = useAuth();
+  console.log(itemId);
 
   useEffect(() => {
     const cargarDatosVoluntario = async () => {
       try {
         const response = await instance.post(
           "/volunteers/searchbyid/",
-          { vol_id: vol_id },
+          { vol_id: itemId },
           {
             headers: {
               Authorization: `Token ${token}`,
@@ -107,10 +110,10 @@ const EditarVolBox = (props) => {
       }
     };
 
-    if (vol_id) {
+    if (itemId) {
       cargarDatosVoluntario();
     }
-  }, [vol_id, token]);
+  }, [itemId, token]);
 
   const handleVolNameChange = (e) => {
     setVolName(e.target.value);
@@ -148,7 +151,7 @@ const EditarVolBox = (props) => {
     if(confirmation.isConfirmed){
     try {
       const response = await instance.patch(
-        `/volunteers/${vol_id}/`,
+        `/volunteers/${itemId}/`,
         {
           vol_name: volName,
           vol_description: volDescription,

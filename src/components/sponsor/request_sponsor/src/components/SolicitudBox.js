@@ -1,20 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import TituloLine from "./TituloLine";
-import MotivoDeSolicitudBox from "./MotivoDeSolicitudBox";
-import NombreSolicitudBox from "./NombreSolicitudBox";
-import TeryCondCheckbox from "./TeryCondCheckbox";
-import MaterialButtonWithShadow from "./MaterialButtonWithShadow";
-import MaterialButtonViolet from "./MaterialButtonViolet";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import { useHistory, useParams } from "react-router-dom";
-import CancelarButton from "./CancelarButton";
 import Swal from "sweetalert2";
 import { toast, ToastContainer } from "react-toastify";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import CardComponente from "../../../../generales/card/CardComponente";
-import LocalidadBox from './../../../../volunteer/alta_voluntario/components/LocalidadBox';
+import LocalidadBox from "../../../../generales/src/components/LocalidadBoxAlta";
 
 const HelperText = styled.span`
   font-size: 10px;

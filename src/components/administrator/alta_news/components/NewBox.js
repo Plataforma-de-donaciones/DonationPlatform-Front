@@ -3,7 +3,7 @@ import styled from "styled-components";
 import NombreNewBox from "./NombreNewBox";
 import DescripcionNewBox from "./DescripcionNewBox";
 import TemaNewBox from "./TemaNewBox";
-import SubirArchivoBox from "../../../donation/editar_donacion/src/components/SubirArchivoBox";
+import SubirArchivoBox from "../../../generales/src/components/SubirArchivoBox";
 import CancelarButton from "./CancelarButton";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";

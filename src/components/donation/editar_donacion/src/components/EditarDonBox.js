@@ -2,18 +2,20 @@ import React, { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
-import NombreDonEdicionBox from "./NombreDonEdicionBox";
-import DescripcionDonEditarBox from "./DescripcionDonEditarBox";
-import LocalidadBox from "./LocalidadBox";
-import ImagenDonEditarBox from "./ImagenDonEditarBox";
+import NombreDonEdicionBox from "../../../../generales/src/components/NombreDonEdicionBox";
+import DescripcionDonEditarBox from "../../../../generales/src/components/DescripcionDonEditarBox";
+import LocalidadBox from "../../../../generales/src/components/LocalidadBoxEditar";
+import ImagenDonEditarBox from "../../../../generales/src/components/ImagenDonEditarBox";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import TipodePublicacionBox from "./../../../../volunteer/alta_voluntario/components/TipodePublicacionBox";
+import TipodePublicacionBox from "../../../../generales/src/components/TipodePublicacionBox";
 import { urlBackendDev } from "../../../../generales/variables/constantes";
 import Spinner from "react-bootstrap/Spinner";
 import CardComponente from "../../../../generales/card/CardComponente";
+import { useAuth } from "../../../../../AuthContext";
+
 
 const cookies = new Cookies();
 
@@ -88,14 +90,17 @@ const EditarDonBox = (props) => {
   const [validated, setValidated] = useState(false);
   const [imagenCargando, setImagenCargando] = useState(true);
 
-  const { don_id } = useParams();
+
+  //const { don_id } = useParams();
+  const { itemId, setItemId } = useAuth();
+  console.log(itemId);
 
   useEffect(() => {
     const cargarDatosDonacion = async () => {
       try {
         const response = await instance.post(
           "/donations/searchbyid/",
-          { don_id: don_id },
+          { don_id: itemId },
           {
             headers: {
               Authorization: `Token ${token}`,
@@ -116,10 +121,10 @@ const EditarDonBox = (props) => {
       }
     };
 
-    if (don_id) {
+    if (itemId) {
       cargarDatosDonacion();
     }
-  }, [don_id, token]);
+  }, [itemId, token]);
 
   const handleDonNameChange = (e) => {
     setDonName(e.target.value);
@@ -182,7 +187,7 @@ const EditarDonBox = (props) => {
         });
 
         const response = await instance.patch(
-          `/donations/${don_id}/`,
+          `/donations/${itemId}/`,
           formData,
           {
             headers: {

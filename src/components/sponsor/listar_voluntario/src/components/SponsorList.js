@@ -3,7 +3,6 @@ import styled from "styled-components";
 import instance from "../../../../../axios_instance";
 import SponsorListItem from "./SponsorListItem";
 import Cookies from "universal-cookie";
-import TypeFilterButton from "./TypeFilterButton";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";

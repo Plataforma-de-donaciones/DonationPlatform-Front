@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import NewsListItem from "./NewsListtItem"; // Ajusta la importación según la ubicación de tu componente NewsListItem
+import NewsListItem from "./NewsListtItem"; 
 import { Col, Row } from "react-bootstrap";
 
 const NewsListContainer = styled.div`
@@ -27,24 +27,19 @@ const NewsList = ({ newsList }) => {
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Calcular índices de inicio y fin para la página actual
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  // Obtener las noticias para la página actual
   const currentNews = newsList.slice(startIndex, endIndex);
 
-  // Calcular la cantidad total de páginas
   const totalPages = Math.ceil(newsList.length / itemsPerPage);
 
-  // Función para cambiar a la página siguiente
   const nextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prev) => prev + 1);
     }
   };
 
-  // Función para cambiar a la página anterior
   const prevPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prev) => prev - 1);
@@ -60,7 +55,6 @@ const NewsList = ({ newsList }) => {
 
 
 
-      {/* Paginación */}
       <Pagination>
         <PageButton onClick={prevPage} disabled={currentPage === 1}>
           Anterior
