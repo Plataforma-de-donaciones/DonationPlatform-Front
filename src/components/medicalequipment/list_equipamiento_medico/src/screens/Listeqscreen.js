@@ -33,16 +33,9 @@ const Listeqscreen = () => {
   return (
     <>
       <Layout>
-        <Card className='mt-5'>
-          <CardBody>
-
             <EquipamientoMedicoList equipamientoList={equipamientoList} />
-
-          </CardBody>
-        </Card>
       </Layout>
     </>
-
   );
 };
 

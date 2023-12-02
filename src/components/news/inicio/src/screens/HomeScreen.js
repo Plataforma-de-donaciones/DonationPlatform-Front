@@ -8,8 +8,7 @@ import Layout from "../../../../generales/src/components/layout/Layout";
 import { Col, Row } from "react-bootstrap";
 import Chatbot from "../../../../chatbot/Chatbot";
 import { Card, CardBody } from "react-bootstrap";
-
-
+import styled from "styled-components"; // Importa styled-components
 
 const cookies = new Cookies();
 
@@ -48,20 +47,56 @@ const HomeScreen = () => {
   return (
     <Layout>
       <CarouselNews news={highlightedNews}></CarouselNews>
-      <Row className="mt-3 mx-auto">
-        <Card className='mt-5'>
-          <CardBody>
+      <NoticiasListContainer>
+        <ListAndCalendarContainer>
+          <ListContainer>
+            <Row>
             <Col className="col-xl-4 col-sm-12 order-sm-1  mb-3">
-              <MyCalendar events={events} isHome={true} />
-            </Col>
-            <Col className="col-xl-8 col-sm-12 order-sm-2 order-xl-1 order-1">
-              <NewsList newsList={newsList} />
-            </Col>
-          </CardBody>
-        </Card>
-      </Row>  
+                <MyCalendar events={events} isHome={true} />
+              </Col>
+              <Col className="col-xl-8 col-sm-12 order-sm-2 order-xl-1 order-1">
+                  <NewsList newsList={newsList} />
+              </Col>
+            </Row>  
+          </ListContainer>
+        </ListAndCalendarContainer>
+      </NoticiasListContainer>
     </Layout>
   );
 };
+
+const NoticiasListContainer = styled.div`
+  display: flex;
+  flex-direction : column;
+
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  padding: 32px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+
+  @media (max-width: 1350px) {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto; /* Ajuste de las filas */
+  }
+  @media (min-width: 1px) {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto; /* Ajuste de las filas */
+    width: 100%;
+  }
+`;
+
+const ListAndCalendarContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+const ListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 16px;
+`;
 
 export default HomeScreen;

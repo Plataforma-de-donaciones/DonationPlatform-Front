@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom'; // Importa useHistory
-import Swal from 'sweetalert2';
 import { useAuth } from "../../../../../AuthContext";
+import Swal from 'sweetalert2';
 import { Container, Col, Row } from 'react-bootstrap';
 import CardItem from '../../../../generales/src/components/CardItem';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -179,7 +179,6 @@ const DonationListItem = ({ donation }) => {
         isGrid
         childrens={
           <>
-
             <ActionButtons className='mb-3'>
               <ActionButton onClick={() => handleAction(donation.don_id || donation.id)}>
                 <IconContainer>
@@ -217,13 +216,10 @@ const DonationListItem = ({ donation }) => {
               </Modal.Body>
             </Modal>
           </>
-
-
         }
       />
 
     </>
-
   );
 };
 

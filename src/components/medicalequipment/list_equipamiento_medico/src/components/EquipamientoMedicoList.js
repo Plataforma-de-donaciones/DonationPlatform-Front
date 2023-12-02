@@ -17,8 +17,20 @@ const cookies = new Cookies();
 
 const EquipamientoMedicoListContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  margin: 16px;
+  flex-direction : column;
+
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  padding: 32px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+
+  @media (max-width: 1350px) {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto; /* Ajuste de las filas */
+  }
 `;
 
 const ListContainer = styled.div`
@@ -28,8 +40,8 @@ const ListContainer = styled.div`
   margin-right: 16px;
 `;
 const ListAndCategoryContainer = styled.div`
-  // display: flex;
-  // flex-direction: row;
+  display: flex;
+  flex-direction: row;
 `;
 
 const SearchBarContainer = styled.div`
@@ -48,18 +60,18 @@ const SearchBarAndAddEquipment = styled.div`
 `;
 
 const FilterBarContainer = styled.div`
-  // display: flex;
-  // flex-direction: row; 
-  // align-items: center; 
-  // margin-bottom: 16px;
-  // max-width: 800px;
-  // justify-content: flex-end;
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  margin-bottom: 16px;
+  max-width: 800px;
+  justify-content: flex-end;
 `;
 const FilterBarForType = styled.div`
-  // display: flex;
-  // flex: 1;
-  // justify-content: space-around; 
-  // align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: space-around; 
+  align-items: center;
 `;
 const SearchInput = styled.input`
   padding: 8px;
@@ -101,7 +113,6 @@ const AddIcon = styled.button`
 const Pagination = styled.div`
   display: flex;
   gap: 8px;
-  margin-top: 16px;
 `;
 
 const PageButton = styled.button`
@@ -168,6 +179,7 @@ const EquipamientoMedicoList = () => {
   const handleClearCategory = () => {
     setSelectedCategory(null);
   };
+  
   const handleTypeClick = (type) => {
     console.log(`Selected type: ${type}`);
     setSelectedType(type);
@@ -192,6 +204,7 @@ const EquipamientoMedicoList = () => {
       // El usuario está autenticado, redirige a "/altaequipamiento"
       history.push("/altaequipamiento");
     } else {
+      // El usuario no está autenticado, muestra una alerta o realiza la acción necesaria
       Swal.fire({
         title: 'Debes iniciar sesión para completar esta acción',
         text: '¿Desea ir al login en este momento?',
@@ -225,7 +238,7 @@ const EquipamientoMedicoList = () => {
   };
 
   return (
-    <>
+    <EquipamientoMedicoListContainer>
 
       <EncabezadoListado
         onActionSolicitud={() => handleTypeClick(1)}
@@ -242,6 +255,12 @@ const EquipamientoMedicoList = () => {
 
         <ListContainer>
           <Row>
+            <Col className="col-12 col-sm-12 col-xl-2 col-md-12 order-xl-2 order-sm-1 order-md-1 mb-3 mt-3 d-flex flex-row flex-sm-column">
+              <CategoryCard
+                onCategoryClick={handleCategoryClick}
+                onClearCategory={handleClearCategory}
+              />
+            </Col>
             <Col className="col-12 col-sm-12 col-xl-10 col-md-12 order-xl-1 order-sm-2 order-md-2 mb-3 mt-3">
               <Row>
                 {currentEquipamiento.map((equipamiento) => (
@@ -249,14 +268,6 @@ const EquipamientoMedicoList = () => {
                 ))}
               </Row>
             </Col>
-
-            <Col className="col-12 col-sm-12 col-xl-2 col-md-12 order-xl-2 order-sm-1 order-md-1 mb-3 mt-3 d-flex flex-row flex-sm-column">
-              <CategoryCard
-                onCategoryClick={handleCategoryClick}
-                onClearCategory={handleClearCategory}
-              />
-            </Col>
-
           </Row>
 
           {/* Paginación */}
@@ -293,10 +304,7 @@ const EquipamientoMedicoList = () => {
         pauseOnHover
         theme="light"
       />
-
-      <ToastContainer />
-    </>
-
+    </EquipamientoMedicoListContainer>
   );
 };
 

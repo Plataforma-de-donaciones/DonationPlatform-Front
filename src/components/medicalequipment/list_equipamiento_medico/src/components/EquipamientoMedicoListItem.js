@@ -4,6 +4,7 @@ import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom'; // Importa useHistory
 import { useAuth } from "../../../../../AuthContext";
 import Swal from 'sweetalert2';
+import { Container, Col, Row } from 'react-bootstrap';
 import CardItem from './../../../../generales/src/components/CardItem';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -72,7 +73,6 @@ const ActionButton = styled.button`
 const IconContainer = styled.span`
   margin-right: 8px;
   margin-bottom: 3px;
-
 `;
 
 const stateMap = {
@@ -88,7 +88,6 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
   const { isAuthenticated } = useAuth();
   const [mapCoordinates, setMapCoordinates] = useState(null);
   const [showMap, setShowMap] = useState(false);
-
 
   const handleExpand = () => {
     setExpanded(!expanded);

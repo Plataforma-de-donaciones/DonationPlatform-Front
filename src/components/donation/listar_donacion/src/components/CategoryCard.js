@@ -3,14 +3,11 @@ import styled from "styled-components";
 import instance from "../../../../../axios_instance";
 
 const CardContainer = styled.div`
-  background-color: #f0f0f0;
+  background-color: rgba(221,221,221, 1);
   border: 1px solid #ddd;
   padding: 16px;
-  border-radius: 7px;
-  margin-right: 16px;
-  margin-top
-  max-height: 400px;
-  min-width: 200px;
+  border-radius: 8px;
+  margin-right: -1rem;
 `;
 
 const StyledButton = styled.button`

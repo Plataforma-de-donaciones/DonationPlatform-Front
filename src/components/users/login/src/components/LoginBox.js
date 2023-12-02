@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Registratebutton1 from "./Registratebutton1";
 import EnterButton from "./EnterButton";
 import bcrypt from 'bcryptjs';
+import Layout from "../../../../generales/src/components/layout/Layout";
 
 const Container = styled.div`
   display: flex;
@@ -205,7 +206,7 @@ const LoginBox = () => {
 
   return (
     <>
-      <Row className="justify-content-center h-100">
+      <Row className="mt-3 mx-auto">
         <Col  className="mt-auto mx-auto  col-xl-5 col-lg-6 col-md-9 col-sm-9 col-xs-9">
           <Card className="border-0 shadow rounded-3 mt-5 ">
             <CardHeader className="card-title text-center fw-light fs-5">
@@ -225,31 +226,27 @@ const LoginBox = () => {
                     placeholder="Nombre de usuario"
                   />
                 </Form.Group>
-
-                
-                  <Form.Group className="mb-5" controlId="formBasicPassword">
-                    <Form.Label>Contraseña</Form.Label>
-                    <div style={{ position: "relative" }}>
-                    <InputGroup hasValidation>
-                      <PasswordInput
-                        type="password"
-                        name="user_password"
-                        value={credentials.user_password}
-                        onChange={handleChange}
-                        passwordplaceholder="Contraseña"
-                        style={{
-                          height: 43,
-                          width: "100%",
-                          marginTop: 10,
-                        }}
-                      />
-                      </InputGroup>
-                    </div>
-                  </Form.Group>
-                
-
+                <Form.Group className="mb-5" controlId="formBasicPassword">
+                  <Form.Label>Contraseña</Form.Label>
+                  <div style={{ position: "relative" }}>
+                  <InputGroup hasValidation>
+                    <PasswordInput
+                      type="password"
+                      name="user_password"
+                      value={credentials.user_password}
+                      onChange={handleChange}
+                      passwordplaceholder="Contraseña"
+                      style={{
+                        height: 43,
+                        width: "100%",
+                        marginTop: 10,
+                      }}
+                    />
+                  </InputGroup>
+                  </div>
+                </Form.Group>
                 <div className="d-grid">
-                  <Button
+                  <Button 
                     onClick={handleSubmit}
                     variant="primary"
                     className="btn-login text-uppercase fw-bold"
@@ -258,16 +255,13 @@ const LoginBox = () => {
                     Ingresar
                   </Button>
                 </div>
-
                 <hr className="my-4" />
                 <div className="text-center">
                   <NotienescuentaaunText>
                     ¿No tienes una cuenta aún?
                   </NotienescuentaaunText>
-
                   <Registratebutton1 />
                 </div>
-
                 <SocialLogosWrapper className="mx-auto">
                   <GoogleLogo
                     src={require("../assets/images/google.png")}
@@ -277,7 +271,6 @@ const LoginBox = () => {
                     src={require("../assets/images/facebook-logo-5-1.png")}
                   />
                 </SocialLogosWrapper>
-
                 {error && (
                   <div className="error-message" style={{ color: "red" }}>
                     {error}

@@ -13,25 +13,36 @@ import Swal from "sweetalert2";
 import { Col, Row, Button } from "react-bootstrap";
 import EncabezadoListado from "../../../../generales/src/components/layout/EncabezadoListado";
 
-
-
 const cookies = new Cookies();
 
 const DonationListContainer = styled.div`
-  // display: flex;
-  // flex-direction: column;
-  // margin: 16px;
+  display: flex;
+  flex-direction : column;
+
+
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  padding: 32px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+
+  @media (max-width: 1350px) {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto; /* Ajuste de las filas */
+  }
 `;
 
 const ListContainer = styled.div`
-  // display: flex;
-  // flex-direction: column;
-  // align-items: flex-start;
-  // margin-right: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 16px;
 `;
 const ListAndCategoryContainer = styled.div`
-  // display: flex;
-  // flex-direction: row;
+  display: flex;
+  flex-direction: row;
 `;
 
 const SearchBarContainer = styled.div`
@@ -42,7 +53,7 @@ const SearchBarContainer = styled.div`
   max-width: 800px;
   justify-content: flex-end;
 `;
-const SearchBarAndAddEquipment = styled.div`
+const SearchBarAndAddDonation = styled.div`
   display: flex;
   flex: 1;
   justify-content: space-between; /* Alinea los elementos a los extremos */
@@ -65,14 +76,14 @@ const FilterBarForType = styled.div`
 `;
 
 const SearchInput = styled.input`
-  // padding: 8px;
-  // margin-right: 8px;
-  // border: none;
-  // outline: none;
-  // flex: 2;
-  // font-size: 16px;
-  // background: transparent;
-  // max-width: 200px;
+  padding: 8px;
+  margin-right: 8px;
+  border: none;
+  outline: none;
+  flex: 2;
+  font-size: 16px;
+  background: transparent;
+  max-width: 200px;
 
 `;
 
@@ -86,7 +97,7 @@ const SearchIcon = styled.span`
   color: #007bff;
 `;
 
-const AddEquipment = styled.div`
+const AddDonation = styled.div`
   display: flex;
   align-items: center;
   margin-right: 300px;
@@ -103,8 +114,6 @@ const AddIcon = styled.button`
 `;
 const Pagination = styled.div`
   display: flex;
-  gap: 8px;
-  margin-top: 16px;
 `;
 
 const PageButton = styled.button`
@@ -135,19 +144,24 @@ const DonationList = () => {
           const filteredDonation = originalDonationList.filter((donation) =>
             donationIds.includes(donation.don_id)
           );
+
+           // Aplicar el filtro por tipo
           const filteredDonationByType = selectedType
             ? filteredDonation.filter((donation) => donation.type === selectedType)
             : filteredDonation;
 
+          // Actualizar el estado donationList con los resultados del filtro
           setDonationList(filteredDonationByType);
         } else {
           response = await instance.get("/donations/");
           setOriginalDonationList(response.data);
 
+          // Aplicar el filtro por tipo
           const donationList = selectedType
             ? response.data.filter((donation) => donation.type === selectedType)
             : response.data;
 
+          // Actualizar el estado donationList con los resultados del filtro 
           setDonationList(donationList);
         }
       } catch (error) {
@@ -187,11 +201,10 @@ const DonationList = () => {
 
   const handleAddDonationClick = () => {
     if (isAuthenticated) {
-      // El usuario está autenticado, redirige a "/altaequipamiento"
+      // El usuario está autenticado, redirige a "/altadonacion"
       history.push("/altadonacion");
     } else {
       // El usuario no está autenticado, muestra una alerta o realiza la acción necesaria
-
       Swal.fire({
         title: 'Debes iniciar sesión para completar esta acción',
         text: '¿Desea ir al login en este momento?',
@@ -242,7 +255,7 @@ const DonationList = () => {
 
         <ListContainer>
           <Row>
-            <Col className="col-12 col-sm-10 col-xl-10 col-md-9 mb-3 mt-3">
+          <Col className="col-12 col-sm-12 col-xl-10 col-md-12 order-xl-1 order-sm-2 order-md-2 mb-3 mt-3">
               <Row>
                 {currentDonation.map((donation) => (
                   <DonationListItem key={donation.don_id} donation={donation} />
@@ -250,7 +263,7 @@ const DonationList = () => {
               </Row>
             </Col>
 
-            <Col className="col-12 col-sm-2 col-xl-2 col-md-3 mb-3 mt-3">
+            <Col className="col-12 col-sm-12 col-xl-2 col-md-12 order-xl-2 order-sm-1 order-md-1 mb-3 mt-3 d-flex flex-row flex-sm-column">
               <CategoryCard
                 onCategoryClick={handleCategoryClick}
                 onClearCategory={handleClearCategory}
@@ -259,6 +272,7 @@ const DonationList = () => {
 
           </Row>
 
+          {/* Paginación */}
           <Pagination>
             <PageButton onClick={prevPage} disabled={currentPage === 1}>
               Anterior
@@ -278,9 +292,8 @@ const DonationList = () => {
           </Pagination>
         </ListContainer>
 
-
-
       </ListAndCategoryContainer>
+      
       <ToastContainer
         position="top-right"
         autoClose={5000}
