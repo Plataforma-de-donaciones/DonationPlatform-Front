@@ -66,14 +66,14 @@ function App() {
           <Route path="/listadosolicitudes" component={ListarSolicitudesPropios} />
           <Route path="/altaequipamiento" component={AltaEquipamiento} />
           <Route path="/listadoequipamiento" component={Listeqscreen} />
-          <Route path="/solicitarequipamiento/:equipamientoId" component={SolicitarEquipamiento} />
-          <Route path="/solicitardonacion/:donacionId" component={SolicitarDonacion} />
-          <Route path="/solicitarvoluntariado/:voluntarioId" component={SolicitarVoluntario} />
-          <Route path="/solicitarpadrino/:sponsorId" component={SolicitarPadrino} />
-          <Route path="/donarequipamiento/:equipamientoId" component={DonarEquipamiento} />
-          <Route path="/donardonacion/:donacionId" component={DonarDonacion} />
-          <Route path="/donarvoluntariado/:voluntarioId" component={DonarVoluntariado} />
-          <Route path="/donarpadrino/:sponsorId" component={DonarPadrino} />
+          <Route path="/solicitarequipamiento" component={SolicitarEquipamiento} />
+          <Route path="/solicitardonacion" component={SolicitarDonacion} />
+          <Route path="/solicitarvoluntariado" component={SolicitarVoluntario} />
+          <Route path="/solicitarpadrino" component={SolicitarPadrino} />
+          <Route path="/donarequipamiento" component={DonarEquipamiento} />
+          <Route path="/donardonacion" component={DonarDonacion} />
+          <Route path="/donarvoluntariado" component={DonarVoluntariado} />
+          <Route path="/donarpadrino" component={DonarPadrino} />
           <Route path="/editarequipamiento" component={EditarEquipamiento} />
           <Route path="/altadonacion/" component={AltaDonacion} />
           <Route path="/altasponsor/" component={AltaSponsor} />
@@ -83,18 +83,18 @@ function App() {
           <Route path="/editarvoluntario" component={EditarVoluntario} />
           <Route path="/editarsponsor" component={EditarSponsor} />
           <Route path="/editarevento" component={EditarEvento} />
-          <Route path="/editarnoticia/:new_id" component={EditarNoticia} />
-          <Route path="/editarnoticiamod/:new_id" component={EditarNoticiaMod} />
+          <Route path="/editarnoticia" component={EditarNoticia} />
+          <Route path="/editarnoticiamod" component={EditarNoticiaMod} />
           <Route path="/editarusuario/:user_id" component={EditarUser} />
           <Route path="/altavoluntariado/" component={AltaVoluntariado} />
           <Route path="/listadovoluntariado/" component={ListVolscreen} />
           <Route path="/listadoeventos/" component={ListEveScreen} />
-          <Route path="/listadorequesteq/:eqId" component={ListarReqOfrecimiento} />
-          <Route path="/conversaciones/:convId" component={ChatScreen} />
+          <Route path="/listadorequesteq" component={ListarReqOfrecimiento} />
+          <Route path="/conversaciones" component={ChatScreen} />
           <Route path="/listaconversaciones/" component={ConversationScreen} />
-          <Route path="/listadorequestdon/:donId" component={ListarReqOfrecimientoDon} />
-          <Route path="/listadorequestvol/:voluntarioId" component={ListarReqOfrecimientoVol} />
-          <Route path="/listadorequestsponsor/:sponsorId" component={ListarReqOfrecimientoSponsor} />
+          <Route path="/listadorequestdon" component={ListarReqOfrecimientoDon} />
+          <Route path="/listadorequestvol" component={ListarReqOfrecimientoVol} />
+          <Route path="/listadorequestsponsor" component={ListarReqOfrecimientoSponsor} />
           <Route path="/listadoapadrinamiento/" component={ListSponsorscreen} />
           <Route path="/terminoscondiciones/" component={TerminosCondiciones} />
           <Route path="/contacto" component={Contacto}/>

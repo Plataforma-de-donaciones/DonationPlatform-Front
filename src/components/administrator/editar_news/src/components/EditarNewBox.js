@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
-//import TituloLine from "./TituloLine";
 import NombreNewEdicionBox from "./NombreNewEdicionBox";
 import DescripcionNewEditarBox from "./DescripcionNewEditarBox";
 import ImagenNewEditarBox from "./ImagenNewEditarBox";
-//import AceptarButton from "./AceptarButton";
-//import CancelarButton from "./CancelarButton";
 import { useParams } from "react-router-dom";
 import TemaNewEdicionBox from "./TemaNewEdicionBox";
 import { useHistory } from "react-router-dom";
@@ -16,6 +13,7 @@ import { urlBackendDev } from "../../../../generales/variables/constantes";
 import Spinner from "react-bootstrap/Spinner";
 import CardComponente from "../../../../generales/card/CardComponente";
 import Swal from "sweetalert2";
+import { useAuth } from "../../../../../AuthContext";
 
 const cookies = new Cookies();
 
@@ -89,15 +87,16 @@ const EditarNewBox = (props) => {
   const [imagenCargando, setImagenCargando] = useState(true);
   const [validated, setValidated] = useState(false);
 
-  const { new_id } = useParams();
-  console.log(new_id);
+  //const { new_id } = useParams();
+  const { itemId, setItemId } = useAuth();
+  console.log(itemId);
 
   useEffect(() => {
     const cargarDatosNoticia = async () => {
       try {
         const response = await instance.post(
           "/news/searchbyid/",
-          { new_id: new_id },
+          { new_id: itemId },
           {
             headers: {
               Authorization: `Token ${token}`,
@@ -117,10 +116,10 @@ const EditarNewBox = (props) => {
       }
     };
 
-    if (new_id) {
+    if (itemId) {
       cargarDatosNoticia();
     }
-  }, [new_id, token]);
+  }, [itemId, token]);
 
   const handleNewNameChange = (e) => {
     setNewName(e.target.value);
@@ -169,7 +168,7 @@ const EditarNewBox = (props) => {
           formData.append(key, value);
         });
 
-        const response = await instance.patch(`/news/${new_id}/`, formData, {
+        const response = await instance.patch(`/news/${itemId}/`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Token ${token}`,

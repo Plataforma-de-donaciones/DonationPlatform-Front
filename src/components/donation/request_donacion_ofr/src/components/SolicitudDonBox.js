@@ -9,6 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import CardComponente from "../../../../generales/card/CardComponente";
+import { useAuth } from "../../../../../AuthContext";
+
 
 const HelperText = styled.span`
   font-size: 10px;
@@ -24,7 +26,9 @@ const HelperText = styled.span`
 const cookies = new Cookies();
 
 const SolicitudDonBox = (props) => {
-  const { donacionId } = useParams();
+  //const { donacionId } = useParams();
+  const { itemId, setItemId } = useAuth();
+  console.log(itemId);
   const [solicitudData, setSolicitudData] = useState({
     req_name: "",
     req_description: "",
@@ -56,9 +60,9 @@ const SolicitudDonBox = (props) => {
     setSolicitudData((prevData) => ({
       ...prevData,
       user: user_id || "",
-      don: donacionId || "",
+      don: itemId || "",
     }));
-  }, [donacionId, user_id]);
+  }, [itemId, user_id]);
 
   const handleFieldChange = (fieldName, value) => {
     setSolicitudData((prevData) => ({

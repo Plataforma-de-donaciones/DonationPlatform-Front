@@ -9,6 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import CardComponente from "../../../../generales/card/CardComponente";
 import { Form, Row, Col, Button } from "react-bootstrap";
+import { useAuth } from "../../../../../AuthContext";
+
 
 const HelperText = styled.span`
   font-size: 10px;
@@ -24,7 +26,8 @@ const HelperText = styled.span`
 const cookies = new Cookies();
 
 const SolicitudDonBox = (props) => {
-  const { donacionId } = useParams();
+  //const { donacionId } = useParams();
+  const { itemId, setItemId } = useAuth();
   const [solicitudData, setSolicitudData] = useState({
     req_name: "",
     req_description: "",
@@ -49,19 +52,17 @@ const SolicitudDonBox = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    // Obtener el user_id y equipamientoId al montar el componente
     const userDataCookie = cookies.get("user_data");
     if (userDataCookie) {
       setUserId(userDataCookie.user_id);
     }
-    // Asegurémonos de que equipamientoId está disponible
     setSolicitudData((prevData) => ({
       ...prevData,
-      user: user_id || "", // Asegurarse de que user sea una cadena vacía si user_id es null
-      don: donacionId || "", // Asegurarse de que eq sea una cadena vacía si equipamientoId es null
+      user: user_id || "", 
+      don: itemId || "", 
     }));
-    console.log(donacionId);
-  }, [donacionId, user_id]);
+    console.log(itemId);
+  }, [itemId, user_id]);
 
   const handleFieldChange = (fieldName, value) => {
     setSolicitudData((prevData) => ({
@@ -69,7 +70,6 @@ const SolicitudDonBox = (props) => {
       [fieldName]: value,
     }));
 
-    // Limpiar el error al cambiar el campo
     setErrors((prevErrors) => ({
       ...prevErrors,
       [fieldName]: "",
@@ -100,7 +100,6 @@ const SolicitudDonBox = (props) => {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      // Intentar enviar la solicitud
       try {
         const response = await instance.post("/requests/", solicitudData, {
           headers: {
@@ -112,7 +111,6 @@ const SolicitudDonBox = (props) => {
           Swal.fire("¡Solicitud creada correctamente!", "", "success");
           history.push("/listadodonacion");
         } else {
-          // Manejar otros casos de respuesta si es necesario
         }
       } catch (error) {
         console.error("Error al crear solicitud:", error);
@@ -165,7 +163,6 @@ const SolicitudDonBox = (props) => {
       }));
     }
 
-    // Agrega otras validaciones según sea necesario
   };
   const handleCancelarClick = () => {
     Swal.fire({

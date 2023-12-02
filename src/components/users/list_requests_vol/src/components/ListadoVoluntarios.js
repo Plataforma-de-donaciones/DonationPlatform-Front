@@ -7,6 +7,8 @@ import Swal from "sweetalert2";
 import ComponenteTabla from "../../../../generales/helpers/ComponenteTabla";
 import CardComponente from "./../../../../generales/card/CardComponente";
 import { Button } from "react-bootstrap";
+import { useAuth } from "../../../../../AuthContext";
+
 
 const StyledTable = styled.table`
   border-collapse: collapse;
@@ -35,7 +37,7 @@ const UpdateButton = styled.button`
 
 const cookies = new Cookies();
 
-const ListadoVoluntarios = ({ voluntarioId }) => {
+const ListadoVoluntarios = (props) => {
   const [solicitudes, setSolicitudes] = useState([]);
   const [zones, setZones] = useState([]);
   const [conversationIds, setConversationIds] = useState({});
@@ -43,6 +45,8 @@ const ListadoVoluntarios = ({ voluntarioId }) => {
   const userDataCookie = cookies.get("user_data");
   const user_id = userDataCookie.user_id;
   const history = useHistory();
+  const { itemId, setItemId, conversationId, setConversationId } = useAuth();
+  console.log(itemId);
 
   const openOrCreateConversation = async (user_1, user_2, solicitudId) => {
     try {
@@ -51,14 +55,14 @@ const ListadoVoluntarios = ({ voluntarioId }) => {
       );
 
       if (solicitud && solicitud.conv) {
-        // Si ya existe una conversación, redirige a esa conversación
-        history.push(`/conversaciones/${solicitud.conv}`);
+        setConversationId(solicitud.conv);
+        history.push(`/conversaciones`);
       } else {
         const existingConvId = conversationIds[solicitudId];
         console.log(existingConvId);
 
         if (existingConvId) {
-          history.push(`/conversaciones/${existingConvId}`);
+          history.push(`/conversaciones`);
         } else {
           const response = await instance.post(
             "/conversations/",
@@ -86,11 +90,12 @@ const ListadoVoluntarios = ({ voluntarioId }) => {
                 },
               }
             );
+            setConversationId(response.data.conv_id);
             setConversationIds((prevIds) => ({
               ...prevIds,
               [convIdKey]: response.data.conv_id,
             }));
-            history.push(`/conversaciones/${response.data.conv_id}`);
+            history.push(`/conversaciones`);
             console.log("Conversation IDs:", conversationIds, solicitudId);
           }
         }
@@ -105,7 +110,7 @@ const ListadoVoluntarios = ({ voluntarioId }) => {
       const response = await instance.post(
         "/requests/searchbyvol/",
         {
-          search: voluntarioId,
+          search: itemId,
         },
         {
           headers: {
@@ -114,7 +119,7 @@ const ListadoVoluntarios = ({ voluntarioId }) => {
         }
       );
       console.log(response.data);
-      console.log(voluntarioId);
+      console.log(itemId);
       setSolicitudes(response.data);
     } catch (error) {
       console.error("Error al obtener solicitudes:", error);
@@ -137,7 +142,7 @@ const ListadoVoluntarios = ({ voluntarioId }) => {
   useEffect(() => {
     obtenerSolicitudes();
     obtenerZonas();
-  }, [voluntarioId]);
+  }, [itemId]);
 
   const handleConfirmationChange = (solicitudId) => {
     setSolicitudes((prevSolicitudes) =>

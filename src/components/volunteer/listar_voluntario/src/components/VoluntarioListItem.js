@@ -42,19 +42,20 @@ const stateMap = {
 };
 
 const VoluntarioListItem = ({ volunteer }) => {
+  const { setItemId } = useAuth();
   const history = useHistory();
   const { isAuthenticated } = useAuth();
   const [mapCoordinates, setMapCoordinates] = useState(null);
   const [showMap, setShowMap] = useState(false);
 
-  const handleAction = () => {
+  const handleAction = (id) => {
     if (isAuthenticated) {
       if (volunteer.type === 1) {
-        history.push(`/donarvoluntariado/${volunteer.vol_id}`);
+        setItemId(id);
+        history.push(`/donarvoluntariado`);
       } else {
-        console.log('Solicitar:', volunteer.vol_name);
-        console.log('id', volunteer.vol_id);
-        history.push(`/solicitarvoluntariado/${volunteer.vol_id}`);
+        setItemId(id);
+        history.push(`/solicitarvoluntariado`);
       }
     } else {
       Swal.fire({
@@ -133,7 +134,7 @@ const VoluntarioListItem = ({ volunteer }) => {
         childrens={
           <>
             <ActionButtons className='mb-3'>
-              <ActionButton onClick={handleAction}>
+              <ActionButton onClick={() => handleAction(volunteer.vol_id || volunteer.id)}>
                 <IconContainer>
                   <FaUser />
                 </IconContainer>

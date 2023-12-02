@@ -9,6 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
 import CardComponente from './../../../../generales/card/CardComponente';
 import { Button, Col, Form, Row } from 'react-bootstrap';
+import { useAuth } from "../../../../../AuthContext";
+
 
 const HelperText = styled.span`
   font-size: 10px;
@@ -23,7 +25,8 @@ const HelperText = styled.span`
 const cookies = new Cookies();
 
 const SolicitudEqMedicoBox = (props) => {
-  const { equipamientoId } = useParams();
+  //const { equipamientoId } = useParams();
+  const { itemId, setItemId } = useAuth();
   const [solicitudData, setSolicitudData] = useState({
     req_name: '',
     req_description: '',
@@ -48,18 +51,16 @@ const SolicitudEqMedicoBox = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    // Obtener el user_id y equipamientoId al montar el componente
     const userDataCookie = cookies.get('user_data');
     if (userDataCookie) {
       setUserId(userDataCookie.user_id);
     }
-    // Asegurémonos de que equipamientoId está disponible
     setSolicitudData((prevData) => ({
       ...prevData,
-      user: user_id || '', // Asegurarse de que user sea una cadena vacía si user_id es null
-      eq: equipamientoId || '', // Asegurarse de que eq sea una cadena vacía si equipamientoId es null
+      user: user_id || '', 
+      eq: itemId || '', 
     }));
-  }, [equipamientoId, user_id]);
+  }, [itemId, user_id]);
 
   const handleFieldChange = (fieldName, value) => {
     setSolicitudData((prevData) => ({
@@ -67,7 +68,6 @@ const SolicitudEqMedicoBox = (props) => {
       [fieldName]: value,
     }));
 
-    // Limpiar el error al cambiar el campo
     setErrors((prevErrors) => ({
       ...prevErrors,
       [fieldName]: '',
@@ -113,7 +113,6 @@ const SolicitudEqMedicoBox = (props) => {
           )
           history.push('/listadoequipamiento');
         } else {
-          // Manejar otros casos de respuesta si es necesario
         }
       } catch (error) {
         console.error('Error al crear solicitud:', error);
@@ -122,13 +121,11 @@ const SolicitudEqMedicoBox = (props) => {
     }
     setValidated(true);
 
-    // Validar todos los campos antes de enviar la solicitud
     Object.keys(solicitudData).forEach((name) => {
       validateField(name, solicitudData[name]);
     });
 
 
-    // Verificar si se aceptaron los términos
     if (!solicitudData.accept_terms) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -163,7 +160,6 @@ const SolicitudEqMedicoBox = (props) => {
       }));
     }
 
-    // Agrega otras validaciones según sea necesario
   };
 
   const handleCancelarClick = () => {

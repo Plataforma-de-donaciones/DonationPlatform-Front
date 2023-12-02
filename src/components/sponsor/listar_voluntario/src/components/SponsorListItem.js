@@ -43,19 +43,20 @@ const stateMap = {
 };
 
 const SponsorListItem = ({ sponsor }) => {
+  const { setItemId } = useAuth();
   const history = useHistory();
   const { isAuthenticated } = useAuth();
   const [mapCoordinates, setMapCoordinates] = useState(null);
   const [showMap, setShowMap] = useState(false);
 
-  const handleAction = () => {
+  const handleAction = (id) => {
     if (isAuthenticated) {
       if (sponsor.type === 1) {
-        history.push(`/donarpadrino/${sponsor.sponsor_id}`);
+        setItemId(id);
+        history.push(`/donarpadrino`);
       } else {
-        console.log('Solicitar:', sponsor.sponsor_name);
-        console.log('id', sponsor.sponsor_id);
-        history.push(`/solicitarpadrino/${sponsor.sponsor_id}`);
+        setItemId(id);
+        history.push(`/solicitarpadrino`);
       }
     } else {
       Swal.fire({
@@ -136,7 +137,7 @@ const SponsorListItem = ({ sponsor }) => {
           <>
             <ActionButtons className='mb-3'>
 
-              <ActionButton onClick={handleAction}>
+              <ActionButton onClick={() => handleAction(sponsor.sponsor_id || sponsor.id)}>
                 <IconContainer>
                   <FaUser />
                 </IconContainer>

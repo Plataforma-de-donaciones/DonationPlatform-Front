@@ -5,10 +5,12 @@ import Cookies from "universal-cookie";
 import MenuComponent from "../../list_users/components/MenuComponent";
 import { useHistory } from "react-router-dom";
 import CardComponente from "../../../generales/card/CardComponente";
+import { useAuth } from "../../../../AuthContext";
 
 const cookies = new Cookies();
 
 const ListadoNoticias = () => {
+  const { setItemId } = useAuth();
   const [news, setNews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [newsPerPage] = useState(10);
@@ -49,8 +51,9 @@ const ListadoNoticias = () => {
   const handleCreateNews = () => {
     history.push("/altanoticia");
   };
-  const handleEditNews = (newsId) => {
-    history.push(`/editarnoticia/${newsId}`);
+  const handleEditNews = (id) => {
+    setItemId(id);
+    history.push(`/editarnoticia`);
   };
 
   const handleHighlight = async (newsId) => {
@@ -174,7 +177,7 @@ const ListadoNoticias = () => {
                 <Button className="mb-2"
                   variant="primary"
                   size="sm"
-                  onClick={() => handleEditNews(newsItem.new_id)}
+                  onClick={() => handleEditNews(newsItem.new_id || newsItem.id)}
                 >
                   Editar
                 </Button>

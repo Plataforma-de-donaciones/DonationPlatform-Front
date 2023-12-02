@@ -5,8 +5,11 @@ import { Card, Col, Row } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { useAuth } from "../../../../AuthContext";
 
-const ChatComponent = ({ convId }) => {
+
+const ChatComponent = () => {
+  const { conversationId } = useAuth();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const cookies = new Cookies();
@@ -18,7 +21,7 @@ const ChatComponent = ({ convId }) => {
         const token = cookies.get("token");
 
         const response = await instance.post("/chats/searchbyconv/", {
-          search: convId,
+          search: conversationId,
         }, {
           headers: {
             Authorization: `Token ${token}`,
@@ -36,7 +39,7 @@ const ChatComponent = ({ convId }) => {
     };
 
     cargarMensajes();
-  }, [convId, cookies]);
+  }, [conversationId, cookies]);
 
   const messageStyle = {
     borderRadius: "4px",
@@ -69,7 +72,7 @@ const ChatComponent = ({ convId }) => {
 
       const response = await instance.post("/chats/", {
         user: user_id,
-        conv: convId,
+        conv: conversationId,
         content: message,
         sent_date: sent_date,
       }, {

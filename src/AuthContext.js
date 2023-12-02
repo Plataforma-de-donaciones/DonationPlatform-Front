@@ -10,10 +10,10 @@ export const AuthProvider = ({ children }) => {
     token: null,
     user: null,
     itemId: null,
+    conversationId: null, 
   });
 
   useEffect(() => {
-    // Comprobación inicial de las cookies al cargar la aplicación
     const user = cookies.get("user_data");
     const token = cookies.get("token");
 
@@ -23,10 +23,10 @@ export const AuthProvider = ({ children }) => {
         token: token,
         user: user,
         itemId: null,
+        conversationId: null, 
       });
     }
-  }, []); // Se ejecuta solo en el montaje inicial
-
+  }, []); 
   const login = (token) => {
     const user = cookies.get("user_data");
     if (user) {
@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }) => {
         token: token,
         user: user,
         itemId: null,
+        conversationId: null, 
       });
     } else {
       setAuthState({
@@ -42,6 +43,7 @@ export const AuthProvider = ({ children }) => {
         token: null,
         user: null,
         itemId: null,
+        conversationId: null, 
       });
     }
   };
@@ -52,6 +54,7 @@ export const AuthProvider = ({ children }) => {
       token: null,
       user: null,
       itemId: null,
+      conversationId: null, 
     });
   };
 
@@ -62,8 +65,17 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
+  const setConversationId = (newConversationId) => {
+    setAuthState({
+      ...authState,
+      conversationId: newConversationId,
+    });
+  };
+
   return (
-    <AuthContext.Provider value={{ ...authState, login, logout, setItemId }}>
+    <AuthContext.Provider
+      value={{ ...authState, login, logout, setItemId, setConversationId }}
+    >
       {children}
     </AuthContext.Provider>
   );

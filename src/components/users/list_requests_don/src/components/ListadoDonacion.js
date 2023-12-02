@@ -7,6 +7,8 @@ import Swal from "sweetalert2";
 import CardComponente from "../../../../generales/card/CardComponente";
 import ComponenteTabla from "../../../../generales/helpers/ComponenteTabla";
 import { Button } from "react-bootstrap";
+import { useAuth } from "../../../../../AuthContext";
+
 
 const StyledTable = styled.table`
   border-collapse: collapse;
@@ -35,7 +37,7 @@ const UpdateButton = styled.button`
 
 const cookies = new Cookies();
 
-const ListadoDonacion = ({ donId }) => {
+const ListadoDonacion = (props) => {
   const [solicitudes, setSolicitudes] = useState([]);
   const [zones, setZones] = useState([]);
   const [conversationIds, setConversationIds] = useState({});
@@ -44,6 +46,9 @@ const ListadoDonacion = ({ donId }) => {
   const user_id = userDataCookie.user_id;
   const history = useHistory();
 
+  const { itemId, setItemId, conversationId, setConversationId } = useAuth();
+  console.log(itemId);
+
   const openOrCreateConversation = async (user_1, user_2, solicitudId) => {
     try {
       const solicitud = solicitudes.find(
@@ -51,14 +56,14 @@ const ListadoDonacion = ({ donId }) => {
       );
 
       if (solicitud && solicitud.conv) {
-        // Si ya existe una conversación, redirige a esa conversación
-        history.push(`/conversaciones/${solicitud.conv}`);
+        setConversationId(solicitud.conv);
+        history.push(`/conversaciones`);
       } else {
         const existingConvId = conversationIds[solicitudId];
         console.log(existingConvId);
 
         if (existingConvId) {
-          history.push(`/conversaciones/${existingConvId}`);
+          history.push(`/conversaciones`);
         } else {
           const response = await instance.post(
             "/conversations/",
@@ -86,11 +91,12 @@ const ListadoDonacion = ({ donId }) => {
                 },
               }
             );
+            setConversationId(response.data.conv_id);
             setConversationIds((prevIds) => ({
               ...prevIds,
               [convIdKey]: response.data.conv_id,
             }));
-            history.push(`/conversaciones/${response.data.conv_id}`);
+            history.push(`/conversaciones`);
             console.log("Conversation IDs:", conversationIds, solicitudId);
           }
         }
@@ -105,7 +111,7 @@ const ListadoDonacion = ({ donId }) => {
       const response = await instance.post(
         "/requests/searchbydon/",
         {
-          search: donId,
+          search: itemId,
         },
         {
           headers: {
@@ -114,7 +120,7 @@ const ListadoDonacion = ({ donId }) => {
         }
       );
       console.log(response.data);
-      console.log(donId);
+      console.log(itemId);
       setSolicitudes(response.data);
     } catch (error) {
       console.error("Error al obtener solicitudes:", error);
@@ -137,7 +143,7 @@ const ListadoDonacion = ({ donId }) => {
   useEffect(() => {
     obtenerSolicitudes();
     obtenerZonas();
-  }, [donId]);
+  }, [itemId]);
 
   const handleConfirmationChange = (solicitudId) => {
     setSolicitudes((prevSolicitudes) =>

@@ -8,6 +8,8 @@ import { toast, ToastContainer } from "react-toastify";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import CardComponente from "../../../../generales/card/CardComponente";
 import LocalidadBox from "../../../../generales/src/components/LocalidadBoxAlta";
+import { useAuth } from "../../../../../AuthContext";
+
 
 const HelperText = styled.span`
   font-size: 10px;
@@ -67,7 +69,8 @@ const ButtonSeparator = styled.div`
 const cookies = new Cookies();
 
 const SolicitudBox = (props) => {
-  const { sponsorId } = useParams();
+  //const { sponsorId } = useParams();
+  const { itemId, setItemId } = useAuth();
   const [solicitudData, setSolicitudData] = useState({
     req_name: "",
     req_description: "",
@@ -100,9 +103,9 @@ const SolicitudBox = (props) => {
     setSolicitudData((prevData) => ({
       ...prevData,
       user: user_id || "",
-      sponsor: sponsorId || "",
+      sponsor: itemId || "",
     }));
-  }, [sponsorId, user_id]);
+  }, [itemId, user_id]);
 
   const handleFieldChange = (fieldName, value) => {
     setSolicitudData((prevData) => ({

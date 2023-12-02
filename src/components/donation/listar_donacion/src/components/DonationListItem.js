@@ -82,6 +82,7 @@ const stateMap = {
 };
 
 const DonationListItem = ({ donation }) => {
+  const { setItemId } = useAuth();
   const [expanded, setExpanded] = useState(true);
   const history = useHistory(); // Obtén la función history
   const { isAuthenticated } = useAuth();
@@ -92,16 +93,14 @@ const DonationListItem = ({ donation }) => {
     setExpanded(!expanded);
   };
 
-  const handleAction = () => {
+  const handleAction = (id) => {
     if (isAuthenticated) {
       if (donation.type === 1) {
-        // Si el tipo es 1 (Solicitud), redirige a la página de donación
-        history.push(`/donardonacion/${donation.don_id}`);
+        setItemId(id);
+        history.push(`/donardonacion`);
       } else {
-        // En otros casos, maneja la acción de solicitud
-        console.log('Solicitar:', donation.don_name);
-        console.log('id', donation.don_id);
-        history.push(`/solicitardonacion/${donation.don_id}`);
+        setItemId(id);
+        history.push(`/solicitardonacion`);
       }
     } else {
       Swal.fire({
@@ -182,7 +181,7 @@ const DonationListItem = ({ donation }) => {
           <>
 
             <ActionButtons className='mb-3'>
-              <ActionButton onClick={handleAction}>
+              <ActionButton onClick={() => handleAction(donation.don_id || donation.id)}>
                 <IconContainer>
                   <FaUser />
                 </IconContainer>

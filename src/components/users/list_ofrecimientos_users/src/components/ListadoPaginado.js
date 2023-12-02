@@ -10,7 +10,6 @@ import { useAuth } from "../../../../../AuthContext";
 
 const cookies = new Cookies();
 
-// Define estilos con styled-components
 
 const ListadoPaginado = ({ }) => {
 
@@ -89,6 +88,22 @@ const ListadoPaginado = ({ }) => {
     setTipo(tipo);
 
     history.push("/editarevento");
+  };
+  const handleSolicitudesClick = (id) => {
+    setItemId(id);
+    history.push(`/listadorequestdon`);
+  };
+  const handleSolicitudesClickEq = (id) => {
+    setItemId(id);
+    history.push(`/listadorequesteq`);
+  };
+  const handleSolicitudesClickVol = (id) => {
+    setItemId(id);
+    history.push(`/listadorequestvol`);
+  };
+  const handleSolicitudesClickSp = (id) => {
+    setItemId(id);
+    history.push(`/listadorequestsponsor`);
   };
   const eliminarItem = async (id) => {
     console.log("id a eliminar", id);
@@ -277,15 +292,13 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.don_name}</td>
                       <td>{item.don_description}</td>
                       <td>{item.don_created_at}</td>
-                      <td>
-                        <Link to={`/listadorequestdon/${item.don_id}`}>
-                          {item.request_count}
-                        </Link>
-                      </td>
+                      <Button variant="link" onClick={() => handleSolicitudesClick(item.don_id)}>
+                        {item.request_count}
+                      </Button>
                       <td>{item.don_confirmation_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
                       <td className="text-center">
-                      <Button
+                        <Button
                           variant="primary me-2"
                           onClick={() => editarItemDon(item.don_id || item.id)}
                         >
@@ -311,13 +324,9 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.eq_name}</td>
                       <td>{item.eq_description}</td>
                       <td>{item.don_created_at}</td>
-                      <td>
-                        {
-                          <Link to={`/listadorequesteq/${item.eq_id}`}>
-                            {item.request_count}
-                          </Link>
-                        }
-                      </td>
+                      <Button variant="link" onClick={() => handleSolicitudesClickEq(item.eq_id)}>
+                        {item.request_count}
+                      </Button>
                       <td>{item.eq_confirmation_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
 
@@ -349,16 +358,14 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.vol_name}</td>
                       <td>{item.vol_description}</td>
                       <td>{item.vol_created_at}</td>
-                      <td>
-                        <Link to={`/listadorequestvol/${item.vol_id}`}>
-                          {item.request_count}
-                        </Link>
-                      </td>
+                      <Button variant="link" onClick={() => handleSolicitudesClickVol(item.vol_id)}>
+                        {item.request_count}
+                      </Button>
                       <td>{item.end_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
 
                       <td className="text-center">
-                      <Button
+                        <Button
                           variant="primary me-2"
                           onClick={() => editarItemVol(item.vol_id || item.id)}
                         >
@@ -384,16 +391,14 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.sponsor_name}</td>
                       <td>{item.sponsor_description}</td>
                       <td>{item.sponsor_created_at}</td>
-                      <td>
-                        <Link to={`/listadorequestsponsor/${item.sponsor_id}`}>
-                          {item.request_count}
-                        </Link>{" "}
-                      </td>
+                      <Button variant="link" onClick={() => handleSolicitudesClickSp(item.sponsor_id)}>
+                        {item.request_count}
+                      </Button>
                       <td>{item.end_date}</td>
                       <td>{item.has_requests ? "Yes" : "No"}</td>
 
                       <td className="text-center">
-                      <Button
+                        <Button
                           variant="primary me-2"
                           onClick={() => editarItemSponsor(item.sponsor_id || item.id)}
                         >
@@ -426,7 +431,7 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.has_requests ? "Yes" : "No"}</td>
 
                       <td className="text-center">
-                      <Button
+                        <Button
                           variant="primary me-2"
                           onClick={() => editarItemEve(item.event_id || item.id)}
                         >

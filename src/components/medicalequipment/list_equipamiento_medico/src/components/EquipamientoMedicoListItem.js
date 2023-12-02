@@ -82,6 +82,7 @@ const stateMap = {
 };
 
 const EquipamientoMedicoListItem = ({ equipamiento }) => {
+  const { setItemId } = useAuth();
   const [expanded, setExpanded] = useState(true);
   const history = useHistory(); 
   const { isAuthenticated } = useAuth();
@@ -93,14 +94,14 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
     setExpanded(!expanded);
   };
 
-  const handleAction = () => {
+  const handleAction = (id) => {
     if (isAuthenticated) {
       if (equipamiento.type === 1) {
-        history.push(`/donarequipamiento/${equipamiento.eq_id}`);
+        setItemId(id);
+        history.push(`/donarequipamiento`);
       } else {
-        console.log('Solicitar:', equipamiento.eq_name);
-        console.log('id', equipamiento.eq_id);
-        history.push(`/solicitarequipamiento/${equipamiento.eq_id}`);
+        setItemId(id);
+        history.push(`/solicitarequipamiento`);
       }
     } else {
       Swal.fire({
@@ -180,7 +181,7 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
         childrens={
           <>
             <ActionButtons className='mb-3'>
-              <ActionButton onClick={handleAction}>
+              <ActionButton onClick={() => handleAction(equipamiento.eq_id || equipamiento.id)}>
                 <IconContainer>
                   <FaUser />
                 </IconContainer>

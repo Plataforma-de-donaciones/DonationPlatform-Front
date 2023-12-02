@@ -8,6 +8,8 @@ import { ToastContainer } from "react-toastify";
 import LocalidadBox from "../../../../generales/src/components/LocalidadBoxAlta";
 import instance from "../../../../../axios_instance";
 import CardComponente from "../../../../generales/card/CardComponente";
+import { useAuth } from "../../../../../AuthContext";
+
 
 const Container = styled.div`
   display: flex;
@@ -28,7 +30,8 @@ const HelperText = styled.span`
 const cookies = new Cookies();
 
 const SolicitudVolBox = (props) => {
-  const { voluntarioId } = useParams();
+  //const { voluntarioId } = useParams();
+  const { itemId, setItemId } = useAuth();
   const [solicitudData, setSolicitudData] = useState({
     req_name: "",
     req_description: "",
@@ -60,9 +63,9 @@ const SolicitudVolBox = (props) => {
     setSolicitudData((prevData) => ({
       ...prevData,
       user: user_id || "",
-      vol: voluntarioId || "",
+      vol: itemId || "",
     }));
-  }, [voluntarioId, user_id]);
+  }, [itemId, user_id]);
 
   const handleFieldChange = (fieldName, value) => {
     setSolicitudData((prevData) => ({

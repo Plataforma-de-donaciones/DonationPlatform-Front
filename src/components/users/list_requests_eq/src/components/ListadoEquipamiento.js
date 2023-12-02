@@ -6,6 +6,8 @@ import { useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import ComponenteTabla from "./../../../../generales/helpers/ComponenteTabla";
 import CardComponente from './../../../../generales/card/CardComponente';
+import { useAuth } from "../../../../../AuthContext";
+
 
 const StyledTable = styled.table`
   border-collapse: collapse;
@@ -34,7 +36,7 @@ const UpdateButton = styled.button`
 
 const cookies = new Cookies();
 
-const ListadoEquipamiento = ({ eqId }) => {
+const ListadoEquipamiento = (props) => {
   const [solicitudes, setSolicitudes] = useState([]);
   const [zones, setZones] = useState([]);
   const [conversationIds, setConversationIds] = useState({});
@@ -43,6 +45,9 @@ const ListadoEquipamiento = ({ eqId }) => {
   const user_id = userDataCookie.user_id;
   const history = useHistory();
 
+  const { itemId, setItemId, conversationId, setConversationId } = useAuth();
+  console.log(itemId);
+
   const openOrCreateConversation = async (user_1, user_2, solicitudId) => {
     try {
       const solicitud = solicitudes.find(
@@ -50,14 +55,14 @@ const ListadoEquipamiento = ({ eqId }) => {
       );
 
       if (solicitud && solicitud.conv) {
-        // Si ya existe una conversación, redirige a esa conversación
-        history.push(`/conversaciones/${solicitud.conv}`);
+        setConversationId(solicitud.conv);
+        history.push(`/conversaciones`);
       } else {
         const existingConvId = conversationIds[solicitudId];
         console.log(existingConvId);
 
         if (existingConvId) {
-          history.push(`/conversaciones/${existingConvId}`);
+          history.push(`/conversaciones`);
         } else {
           const response = await instance.post(
             "/conversations/",
@@ -85,11 +90,12 @@ const ListadoEquipamiento = ({ eqId }) => {
                 },
               }
             );
+            setConversationId(response.data.conv_id);
             setConversationIds((prevIds) => ({
               ...prevIds,
               [convIdKey]: response.data.conv_id,
             }));
-            history.push(`/conversaciones/${response.data.conv_id}`);
+            history.push(`/conversaciones`);
             console.log("Conversation IDs:", conversationIds, solicitudId);
           }
         }
@@ -104,7 +110,7 @@ const ListadoEquipamiento = ({ eqId }) => {
       const response = await instance.post(
         "/requests/searchbyeq/",
         {
-          search: eqId,
+          search: itemId,
         },
         {
           headers: {
@@ -134,7 +140,7 @@ const ListadoEquipamiento = ({ eqId }) => {
   useEffect(() => {
     obtenerSolicitudes();
     obtenerZonas();
-  }, [eqId]);
+  }, [itemId]);
 
   const handleConfirmationChange = (solicitudId) => {
     setSolicitudes((prevSolicitudes) =>
