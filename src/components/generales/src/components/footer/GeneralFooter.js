@@ -13,8 +13,8 @@ const Container = styled.div`
     align-items: center;
     bottom: 0;
     left: 0;
-    padding-right: 1rem; 
-    padding-left: 1rem;
+    padding-right: 3rem; 
+    padding-left: 3rem;
 
     background-color: rgba(141, 202, 170, 1);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -22,14 +22,20 @@ const Container = styled.div`
 
     width: 100%;
     height: 50px;
+    margin-bottom: 0px;
 
     z-index: 1; /* Asegura que esté adelante de otros elementos */
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   }
 
-  @media (max-width: 530px) {
+  @media (max-width: 645px) {
     height: 65px;
     align-items: start;
+    padding-right: 0.5rem; 
+    padding-left: 0.5rem;
+  }
+  @media (max-width: 443px) {
+    width: 443px;
   }
 `;
 

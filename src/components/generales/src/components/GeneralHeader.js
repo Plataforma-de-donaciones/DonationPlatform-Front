@@ -174,6 +174,9 @@ const Container = styled.div`
 
     z-index: 9999; /* Asegura que esté adelante de otros elementos */
   }
+  @media (max-width: 443px) {
+    width: 443px;
+  }
 `;
 
 const ButtonOverlay = styled.button`

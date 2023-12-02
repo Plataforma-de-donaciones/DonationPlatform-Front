@@ -7,6 +7,8 @@ import CarouselNews from "../components/CarouselNews";
 import Layout from "../../../../generales/src/components/layout/Layout";
 import { Col, Row } from "react-bootstrap";
 import Chatbot from "../../../../chatbot/Chatbot";
+import { Card, CardBody } from "react-bootstrap";
+
 
 
 const cookies = new Cookies();
@@ -46,14 +48,18 @@ const HomeScreen = () => {
   return (
     <Layout>
       <CarouselNews news={highlightedNews}></CarouselNews>
-        <Row className="mt-3 mx-auto">
-          <Col className="col-xl-8 col-sm-12 order-sm-2 order-xl-1 order-1">
-            <NewsList newsList={newsList} />
-          </Col>
-          <Col className="col-xl-4 col-sm-12 order-sm-1  mb-3">
-            <MyCalendar events={events} isHome={true} />
-          </Col>
-        </Row>  
+      <Row className="mt-3 mx-auto">
+        <Card className='mt-5'>
+          <CardBody>
+            <Col className="col-xl-4 col-sm-12 order-sm-1  mb-3">
+              <MyCalendar events={events} isHome={true} />
+            </Col>
+            <Col className="col-xl-8 col-sm-12 order-sm-2 order-xl-1 order-1">
+              <NewsList newsList={newsList} />
+            </Col>
+          </CardBody>
+        </Card>
+      </Row>  
     </Layout>
   );
 };

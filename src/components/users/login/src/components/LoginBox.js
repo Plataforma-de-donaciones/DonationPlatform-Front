@@ -205,7 +205,7 @@ const LoginBox = () => {
 
   return (
     <>
-      <Row className="my-auto justify-content-center h-100">
+      <Row className="justify-content-center h-100">
         <Col  className="mt-auto mx-auto  col-xl-5 col-lg-6 col-md-9 col-sm-9 col-xs-9">
           <Card className="border-0 shadow rounded-3 mt-5 ">
             <CardHeader className="card-title text-center fw-light fs-5">

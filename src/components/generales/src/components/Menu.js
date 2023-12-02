@@ -5,22 +5,32 @@ import styled from "styled-components";
 const MenuContainer = styled.div`
   @media (min-width: 1px) {
     display: flex;
-    top: 80px;
-    left: 0;
     position: sticky;
     justify-content: space-between;
-    
+    align-items: center;
+    top: 80px;
+    left: 0;
+    padding-right: 2rem; 
+    padding-left: 2rem;
+
     background-color: rgba(80,80,80, 1);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    padding-right: 1rem; 
-    padding-left: 1rem;
-    
+
     width: 100%;
     height: 50px;
     margin-right: auto!important;
     margin-left: auto!important;
     z-index: 1023;
+  }
+  @media (max-width: 900px) {
+    padding-right: 1.5rem; 
+    padding-left: 1.5rem;
+  }
+
+  @media (max-width: 840px) {
+    padding-right: 1rem; 
+    padding-left: 1rem;
   }
 
   @media (max-width: 787px) {
@@ -32,12 +42,15 @@ const MenuContainer = styled.div`
     align-items: start;
     height: 65px;
   }
+  @media (max-width: 443px) {
+    width: 443px;
+  }
 `;
 
 const MenuItem = styled(Link)`
   color: #FFFFFF;
   text-decoration: none;
-  padding-top: 0.9rem; 
+  text-align:center;
   
   &:hover {
     color: rgba(79,181,139, 1);
@@ -49,6 +62,7 @@ const MenuItem = styled(Link)`
   }
   @media (max-width: 702px) {
     padding-top: 0.7rem; 
+    width: 6rem;
   }
 `;
 

@@ -96,9 +96,6 @@ const Chatbot = () => {
 
   return (
     <div className="chatbot-container">
-      <div className={`logo-container ${isOpen ? 'open' : ''}`} onClick={handleToggleChatbot}>
-        <img src={chatbotLogo} alt="Chatbot Logo" />
-      </div>
       {isOpen && (
         <div className="chat-window">
           <div className="message-container">
@@ -115,10 +112,15 @@ const Chatbot = () => {
               onChange={handleInputChange}
               placeholder="Escribe tu mensaje..."
             />
-            <button onClick={handleSendMessage}>Enviar</button>
+            <button onClick={handleSendMessage} variant="primary" className="button-enviar">
+              Enviar
+            </button>
           </div>
         </div>
       )}
+      <div className={`logo-container ${isOpen ? 'open' : ''}`} onClick={handleToggleChatbot}>
+        <img src={chatbotLogo} alt="Chatbot Logo" />
+      </div>
     </div>
   );
 };

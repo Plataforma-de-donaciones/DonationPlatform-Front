@@ -29,8 +29,8 @@ const Container = styled.button`
 
 const Caption = styled.span`
 color: rgba(100,100,100, 1);
-  font-size: 14px;
-  font-weight: 500;
+font-size: 0.9rem;
+font-weight: 500;
     
   &:hover {
     color: #FFFFFF;
