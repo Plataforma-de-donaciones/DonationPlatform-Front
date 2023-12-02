@@ -114,6 +114,7 @@ const AddIcon = styled.button`
 `;
 const Pagination = styled.div`
   display: flex;
+  gap: 8px;
 `;
 
 const PageButton = styled.button`
@@ -255,19 +256,18 @@ const DonationList = () => {
 
         <ListContainer>
           <Row>
-          <Col className="col-12 col-sm-12 col-xl-10 col-md-12 order-xl-1 order-sm-2 order-md-2 mb-3 mt-3">
-              <Row>
-                {currentDonation.map((donation) => (
-                  <DonationListItem key={donation.don_id} donation={donation} />
-                ))}
-              </Row>
-            </Col>
-
-            <Col className="col-12 col-sm-12 col-xl-2 col-md-12 order-xl-2 order-sm-1 order-md-1 mb-3 mt-3 d-flex flex-row flex-sm-column">
+          <Col className="col-12 col-sm-12 col-xl-2 col-md-12 order-xl-2 order-sm-1 order-md-1 mb-3 mt-3 d-flex flex-row flex-sm-column">
               <CategoryCard
                 onCategoryClick={handleCategoryClick}
                 onClearCategory={handleClearCategory}
               />
+            </Col>
+            <Col className="col-12 col-sm-12 col-xl-10 col-md-12 order-xl-1 order-sm-2 order-md-2 mb-3 mt-3">
+              <Row>
+                  {currentDonation.map((donation) => (
+                    <DonationListItem key={donation.don_id} donation={donation} />
+                  ))}
+              </Row>
             </Col>
 
           </Row>
