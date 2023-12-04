@@ -24,7 +24,7 @@ const Container = styled.div`
     height: 50px;
     margin-bottom: 0px;
 
-    z-index: 1; /* Asegura que esté adelante de otros elementos */
+    z-index: 1000; /* Asegura que esté adelante de otros elementos */
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   }
 
