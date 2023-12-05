@@ -5,6 +5,7 @@ import Cookies from "universal-cookie";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useHistory } from "react-router-dom";
 import CardComponente from "../../../generales/card/CardComponente";
+import Swal from "sweetalert2";
 
 const cookies = new Cookies();
 
@@ -92,14 +93,15 @@ const ListadoUsuariosAdm = () => {
       );
 
       if (response.status === 201) {
-        alert("Administrador registrado correctamente");
+        Swal.fire("¡Administrador registrado correctamente!", "", "success");
+    
       }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.detail) {
         const errorMessage = error.response.data.detail;
 
         if (errorMessage === "Ya existe administrator con este user.") {
-          alert("Ya existe un moderador para este usuario.");
+          Swal.fire("¡Ya existe un moderador para este usuario!", "", "info");
         } else {
           console.error("Error creando moderador:", errorMessage);
         }

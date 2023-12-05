@@ -5,6 +5,7 @@ import Cookies from "universal-cookie";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useHistory } from "react-router-dom";
 import CardComponente from "../../../generales/card/CardComponente";
+import Swal from "sweetalert2";
 
 const cookies = new Cookies();
 
@@ -88,7 +89,7 @@ const ListadoUsuarios = () => {
       });
 
       if (response.status === 201) {
-        alert("Donación registrada correctamente");
+        Swal.fire("¡Usuario moderador registrado correctamente!", "", "success");
       }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.detail) {

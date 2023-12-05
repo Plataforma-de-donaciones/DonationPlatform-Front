@@ -4,6 +4,7 @@ import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
 import { useHistory } from "react-router-dom";
 import CardComponente from "./../../../generales/card/CardComponente";
+import Swal from "sweetalert2";
 
 const cookies = new Cookies();
 
@@ -33,9 +34,18 @@ const ListadoModeradores = () => {
   }, [token]);
 
   const eliminarModerador = async (moderatorId) => {
-    const confirmacion = window.confirm(`¿Desea eliminar el moderador?`);
+    const confirmation = await Swal.fire({
+      title: "¿Está seguro que desea eliminar el moderador?",
+      text: "¡Le quitará el rol al usuario!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar"
+    });
+    if (confirmation.isConfirmed) {
 
-    if (confirmacion) {
       try {
         await instance.delete(`/moderators/${moderatorId}/`, {
           headers: {

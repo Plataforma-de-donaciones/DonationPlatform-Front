@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useLocation, useHistory } from "react-router-dom";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
 import Swal from "sweetalert2";
-import { Button, Card, Col, Row, Table } from "react-bootstrap";
+import { Button, Card, Table } from "react-bootstrap";
 import { useAuth } from "../../../../../AuthContext";
 
 
@@ -137,7 +137,7 @@ const ListadoPaginado = ({ }) => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, eliminar!",
+      confirmButtonText: "Sí, eliminar",
       cancelButtonText: "Cancelar"
     });
     if (confirmation.isConfirmed) {

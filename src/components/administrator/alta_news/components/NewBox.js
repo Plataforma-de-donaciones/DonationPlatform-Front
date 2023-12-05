@@ -9,6 +9,7 @@ import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
 import CardComponente from "../../../generales/card/CardComponente";
 import { Button, Col, Row } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 const FormContainer = styled.div`
   display: flex;
@@ -135,7 +136,8 @@ const NewBox = (props) => {
       });
 
       if (response.status === 201) {
-        alert("Noticia registrada correctamente");
+        Swal.fire("¡Noticia registrada correctamente!", "", "success");
+       
       } else {
         const serverError = response.data;
         console.log(response);

@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Table, Button, Container, Pagination, Form } from 'react-bootstrap';
 import instance from '../../../../axios_instance';
 import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MenuComponent from './MenuComponent';
 import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const cookies = new Cookies();
 
@@ -86,7 +87,7 @@ const ListadoUsuarios = () => {
       );
   
       if (response.status === 201) {
-        alert("Donación registrada correctamente");
+        Swal.fire("¡Usuario moderador registrado correctamente!", "", "success");
       }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.detail) {
