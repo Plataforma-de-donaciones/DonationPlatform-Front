@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import instance from "../../../../../axios_instance";
 import EventListItem from "./EventListItem";
 import Cookies from "universal-cookie";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
-import { Row, Col, Button, Form, InputGroup } from "react-bootstrap";
+import { Row, Col} from "react-bootstrap";
 import EncabezadoListado from "../../../../generales/src/components/layout/EncabezadoListado";
 import MyCalendar from "../../../../news/inicio/src/components/MyCalendar";
-import CardItem from './../../../../generales/src/components/CardItem';
 import Swal from "sweetalert2";
 
 const cookies = new Cookies();
@@ -178,7 +175,7 @@ const EventList = () => {
     <>
 
       <Row className="m-3">
-        <Col className="ms-5 me-5">
+        <Col className="ms-4 me-4">
 
           <EncabezadoListado showTabs={false}
             onActionAdd={handleAddEventClick}

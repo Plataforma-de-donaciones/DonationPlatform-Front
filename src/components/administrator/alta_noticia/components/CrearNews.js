@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import ImagenUploader from './ImagenUploader';
 import Cookies from 'universal-cookie';
 import instance from '../../../../axios_instance';
+import Swal from "sweetalert2";
 
 const cookies = new Cookies();
 
@@ -70,7 +71,8 @@ const CrearNews = () => {
       });
 
       if (response.status === 201) {
-        alert('Noticia registrada correctamente');
+        Swal.fire("¡Noticia registrada correctamente!", "", "success");
+        history.push("/listadonoticiasmod");
       } else {
         const serverError = await response.json();
         console.log(response);

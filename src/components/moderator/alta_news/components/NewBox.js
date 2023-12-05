@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import TituloLine from "./TituloLine";
 import NombreNewBox from "./NombreNewBox";
@@ -9,6 +9,7 @@ import AceptarButton from "./AceptarButton";
 import CancelarButton from "./CancelarButton";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
+import Swal from "sweetalert2";
 
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -189,8 +190,8 @@ const NewBox = (props) => {
         },
       });
 
-      if (response.status === 201) {
-        alert("Noticia registrada correctamente");
+      if (response.status === 201) {   
+        Swal.fire("¡Noticia registrada correctamente!", "", "success");    
       } else {
         const serverError = response.data;
         console.log(response);

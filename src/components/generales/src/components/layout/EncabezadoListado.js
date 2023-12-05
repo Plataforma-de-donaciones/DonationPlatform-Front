@@ -12,30 +12,34 @@ const EncabezadoListado = ({ onActionSolicitud, onActionOfrecimiento, textButton
         <>
 
         {showTabs && (
+            <Row>
+<Col className="col-12 col-sm-12 col-xl-12 col-md-12">
             <div className="mt-3 text-center">
                 <ButtonFn
                     onAction={onActionSolicitud}
                     name={"Solicitud"}
                     value={1}
-                />
+                    />
 
                 <ButtonFn
                     onAction={onActionOfrecimiento}
                     name={"Ofrecimiento"}
                     value={2}
-                />
+                    />
 
                 <ButtonFn
                     onAction={onActionBorrar}
                     name={"Borrar Filtro"}
                     variant={"outline-secondary"}
-                />
+                    />
 
             </div >
+                    </Col>
+                    </Row>
         )}
 
             <Row className="mt-3">
-                <Col className="col-8 mx-auto">
+                <Col className="col-12 col-sm-12 col-xl-6 col-md-6 col-xs-12 mb-3">
                     <Button onClick={onActionAdd} variant="outline-secondary">
                         <AddIcon>
                             <FontAwesomeIcon icon={faPlus} />
@@ -44,7 +48,7 @@ const EncabezadoListado = ({ onActionSolicitud, onActionOfrecimiento, textButton
                     </Button>
                 </Col>
 
-                <Col className="col-4">
+                <Col className="col-12 col-sm-12 col-xl-6 col-md-6 col-xs-12 m-auto">
                     <InputGroup className="mb-3">
                         <Form.Control
                             placeholder="Buscar por nombre..."
