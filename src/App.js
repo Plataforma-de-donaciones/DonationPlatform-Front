@@ -52,6 +52,8 @@ import ListUsersMod from './components/moderator/list_users/screens/ListUsersMod
 import ListNewsMod from './components/moderator/list_news/screens/ListNewsMod';
 import AltaNewMod from './components/moderator/alta_news/screens/AltaNewMod';
 import EditarNoticiaMod from './components/moderator/editar_news/src/screens/EditarNoticiaMod';
+import ListarOcultos from './components/moderator/list_ocultos/src/screens/ListarOcultos';
+
 
 function App() {
   return (
@@ -112,6 +114,7 @@ function App() {
           <Route path="/listadonoticiasmod/" component={ListNewsMod} />
           <Route path="/listadousuariosmod/" component={ListUsersMod} />
           <Route path="/altanoticiamod/" component={AltaNewMod} /> 
+          <Route path="/listadoocultos/" component={ListarOcultos} /> 
         </Switch>
       </AuthProvider>
     </Router>

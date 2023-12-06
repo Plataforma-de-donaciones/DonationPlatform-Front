@@ -167,7 +167,7 @@ const EditarNewBoxMod = (props) => {
           formData.append(key, value);
         });
 
-        const response = await instance.patch(`/news/${itemId}}/`, formData, {
+        const response = await instance.patch(`/news/${itemId}/`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Token ${token}`,
@@ -179,7 +179,7 @@ const EditarNewBoxMod = (props) => {
           text: "Los datos han sido editados",
           icon: "success",
         });
-        history.push("/listadonoticias");
+        history.push("/listadonoticiasmod");
         console.log("Respuesta del servidor:", response.data);
       } catch (error) {
         console.error("Error al actualizar la información de la noticia:", error);
@@ -264,7 +264,6 @@ const EditarNewBoxMod = (props) => {
               </Col>
             </Row>
 
-            {/* Mover la pregunta de eliminar y el botón al final */}
 
             <Form validated={validated} onSubmit={handleSubmit}>
               <Row className="mb-3"></Row>
