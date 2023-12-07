@@ -98,13 +98,10 @@ function GeneralHeader(props) {
           <LogoContent>
             <Link to="/inicio">
               <Isotype
-                src={require("../assets/images/logowhite1.png")}
+                src={require("../assets/images/logopngcompleto.png")}
                 alt="Logo"
               />
             </Link>
-            <LogoText>
-              <StyledLink to="/inicio">DonacionesUy</StyledLink>
-            </LogoText>
           </LogoContent>
         </LogoContainer>
       </div>
@@ -156,26 +153,32 @@ function GeneralHeader(props) {
 }
 
 const Container = styled.div`
-  @media (min-width: 1px) {
-    display: flex;
-    top: 0;
-    left: 0;
-    position: sticky;
-    justify-content: space-between;
-    align-items: center;
-    
-    background-color: rgba(79,181,139, 1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-    padding: 1rem;
+  display: flex;
+  top: 0;
+  left: 0;
+  position: sticky;
+  justify-content: space-between;
+  align-items: center;
 
-    width: 100%;
-    height: 80px;
+  background-color: rgba(79, 181, 139, 1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  padding: 1rem;
 
-    z-index: 9999; /* Asegura que esté adelante de otros elementos */
-  }
+  width: 100%;
+  height: 80px;
+  min-width: 443px;
+
+  z-index: 9999; /* Asegura que esté adelante de otros elementos */
+
   @media (max-width: 443px) {
-    width: 443px;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5rem;
+    justify-content: center;
+  }
+  @media (min-width: 532px) {
+    min-width: 532px;
   }
 `;
 
@@ -197,9 +200,12 @@ const MenuIcon = styled.div`
 `;
 
 const LogoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin: auto;
+display: flex;
+align-items: center;
+margin: auto;
+@media (max-width: 443px) {
+  margin-left: 3rem; /* Espacio entre LogoContainer y los otros elementos */
+}
 `;
 
 const LogoContent = styled.div`
@@ -208,13 +214,17 @@ const LogoContent = styled.div`
 `;
 
 const Isotype = styled.img`
-  @media (min-width: 10px) {
-    width: 80px;
-    height: auto;
-    object-fit: contain;
-    align-items: center;
-    margin-bottom: 0.5rem;
-  }
+  width: 325px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  align-items: center;
+
+@media (max-width: 443px) {
+  max-width: 80%;
+  
+
+}  
 `;
 
 const LogoText = styled.span`

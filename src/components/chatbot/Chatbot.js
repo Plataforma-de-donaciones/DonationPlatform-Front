@@ -75,9 +75,7 @@ const Chatbot = () => {
       setMessages(newMessages);
   
       if (messages.length === 0) {
-        setMessages([
-          { text: 'Hola, bienvenido/a a la plataforma de donaciones. ¿En qué puedo ayudarte?', sender: 'bot' },
-        ]);
+        handleSendMessageWelcome();
       } else {
         // llama a wit.ai para encontrar la intencion del mensaje
         const witAiResponse = await analyzeIntent(inputText);
@@ -124,10 +122,10 @@ const Chatbot = () => {
                 setMessages([...messages, { text: sponsorResponse, sender: 'bot' }]);
                 break;
               
-              case 'saludo':
-                const saludoResponse = '¡Gracias por comunicarse! Ante cualquier otra consulta quedo a las órdenes.';
-                setMessages([...messages, { text: saludoResponse, sender: 'bot' }]);
-                break;  
+              // case 'saludo':
+              //   const saludoResponse = '¡Gracias por comunicarse! Ante cualquier otra consulta quedo a las órdenes.';
+              //   setMessages([...messages, { text: saludoResponse, sender: 'bot' }]);
+              //   break;  
     
               case 'solicitudes':
                 const solicitudesResponse = 'Para visualizar sus solicitudes, debe dirigirse al botón de perfil, y luego "Mis solicitudes". Allí podrá visualizar el listado de los mismos por modulo.';
@@ -191,7 +189,8 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="chatbot-container">
+    <div className={`chatbot-container ${isOpen ? 'open' : ''}`}>
+      
       {isOpen && (
         <div className="chat-window">
           <div className="message-container" ref={messageContainerRef}>
@@ -215,11 +214,12 @@ const Chatbot = () => {
           </div>
         </div>
       )}
-      <div className={`logo-container ${isOpen ? 'open' : ''}`} onClick={handleToggleChatbot}>
+      <div className="logo-container" onClick={handleToggleChatbot}>
         <img src={chatbotLogo} alt="Chatbot Logo" />
       </div>
     </div>
   );
 };
+
 
 export default Chatbot;
