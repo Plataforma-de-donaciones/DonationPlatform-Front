@@ -6,13 +6,7 @@ import { Row, Col, CardBody } from "react-bootstrap";
 function AltaEquipamiento(props) {
   return (
     <Layout>
-      <Row>
-        <Col>
-          <CardBody>
             <EquipamientoMedicoBox />
-          </CardBody>
-        </Col>
-      </Row>
     </Layout>
   );
 }

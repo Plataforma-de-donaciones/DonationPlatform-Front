@@ -12,8 +12,7 @@ function ImagenDonEditarBox({ handleFileChange, donAttachment, titulo, ...props 
   };
 
   return (
-    <>
-      <Row className="text-center mx-auto">
+    <Container>
         <Imagen className="text-center mx-auto">{titulo}</Imagen>
         <Col>
           {previewImage && (
@@ -25,13 +24,14 @@ function ImagenDonEditarBox({ handleFileChange, donAttachment, titulo, ...props 
             </SubirArchivoBoxWrapper>
           )}
         </Col>
-      </Row>
-    </>
+    </Container>
   );
 }
 
 const Container = styled.div`
-  // display: flex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   // border-bottom-width: 1px;
   // border-color: #d9d5dc;
   // background-color: transparent;

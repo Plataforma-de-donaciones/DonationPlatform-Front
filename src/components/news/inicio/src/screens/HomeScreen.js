@@ -48,27 +48,20 @@ const HomeScreen = () => {
     <Layout>
       <CarouselNews news={highlightedNews}></CarouselNews>
       <NoticiasListContainer>
-        <ListAndCalendarContainer>
-          <ListContainer>
             <Row>
-            <Col className="col-xl-4 col-sm-12 order-sm-1  mb-3">
+              <Col xl={4} sm={12} className="mb-3">
                 <MyCalendar events={events} isHome={true} />
               </Col>
-              <Col className="col-xl-8 col-sm-12 order-sm-2 order-xl-1 order-1">
+              <Col xl={8} sm={12}>
                   <NewsList newsList={newsList} />
               </Col>
             </Row>  
-          </ListContainer>
-        </ListAndCalendarContainer>
       </NoticiasListContainer>
     </Layout>
   );
 };
 
 const NoticiasListContainer = styled.div`
-  display: flex;
-  flex-direction : column;
-
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
@@ -78,14 +71,9 @@ const NoticiasListContainer = styled.div`
   border-radius: 8px;
 
   @media (max-width: 1350px) {
-    display: grid;
-    grid-template-rows: auto auto 1fr auto; /* Ajuste de las filas */
+    padding: 16px;
   }
-  @media (min-width: 1px) {
-    display: grid;
-    grid-template-rows: auto auto 1fr auto; /* Ajuste de las filas */
-    width: 100%;
-  }
+ 
 `;
 
 const ListAndCalendarContainer = styled.div`
