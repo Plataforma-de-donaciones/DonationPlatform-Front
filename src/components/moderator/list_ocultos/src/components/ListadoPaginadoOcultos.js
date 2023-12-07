@@ -10,7 +10,7 @@ import { useAuth } from "../../../../../AuthContext";
 const cookies = new Cookies();
 
 
-const ListadoPaginado = ({ }) => {
+const ListadoPaginadoOcultos = ({ }) => {
 
   const { setItemId } = useAuth();
   const [datos, setDatos] = useState([]);
@@ -25,24 +25,48 @@ const ListadoPaginado = ({ }) => {
   const [idEnEdicion, setIdEnEdicion] = useState(null);
 
   useEffect(() => {
-    obtenerDatos();
+    obtenerDatos(tipo);
   }, [paginaActual, tipo]);
 
-  const obtenerDatos = async () => {
-    try {
-      const response = await instance.post(
-        `/${tipo}/searchbytypeuser/`,
-        {
-          search_type: 2,
-          search_user: user_email,
-        },
-        {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
+  const obtenerDatos = async (tipo) => {
+    let endpoint = "";
+  
+    switch (tipo) {
+      case "medicalequipments":
+        endpoint = "/medicalequipmentsocult/";
+        break;
+  
+      case "donations":
+        endpoint = "/donationocult/";
+        break;
+      
+      case "volunteers":
+        endpoint = "/volunteersocult/";
+        break;
+      
+      case "sponsors":
+        endpoint = "/sponsorsocult/";
+        break;
 
+      case "events":
+        endpoint = "/eventocult/";
+        break;
+  
+  
+      default:
+        console.error("Tipo no válido");
+        return;
+    }
+  
+    try {
+      const response = await instance.get(endpoint, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
+  
+      console.log("Respuesta:", response.data);
+  
       const itemsPorPagina = 10;
       const inicio = (paginaActual - 1) * itemsPorPagina;
       const fin = inicio + itemsPorPagina;
@@ -58,51 +82,111 @@ const ListadoPaginado = ({ }) => {
   const cambiarPagina = (nuevaPagina) => {
     setPaginaActual(nuevaPagina);
   };
-  const editarItemEq = (id) => {
-    setItemId(id);
-    setTipo(tipo);
 
-    history.push("/editarequipamiento");
+  const handleActivateEq = async (itemId) => {
+    try {
+      const formData = new FormData();
+      formData.append("has_requests", false);
+      formData.append("eq_confirmation_date", "");
+  
+      const response = await instance.patch(`/medicalequipments/${itemId}/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Token ${token}`,
+        },
+      });
+  
+      console.log("Respuesta del servidor:", response.data);
+      obtenerDatos(tipo);
+  
+      
+    } catch (error) {
+      console.error(`Error al destacar el elemento eq`, error);
+    }
   };
-  const editarItemDon = (id) => {
-    setItemId(id);
-    setTipo(tipo);
-
-    history.push("/editardonacion");
+  const handleActivateDon = async (itemId) => {
+    try {
+      const formData = new FormData();
+      formData.append("has_requests", false);
+      formData.append("eq_confirmation_date", "");
+  
+      const response = await instance.patch(`/donations/${itemId}/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Token ${token}`,
+        },
+      });
+  
+      console.log("Respuesta del servidor:", response.data);
+      obtenerDatos(tipo);
+  
+      
+    } catch (error) {
+      console.error(`Error al destacar el elemento eq`, error);
+    }
   };
-  const editarItemVol = (id) => {
-    setItemId(id);
-    setTipo(tipo);
-
-    history.push("/editarvoluntario");
+  const handleActivateVol = async (itemId) => {
+    try {
+      const formData = new FormData();
+      formData.append("has_requests", false);
+      formData.append("end_date", "");
+  
+      const response = await instance.patch(`/volunteers/${itemId}/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Token ${token}`,
+        },
+      });
+  
+      console.log("Respuesta del servidor:", response.data);
+      obtenerDatos(tipo);
+  
+      
+    } catch (error) {
+      console.error(`Error al destacar el elemento eq`, error);
+    }
   };
-  const editarItemSponsor = (id) => {
-    setItemId(id);
-    setTipo(tipo);
-
-    history.push("/editarsponsor");
+  const handleActivateSp = async (itemId) => {
+    try {
+      const formData = new FormData();
+      formData.append("has_requests", false);
+      formData.append("end_date", "");
+  
+      const response = await instance.patch(`/sponsors/${itemId}/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Token ${token}`,
+        },
+      });
+  
+      console.log("Respuesta del servidor:", response.data);
+      obtenerDatos(tipo);
+  
+      
+    } catch (error) {
+      console.error(`Error al destacar el elemento eq`, error);
+    }
   };
-  const editarItemEve = (id) => {
-    setItemId(id);
-    setTipo(tipo);
-
-    history.push("/editarevento");
-  };
-  const handleSolicitudesClick = (id) => {
-    setItemId(id);
-    history.push(`/listadorequestdon`);
-  };
-  const handleSolicitudesClickEq = (id) => {
-    setItemId(id);
-    history.push(`/listadorequesteq`);
-  };
-  const handleSolicitudesClickVol = (id) => {
-    setItemId(id);
-    history.push(`/listadorequestvol`);
-  };
-  const handleSolicitudesClickSp = (id) => {
-    setItemId(id);
-    history.push(`/listadorequestsponsor`);
+  const handleActivateEve = async (itemId) => {
+    try {
+      const formData = new FormData();
+      formData.append("geom_point", "");
+      formData.append("end_date", "");
+  
+      const response = await instance.patch(`/events/${itemId}/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Token ${token}`,
+        },
+      });
+  
+      console.log("Respuesta del servidor:", response.data);
+      obtenerDatos(tipo);
+  
+      
+    } catch (error) {
+      console.error(`Error al destacar el elemento eq`, error);
+    }
   };
   const eliminarItem = async (id) => {
     console.log("id a eliminar", id);
@@ -138,88 +222,8 @@ const ListadoPaginado = ({ }) => {
     }
   };
 
-  const finalizarItem = async (id) => {
-    const confirmation = await Swal.fire({
-      title: "¿Está seguro que finalizar la publicación?",
-      text: "¡La publicación ya no será visible!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, finalizar!",
-      cancelButtonText: "Cancelar",
-    });
-
-
-    if (confirmation.isConfirmed) {
-      try {
-        const formData = new FormData();
-        formData.append("don_confirmation_date", new Date().toISOString());
-        formData.append("eq_confirmation_date", new Date().toISOString());
-
-        const response = await instance.patch(
-          `/${tipo}/${id}/`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Token ${token}`,
-            },
-          }
-        );
-
-        Swal.fire({
-          title: "¡Finalizado correctamente!",
-          text: "Su publicacion de ofrecimiento ha sido finalizada",
-          icon: "success",
-        });
-        console.log("Respuesta del servidor:", response.data);
-      } catch (error) {
-        console.error(`Error al eliminar ${tipo}:`, error);
-      }
-    }
-  };
-
-  const finalizarVolPadItem = async (id) => {
-    const confirmation = await Swal.fire({
-      title: "¿Está seguro que finalizar la publicación?",
-      text: "¡La publicación ya no será visible!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, finalizar!",
-      cancelButtonText: "Cancelar",
-    });
-
-
-    if (confirmation.isConfirmed) {
-      try {
-        const formData = new FormData();
-        formData.append("end_date", new Date().toISOString());
-
-        const response = await instance.patch(
-          `/${tipo}/${id}/`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Token ${token}`,
-            },
-          }
-        );
-
-        Swal.fire({
-          title: "¡Finalizado correctamente!",
-          text: "Su publicacion de ofrecimiento ha sido finalizada.",
-          icon: "success",
-        });
-        console.log("Respuesta del servidor:", response.data);
-      } catch (error) {
-        console.error(`Error al eliminar ${tipo}:`, error);
-      }
-    }
-  };
+ 
+  
 
 
   useEffect(() => {
@@ -230,7 +234,7 @@ const ListadoPaginado = ({ }) => {
     <>
       <Card className="mt-5">
         <Card.Header className="text-center h5">
-          Mis ofrecimientos - {titulo}
+          Contenido Oculto - {titulo}
         </Card.Header>
 
         <Card.Body>
@@ -279,7 +283,7 @@ const ListadoPaginado = ({ }) => {
                 <th>Fecha creado</th>
                 <th>Solicitudes</th>
                 <th>Fecha confirmación</th>
-                <th>Tiene solicitudes</th>
+                <th>Oculto</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -291,23 +295,15 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.don_name}</td>
                       <td>{item.don_description}</td>
                       <td>{item.don_created_at}</td>
-                      <Button variant="link" onClick={() => handleSolicitudesClick(item.don_id)}>
-                        {item.request_count}
-                      </Button>
+                      <td>{item.request_count}</td>
                       <td>{item.don_confirmation_date}</td>
-                      <td>{item.has_requests ? "Yes" : "No"}</td>
+                      <td>{item.has_requests ? "Si" : "No"}</td>
                       <td className="text-center">
-                        <Button
-                          variant="primary me-2"
-                          onClick={() => editarItemDon(item.don_id || item.id)}
+                      <Button
+                          variant="primary"
+                          onClick={() => handleActivateDon(item.don_id || item.id)}
                         >
-                          Editar
-                        </Button>
-                        <Button
-                          variant="secondary me-2"
-                          onClick={() => finalizarItem(item.don_id || item.id)}
-                        >
-                          Finalizar
+                          Activar
                         </Button>
                         <Button
                           variant="danger"
@@ -322,25 +318,18 @@ const ListadoPaginado = ({ }) => {
                     <>
                       <td>{item.eq_name}</td>
                       <td>{item.eq_description}</td>
-                      <td>{item.don_created_at}</td>
-                      <Button variant="link" onClick={() => handleSolicitudesClickEq(item.eq_id)}>
-                        {item.request_count}
-                      </Button>
+                      <td>{item.eq_created_at}</td>
+                      <td>{item.request_count}</td>
+
                       <td>{item.eq_confirmation_date}</td>
-                      <td>{item.has_requests ? "Yes" : "No"}</td>
+                      <td>{item.has_requests ? "Si" : "No"}</td>
 
                       <td className="text-center">
-                        <Button
-                          variant="primary me-2"
-                          onClick={() => editarItemEq(item.eq_id || item.id)}
+                      <Button
+                          variant="primary"
+                          onClick={() => handleActivateEq(item.eq_id || item.id)}
                         >
-                          Editar
-                        </Button>
-                        <Button
-                          variant="secondary me-2"
-                          onClick={() => finalizarItem(item.eq_id || item.id)}
-                        >
-                          Finalizar
+                          Activar
                         </Button>
                         <Button
                           variant="danger"
@@ -357,25 +346,19 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.vol_name}</td>
                       <td>{item.vol_description}</td>
                       <td>{item.vol_created_at}</td>
-                      <Button variant="link" onClick={() => handleSolicitudesClickVol(item.vol_id)}>
-                        {item.request_count}
-                      </Button>
+                      <td>{item.request_count}</td>
+
                       <td>{item.end_date}</td>
-                      <td>{item.has_requests ? "Yes" : "No"}</td>
+                      <td>{item.has_requests ? "Si" : "No"}</td>
 
                       <td className="text-center">
-                        <Button
-                          variant="primary me-2"
-                          onClick={() => editarItemVol(item.vol_id || item.id)}
+                      <Button
+                          variant="primary"
+                          onClick={() => handleActivateVol(item.vol_id || item.id)}
                         >
-                          Editar
+                          Activar
                         </Button>
-                        <Button
-                          variant="secondary me-2"
-                          onClick={() => finalizarVolPadItem(item.vol_id || item.id)}
-                        >
-                          Finalizar
-                        </Button>
+                        
                         <Button
                           variant="danger"
                           onClick={() => eliminarItem(item.vol_id || item.id)}
@@ -390,25 +373,19 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.sponsor_name}</td>
                       <td>{item.sponsor_description}</td>
                       <td>{item.sponsor_created_at}</td>
-                      <Button variant="link" onClick={() => handleSolicitudesClickSp(item.sponsor_id)}>
-                        {item.request_count}
-                      </Button>
+                      <td>{item.request_count}</td>
+
                       <td>{item.end_date}</td>
-                      <td>{item.has_requests ? "Yes" : "No"}</td>
+                      <td>{item.has_requests ? "Si" : "No"}</td>
 
                       <td className="text-center">
-                        <Button
-                          variant="primary me-2"
-                          onClick={() => editarItemSponsor(item.sponsor_id || item.id)}
+                      <Button
+                          variant="primary"
+                          onClick={() => handleActivateSp(item.sponsor_id || item.id)}
                         >
-                          Editar
+                          Activar
                         </Button>
-                        <Button
-                          variant="secondary me-2"
-                          onClick={() => finalizarVolPadItem(item.sponsor_id || item.id)}
-                        >
-                          Finalizar
-                        </Button>
+                        
                         <Button
                           variant="danger"
                           onClick={() =>
@@ -427,14 +404,14 @@ const ListadoPaginado = ({ }) => {
                       <td>{item.start_date}</td>
                       <td>{item.request_count}</td>
                       <td>{item.eve_confirmation_date}</td>
-                      <td>{item.has_requests ? "Yes" : "No"}</td>
+                      <td>{item.has_requests ? "Si" : "No"}</td>
 
                       <td className="text-center">
-                        <Button
-                          variant="primary me-2"
-                          onClick={() => editarItemEve(item.event_id || item.id)}
+                      <Button
+                          variant="primary"
+                          onClick={() => handleActivateEve(item.event_id || item.id)}
                         >
-                          Editar
+                          Activar
                         </Button>
                         <Button
                           variant="danger"
@@ -467,4 +444,4 @@ const ListadoPaginado = ({ }) => {
   );
 };
 
-export default ListadoPaginado;
+export default ListadoPaginadoOcultos;

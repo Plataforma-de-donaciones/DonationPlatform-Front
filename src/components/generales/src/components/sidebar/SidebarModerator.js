@@ -15,8 +15,8 @@ const SidebarModerator = () => {
         </a>
         <hr />
         <ul class="nav nav-pills flex-column mb-auto">
-          <SidebarItem nombre="Usuarios" link={"/listadousuariosmod"} />
-          <SidebarItem nombre="Contenido" link={"/listadonoticiasmod"} />
+          <SidebarItem nombre="Noticias" link={"/listadonoticiasmod"} />
+          <SidebarItem nombre="Contenido moderado" link={"/listadoocultos"} />
         </ul>
       </aside>
     </>

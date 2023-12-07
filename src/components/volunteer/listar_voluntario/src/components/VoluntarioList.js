@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import instance from "../../../../../axios_instance";
 import VoluntarioListItem from "./VoluntarioListItem";
 import Cookies from "universal-cookie";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import Swal from "sweetalert2";
-import TypeButtons from "./TypeButtons";
-import { Button, Row } from "react-bootstrap";
 import EncabezadoListado from "../../../../generales/src/components/layout/EncabezadoListado";
+import TypeButtons from "./TypeButtons";
+import { Row } from "react-bootstrap";
 
 const cookies = new Cookies();
 

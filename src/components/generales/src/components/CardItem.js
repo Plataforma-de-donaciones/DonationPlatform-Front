@@ -1,4 +1,4 @@
-import { Col, Row } from 'react-bootstrap';
+import { Col} from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 
 const CardItem = (props) => {
@@ -38,7 +38,7 @@ const CardItem = (props) => {
             {
                 !props.isGrid &&
 
-                <Col className='col-6 mb-3'>
+                <Col className='col-xl-6 col-sm-12 col-md-6 col-12 mb-3'>
                     <Card className='h-100 text-center'>
                         <Card.Body>
                             <Card.Title>{props.name}</Card.Title>

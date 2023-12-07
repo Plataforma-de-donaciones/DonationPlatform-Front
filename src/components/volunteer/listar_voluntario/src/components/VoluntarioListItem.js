@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from "../../../../../AuthContext";
 import Swal from 'sweetalert2';
-import { Container, Row, Col } from 'react-bootstrap';
 import CardItem from '../../../../generales/src/components/CardItem';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';

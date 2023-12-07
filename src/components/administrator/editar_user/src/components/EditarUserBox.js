@@ -141,17 +141,13 @@ const EditarUserBox = (props) => {
     }
 
     try {
-      const formData = new FormData();
-
-      Object.entries({
+      //const formData = new FormData();
+      const requestData = {
         user_email: userCorreo,
-      }).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
+      };
 
-      const response = await instance.patch(`/users/${user_id}/`, formData, {
+      const response = await instance.patch(`/users/${user_id}/`, requestData, {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Token ${token}`,
         },
       });

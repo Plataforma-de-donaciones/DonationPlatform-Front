@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Table, Button, Container, Pagination, Form } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Table, Button, Pagination, Form } from "react-bootstrap";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
-import MenuComponent from "../../list_users/components/MenuComponent";
 import { useHistory } from "react-router-dom";
 import CardComponente from "./../../../generales/card/CardComponente";
+import Swal from "sweetalert2";
 
 const cookies = new Cookies();
 
@@ -34,9 +34,18 @@ const ListadoAdministradores = () => {
   }, [token]);
 
   const eliminarAdministrador = async (administratorId) => {
-    const confirmacion = window.confirm(`¿Desea eliminar el administrador?`);
 
-    if (confirmacion) {
+    const confirmation = await Swal.fire({
+      title: "¿Está seguro que desea eliminar el administrador?",
+      text: "¡Le quitará el rol al usuario!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar"
+    });
+    if (confirmation.isConfirmed) {
       try {
         await instance.delete(`/administrators/${administratorId}/`, {
           headers: {
