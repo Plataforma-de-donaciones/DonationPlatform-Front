@@ -1,11 +1,13 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 function PreguntasButton(props) {
-  // Agrega un manejador de eventos onClick
+
+  const history = useHistory();
+
   const handleClick = () => {
-    // Agrega aquí el código que deseas ejecutar cuando se haga clic en el botón
-    console.log("Botón Preguntas Frecuentes clickeado");
+    history.push("/preguntasfrecuentes");
   };
 
   return (
@@ -20,16 +22,18 @@ const Container = styled.button`
   background-color: transparent;
   justify-content: center;
   align-items: center;
-  flex-direction: row;
-  border-radius: 5px;
   border: none; /* Elimina el borde predeterminado de los botones */
   cursor: pointer; /* Cambia el cursor al puntero cuando se pasa por encima */
 `;
 
 const PreguntasFrecuentes = styled.span`
-  color: rgba(255, 255, 255, 1);
-  font-size: 14px;
+  color: rgba(100,100,100, 1);
+  font-size: 0.9rem;
   font-weight: 500;
+    
+  &:hover {
+    color: #FFFFFF;
+  }
 `;
 
 export default PreguntasButton;

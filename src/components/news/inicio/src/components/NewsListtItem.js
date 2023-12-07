@@ -1,6 +1,10 @@
 // NewsListItem.js
 import React, { useState } from 'react';
+import { Container } from 'react-bootstrap';
 import styled from 'styled-components';
+import Card from 'react-bootstrap/Card';
+import Collapse from 'react-bootstrap/Collapse';
+import Button from 'react-bootstrap/Button';
 
 const CardContainer = styled.div`
   background-color: #fff;
@@ -22,17 +26,37 @@ const ExpandButton = styled.button`
 
 const NewsListItem = ({ news }) => {
   const [expanded, setExpanded] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleExpand = () => {
     setExpanded(!expanded);
   };
 
   return (
-    <CardContainer>
-      <h3>{news.new_name}</h3>
-      <Description expanded={expanded}>{news.new_description}</Description>
-      <ExpandButton onClick={handleExpand}>{expanded ? 'Mostrar menos' : 'Mostrar más'}</ExpandButton>
-    </CardContainer>
+    <>
+
+      <Card className='mb-3'>
+        <Card.Body>
+          <Card.Title>{news.new_name}</Card.Title>
+
+          <Collapse in={open}>
+            <Card.Text className="mb-4 ms-2 text-muted text-center">
+              {news.new_description}
+            </Card.Text>
+          </Collapse>
+
+          <Button
+            onClick={() => setOpen(!open)}
+            aria-controls="example-collapse-text"
+            aria-expanded={open}>
+            {open ? "Leer menos" : "Leer más"}
+          </Button>
+
+        </Card.Body>
+      </Card>
+    </>
+
+
   );
 };
 

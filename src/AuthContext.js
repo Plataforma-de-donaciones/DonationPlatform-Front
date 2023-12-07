@@ -1,31 +1,49 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import Axios from 'axios';
 import Cookies from "universal-cookie";
 
 const AuthContext = createContext();
 const cookies = new Cookies();
+
 export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
     isAuthenticated: false,
     token: null,
     user: null,
+    itemId: null,
+    conversationId: null, 
   });
 
-  const login = (token) => {
-    const user = cookies.get('user_data');
-    if (user) {
-      // La cookie de usuario existe, lo que indica que el usuario está autenticado
+  useEffect(() => {
+    const user = cookies.get("user_data");
+    const token = cookies.get("token");
+
+    if (user && token) {
       setAuthState({
         isAuthenticated: true,
-        token: token, // Asegúrate de que `token` sea el token real obtenido del inicio de sesión
-        user: user,   // Establece el usuario a partir de la cookie
+        token: token,
+        user: user,
+        itemId: null,
+        conversationId: null, 
+      });
+    }
+  }, []); 
+  const login = (token) => {
+    const user = cookies.get("user_data");
+    if (user) {
+      setAuthState({
+        isAuthenticated: true,
+        token: token,
+        user: user,
+        itemId: null,
+        conversationId: null, 
       });
     } else {
-      // La cookie de usuario no existe, lo que indica que el usuario no está autenticado
       setAuthState({
         isAuthenticated: false,
         token: null,
         user: null,
+        itemId: null,
+        conversationId: null, 
       });
     }
   };
@@ -35,11 +53,29 @@ export const AuthProvider = ({ children }) => {
       isAuthenticated: false,
       token: null,
       user: null,
+      itemId: null,
+      conversationId: null, 
+    });
+  };
+
+  const setItemId = (newItemId) => {
+    setAuthState({
+      ...authState,
+      itemId: newItemId,
+    });
+  };
+
+  const setConversationId = (newConversationId) => {
+    setAuthState({
+      ...authState,
+      conversationId: newConversationId,
     });
   };
 
   return (
-    <AuthContext.Provider value={{ ...authState, login, logout }}>
+    <AuthContext.Provider
+      value={{ ...authState, login, logout, setItemId, setConversationId }}
+    >
       {children}
     </AuthContext.Provider>
   );

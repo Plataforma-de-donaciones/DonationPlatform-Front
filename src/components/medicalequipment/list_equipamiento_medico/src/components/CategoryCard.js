@@ -3,20 +3,18 @@ import styled from "styled-components";
 import instance from "../../../../../axios_instance";
 
 const CardContainer = styled.div`
-  background-color: #f0f0f0;
+  background-color: rgba(221,221,221, 1);
   border: 1px solid #ddd;
   padding: 16px;
   border-radius: 8px;
-  margin-right: 16px;
-  max-height: 400px;
-  min-width: 200px;
+  margin-right: -1rem;
 `;
 
 const StyledButton = styled.button`
   padding: 8px;
   margin: 4px;
   cursor: pointer;
-  background-color: rgba(255, 152, 0, 1);
+  background-color: rgba(79,181,139, 1);
   color: white; /* Color del texto */
   border: none;
   border-radius: 4px;

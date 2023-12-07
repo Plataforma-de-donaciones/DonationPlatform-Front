@@ -1,55 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import TituloLine from './TituloLine';
-import MotivoDeSolicitudEqMedicoBox from './MotivoDeSolicitudEqMedicoBox';
-import NombreEqMedicoSolicitudBox from './NombreEqMedicoSolicitudBox';
-import TeryCondCheckbox from './TeryCondCheckbox';
-import MaterialButtonWithShadow from './MaterialButtonWithShadow';
-import MaterialButtonViolet from './MaterialButtonViolet';
-import LocalidadBox from './LocalidadBox';
-import instance from '../../../../../axios_instance';
-import Cookies from 'universal-cookie';
-import { useHistory, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import LocalidadBox from "../../../../generales/src/components/LocalidadBoxAlta";
+import instance from "../../../../../axios_instance";
+import Cookies from "universal-cookie";
+import { useHistory, useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
+import CardComponente from "../../../../generales/card/CardComponente";
+import { Form, Row, Col, Button } from "react-bootstrap";
+import { useAuth } from "../../../../../AuthContext";
 
-const Container = styled.div`
-  display: flex;
-  background-color: rgba(255, 255, 255, 1);
-  flex-direction: column;
-`;
 
-const LoremIpsum1 = styled.span`
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
   font-style: normal;
-  font-weight: 700;
-  color: #121212;
-  font-size: 20px;
-  margin-top: 5px;
-`;
-
-const TituloLineContainer = styled.div`
-  width: 100%;
-  height: 35px;
-  margin-top: 15px;
-  position: relative;
-  background-color: rgba(255, 152, 0, 0.5);
-`;
-
-const Group = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    align-items: center;
-  }
+  font-weight: 400;
 `;
 
 const cookies = new Cookies();
 
 const SolicitudEqMedicoBox = (props) => {
-  const { equipamientoId } = useParams();
+  //const { equipamientoId } = useParams();
+  const { itemId, setItemId } = useAuth();
   const [solicitudData, setSolicitudData] = useState({
-    req_name: '',
-    req_description: '',
+    req_name: "",
+    req_description: "",
     zone: null,
     accept_terms: false,
     user: null,
@@ -64,25 +44,23 @@ const SolicitudEqMedicoBox = (props) => {
   });
 
   const [errors, setErrors] = useState({});
-  const token = cookies.get('token');
+  const token = cookies.get("token");
   const [user_id, setUserId] = useState(null);
   const [acceptTerms, setAcceptTerms] = useState(false);
-
-  const history = useHistory(); // Obtén la función history
+  const [validated, setValidated] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
-    // Obtener el user_id y equipamientoId al montar el componente
-    const userDataCookie = cookies.get('user_data');
+    const userDataCookie = cookies.get("user_data");
     if (userDataCookie) {
       setUserId(userDataCookie.user_id);
     }
-    // Asegurémonos de que equipamientoId está disponible
     setSolicitudData((prevData) => ({
       ...prevData,
-      user: user_id || '', // Asegurarse de que user sea una cadena vacía si user_id es null
-      eq: equipamientoId || '', // Asegurarse de que eq sea una cadena vacía si equipamientoId es null
+      user: user_id || "", 
+      eq: itemId || "", 
     }));
-  }, [equipamientoId, user_id]);
+  }, [itemId, user_id]);
 
   const handleFieldChange = (fieldName, value) => {
     setSolicitudData((prevData) => ({
@@ -90,10 +68,9 @@ const SolicitudEqMedicoBox = (props) => {
       [fieldName]: value,
     }));
 
-    // Limpiar el error al cambiar el campo
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [fieldName]: '',
+      [fieldName]: "",
     }));
   };
 
@@ -113,82 +90,207 @@ const SolicitudEqMedicoBox = (props) => {
     setAcceptTerms(isChecked);
   };
 
-  const handleAccept = async () => {
-    // Validar todos los campos antes de enviar la solicitud
+  const handleAccept = async (event) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    } else {
+      // Intentar enviar la solicitud
+      try {
+        const response = await instance.post("/requests/", solicitudData, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        });
+
+        if (response.status === 201) {
+          Swal.fire("¡Solicitud creada correctamente!", "", "success");
+          history.push("/listadoequipamiento");
+        } else {
+        }
+      } catch (error) {
+        console.error("Error al crear solicitud:", error);
+      }
+    }
+
+    setValidated(true);
+
     Object.keys(solicitudData).forEach((name) => {
       validateField(name, solicitudData[name]);
     });
 
-    // Verificar si hay errores en los campos
-    if (Object.values(errors).some((error) => error !== '')) {
-      return;
-    }
-
-    // Verificar si se aceptaron los términos
     if (!solicitudData.accept_terms) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        accept_terms: 'Debe aceptar los términos',
+        accept_terms: "Debe aceptar los términos",
       }));
       return;
-    }
-
-    // Intentar enviar la solicitud
-    try {
-      const response = await instance.post('/requests/', solicitudData, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      });
-
-      if (response.status === 201) {
-        alert('Solicitud creada correctamente');
-        // Redirigir a la página de solicitudes o a donde sea necesario
-        history.push('/listadoequipamiento');
-      } else {
-        // Manejar otros casos de respuesta si es necesario
-      }
-    } catch (error) {
-      console.error('Error al crear solicitud:', error);
     }
   };
 
   const validateField = (fieldName, value) => {
-    if (fieldName === 'req_name' && (!value || !value.toString().trim())) {
+    if (fieldName === "req_description" && (!value || !value.toString().trim())) {
+      toast.error("Por favor, complete los campos requeridos", {
+        position: "bottom-center",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [fieldName]: 'El nombre no puede estar vacío',
+        [fieldName]: "La descripción de la donación no puede estar vacía",
+      }));
+    }
+    if (fieldName === "zone" && !value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "",
       }));
     }
 
-    // Agrega otras validaciones según sea necesario
   };
 
+  const handleCancelarClick = () => {
+    Swal.fire({
+      title: "¿Está seguro que desea cancelar?",
+      icon: "question",
+      iconHtml: "?",
+      showCancelButton: true,
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+       history.push('/listadoequipamiento');
+      }
+    });
+  };
+
+  //url:solicitarequipamiento/
+
   return (
-    <Container {...props}>
-      <TituloLineContainer>
-        <TituloLine></TituloLine>
-        <LoremIpsum1>Solicitud de equipamiento médico</LoremIpsum1>
-      </TituloLineContainer>
-      <MotivoDeSolicitudEqMedicoBox
-        onChange={(event) => handleFieldChange('req_description', event.target.value)}
-      ></MotivoDeSolicitudEqMedicoBox>
-      <LocalidadBox onSelect={handleZoneSelect}></LocalidadBox>
-      <NombreEqMedicoSolicitudBox
-        onChange={(event) => handleFieldChange('req_name', event.target.value)}
-      ></NombreEqMedicoSolicitudBox>
-      <Group>
-      <TeryCondCheckbox
-  checked={acceptTerms}
-  onChange={() => handleAcceptTermsChange(!acceptTerms)}
-/>
-        <MaterialButtonWithShadow></MaterialButtonWithShadow>
-      </Group>
-      {errors.accept_terms && (
-        <span style={{ color: 'red', marginTop: '5px' }}>{errors.accept_terms}</span>
-      )}
-      <MaterialButtonViolet onClick={handleAccept}></MaterialButtonViolet>
-    </Container>
+    <>
+      <CardComponente
+        titulo={"Solicitud de equipamiento médico"}
+        body={
+          <>
+            <Form noValidate validated={validated} onSubmit={handleAccept}>
+              <Row className="mb-3">
+                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                  <Form.Label>¿Por qué motivo solicita este equipamiento médico? * </Form.Label>
+
+                  <Form.Control
+                    as="textarea"
+                    value={solicitudData["req_description"]}
+                    required
+                    type="text"
+                    placeholder="Describa el motivo de su solicitud"
+                    onChange={(event) =>
+                      handleFieldChange("req_description", event.target.value)
+                    }
+                    maxlength={250}
+                    minLength={3}
+                  />
+
+                  <Form.Control.Feedback type="invalid">
+                    La descripción de no puede estar vacía
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+                  <HelperText>
+                    Este dato se visualiza únicamente por el donatario.
+                    Asimismo, indique las condiciones del voluntariado.
+                  </HelperText>
+                </Form.Group>
+
+                <p></p>
+                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                  <LocalidadBox onSelect={handleZoneSelect} />
+                  {errors.zone && (
+                    <span style={{ color: "red" }}>{errors.zone}</span>
+                  )}
+
+                  <Form.Control.Feedback type="invalid">
+                    Localidad requerida
+                  </Form.Control.Feedback>
+
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+
+                  <HelperText>
+                    Este dato se visualiza en la publicación.
+                  </HelperText>
+                </Form.Group>
+                <p></p>
+                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                  <Form.Label>¿Cuál es su nombre? *</Form.Label>
+
+                  <Form.Control
+                    value={solicitudData["req_name"]}
+                    type="text"
+                    required
+                    placeholder="Ingrese su nombre"
+                    onChange={(event) =>
+                      handleFieldChange("req_name", event.target.value)
+                    }
+                    maxlength={50}
+                    minLength={3}
+                  />
+                  <HelperText>
+                    Este dato se visualiza únicamente por el donatario.
+                  </HelperText>
+                </Form.Group>
+                <p></p>
+                <Form.Group className="mb-3">
+                  <Form.Check
+                    required
+                    label="Al enviar este formulario acepta los términos y condiciones"
+                    feedback="Es necesario leer y aceptar los términos"
+                    feedbackType="invalid"
+                  />
+                </Form.Group>
+              </Row>
+
+              <Row className="text-center">
+                <Col>
+                  <Button style={{ width: "30%" }} type="submit">
+                    Aceptar
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    style={{ width: "30%" }}
+                    variant="secondary"
+                    onClick={handleCancelarClick}
+                  >
+                    Cancelar
+                  </Button>
+                </Col>
+              </Row>
+              <div className="text-center mx-auto"></div>
+            </Form>
+          </>
+        }
+      ></CardComponente>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
+    </>
   );
 };
 

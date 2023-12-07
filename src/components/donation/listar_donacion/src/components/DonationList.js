@@ -8,14 +8,30 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
-
+import { toast, ToastContainer } from 'react-toastify';
+import Swal from "sweetalert2";
+import { Col, Row, Button } from "react-bootstrap";
+import EncabezadoListado from "../../../../generales/src/components/layout/EncabezadoListado";
 
 const cookies = new Cookies();
 
 const DonationListContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  margin: 16px;
+  flex-direction : column;
+
+
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  padding: 32px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+
+  @media (max-width: 1350px) {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto; /* Ajuste de las filas */
+  }
 `;
 
 const ListContainer = styled.div`
@@ -37,12 +53,28 @@ const SearchBarContainer = styled.div`
   max-width: 800px;
   justify-content: flex-end;
 `;
-const SearchBarAndAddEquipment = styled.div`
+const SearchBarAndAddDonation = styled.div`
   display: flex;
   flex: 1;
   justify-content: space-between; /* Alinea los elementos a los extremos */
   align-items: center;
 `;
+
+const FilterBarContainer = styled.div`
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  margin-bottom: 16px;
+  max-width: 800px;
+  justify-content: flex-end;
+`;
+const FilterBarForType = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: space-around; 
+  align-items: center;
+`;
+
 const SearchInput = styled.input`
   padding: 8px;
   margin-right: 8px;
@@ -65,7 +97,7 @@ const SearchIcon = styled.span`
   color: #007bff;
 `;
 
-const AddEquipment = styled.div`
+const AddDonation = styled.div`
   display: flex;
   align-items: center;
   margin-right: 300px;
@@ -83,7 +115,6 @@ const AddIcon = styled.button`
 const Pagination = styled.div`
   display: flex;
   gap: 8px;
-  margin-top: 16px;
 `;
 
 const PageButton = styled.button`
@@ -94,12 +125,13 @@ const PageButton = styled.button`
 `;
 
 const DonationList = () => {
-  const itemsPerPage = 5;
+  const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [originalDonationList, setOriginalDonationList] = useState([]);
   const [donationList, setDonationList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedType, setSelectedType] = useState(null);
   const token = cookies.get("token");
 
   useEffect(() => {
@@ -113,15 +145,25 @@ const DonationList = () => {
           const filteredDonation = originalDonationList.filter((donation) =>
             donationIds.includes(donation.don_id)
           );
-          setDonationList(filteredDonation);
+
+           // Aplicar el filtro por tipo
+          const filteredDonationByType = selectedType
+            ? filteredDonation.filter((donation) => donation.type === selectedType)
+            : filteredDonation;
+
+          // Actualizar el estado donationList con los resultados del filtro
+          setDonationList(filteredDonationByType);
         } else {
-          response = await instance.get("/donations/", {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          });
+          response = await instance.get("/donations/");
           setOriginalDonationList(response.data);
-          setDonationList(response.data);
+
+          // Aplicar el filtro por tipo
+          const donationList = selectedType
+            ? response.data.filter((donation) => donation.type === selectedType)
+            : response.data;
+
+          // Actualizar el estado donationList con los resultados del filtro 
+          setDonationList(donationList);
         }
       } catch (error) {
         console.error("Error fetching donaciones:", error);
@@ -129,7 +171,7 @@ const DonationList = () => {
     };
 
     fetchDonation();
-  }, [selectedCategory, token]);
+  }, [selectedCategory, selectedType, token]);
 
   const handleCategoryClick = (categoryId) => {
     setSelectedCategory(categoryId);
@@ -137,6 +179,11 @@ const DonationList = () => {
 
   const handleClearCategory = () => {
     setSelectedCategory(null);
+  };
+
+  const handleTypeClick = (type) => {
+    console.log(`Selected type: ${type}`);
+    setSelectedType(type);
   };
 
   const handleSearch = async () => {
@@ -155,12 +202,22 @@ const DonationList = () => {
 
   const handleAddDonationClick = () => {
     if (isAuthenticated) {
-      // El usuario está autenticado, redirige a "/altaequipamiento"
+      // El usuario está autenticado, redirige a "/altadonacion"
       history.push("/altadonacion");
     } else {
       // El usuario no está autenticado, muestra una alerta o realiza la acción necesaria
-      alert("Debes iniciar sesión para completar esta acción.");
-      // Otra opción: Mostrar un modal de inicio de sesión
+      Swal.fire({
+        title: 'Debes iniciar sesión para completar esta acción',
+        text: '¿Desea ir al login en este momento?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push('/login');
+        }
+      });
     }
   };
 
@@ -183,56 +240,72 @@ const DonationList = () => {
 
   return (
     <DonationListContainer>
-      <SearchBarContainer>
-        <SearchBarAndAddEquipment>
-        <AddEquipment onClick={handleAddDonationClick}>
-          <AddIcon>
-            <FontAwesomeIcon icon={faPlus} />
-          </AddIcon>
-          Agregar donación
-        </AddEquipment>
-          <SearchInput
-            type="text"
-            placeholder="Buscar por nombre..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <SearchIcon onClick={handleSearch}>
-            <FontAwesomeIcon icon={faSearch} />
-          </SearchIcon>
-        </SearchBarAndAddEquipment>
-      </SearchBarContainer>
-      <ListAndCategoryContainer>
-      <ListContainer>
-        {currentDonation.map((donation) => (
-          <DonationListItem key={donation.don_id} donation={donation} />
-        ))}
 
-        {/* Paginación */}
-        <Pagination>
-          <PageButton onClick={prevPage} disabled={currentPage === 1}>
-            Anterior
-          </PageButton>
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <PageButton
-              key={index}
-              onClick={() => setCurrentPage(index + 1)}
-              isActive={currentPage === index + 1}
-            >
-              {index + 1}
-            </PageButton>
-          ))}
-          <PageButton onClick={nextPage} disabled={currentPage === totalPages}>
-            Siguiente
-          </PageButton>
-        </Pagination>
-      </ListContainer>
-
-      <CategoryCard
-        onCategoryClick={handleCategoryClick}
-        onClearCategory={handleClearCategory}
+      <EncabezadoListado
+        onActionSolicitud={() => handleTypeClick(1)}
+        onActionOfrecimiento={() => handleTypeClick(2)}
+        onActionBorrar={() => handleTypeClick(null)}
+        onActionAdd={handleAddDonationClick}
+        searchValue={searchTerm}
+        searchOnChange={setSearchTerm}
+        onSearch={handleSearch}
+        textButton={'Agregar donación'}
       />
+
+      <ListAndCategoryContainer>
+
+        <ListContainer>
+          <Row>
+          <Col className="col-12 col-sm-12 col-xl-2 col-md-12 order-xl-2 order-sm-1 order-md-1 mb-3 mt-3 d-flex flex-row flex-sm-column">
+              <CategoryCard
+                onCategoryClick={handleCategoryClick}
+                onClearCategory={handleClearCategory}
+              />
+            </Col>
+            <Col className="col-12 col-sm-12 col-xl-10 col-md-12 order-xl-1 order-sm-2 order-md-2 mb-3 mt-3">
+              <Row>
+                  {currentDonation.map((donation) => (
+                    <DonationListItem key={donation.don_id} donation={donation} />
+                  ))}
+              </Row>
+            </Col>
+
+          </Row>
+
+          {/* Paginación */}
+          <Pagination>
+            <PageButton onClick={prevPage} disabled={currentPage === 1}>
+              Anterior
+            </PageButton>
+            {Array.from({ length: totalPages }).map((_, index) => (
+              <PageButton
+                key={index}
+                onClick={() => setCurrentPage(index + 1)}
+                isActive={currentPage === index + 1}
+              >
+                {index + 1}
+              </PageButton>
+            ))}
+            <PageButton onClick={nextPage} disabled={currentPage === totalPages}>
+              Siguiente
+            </PageButton>
+          </Pagination>
+        </ListContainer>
+
       </ListAndCategoryContainer>
+      
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </DonationListContainer>
   );
 };

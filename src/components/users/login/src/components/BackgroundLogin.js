@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  opacity: 1;
+  opacity: 0.1;
   position: fixed; /* Cambia 'absolute' a 'fixed' */
   display: flex;
   top: 0;

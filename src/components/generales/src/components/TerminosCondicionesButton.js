@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 function TerminosCondicionesButton(props) {
-  // Agrega un manejador de eventos onClick
+  const history = useHistory();
+
   const handleClick = () => {
-    // Agrega aquí el código que deseas ejecutar cuando se haga clic en el botón
-    console.log("Botón Términos y Condiciones clickeado");
+    history.push("/terminoscondiciones");
   };
 
   return (
@@ -27,9 +28,12 @@ const Container = styled.button`
 `;
 
 const Caption = styled.span`
-  color: rgba(255, 255, 255, 1);
+  color: rgba(100,100,100, 1);  
   font-size: 14px;
   font-weight: 500;
+  &:hover {
+    color: #FFFFFF;
+  }
 `;
 
 export default TerminosCondicionesButton;

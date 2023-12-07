@@ -2,15 +2,20 @@ import React, { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
-import TituloLine from "./TituloLine";
-import NombreDonEdicionBox from "./NombreDonEdicionBox";
-import DescripcionDonEditarBox from "./DescripcionDonEditarBox";
-import TipoDePublicacionDonEdicionBox from "./TipoDePublicacionDonEdicionBox";
-import LocalidadBox from "./LocalidadBox";
-import ImagenDonEditarBox from "./ImagenDonEditarBox";
-import AceptarButton from "./AceptarButton";
-import CancelarButton from "./CancelarButton";
+import NombreDonEdicionBox from "../../../../generales/src/components/NombreDonEdicionBox";
+import DescripcionDonEditarBox from "../../../../generales/src/components/DescripcionDonEditarBox";
+import LocalidadBox from "../../../../generales/src/components/LocalidadBoxEditar";
+import ImagenDonEditarBox from "../../../../generales/src/components/ImagenDonEditarBox";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import TipodePublicacionBox from "../../../../generales/src/components/TipodePublicacionBox";
+import { urlBackendDev } from "../../../../generales/variables/constantes";
+import Spinner from "react-bootstrap/Spinner";
+import CardComponente from "../../../../generales/card/CardComponente";
+import { useAuth } from "../../../../../AuthContext";
+
 
 const cookies = new Cookies();
 
@@ -26,7 +31,6 @@ const Container = styled.div`
   min-height: 70vh;
   align-items: center;
   justify-content: center;
-
 `;
 
 const Donacion = styled.span`
@@ -64,7 +68,6 @@ const Rect = styled.div`
   text-align: center;
 `;
 
-
 const TitleText = styled.span`
   font-style: normal;
   font-weight: 700;
@@ -83,18 +86,21 @@ const EditarDonBox = (props) => {
   const [donAttachment, setDonAttachment] = useState("");
   const token = cookies.get("token");
   const [file, setFile] = useState(null);
+  const history = useHistory();
+  const [validated, setValidated] = useState(false);
+  const [imagenCargando, setImagenCargando] = useState(true);
 
-  // Usa useParams para obtener eq_id de la URL
-  const { don_id } = useParams();
-  console.log(don_id);
+
+  //const { don_id } = useParams();
+  const { itemId, setItemId } = useAuth();
+  console.log(itemId);
 
   useEffect(() => {
     const cargarDatosDonacion = async () => {
       try {
-        // Utiliza eq_id de la URL
         const response = await instance.post(
           "/donations/searchbyid/",
-          { don_id: don_id },
+          { don_id: itemId },
           {
             headers: {
               Authorization: `Token ${token}`,
@@ -109,16 +115,16 @@ const EditarDonBox = (props) => {
         setDonType(donacion.type);
         setDonZone(donacion.zone);
         setDonAttachment(donacion.don_attachment);
+        setImagenCargando(false);
       } catch (error) {
-        console.error("Error al cargar datos de la donacion:", error);
+        console.error("Error al cargar datos de la donación:", error);
       }
     };
 
-    // Cargar datos solo si hay un eq_id válido
-    if (don_id) {
+    if (itemId) {
       cargarDatosDonacion();
     }
-  }, [don_id, token]);
+  }, [itemId, token]);
 
   const handleDonNameChange = (e) => {
     setDonName(e.target.value);
@@ -151,80 +157,145 @@ const EditarDonBox = (props) => {
   };
 
   const handleSubmit = async () => {
-    try {
-      let donAttachmentToSend = donAttachment;
-  
-      if (file) {
-        // Si hay un archivo nuevo, enviarlo y obtener la nueva ruta
+    console.log(donZone);
+    const confirmation = await Swal.fire({
+      title: "¿Está seguro que desea editar?",
+      text: "cambiarán los campos que ha editado",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, editar",
+      cancelButtonText: "Cancelar",
+    });
+    if (confirmation.isConfirmed) {
+      try {
         const formData = new FormData();
-        formData.append("file", file);
-  
-        const response = await instance.patch(`/donations/${don_id}/`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Token ${token}`,
-          },
-        });
-  
-        donAttachmentToSend = response.data.filePath;
-      }
-  
-      const response = await instance.patch(
-        `/donations/${don_id}/`,
-        {
+
+        // Agregar nuevos datos y archivo solo si es diferente al actual
+        if (file && file.name !== donAttachment) {
+          formData.append("don_attachment", file);
+        }
+
+        Object.entries({
           don_name: donName,
           don_description: donDescription,
           type: donType,
           zone: donZone,
-          eq_attachment: donAttachmentToSend,
-        },
-        {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
-  
-      console.log("Respuesta del servidor:", response.data);
-    } catch (error) {
-      console.error("Error al actualizar la información de la donación:", error);
+        }).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
+
+        const response = await instance.patch(
+          `/donations/${itemId}/`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
+
+        Swal.fire({
+          title: "¡Editado correctamente!",
+          text: "Los datos han sido editados",
+          icon: "success",
+        });
+        history.push("/listadoofrecimientos");
+        console.log("Respuesta del servidor:", response.data);
+      } catch (error) {
+        console.error(
+          "Error al actualizar la información de la donación:",
+          error
+        );
+      }
     }
   };
 
+  const handleCancel = () => {
+    Swal.fire({
+      title: "¿Está seguro que desea cancelar?",
+      icon: "question",
+      iconHtml: "?",
+      showCancelButton: true,
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        history.push("/listadoofrecimientos");
+      }
+    });
+  };
+
   return (
-    <Container {...props}>
-      <UntitledComponent1Stack>
-      <Rect>
-        <TitleText>Editar donación</TitleText>
-      </Rect>
-        <NombreDonEdicionBox
-          style={{ width: "100%" }}
-          value={donName}
-          onChange={handleDonNameChange}
-        />
-      </UntitledComponent1Stack>
-      <DescripcionDonEditarBox
-        style={{ width: "100%" }}
-        value={donDescription}
-        onChange={handleDonDescriptionChange}
-      />
-      <TipoDePublicacionDonEdicionBox
-        style={{ width: "100%" }}
-        selectedType={donType}
-        onChange={handleDonTypeChange}
-      />
-      <LocalidadBox style={{ width: "100%" }} donZone={donZone} onChange={handleDonZoneChange} setEqZone={setDonZoneValue}/>
-      <ImagenDonEditarBox
-        style={{ width: "100%" }}
-        handleFileChange={handleFileChange}
-        eqAttachment={donAttachment}
-      />
-      <MaterialButtonViolet2Row>
-        <AceptarButton style={{ width: "48%" }} onClick={handleSubmit} />
-        <CancelarButton history={props.history} style={{ width: "48%", marginLeft: "4%" }} />
-      </MaterialButtonViolet2Row>
-      {/* Mover la pregunta de eliminar y el botón al final */}
-    </Container>
+    <>
+      <CardComponente
+        titulo={"Editar donaciones"}
+        body={
+          <>
+            <NombreDonEdicionBox
+              style={{ width: "100%" }}
+              value={donName}
+              onChange={handleDonNameChange}
+            />
+
+            <DescripcionDonEditarBox
+              style={{ width: "100%" }}
+              value={donDescription}
+              onChange={handleDonDescriptionChange}
+            />
+
+            <TipodePublicacionBox defaultValue={donType}></TipodePublicacionBox>
+
+            <LocalidadBox donZone={donZone} onChange={setDonZone} />
+
+            <div className="text-center mx-auto mb-3">
+              {imagenCargando ? (
+                <Spinner variant="success" animation="border" role="status">
+                  <span className="visually-hidden">Cargando...</span>
+                </Spinner>
+              ) : (
+                <ImagenDonEditarBox
+                  className="text-center"
+                  style={{ width: "20%" }}
+                  handleFileChange={handleFileChange}
+                  imagen={urlBackendDev + donAttachment}
+                  descripcion={donDescription}
+                  titulo={"Imagen"}
+                  eqAttachment={donAttachment}
+                />
+              )}
+            </div>
+
+            <Row className="text-center mx-auto">
+              <Col className="col-6 col-sm-12 col-xl-6 col-md-12">
+                <Button style={{ width: "50%" }} onClick={handleSubmit}>
+                  Aceptar
+                </Button>
+              </Col>
+
+              <Col className="col-6 col-sm-12 col-xl-6 col-md-12">
+                <Button
+                  history={props.history}
+                  style={{ width: "50%", marginLeft: "4%" }}
+                  onClick={handleCancel}
+                  variant="secondary"
+                >
+                  Volver
+                </Button>
+              </Col>
+            </Row>
+
+            {/* Mover la pregunta de eliminar y el botón al final */}
+
+            <Form validated={validated} onSubmit={handleSubmit}>
+              <Row className="mb-3"></Row>
+            </Form>
+          </>
+        }
+      ></CardComponente>
+    </>
   );
 };
 

@@ -1,28 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import FbRegistroButton from "./FbRegistroButton";
 import GoogleRegistroButton from "./GoogleRegistroButton";
-import NombreRegistroBox from "./NombreRegistroBox";
-import CorreoRegistroBox from "./CorreoRegistroBox";
-import ContrasenaTextBox from "./ContrasenaTextBox";
-import OrganizacionRegistroBox from "./OrganizacionRegistroBox";
-import AceptarButton from "./AceptarButton";
-import CancelarButton from "./CancelarButton";
 import instance from "../../../../../axios_instance";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
+import CardComponente from "../../../../generales/card/CardComponente";
+import {
+  Form,
+  Row,
+  Col,
+  InputGroup,
+  Button,
+  Card,
+  CardBody,
+} from "react-bootstrap";
+import PasswordInput from "../../../login/src/components/PasswordInput";
 
-const Container = styled.div`
-  background-color: rgba(255, 255, 255, 1);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 10px;
-  margin-bottom: 10px;
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
 `;
+
 
 const SocialButtonsContainer = styled.div`
   display: flex;
@@ -32,36 +38,7 @@ const SocialButtonsContainer = styled.div`
   margin-bottom: 0px;
 `;
 
-const CenteredContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-`;
 
-const Rect1 = styled.div`
-  width: 100%;
-  background-color: rgba(255, 152, 0, 0.6);
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: -50px;
-  padding: 6px 0px 0px 0px;
-  text-align: center;
-`;
-
-const RegistrateGratis = styled.h2`
-  color: #121212;
-  font-size: 20px;
-  margin: 6px 0px 0px 0px;
-`;
-
-const MaterialButtonViolet = styled.div`
-  height: 36px;
-  width: 100px;
-  margin: 20px 0px;
-`;
 
 const RegistrateGratis1 = styled.p`
   color: #121212;
@@ -87,21 +64,36 @@ const FormularioBox = (props) => {
   });
 
   const [errors, setErrors] = useState({});
+  const history = useHistory();
+  const [validated, setValidated] = useState(false);
 
-  const handleFieldChange = (e) => {
-    const { name, value } = e.target;
+  const handleFieldChange = (event) => {
+    const { name, value } = event.target;
+    const form = event.currentTarget;
+    console.log(form);
+    form.checkValidity();
+    if (name === "user_password" && !isValidPassword(value)) {
+      form.setCustomValidity("Este campo no es válido");
+
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]:
+          "La contraseña debe tener al menos 8 caracteres, una mayúscula y un número",
+      }));
+    } else {
+      form.setCustomValidity("");
+    }
+
     setRegistrationData({
       ...registrationData,
       [name]: value,
     });
 
-    // Limpiar el error al cambiar el campo
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: "",
     }));
 
-    // Validar el campo actual
     validateField(name, value);
   };
 
@@ -111,12 +103,15 @@ const FormularioBox = (props) => {
     switch (name) {
       case "user_name":
         if (!value) {
-          errorMessage = "Este campo es obligatorio.";
+          errorMessage = "El nombre de usuario no puede estar vacío";
         }
         break;
       case "user_email":
         if (value && !isValidEmail(value)) {
           errorMessage = "Correo electrónico no válido.";
+        }
+        if (!value) {
+          errorMessage = "El correo electrónico no puede estar vacío";
         }
         break;
       case "user_password":
@@ -124,8 +119,10 @@ const FormularioBox = (props) => {
           errorMessage =
             "La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.";
         }
+        if (!value) {
+          errorMessage = "La contraseña no puede estar vacía";
+        }
         break;
-      // Puedes agregar más validaciones según tus necesidades
       default:
         break;
     }
@@ -142,135 +139,278 @@ const FormularioBox = (props) => {
   }
 
   function isValidPassword(password) {
-    // Verificar la longitud mínima de la contraseña
     if (password.length < 8) {
       return false;
     }
 
-    // Verificar al menos una mayúscula y un número
     const uppercaseRegex = /[A-Z]/;
     const numberRegex = /[0-9]/;
 
     return uppercaseRegex.test(password) && numberRegex.test(password);
   }
 
-  const handlePasswordBlur = () => {
-    validateField("user_password", registrationData.user_password);
+  const handlePasswordBlur = (e) => {
+    const form = e.currentTarget;
+    const field = form.elements[2];
+    console.log(field);
+    validateField("user_password", field.value);
+
+    if (!isValidPassword(form.elements[2].value)) {
+      form.elements[2].setCustomValidity("Este campo no es válido");
+
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        ["user_password"]: errors.user_password,
+      }));
+    } else {
+      form.elements[2].setCustomValidity("");
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const form = e.currentTarget;
 
-    // Validar todos los campos antes de enviar la solicitud
-    Object.keys(registrationData).forEach((name) => {
-      validateField(name, registrationData[name]);
-    });
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    } else {
+      try {
+        const response = await instance.post(
+          "/users/create/",
+          registrationData,
+          {
+            headers: {
+              Authorization: "Token d715b622b64cb27a4012562e7c24fd05b5050bbe",
+            },
+          }
+        );
 
-    // Verificar si hay errores en los campos
-    if (Object.values(errors).some((error) => error !== "")) {
-      return;
-    }
+        if (response.status === 201) {
+          Swal.fire("¡Usuario creado correctamente!", "", "success");
+          history.push("/login");
+        } else {
+          const serverError = response.data;
+          
+          toast.error(serverError["user_name"][0], {
+            position: "bottom-center",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          if (serverError) {
+            const fieldErrors = {};
 
-    // Intentar enviar la solicitud
-    try {
-      const response = await instance.post("/users/create/", registrationData, {
-        headers: {
-          Authorization: "Token e2fa4c057c611857bb0c8aefc62ee3861017fe77",
-        },
-      });
+            Object.keys(serverError).forEach((field) => {
+              const errorMessage =
+                Array.isArray(serverError[field]) && serverError[field][0];
+              fieldErrors[field] = errorMessage || "Error desconocido";
 
-      if (response.status === 201) {
-        alert("Usuario creado");
-      } else {
-        const serverError = response.data;
+            });
 
-      if (serverError) {
-        // Si hay errores específicos, mostrarlos en los campos correspondientes
-        const fieldErrors = {};
-        Object.keys(serverError).forEach((field) => {
-          // Verificar si el mensaje de error es un array y tomar el primer elemento
-          const errorMessage =
-            Array.isArray(serverError[field]) && serverError[field][0];
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              ...fieldErrors,
+            }));
 
-          // Asignar el mensaje de error al campo
-          fieldErrors[field] = errorMessage || "Error desconocido";
-        });
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          ...fieldErrors,
-        }));
-      } else {
-        // Si no hay errores específicos, mostrar el mensaje genérico
+            toast.error(serverError, {
+              position: "bottom-center",
+              autoClose: 4000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          } else {
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              general: "Hubo un problema al crear el usuario.",
+            }));
+          }
+        }
+      } catch (error) {
+        console.error("Error al crear usuario:", error);
         setErrors((prevErrors) => ({
           ...prevErrors,
           general: "Hubo un problema al crear el usuario.",
         }));
       }
     }
-  } catch (error) {
-    console.error("Error al crear usuario:", error);
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      general: "Hubo un problema al crear el usuario.",
-    }));
+
+    setValidated(true);
+
+    Object.keys(registrationData).forEach((name) => {
+      validateField(name, registrationData[name]);
+    });
+
+    if (Object.values(errors).some((error) => error !== "")) {
+      return;
     }
+
+  };
+  const handleCancelarClick = () => {
+    Swal.fire({
+      title: "¿Está seguro que desea cancelar?",
+      icon: "question",
+      iconHtml: "?",
+      showCancelButton: true,
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        history.push("/login");
+      }
+    });
   };
 
   return (
-    <Container>
-      <CenteredContent>
-        <Rect1>
-          <RegistrateGratis>Regístrate con</RegistrateGratis>
-        </Rect1>
-        <SocialButtonsContainer>
-          <FbRegistroButton />
-          <GoogleRegistroButton />
-        </SocialButtonsContainer>
-        <RegistrateGratis1 style={{ textAlign: "center" }}>
-          O completa el formulario:
-        </RegistrateGratis1>
-        <FormRow>
-          <NombreRegistroBox
-            name="user_name"
-            value={registrationData.user_name}
-            onChange={handleFieldChange}
-          />
-          {errors.user_name && <div style={{ color: "red" }}>{errors.user_name}</div>}
-          <CorreoRegistroBox
-            name="user_email"
-            value={registrationData.user_email}
-            onChange={handleFieldChange}
-          />
-          {errors.user_email && <div style={{ color: "red" }}>{errors.user_email}</div>}
-          <ContrasenaTextBox
-            name="user_password"
-            value={registrationData.user_password}
-            onChange={handleFieldChange}
-            onBlur={handlePasswordBlur}
-          />
-          {errors.user_password && <div style={{ color: "red" }}>{errors.user_password}</div>}
-          <OrganizacionRegistroBox
-            name="organization"
-            value={registrationData.organization}
-            onChange={handleFieldChange}
-          />
-        </FormRow>
-        <div style={{ color: "red" }}>{errors.general}</div>
-      <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", margin: "20px 0px" }}></div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            margin: "20px 0px",
-          }}
-        >
-          <AceptarButton onClick={handleSubmit} />
-          <CancelarButton />
-        </div>
-        {errors.general && <div style={{ color: "red" }}>{errors.general}</div>}
-      </CenteredContent>
-    </Container>
+    <>
+      <CardComponente
+        titulo={"Regístrate con"}
+        body={
+          <> 
+            <SocialButtonsContainer className="text-center m-2 mx-auto">
+              <FbRegistroButton />
+              <GoogleRegistroButton />
+            </SocialButtonsContainer>
+            <RegistrateGratis1 style={{ textAlign: "center" }}>
+              O completa el formulario:
+            </RegistrateGratis1>
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              <Row className="mb-3">
+                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                  <Form.Label>Nombre de usuario *</Form.Label>
+
+                  <Form.Control
+                    value={registrationData["user_name"]}
+                    required
+                    type="text"
+                    name="user_name"
+                    placeholder="Digite su nombre de usuario"
+                    onChange={(event) => handleFieldChange(event)}
+                    maxlength={50}
+                    minLength={3}
+                  />
+
+                  <Form.Control.Feedback type="invalid">
+                    Por favor digite su nombre de usuario
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+                  <HelperText>Este dato se visualiza en tu perfil.</HelperText>
+                </Form.Group>
+                <p></p>
+
+                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                  <Form.Label>Correo electrónico *</Form.Label>
+
+                  <Form.Control
+                    value={registrationData["user_email"]}
+                    required
+                    type="email"
+                    placeholder="Digite su correo electrónico"
+                    onChange={(event) => handleFieldChange(event)}
+                    name="user_email"
+                    maxlength={50}
+                    minLength={3}
+                  />
+
+                  <Form.Control.Feedback type="invalid">
+                    Por favor digite su correo electrónico
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+                  <HelperText>Este dato se visualiza en tu perfil.</HelperText>
+                </Form.Group>
+
+                <p></p>
+
+                <Form.Group
+                  as={Col}
+                  md="12"
+                  xl="12"
+                  lg="12"
+                  className="mb-5"
+                  controlId="formBasicPassword"
+                >
+                  <Form.Label>Contraseña *</Form.Label>
+                  <InputGroup hasValidation>
+                    <PasswordInput
+                      name="user_password"
+                      value={registrationData.user_password}
+                      onChange={handleFieldChange}
+                      onBlur={handlePasswordBlur}
+                      mensaje={errors.user_password}
+                      required
+                      style={{
+                        height: 43,
+                        width: "100%",
+                        marginTop: 10,
+                      }}
+                    />
+                
+                    <Form.Control.Feedback type="invalid">
+                      {errors.user_password}
+                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>
+                      ¡Campo válido!
+                    </Form.Control.Feedback>
+                  </InputGroup>
+                  <HelperText>
+                    Mínimo 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y 1
+                    carácter especial.
+                  </HelperText>
+                </Form.Group>
+              </Row>
+
+              <Form.Group className="mb-3">
+                {/* <Form.Check
+                required
+                label="Agree to terms and conditions"
+                feedback="You must agree before submitting."
+                feedbackType="invalid"
+              /> */}
+              </Form.Group>
+
+              <Row className="text-center">
+                <Col>
+                  <Button style={{ width: "50%" }} type="submit">
+                    Aceptar
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    style={{ width: "50%" }}
+                    variant="secondary"
+                    onClick={handleCancelarClick}
+                  >
+                    Cancelar
+                  </Button>
+                </Col>
+              </Row>
+              <div className="text-center mx-auto"></div>
+            </Form>
+          </>
+        }
+      ></CardComponente>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </>
   );
 };
 

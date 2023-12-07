@@ -1,0 +1,336 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main {
+  margin: 0 auto;
+  min-height: calc(100vh - 200px);
+}
+
+.helper-text {
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.card-header {
+  padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
+  margin-bottom: 0;
+  background-color: rgba(141, 202, 170, 1);
+  box-shadow: 0 4px 8px rgb(255, 255, 255);
+  color: #ffffff;
+  border: #ffffff;
+
+  font-size: 1.1rem;
+  font-weight: 500;  
+  font-style: arial;
+}
+.row{
+  
+}
+
+.btn-primary {
+  background-color: rgba(141, 202, 170, 1);
+  border: 1px solid rgba(141, 202, 170, 1);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  min-width: 90px;
+  transition-duration: 0.4s;
+  color: #FFFFFF;
+  font-size: 1.1rem;
+  font-weight: 500;  
+  font-style: arial;
+
+  --bs-btn-hover-bg: rgba(79,181,139, 1);
+  --bs-btn-active-bg: rgba(141, 202, 170, 1);
+  
+  --bs-btn-hover-border-color: rgba(79,181,139, 1);
+  --bs-btn-active-border-color: rgba(79,181,139, 1);
+
+  --bs-btn-hover-color: rgba(255, 255, 255, 1); /* texto boton parado arriba*/
+  --bs-btn-active-color: rgba(79,181,139, 1); /* texto boton cliceado*/
+}
+
+.btn-secondary {
+  background-color: rgba(180,180,180, 1);
+  border: 1px solid rgba(180,180,180, 1);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  min-width: 100px;
+  transition-duration: 0.4s;
+  color: #FFFFFF;
+  font-size: 1.1rem;
+  font-weight: 500;  
+  font-style: arial;
+
+  --bs-btn-hover-bg: rgba(80,80,80, 1);
+  --bs-btn-active-bg:  rgba(180,180,180, 1);
+  
+  --bs-btn-hover-border-color: rgba(80,80,80, 1);
+  --bs-btn-active-border-color: rgba(80,80,80, 1);
+
+  --bs-btn-hover-color: rgba(255, 255, 255, 1); /* texto boton parado arriba*/
+  --bs-btn-active-color: rgba(80,80,80, 1); /* texto boton cliceado*/
+
+  @media (max-width: 768px) {
+    margin-top: 1rem;
+  }
+}
+
+
+.avatar {
+  width: 600px;
+  height: 200px;
+  border: none;
+  margin: auto;
+  max-width: 300px;
+}
+
+.lista-chat {
+  padding: 0;
+  font-size: 0.8rem;
+}
+
+.lista-chat li {
+  margin-bottom: 10px;
+  overflow: auto;
+  color: #ffffff;
+}
+
+.lista-chat .chat-body {
+  margin-left: 20px;
+  float: left;
+  width: 70%;
+}
+
+.lista-chat .mensaje {
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  background: #5a99ee;
+  display: inline-block;
+  padding: 10px 20px;
+  position: relative;
+}
+
+.lista-chat .mensaje h5 {
+  margin: 0 0 5px 0;
+  font-weight: 600;
+  line-height: 100%;
+  font-size: 0.9rem;
+}
+
+.lista-chat .mensaje p {
+  line-height: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+.lista-chat .in .mensaje:before {
+  left: -12px;
+  border-bottom: 20px solid transparent;
+  border-right: 20px solid #5a99ee;
+}
+
+.chat-list {
+  padding: 0;
+  font-size: 0.8rem;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.chat-list li {
+  margin-bottom: 10px;
+  overflow: auto;
+  color: #ffffff;
+}
+
+.chat-list .chat-img {
+  float: left;
+  width: 48px;
+}
+
+.chat-list .chat-img img {
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  width: 100%;
+}
+
+.chat-list .chat-message {
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  background: #5a99ee;
+  display: inline-block;
+  padding: 10px 20px;
+  position: relative;
+}
+
+.chat-list .chat-message:before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  width: 0;
+  height: 0;
+}
+
+.chat-list .chat-message h5 {
+  margin: 0 0 5px 0;
+  font-weight: 600;
+  line-height: 100%;
+  font-size: 0.9rem;
+}
+
+.chat-list .chat-message p {
+  line-height: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+.chat-list .chat-body {
+  margin-left: 20px;
+  float: left;
+  width: 70%;
+}
+
+.chat-list .in .chat-message:before {
+  left: -12px;
+  border-bottom: 20px solid transparent;
+  border-right: 20px solid #5a99ee;
+}
+
+.chat-list .out .chat-img {
+  float: right;
+}
+
+.chat-list .out .chat-body {
+  float: right;
+  margin-right: 20px;
+  text-align: right;
+}
+
+.chat-list .out .chat-message {
+  background: #fc6d4c;
+}
+
+.chat-list .out .chat-message:before {
+  right: -12px;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid #fc6d4c;
+}
+
+.card .card-header-chat:first-child {
+  -webkit-border-radius: 0.3rem 0.3rem 0 0;
+  -moz-border-radius: 0.3rem 0.3rem 0 0;
+  border-radius: 0.3rem 0.3rem 0 0;
+}
+.card .card-header-chat {
+  border: 0;
+  font-size: 1rem;
+  padding: 0.65rem 1rem;
+  position: relative;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.content {
+  margin-top: 40px;
+}
+
+.card-titulo {
+  font-size: 1.2rem;
+}
+
+.btn-login {
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  padding: 0.75rem 1rem;
+}
+
+.btn-google {
+  color: white !important;
+  background-color: #ea4335;
+}
+
+.btn-facebook {
+  color: white !important;
+  background-color: #3b5998;
+}
+
+.btn-google {
+  color: white !important;
+  background-color: #ea4335;
+}
+
+.btn-google:hover {
+  color: rgb(255, 255, 255) !important;
+  background-color: #e42312;
+}
+
+.btn-facebook {
+  color: white !important;
+  background-color: #3b5998;
+}
+
+.btn-facebook:hover {
+  color: white !important;
+  background-color: #2054c5;
+}
+
+.login-box {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.sidebar-admin {
+  background-color: rgba(80, 80, 80, 1);
+  width: 250px;
+  border-radius: 6px;
+}
+
+#root > main > aside > ul > li > a {
+  margin-bottom: 3px;
+  text-decoration: none;
+}
+
+#root > main > aside > ul > li.nav-item > a.active {
+  background-color: #4fb58b;
+}
+
+#root > main > aside > ul > li.nav-item > a.active:active {
+  background-color: #70c29e;
+}
+
+#root > main > aside > ul > li:hover {
+  background-color: #70c29e;
+  border-radius: var(--bs-nav-pills-border-radius);
+}
+
+#root > main > aside > ul.nav {
+  --bs-nav-link-padding-x: 1rem;
+  --bs-nav-link-padding-y: 0.5rem;
+  --bs-nav-link-font-weight: ;
+  --bs-nav-link-color: none;
+  --bs-nav-link-hover-color: none;
+  --bs-nav-link-disabled-color: var(--bs-secondary-color);
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+article {
+  overflow-x: auto;
+}

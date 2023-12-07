@@ -3,38 +3,66 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const MenuContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgba(190, 219, 57, 0.50);
-  padding: 1rem;
-  height: 50px;
-  flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente línea si no caben en el ancho disponible */
-  overflow: hidden; /* Oculta cualquier contenido que desborde del contenedor */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  @media (min-width: 1px) {
+    display: flex;
+    position: sticky;
+    justify-content: space-between;
+    align-items: center;
+    top: 80px;
+    left: 0;
+    padding-right: 2rem; 
+    padding-left: 2rem;
+
+    background-color: rgba(80,80,80, 1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 50px;
+    margin-right: auto!important;
+    margin-left: auto!important;
+    z-index: 1023;
+  }
+  @media (max-width: 900px) {
+    padding-right: 1.5rem; 
+    padding-left: 1.5rem;
+  }
+
+  @media (max-width: 840px) {
+    padding-right: 1rem; 
+    padding-left: 1rem;
+  }
+
+  @media (max-width: 787px) {
+    padding-right: 0.5rem; 
+    padding-left: 0.5rem;
+  }
+
+  @media (max-width: 702px) {
+    align-items: start;
+    height: 65px;
+  }
+  @media (max-width: 443px) {
+    width: 443px;
+  }
 `;
 
 const MenuItem = styled(Link)`
-  padding: 10px;
-  margin-right: 10px;
+  color: #FFFFFF;
   text-decoration: none;
-  color: #454A2C; /* Color más oscuro que el fondo */
-  font-weight: bold;
-
+  text-align:center;
+  
   &:hover {
-    background-color: #454A2C; /* Color más oscuro que el fondo al pasar el mouse */
-    color: #fff;
+    color: rgba(79,181,139, 1);
   }
-
-  &:not(:last-child) {
-    margin-right: 20px; /* Ajusta la distancia entre elementos */
-    margin-bottom: 10px; /* Añade espacio inferior entre elementos */
+  @media (max-width: 787px) {
+    padding-right: 0.5rem; 
+    padding-left: 0.5rem;
+    font-size: 14px;
   }
-
-  @media (max-width: 768px) {
-    width: 100%; /* Ocupa todo el ancho en dispositivos más pequeños */
-    margin-right: 0; /* Elimina el margen derecho para que los elementos ocupen todo el ancho disponible */
-    display: ${(props) => (props.showOnMobile ? "block" : "none")}; /* Controla la visibilidad en dispositivos móviles */
+  @media (max-width: 702px) {
+    padding-top: 0.7rem; 
+    width: 6rem;
   }
 `;
 
@@ -53,7 +81,7 @@ const Menu = () => {
       <MenuItem to="/listadovoluntariado" showOnMobile={true}>
         Voluntarios y Padrinos
       </MenuItem>
-      <MenuItem to="/eventos" showOnMobile={true}>
+      <MenuItem to="/listadoeventos" showOnMobile={true}>
         Eventos
       </MenuItem>
     </MenuContainer>
