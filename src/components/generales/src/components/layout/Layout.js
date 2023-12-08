@@ -1,3 +1,4 @@
+import React from "react";
 import Header from "./Header";
 import Menu from "../Menu";
 import Footer from "./Footer";
@@ -10,8 +11,7 @@ import Sidebar from "../sidebar/Sidebar";
 import SidebarModerator from './../sidebar/SidebarModerator';
 import Chatbot from "../../../../chatbot/Chatbot";
 import '../../../../chatbot/Chatbot.css';
-
-
+import styled from "styled-components";
 
 const Layout = ({
   children,
@@ -25,24 +25,42 @@ const Layout = ({
   const claseSidebar = sidebar ? "d-flex flex-shrink-0 p-3 " : "";
   const fullArticle = sidebar ? { width: "100%" } : {};
   return (
-    <>
+    <Wrapper>
       <BackgroundLogin />
       <Header />
       {haveMenu && <Menu />}
       <main className={claseSidebar}>
         {sidebar && !isModerator &&  <Sidebar />}
         {sidebar && isModerator && <SidebarModerator />}
-
         <article style={fullArticle}>
           {isAdmin && <MenuComponent className="" />}
-
           <Container fluid={isFluid}>{children}</Container>
         </article>
         <Chatbot />
-      </main>
+        </main>
       {haveFooter && <Footer />}
-    </>
+    </Wrapper>
   );
 };
+
+const MainContainer = styled.main`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ContentContainer = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-width: 443px;
+  @media (max-width: 443px) {
+    width: 443px;
+  }
+`;
 
 export default Layout;
