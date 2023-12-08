@@ -145,23 +145,19 @@ const EquipamientoMedicoList = () => {
             equipamientoIds.includes(equipamiento.eq_id)
           );
 
-          // Aplicar el filtro por tipo
           const filteredEquipamientoByType = selectedType
             ? filteredEquipamiento.filter((equipamiento) => equipamiento.type === selectedType)
             : filteredEquipamiento;
 
-          // Actualizar el estado equipamientoList con los resultados del filtro
           setEquipamientoList(filteredEquipamientoByType);
         } else {
           response = await instance.get("/medicalequipments/");
           setOriginalEquipamientoList(response.data);
 
-          // Aplicar el filtro por tipo
           const equipamientoList = selectedType
             ? response.data.filter((equipamiento) => equipamiento.type === selectedType)
             : response.data;
 
-          // Actualizar el estado equipamientoList con los resultados del filtro
           setEquipamientoList(equipamientoList);
         }
       } catch (error) {

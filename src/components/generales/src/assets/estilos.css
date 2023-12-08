@@ -5,12 +5,8 @@
 }
 
 main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  width: 100%;
+  margin: 0 auto;
+  min-height: calc(100vh - 200px);
 }
 
 .helper-text {
@@ -23,39 +19,21 @@ main {
   font-weight: 400;
 }
 
-.card{
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  width: 400px;
-}
-
-@media (max-width: 448px) {
-  .card {
-    width: 100%; /* O ajusta el ancho según sea necesario para la pantalla del iPhone SE */
-  }
-}
-
 .card-header {
   padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
   margin-bottom: 0;
   background-color: rgba(141, 202, 170, 1);
+  box-shadow: 0 4px 8px rgb(255, 255, 255);
   color: #ffffff;
-  border: none;
+  border: #ffffff;
 
   font-size: 1.1rem;
   font-weight: 500;  
   font-style: arial;
 }
-
-.card-body{
-
-}
 .row{
-  min-height: 510px;
-  margin-top: 30px;
-  margin-bottom: 300px;
-};
+  
+}
 
 .btn-primary {
   background-color: rgba(141, 202, 170, 1);
@@ -69,7 +47,6 @@ main {
   font-size: 1.1rem;
   font-weight: 500;  
   font-style: arial;
-  width: 10px;
 
   --bs-btn-hover-bg: rgba(79,181,139, 1);
   --bs-btn-active-bg: rgba(141, 202, 170, 1);
@@ -276,10 +253,7 @@ main {
 .btn-login {
   font-size: 0.9rem;
   letter-spacing: 0.05rem;
-  min-width: 90px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  padding: 0.75rem 1rem;
 }
 
 .btn-google {

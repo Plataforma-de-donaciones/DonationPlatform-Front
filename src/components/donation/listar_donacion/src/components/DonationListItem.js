@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaUser, FaExclamationTriangle } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom'; // Importa useHistory
 import { useAuth } from "../../../../../AuthContext";
 import Swal from 'sweetalert2';
@@ -11,6 +11,11 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 import { Modal } from 'react-bootstrap';
+import Cookies from 'universal-cookie';
+import instance from '../../../../../axios_instance';
+
+
+const cookies = new Cookies();
 
 
 const DonationCardContainer = styled.div`
@@ -59,15 +64,20 @@ const ActionButtons = styled.div`
 `;
 
 const ActionButton = styled.button`
-  display: flex;
-  align-items: center;
-  padding: 8px;
-  background-color: rgba(79,181,139, 1);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 0 8px;
+display: flex;
+align-items: center;
+padding: 8px;
+background-color: ${(props) => (props.secondary ? '#ccc' : '#4fb58b')};
+color: #fff;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+margin: 0 8px;
+transition: background-color 0.3s ease;
+
+&:hover {
+  background-color: ${(props) => (props.secondary ? '#ff0000' : '#68c172')};
+}
 `;
 
 const IconContainer = styled.span`
@@ -88,6 +98,8 @@ const DonationListItem = ({ donation }) => {
   const { isAuthenticated } = useAuth();
   const [mapCoordinates, setMapCoordinates] = useState(null);
   const [showMap, setShowMap] = useState(false);
+  const token = cookies.get("token");
+
 
   const handleExpand = () => {
     setExpanded(!expanded);
@@ -117,7 +129,62 @@ const DonationListItem = ({ donation }) => {
       });
     }
   };
+  const handleDenunciar = async (id) => {
+    if (isAuthenticated) {
+      const confirmation = await Swal.fire({
+        title: "¿Está seguro que desea denunciar la publicación?",
+        text: "Esta publicación será marcada como contenido inapropiado",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, confirmar",
+        cancelButtonText: "Cancelar",
+      });
 
+      if (confirmation.isConfirmed) {
+        try {
+          const formData = new FormData();          
+          formData.append("don_confirmation_date", new Date().toISOString());
+          formData.append("has_requests", true);
+
+          const response = await instance.patch(
+            `/donations/${id}/`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Token ${token}`,
+              },
+            }
+          );
+
+          Swal.fire({
+            title: "¡Publicación denunciada correctamente!",
+            text: "La publicación ha sido marcada como contenido inapropiado",
+            icon: "success",
+          });
+          history.push("/listadodonacion");
+          console.log("Respuesta del servidor:", response.data);
+        } catch (error) {
+          console.error("Error al confirmar la solicitud:", error);
+        }
+      }
+    } else {
+      Swal.fire({
+        title: 'Debes iniciar sesión para completar esta acción',
+        text: '¿Desea ir al login en este momento?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push('/login');
+        }
+      });
+    }
+  };
   const handleUbicacion = () => {
     let coordinates = null;
 
@@ -191,6 +258,12 @@ const DonationListItem = ({ donation }) => {
                   <FaMapMarkerAlt />
                 </IconContainer>
                 Ubicación
+              </ActionButton>
+              <ActionButton onClick={() => handleDenunciar(donation.don_id || donation.id)} style={{ position: 'absolute', top: '0', right: '0', margin: '8px' }}
+              secondary>
+                <IconContainer>
+                  <FaExclamationTriangle />
+                </IconContainer>
               </ActionButton>
             </ActionButtons>
             <Modal show={showMap} onHide={handleCloseMap} centered>
