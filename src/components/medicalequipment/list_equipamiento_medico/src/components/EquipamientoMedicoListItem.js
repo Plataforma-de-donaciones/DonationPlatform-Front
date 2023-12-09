@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FaMapMarkerAlt, FaUser, FaExclamationTriangle, FaShareSquare, FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
-import { useHistory } from 'react-router-dom'; // Importa useHistory
+import { FaMapMarkerAlt, FaUser, FaExclamationTriangle, FaShareSquare, FaFacebook, FaTwitter, FaInstagram, FaWhatsapp } from 'react-icons/fa';
+import { useHistory } from 'react-router-dom';
 import { useAuth } from "../../../../../AuthContext";
 import Swal from 'sweetalert2';
 import { Container, Col, Row } from 'react-bootstrap';
@@ -66,7 +66,10 @@ const ActionButton = styled.button`
   display: flex;
   align-items: center;
   padding: 8px;
-  background-color: ${(props) => (props.secondary ? '#ccc' : 'rgba(79,181,139, 1)')};
+  background-color: ${(props) => (props.secondary ? '#ccc' : 'rgba(79, 181, 139, 1)')};
+  color: #fff;
+  third: ${(props) => props.third ? '#ccc' : 'rgba(79, 181, 139, 1)'};
+  transition: background-color 0.3s ease;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -75,7 +78,7 @@ const ActionButton = styled.button`
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: ${(props) => (props.secondary ? '#ff0000' : 'rgba(141, 202, 170, 1)')};
+    background-color: ${(props) => (props.third ? 'rgba(79, 181, 139, 1)' : (props.secondary ? '#ccc' : 'rgba(79, 181, 139, 1)'))};
   }
 `;
 
@@ -94,6 +97,7 @@ const RedesSociales = {
   TWITTER: 'twitter',
   FACEBOOK: 'facebook',
   INSTAGRAM: 'instagram',
+  WHATSAPP: 'whatsapp',
 };
 
 const EquipamientoMedicoListItem = ({ equipamiento }) => {
@@ -256,7 +260,7 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
   };
 
   const construirURLCompartir = (equipamiento, redSocial) => {
-    const textoEquipamiento = encodeURIComponent(`Mira el equipamiento médico: ${equipamiento.eq_name}, publicado en Donaciones.uy. Has clic sobre el link para poder visualizarlo. ¡Se parte de Donaciones.uy, transformamos intenciones en impacto social!`);
+    const textoEquipamiento = encodeURIComponent(`Mira el equipamiento médico: ${equipamiento.eq_name}, publicado en DonacionesUy. Haz clic sobre el link para poder visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
     const urlEquipamiento = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadoequipamiento`);
 
     switch (redSocial) {
@@ -266,6 +270,8 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
         return `https://www.facebook.com/sharer/sharer.php?u=${urlEquipamiento}&quote=${textoEquipamiento}`;
       case 'instagram':
         return `https://www.instagram.com/?url=${urlEquipamiento}&title=${textoEquipamiento}`;
+      case 'whatsapp':
+        return `https://api.whatsapp.com/send?text=${encodeURIComponent(textoEquipamiento + '\n' + urlEquipamiento)}`;
       default:
         return '';
     }
@@ -306,11 +312,10 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
                 </IconContainer>
                 Ubicación
               </ActionButton>
-              <ActionButton onClick={() => setMostrarCompartir(true)}>
+              <ActionButton onClick={() => setMostrarCompartir(true)} style={{ position: 'absolute', top: '0', left: '0', margin: '8px' }} third>
                 <IconContainer>
                   <FaShareSquare />
                 </IconContainer>
-                Compartir
               </ActionButton>
               <ActionButton onClick={() => handleDenunciar(equipamiento.eq_id || equipamiento.id)} style={{ position: 'absolute', top: '0', right: '0', margin: '8px' }}
                 secondary>
@@ -350,6 +355,8 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
                   <IconoRedSocial icono={FaTwitter} redSocial={RedesSociales.TWITTER} onClick={handleRedSocialClick} />
                   <IconoRedSocial icono={FaFacebook} redSocial={RedesSociales.FACEBOOK} onClick={handleRedSocialClick} />
                   <IconoRedSocial icono={FaInstagram} redSocial={RedesSociales.INSTAGRAM} onClick={handleRedSocialClick} />
+                  <IconoRedSocial icono={FaWhatsapp} redSocial={RedesSociales.WHATSAPP} onClick={handleRedSocialClick} />
+                
                 </div>
               </Modal.Body>
             </Modal>

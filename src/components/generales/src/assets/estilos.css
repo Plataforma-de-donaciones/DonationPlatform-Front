@@ -347,3 +347,8 @@ main {
 article {
   overflow-x: auto;
 }
+
+.textoCentrado {
+  font-size: 12px;
+  text-align: center;
+}

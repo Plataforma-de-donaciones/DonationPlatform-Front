@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FaMapMarkerAlt, FaUser, FaExclamationTriangle, FaShareSquare, FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaUser, FaExclamationTriangle, FaShareSquare, FaFacebook, FaTwitter, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom'; // Importa useHistory
 import { useAuth } from "../../../../../AuthContext";
 import Swal from 'sweetalert2';
@@ -95,12 +95,14 @@ const RedesSociales = {
   TWITTER: 'twitter',
   FACEBOOK: 'facebook',
   INSTAGRAM: 'instagram',
+  WHATSAPP: 'whatsapp',
+
 };
 
 const DonationListItem = ({ donation }) => {
   const { setItemId } = useAuth();
   const [expanded, setExpanded] = useState(true);
-  const history = useHistory(); // Obtén la función history
+  const history = useHistory();
   const { isAuthenticated } = useAuth();
   const [mapCoordinates, setMapCoordinates] = useState(null);
   const [showMap, setShowMap] = useState(false);
@@ -257,7 +259,7 @@ const DonationListItem = ({ donation }) => {
   };
 
   const construirURLCompartir = (donation, redSocial) => {
-    const textoDonacion = encodeURIComponent(`Mira la donación: ${donation.don_name}, publicada en Donaciones.uy. Has clic sobre el link para visualizarla. ¡Se parte de Donaciones.uy, transformamos intenciones en impacto social!`);
+    const textoDonacion = encodeURIComponent(`Mira la donación: ${donation.don_name}, publicada en DonacionesUy. Haz clic sobre el link para visualizarla. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
     const urlDonacion = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadodonacion`);
 
     switch (redSocial) {
@@ -267,6 +269,8 @@ const DonationListItem = ({ donation }) => {
         return `https://www.facebook.com/sharer/sharer.php?u=${urlDonacion}&quote=${textoDonacion}`;
       case 'instagram':
         return `https://www.instagram.com/?url=${urlDonacion}&title=${textoDonacion}`;
+        case 'whatsapp':
+        return `https://api.whatsapp.com/send?text=${encodeURIComponent(textoDonacion + '\n' + urlDonacion)}`;
       default:
         return '';
     }
@@ -307,11 +311,10 @@ const DonationListItem = ({ donation }) => {
                 </IconContainer>
                 Ubicación
               </ActionButton>
-              <ActionButton onClick={() => setMostrarCompartir(true)}>
+              <ActionButton onClick={() => setMostrarCompartir(true)} style={{ position: 'absolute', top: '0', left: '0', margin: '8px' }} third>
                 <IconContainer>
                   <FaShareSquare />
                 </IconContainer>
-                Compartir
               </ActionButton>
               <ActionButton onClick={() => handleDenunciar(donation.don_id || donation.id)} style={{ position: 'absolute', top: '0', right: '0', margin: '8px' }}
               secondary>
@@ -351,6 +354,7 @@ const DonationListItem = ({ donation }) => {
                   <IconoRedSocial icono={FaTwitter} redSocial={RedesSociales.TWITTER} onClick={handleRedSocialClick} />
                   <IconoRedSocial icono={FaFacebook} redSocial={RedesSociales.FACEBOOK} onClick={handleRedSocialClick} />
                   <IconoRedSocial icono={FaInstagram} redSocial={RedesSociales.INSTAGRAM} onClick={handleRedSocialClick} />
+                  <IconoRedSocial icono={FaWhatsapp} redSocial={RedesSociales.WHATSAPP} onClick={handleRedSocialClick} />
                 </div>
               </Modal.Body>
             </Modal>

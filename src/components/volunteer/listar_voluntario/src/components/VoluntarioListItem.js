@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { FaMapMarkerAlt, FaUser, FaExclamationTriangle, FaShareSquare, FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaUser, FaExclamationTriangle, FaShareSquare, FaFacebook, FaTwitter, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from "../../../../../AuthContext";
 import Swal from 'sweetalert2';
@@ -54,6 +54,8 @@ const RedesSociales = {
   TWITTER: 'twitter',
   FACEBOOK: 'facebook',
   INSTAGRAM: 'instagram',
+  WHATSAPP: 'whatsapp',
+
 };
 
 const VoluntarioListItem = ({ volunteer }) => {
@@ -218,7 +220,7 @@ const VoluntarioListItem = ({ volunteer }) => {
   };
 
   const construirURLCompartir = (volunteer, redSocial) => {
-    const textoVoluntario = encodeURIComponent(`Mira el voluntariado: ${volunteer.vol_name}, publicado en Donaciones.uy. Has clic sobre el link para visualizarlo. ¡Se parte de Donaciones.uy, transformamos intenciones en impacto social!`);
+    const textoVoluntario = encodeURIComponent(`Mira el voluntariado: ${volunteer.vol_name}, publicado en DonacionesUy. Haz clic sobre el link para visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
     const urlVoluntario = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadovoluntariado`);
 
 
@@ -230,6 +232,8 @@ const VoluntarioListItem = ({ volunteer }) => {
         return `https://www.facebook.com/sharer/sharer.php?u=${urlVoluntario}&quote=${textoVoluntario}`;
       case 'instagram':
         return `https://www.instagram.com/?url=${urlVoluntario}&title=${textoVoluntario}`;
+        case 'whatsapp':
+        return `https://api.whatsapp.com/send?text=${encodeURIComponent(textoVoluntario + '\n' + urlVoluntario)}`;
       default:
         return '';
     }
@@ -268,11 +272,10 @@ const VoluntarioListItem = ({ volunteer }) => {
                 </IconContainer>
                 Ubicación
               </ActionButton>
-              <ActionButton onClick={() => setMostrarCompartir(true)}>
+              <ActionButton onClick={() => setMostrarCompartir(true)} style={{ position: 'absolute', top: '0', left: '0', margin: '8px' }} third>
                 <IconContainer>
                   <FaShareSquare />
                 </IconContainer>
-                Compartir
               </ActionButton>
               <ActionButton onClick={() => handleDenunciar(volunteer.vol_id || volunteer.id)} style={{ position: 'absolute', top: '0', right: '0', margin: '8px' }}
               secondary>
@@ -312,6 +315,7 @@ const VoluntarioListItem = ({ volunteer }) => {
                   <IconoRedSocial icono={FaTwitter} redSocial={RedesSociales.TWITTER} onClick={handleRedSocialClick} />
                   <IconoRedSocial icono={FaFacebook} redSocial={RedesSociales.FACEBOOK} onClick={handleRedSocialClick} />
                   <IconoRedSocial icono={FaInstagram} redSocial={RedesSociales.INSTAGRAM} onClick={handleRedSocialClick} />
+                  <IconoRedSocial icono={FaWhatsapp} redSocial={RedesSociales.WHATSAPP} onClick={handleRedSocialClick} />
                 </div>
               </Modal.Body>
             </Modal>
