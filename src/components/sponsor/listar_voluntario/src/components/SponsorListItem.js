@@ -220,7 +220,7 @@ const SponsorListItem = ({ sponsor }) => {
   };
 
   const construirURLCompartir = (sponsor, redSocial) => {
-    const textoPadrino = encodeURIComponent(`Mira el apadrinamiento: ${sponsor.sponsor_name}, publicado en DonacionesUy. Haz clic sobre el link para visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
+    const textoPadrino = encodeURIComponent(`Mira el apadrinamiento: ${sponsor.sponsor_name}, publicado en DonacionesUy. Haz clic en el link para visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
     const urlPadrino = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadoapadrinamiento`);
 
     switch (redSocial) {

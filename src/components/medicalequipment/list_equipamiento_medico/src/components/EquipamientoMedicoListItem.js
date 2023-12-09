@@ -260,7 +260,7 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
   };
 
   const construirURLCompartir = (equipamiento, redSocial) => {
-    const textoEquipamiento = encodeURIComponent(`Mira el equipamiento médico: ${equipamiento.eq_name}, publicado en DonacionesUy. Haz clic sobre el link para poder visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
+    const textoEquipamiento = encodeURIComponent(`Mira el equipamiento médico: ${equipamiento.eq_name}, publicado en DonacionesUy. Haz clic en el link para poder visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
     const urlEquipamiento = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadoequipamiento`);
 
     switch (redSocial) {

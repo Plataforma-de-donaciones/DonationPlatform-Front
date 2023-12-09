@@ -180,7 +180,7 @@ const EventListItem = ({ evento }) => {
   };
 
   const construirURLCompartir = (evento, redSocial) => {
-    const textoEvento = encodeURIComponent(`Mira el evento: ${evento.event_name}, publicado en DonacionesUy. Haz clic sobre el link para visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
+    const textoEvento = encodeURIComponent(`Mira el evento: ${evento.event_name}, publicado en DonacionesUy. Haz clic en el link para visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
     const urlEvento = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadoeventos`);
 
     switch (redSocial) {

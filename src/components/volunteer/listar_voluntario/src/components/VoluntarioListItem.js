@@ -220,7 +220,7 @@ const VoluntarioListItem = ({ volunteer }) => {
   };
 
   const construirURLCompartir = (volunteer, redSocial) => {
-    const textoVoluntario = encodeURIComponent(`Mira el voluntariado: ${volunteer.vol_name}, publicado en DonacionesUy. Haz clic sobre el link para visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
+    const textoVoluntario = encodeURIComponent(`Mira el voluntariado: ${volunteer.vol_name}, publicado en DonacionesUy. Haz clic en el link para visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
     const urlVoluntario = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadovoluntariado`);
 
 
