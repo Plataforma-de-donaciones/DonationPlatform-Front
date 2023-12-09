@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaUser, FaExclamationTriangle, FaShareSquare, FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
+import { useAuth } from "../../../../../AuthContext";
+import Swal from 'sweetalert2';
 import CardItem from '../../../../generales/src/components/CardItem';
-import { Button, Card, Col, Row } from 'react-bootstrap';
+import { Button, Card, Col, Row, Container } from 'react-bootstrap';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 import { Modal } from 'react-bootstrap';
+import Cookies from 'universal-cookie';
+import instance from '../../../../../axios_instance';
 
 const EventCardContainer = styled.div`
   display: flex;
@@ -68,16 +72,22 @@ const ActionButton = styled.button`
   display: flex;
   align-items: center;
   padding: 8px;
-  background-color: rgba(255, 152, 0, 1);
+  background-color: ${(props) => (props.secondary ? '#ccc' : 'rgba(79,181,139, 1)')};
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   margin: 0 8px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: ${(props) => (props.secondary ? '#ff0000' : 'rgba(141, 202, 170, 1)')};
+  }
 `;
 
 const IconContainer = styled.span`
-  margin-right: 8px;
+  display: flex;
+  align-items: center;
 `;
 
 const stateMap = {
@@ -86,15 +96,31 @@ const stateMap = {
   3: "Finalizado",
 };
 
+const RedesSociales = {
+  TWITTER: 'twitter',
+  FACEBOOK: 'facebook',
+  INSTAGRAM: 'instagram',
+};
+
 const EventListItem = ({ evento }) => {
   const [expanded, setExpanded] = useState(true);
   const history = useHistory();
   const [mapCoordinates, setMapCoordinates] = useState(null);
   const [showMap, setShowMap] = useState(false);
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [mostrarCompartir, setMostrarCompartir] = useState(false);
+  const [redSocialSeleccionada, setRedSocialSeleccionada] = useState('twitter');
 
+  console.log(mostrarCompartir);
   const handleExpand = () => {
     setExpanded(!expanded);
   };
+  const handleRedSocialClick = (nuevaRedSocial) => {
+    setRedSocialSeleccionada(nuevaRedSocial);
+    setMostrarModal(false);
+    const urlCompartir = construirURLCompartir(evento, nuevaRedSocial);
+    window.open(urlCompartir, '_blank');
+  };  
 
   const handleUbicacion = () => {
     let coordinates = null;
@@ -147,6 +173,38 @@ const EventListItem = ({ evento }) => {
     setShowMap(false);
   };
 
+  const handleCloseCompartir = () => {
+    setMostrarCompartir(false);
+  };
+
+  const construirURLCompartir = (evento, redSocial) => {
+    const textoEvento = encodeURIComponent(`Evento: ${evento.event_name}`);
+    const urlEvento = encodeURIComponent(`URL de la página de detalles del evento`);
+
+    switch (redSocial) {
+      case 'twitter':
+        return `https://twitter.com/intent/tweet?text=${textoEvento}&url=${urlEvento}`;
+      case 'facebook':
+        return `https://www.facebook.com/sharer/sharer.php?u=${urlEvento}&quote=${textoEvento}`;
+      case 'instagram':
+        return `https://www.instagram.com/?url=${urlEvento}&title=${textoEvento}`;
+      default:
+        return '';
+    }
+  };
+
+  const handleCompartirClick = () => {
+    const urlCompartir = construirURLCompartir(evento, redSocialSeleccionada);
+    window.open(urlCompartir, '_blank');
+  };
+  const IconoRedSocial = ({ icono: Icono, redSocial, onClick }) => {
+    return (
+      <div style={{ cursor: 'pointer' }} onClick={() => onClick(redSocial)}>
+        <Icono size={40} />
+        <p style={{ textAlign: 'center', margin: 0 }}>{redSocial.charAt(0).toUpperCase() + redSocial.slice(1)}</p>
+      </div>
+    );
+  };
   return (
     <>
       <Card className='mb-3'>
@@ -203,28 +261,39 @@ const EventListItem = ({ evento }) => {
         </Card.Footer>
       </Card >
       <Modal show={showMap} onHide={handleCloseMap} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Ubicación</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {mapCoordinates && (
-            <MapContainer
-              center={mapCoordinates}
-              zoom={13}
-              style={{ height: '300px', width: '100%' }}
-            >
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              />
-              <Marker position={mapCoordinates}>
-                <Popup>Ubicación</Popup>
-              </Marker>
-            </MapContainer>
-          )}
-        </Modal.Body>
-      </Modal>
-
+              <Modal.Header closeButton>
+                <Modal.Title>Ubicación</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {mapCoordinates && (
+                  <MapContainer
+                    center={mapCoordinates}
+                    zoom={13}
+                    style={{ height: '300px', width: '100%' }}
+                  >
+                    <TileLayer
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    />
+                    <Marker position={mapCoordinates}>
+                      <Popup>Ubicación</Popup>
+                    </Marker>
+                  </MapContainer>
+                )}
+              </Modal.Body>
+            </Modal>
+            <Modal show={mostrarCompartir} onHide={handleCloseCompartir} centered>
+              <Modal.Header closeButton>
+                <Modal.Title>Selecciona una red social</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                  <IconoRedSocial icono={FaTwitter} redSocial={RedesSociales.TWITTER} onClick={handleRedSocialClick} />
+                  <IconoRedSocial icono={FaFacebook} redSocial={RedesSociales.FACEBOOK} onClick={handleRedSocialClick} />
+                  <IconoRedSocial icono={FaInstagram} redSocial={RedesSociales.INSTAGRAM} onClick={handleRedSocialClick} />
+                </div>
+              </Modal.Body>
+            </Modal>
     
     </>
   );

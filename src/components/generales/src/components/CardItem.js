@@ -5,7 +5,7 @@ const CardItem = (props) => {
     return (
         <>
             {props.isGrid &&
-                <Col >
+                <Col className='col-xl-4 col-sm-12 col-md-6 col-12 mb-3'>
                     <Card className='h-100'>
                         <Card.Body>
                             <Card.Title className='font-weight-bold text-center' >{props.name}</Card.Title>

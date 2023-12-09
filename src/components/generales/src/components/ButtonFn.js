@@ -7,7 +7,7 @@ const ButtonFn = ({ onAction, name, variant }) => {
         <>
 
 
-            <ToggleButtonGroup type="radio" name="options" defaultValue={1} >
+            <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
                 {variant &&
                     <Button  onClick={onAction} variant={variant} >
                         {name}

@@ -18,8 +18,6 @@ const cookies = new Cookies();
 const EquipamientoMedicoListContainer = styled.div`
   display: flex;
   flex-direction : column;
-  align-items: center;
-  justify-content: center;
 
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -28,31 +26,23 @@ const EquipamientoMedicoListContainer = styled.div`
   padding: 32px;
   margin-top: 2rem;
   margin-bottom: 2rem;
-  width: 100%;
 
-  @media (min-width: 768px) {
-
+  @media (max-width: 1350px) {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto; /* Ajuste de las filas */
   }
 `;
 
 const ListAndCategoryContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-content: flex-start;
 `;
 
 const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: flex-start;
   margin-right: 16px;
-  flex:1;
-  margin-bottom: 16px;
-
-  @media (max-width: 1399px) {
-    flex-direction: column;
-  }
 `;
 
 const List = styled.div`
@@ -140,7 +130,6 @@ const AddIcon = styled.button`
 const Pagination = styled.div`
   display: flex;
   gap: 8px;
-  margin-top: 18px;
 `;
 
 const PageButton = styled.button`
@@ -263,7 +252,6 @@ const EquipamientoMedicoList = () => {
 
   return (
     <EquipamientoMedicoListContainer>
-
       <EncabezadoListado
         onActionSolicitud={() => handleTypeClick(1)}
         onActionOfrecimiento={() => handleTypeClick(2)}
@@ -274,9 +262,7 @@ const EquipamientoMedicoList = () => {
         onSearch={handleSearch}
         textButton={'Agregar equipamiento'}
       />
-
       <ListAndCategoryContainer>
-
         <ListContainer>
           <Row>
             <Col className="col-12 col-sm-12 col-xl-2 col-md-12 order-xl-2 order-sm-1 order-md-1 mb-3 mt-3 d-flex flex-row flex-sm-column">
@@ -293,7 +279,6 @@ const EquipamientoMedicoList = () => {
               </Row>
             </Col>
           </Row>
-
           {/* Paginación */}
           <Pagination>
             <PageButton onClick={prevPage} disabled={currentPage === 1}>
@@ -313,9 +298,7 @@ const EquipamientoMedicoList = () => {
             </PageButton>
           </Pagination>
         </ListContainer>
-
       </ListAndCategoryContainer>
-
       <ToastContainer
         position="top-right"
         autoClose={5000}

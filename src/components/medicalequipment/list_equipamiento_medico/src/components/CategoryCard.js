@@ -7,12 +7,7 @@ const CardContainer = styled.div`
   border: 1px solid #ddd;
   padding: 16px;
   border-radius: 8px;
-  width: 100%;
-  min-width: 200px;
-
-  @media(max-width: 768px){
-    width: 90px;
-  }
+  margin-right: -1rem;
 
 `;
 
@@ -33,29 +28,20 @@ const ButtonContainer = styled.div`
 
 
 const StyledButton = styled.button`
-  padding: 8px 10px;
-  margin-top: 4px;
+  padding: 8px;
+  margin: 4px;
+  cursor: pointer;
   background-color: rgba(141, 202, 170, 1);
+  color: #FFFFFF;
   border: 1px solid rgba(141, 202, 170, 1);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  min-width: 90px;
+  
   transition-duration: 0.4s;
-  color: #FFFFFF;
   font-size: 1.1rem;
   font-weight: 500;  
   font-style: arial;
   width: auto;
-  margin-top: 1px;
-
-  @media(max-widht: 1199){
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-left: 10px;
-  }  
 `;
 
 
@@ -82,11 +68,10 @@ const CategoryCard = ({ onCategoryClick, onClearCategory }) => {
 
   return (
     <CardContainer>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div>
         <strong>Categorías</strong>
       </div>
-      <ButtonContainer>
-      <button style={{ minWidth: '112px', height: '44px'}} onClick={() => onClearCategory()} className="btn-secondary">Limpiar</button>
+      <button onClick={() => onClearCategory()} className="btn-secondary">Limpiar</button>
       {categories.map((category) => (
         <div key={category.cat_id}>
           <StyledButton onClick={() => onCategoryClick(category.cat_id)}>
@@ -94,7 +79,6 @@ const CategoryCard = ({ onCategoryClick, onClearCategory }) => {
           </StyledButton>
         </div>
       ))}
-      </ButtonContainer>
     </CardContainer>
   );
 };

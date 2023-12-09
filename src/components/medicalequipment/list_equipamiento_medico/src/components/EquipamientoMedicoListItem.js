@@ -17,18 +17,6 @@ import instance from '../../../../../axios_instance';
 
 const cookies = new Cookies();
 
-const CardItem1 = styled(CardItem)`
-  margin-left= 3px;
-  margin-right= 3px;
-  padding: 16px;
-  margin: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 16px;
-  height: 100%; 
-`;
-
 const EquipamientoMedicoCardContainer = styled.div`
   background-color: #fff;
   border: 1px solid #ddd;
@@ -75,22 +63,20 @@ const ActionButtons = styled.div`
 `;
 
 const ActionButton = styled.button`
-display: flex;
-align-items: center;
-justify-content: space-between;
-gap: 5px;
-padding: 8px;
-background-color: ${(props) => (props.secondary ? '#ccc' : 'rgba(79,181,139, 1)')};
-color: #fff;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-margin: 0 8px;
-transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background-color: ${(props) => (props.secondary ? '#ccc' : 'rgba(79,181,139, 1)')};
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0 8px;
+  transition: background-color 0.3s ease;
 
-&:hover {
-  background-color: ${(props) => (props.secondary ? '#ff0000' : 'rgba(141, 202, 170, 1)')};
-}
+  &:hover {
+    background-color: ${(props) => (props.secondary ? '#ff0000' : 'rgba(141, 202, 170, 1)')};
+  }
 `;
 
 const IconContainer = styled.span`
@@ -299,7 +285,7 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
   };
   return (
     <>
-      <CardItem1 
+      <CardItem
         name={equipamiento.eq_name}
         state={stateMap[equipamiento.state]}
         descriptions={equipamiento.eq_description}
@@ -371,7 +357,6 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
 
         }
       />
-
 
     </>
   );

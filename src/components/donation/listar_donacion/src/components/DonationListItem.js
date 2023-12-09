@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FaMapMarkerAlt, FaUser, FaExclamationTriangle } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaUser, FaExclamationTriangle, FaShareSquare, FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom'; // Importa useHistory
 import { useAuth } from "../../../../../AuthContext";
 import Swal from 'sweetalert2';
@@ -64,31 +64,37 @@ const ActionButtons = styled.div`
 `;
 
 const ActionButton = styled.button`
-display: flex;
-align-items: center;
-padding: 8px;
-background-color: ${(props) => (props.secondary ? '#ccc' : '#4fb58b')};
-color: #fff;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-margin: 0 8px;
-transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background-color: ${(props) => (props.secondary ? '#ccc' : 'rgba(79,181,139, 1)')};
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0 8px;
+  transition: background-color 0.3s ease;
 
-&:hover {
-  background-color: ${(props) => (props.secondary ? '#ff0000' : '#68c172')};
-}
+  &:hover {
+    background-color: ${(props) => (props.secondary ? '#ff0000' : 'rgba(141, 202, 170, 1)')};
+  }
 `;
 
 const IconContainer = styled.span`
-  margin-right: 8px;
-  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
 `;
 
 const stateMap = {
   1: "Publicado",
   2: "Solicitado",
   3: "Finalizado",
+};
+
+const RedesSociales = {
+  TWITTER: 'twitter',
+  FACEBOOK: 'facebook',
+  INSTAGRAM: 'instagram',
 };
 
 const DonationListItem = ({ donation }) => {
@@ -99,10 +105,19 @@ const DonationListItem = ({ donation }) => {
   const [mapCoordinates, setMapCoordinates] = useState(null);
   const [showMap, setShowMap] = useState(false);
   const token = cookies.get("token");
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [mostrarCompartir, setMostrarCompartir] = useState(false);
+  const [redSocialSeleccionada, setRedSocialSeleccionada] = useState('twitter');
 
-
+  console.log(mostrarCompartir);
   const handleExpand = () => {
     setExpanded(!expanded);
+  };
+  const handleRedSocialClick = (nuevaRedSocial) => {
+    setRedSocialSeleccionada(nuevaRedSocial);
+    setMostrarModal(false);
+    const urlCompartir = construirURLCompartir(donation, nuevaRedSocial);
+    window.open(urlCompartir, '_blank');
   };
 
   const handleAction = (id) => {
@@ -133,7 +148,7 @@ const DonationListItem = ({ donation }) => {
     if (isAuthenticated) {
       const confirmation = await Swal.fire({
         title: "¿Está seguro que desea denunciar la publicación?",
-        text: "Esta publicación será marcada como contenido inapropiado",
+        text: "Esta publicación será marcada como contenido inapropiado y se envía a revisión.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -147,7 +162,7 @@ const DonationListItem = ({ donation }) => {
           const formData = new FormData();          
           formData.append("don_confirmation_date", new Date().toISOString());
           formData.append("has_requests", true);
-
+          
           const response = await instance.patch(
             `/donations/${id}/`,
             formData,
@@ -185,6 +200,7 @@ const DonationListItem = ({ donation }) => {
       });
     }
   };
+
   const handleUbicacion = () => {
     let coordinates = null;
 
@@ -236,6 +252,38 @@ const DonationListItem = ({ donation }) => {
     setShowMap(false);
   };
 
+  const handleCloseCompartir = () => {
+    setMostrarCompartir(false);
+  };
+
+  const construirURLCompartir = (donation, redSocial) => {
+    const textoDonacion = encodeURIComponent(`Donación: ${donation.don_name}`);
+    const urlDonacion = encodeURIComponent(`URL de la página de detalles de la donación`);
+
+    switch (redSocial) {
+      case 'twitter':
+        return `https://twitter.com/intent/tweet?text=${textoDonacion}&url=${urlDonacion}`;
+      case 'facebook':
+        return `https://www.facebook.com/sharer/sharer.php?u=${urlDonacion}&quote=${textoDonacion}`;
+      case 'instagram':
+        return `https://www.instagram.com/?url=${urlDonacion}&title=${textoDonacion}`;
+      default:
+        return '';
+    }
+  };
+
+  const handleCompartirClick = () => {
+    const urlCompartir = construirURLCompartir(donation, redSocialSeleccionada);
+    window.open(urlCompartir, '_blank');
+  };
+  const IconoRedSocial = ({ icono: Icono, redSocial, onClick }) => {
+    return (
+      <div style={{ cursor: 'pointer' }} onClick={() => onClick(redSocial)}>
+        <Icono size={40} />
+        <p style={{ textAlign: 'center', margin: 0 }}>{redSocial.charAt(0).toUpperCase() + redSocial.slice(1)}</p>
+      </div>
+    );
+  };
   return (
     <>
       <CardItem
@@ -258,6 +306,12 @@ const DonationListItem = ({ donation }) => {
                   <FaMapMarkerAlt />
                 </IconContainer>
                 Ubicación
+              </ActionButton>
+              <ActionButton onClick={() => setMostrarCompartir(true)}>
+                <IconContainer>
+                  <FaShareSquare />
+                </IconContainer>
+                Compartir
               </ActionButton>
               <ActionButton onClick={() => handleDenunciar(donation.don_id || donation.id)} style={{ position: 'absolute', top: '0', right: '0', margin: '8px' }}
               secondary>
@@ -288,9 +342,23 @@ const DonationListItem = ({ donation }) => {
                 )}
               </Modal.Body>
             </Modal>
+            <Modal show={mostrarCompartir} onHide={handleCloseCompartir} centered>
+              <Modal.Header closeButton>
+                <Modal.Title>Selecciona una red social</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                  <IconoRedSocial icono={FaTwitter} redSocial={RedesSociales.TWITTER} onClick={handleRedSocialClick} />
+                  <IconoRedSocial icono={FaFacebook} redSocial={RedesSociales.FACEBOOK} onClick={handleRedSocialClick} />
+                  <IconoRedSocial icono={FaInstagram} redSocial={RedesSociales.INSTAGRAM} onClick={handleRedSocialClick} />
+                </div>
+              </Modal.Body>
+            </Modal>
           </>
+
         }
       />
+
 
     </>
   );
