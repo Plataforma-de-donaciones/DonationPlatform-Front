@@ -257,8 +257,8 @@ const DonationListItem = ({ donation }) => {
   };
 
   const construirURLCompartir = (donation, redSocial) => {
-    const textoDonacion = encodeURIComponent(`Donación: ${donation.don_name}`);
-    const urlDonacion = encodeURIComponent(`URL de la página de detalles de la donación`);
+    const textoDonacion = encodeURIComponent(`Mira la donación: ${donation.don_name}, publicada en Donaciones.uy. Has clic sobre el link para visualizarla. ¡Se parte de Donaciones.uy, transformamos intenciones en impacto social!`);
+    const urlDonacion = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadodonacion`);
 
     switch (redSocial) {
       case 'twitter':

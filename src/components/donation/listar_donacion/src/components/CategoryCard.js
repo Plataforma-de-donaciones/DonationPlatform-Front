@@ -11,13 +11,20 @@ const CardContainer = styled.div`
 `;
 
 const StyledButton = styled.button`
-  padding: 8px;
-  margin: 4px;
-  cursor: pointer;
-  background-color: rgba(79,181,139, 1);
-  color: white; /* Color del texto */
-  border: none;
-  border-radius: 4px;
+padding: 8px;
+margin: 4px;
+cursor: pointer;
+background-color: rgba(141, 202, 170, 1);
+color: #FFFFFF;
+border: 1px solid rgba(141, 202, 170, 1);
+border-radius: 8px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+transition-duration: 0.4s;
+font-size: 1.1rem;
+font-weight: 500;  
+font-style: arial;
+width: auto;
 `;
 
 const CategoryCard = ({ onCategoryClick, onClearCategory }) => {
@@ -46,7 +53,7 @@ const CategoryCard = ({ onCategoryClick, onClearCategory }) => {
         <div>
           <strong>Categorías</strong>
         </div>
-        <button onClick={() => onClearCategory()}>Limpiar</button>
+        <button onClick={() => onClearCategory()} className="btn-secondary">Limpiar</button>
         {categories.map((category) => (
           <div key={category.cat_id}>
             <StyledButton onClick={() => onCategoryClick(category.cat_id)}>

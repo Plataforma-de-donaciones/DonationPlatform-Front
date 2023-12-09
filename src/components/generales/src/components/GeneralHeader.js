@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faUser, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../../../AuthContext";
 import Cookies from "universal-cookie";
@@ -13,6 +13,7 @@ const cookies = new Cookies();
 function GeneralHeader(props) {
   const { logout } = useAuth();
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const [isMenuOpenHam, setMenuOpenHam] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const history = useHistory();
   const isUserLoggedIn = cookies.get("token");
@@ -23,10 +24,11 @@ function GeneralHeader(props) {
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
   };
+  const toggleMenuHam = () => {
+    setMenuOpenHam(!isMenuOpenHam);
+  };
 
   const handleLogout = () => {
-    // Realizar acciones necesarias antes de cerrar sesión
-    // ...
     Swal.fire({
       title: "¿Está seguro que desea cerrar sesión?",
       text: "Esta acción lo redirige al login",
@@ -42,7 +44,6 @@ function GeneralHeader(props) {
         cookies.remove("token");
         cookies.remove("user_data");
 
-        // Cerrar el menú desplegable
         setMenuOpen(false);
 
         history.push("/login");
@@ -75,37 +76,9 @@ function GeneralHeader(props) {
       fetchUserRole();
     }
   }, [isUserLoggedIn, user_id]);
-
-  return (
-    <Container {...props}>
-      {isUserLoggedIn && (
-        <MenuIcon>
-          <ButtonOverlay onClick={props.onMenuClick}>
-            <FontAwesomeIcon
-              icon={faBars}
-              style={{
-                backgroundColor: "transparent",
-                color: "#FFFFFF",
-                fontSize: "24px",
-              }}
-            />
-          </ButtonOverlay>
-        </MenuIcon>
-      )}
-
-      <div className="mx-auto">
-        <LogoContainer>
-          <LogoContent>
-            <Link to="/inicio">
-              <Isotype
-                src={require("../assets/images/logopngcompleto.png")}
-                alt="Logo"
-              />
-            </Link>
-          </LogoContent>
-        </LogoContainer>
-      </div>
-      {isUserLoggedIn && userRole && (
+  const renderUserIcon = () => {
+    if (isUserLoggedIn && userRole) {
+      return (
         <UserIcon>
           <ButtonOverlay onClick={toggleMenu}>
             <FontAwesomeIcon
@@ -115,21 +88,13 @@ function GeneralHeader(props) {
                 color: "#FFFFFF",
                 fontSize: "24px",
               }}
+              title="Usuario"
             />
           </ButtonOverlay>
           {isMenuOpen && (
-            <DropdownMenu>
+             <DropdownMenu>
               <MenuItem>
                 <Link to="/modificacion">Mi cuenta</Link>
-              </MenuItem>
-              <MenuItem>
-                <Link to="/listadosolicitudes">Mis solicitudes</Link>
-              </MenuItem>
-              <MenuItem>
-                <Link to="/listadoofrecimientos">Mis ofrecimientos</Link>
-              </MenuItem>
-              <MenuItem>
-                <Link to="/listaconversaciones">Mis conversaciones</Link>
               </MenuItem>
               {userRole === "administrator" && (
                 <MenuItem>
@@ -147,10 +112,77 @@ function GeneralHeader(props) {
             </DropdownMenu>
           )}
         </UserIcon>
+      );
+    } else {
+      return (
+        <StyledLink to="/login">
+          <UserIcon>
+            <ButtonOverlay>
+              <FontAwesomeIcon
+                icon={faSignInAlt}
+                style={{
+                  backgroundColor: "transparent",
+                  color: "#FFFFFF",
+                  fontSize: "24px",
+                }}
+                title="Iniciar sesión"
+              />
+            </ButtonOverlay>
+          </UserIcon>
+        </StyledLink>
+      );
+    }
+  };
+  return (
+    <Container {...props}>
+      {isUserLoggedIn && (
+        <MenuIcon>
+          <ButtonOverlay onClick={toggleMenuHam}>
+            <FontAwesomeIcon
+              icon={faBars}
+              style={{
+                backgroundColor: "transparent",
+                color: "#FFFFFF",
+                fontSize: "24px",
+              }}
+              title="Menú"
+            />
+          </ButtonOverlay>
+          {isMenuOpenHam && (
+            <DropdownMenuContainer>
+            <DropdownMenuHam>
+              <MenuItem>
+                <Link to="/listaconversaciones">Mis conversaciones</Link>
+              </MenuItem>
+              <MenuItem>
+                <Link to="/listadosolicitudes">Mis solicitudes</Link>
+              </MenuItem>
+              <MenuItem>
+                <Link to="/listadoofrecimientos">Mis ofrecimientos</Link>
+              </MenuItem>
+            </DropdownMenuHam>
+            </DropdownMenuContainer>
+          )}
+        </MenuIcon>
       )}
+
+      <div className="mx-auto">
+        <LogoContainer>
+          <LogoContent>
+            <Link to="/inicio">
+              <Isotype
+                src={require("../assets/images/logopngcompleto.png")}
+                alt="Logo"
+              />
+            </Link>
+          </LogoContent>
+        </LogoContainer>
+      </div>
+      {renderUserIcon()}
     </Container>
   );
 }
+
 
 const Container = styled.div`
   display: flex;
@@ -169,7 +201,7 @@ const Container = styled.div`
   height: 80px;
   min-width: 443px;
 
-  z-index: 9999; /* Asegura que esté adelante de otros elementos */
+  z-index: 9999; 
 
   @media (max-width: 443px) {
     flex-direction: row;
@@ -204,7 +236,7 @@ display: flex;
 align-items: center;
 margin: auto;
 @media (max-width: 443px) {
-  margin-left: 3rem; /* Espacio entre LogoContainer y los otros elementos */
+  margin-left: 3rem; 
 }
 `;
 
@@ -248,11 +280,11 @@ const UserIcon = styled.div`
 `;
 
 const DropdownMenu = styled.ul`
-  position: absolute;
-  top: 100%;
+  position: fixed;
+  top: 80px; 
   right: 0;
   width: 11.7rem;
-  text-align: right;
+  text-align: left; 
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   list-style: none;
@@ -260,7 +292,27 @@ const DropdownMenu = styled.ul`
   margin: 0;
   font-family: "Arial";
   font-size: 1rem;
-  z-index: 2; /* Asegura que esté adelante de otros elementos */
+  z-index: 9999;
+`;
+
+const DropdownMenuHam = styled.ul`
+  position: fixed;
+  top: 80px; /* Ajusta la posición vertical según sea necesario */
+  left: 0;
+  width: 11.7rem;
+  text-align: left;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-family: "Arial";
+  font-size: 1rem;
+  z-index: 9999;
+`;
+const DropdownMenuContainer = styled.div`
+  position: fixed;
+  z-index: 1000;
 `;
 
 const MenuItem = styled.li`
@@ -316,7 +368,6 @@ const NavItem = styled.li`
   }
 `;
 const StyledLink = styled(Link)`
-  /* Puedes agregar estilos específicos si es necesario */
   text-decoration: none;
   color: #ffffff;
 `;

@@ -37,8 +37,13 @@ main {
   border-radius: 8px;
   border: 1px solid #ddd;
   width: 400px;
+  margin: auto;
 }
-
+@media (max-width: 600px) {
+  .card-alta {
+    max-width: 100%; 
+  }
+}
 .row{
   
 }

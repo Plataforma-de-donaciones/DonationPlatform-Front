@@ -178,8 +178,8 @@ const EventListItem = ({ evento }) => {
   };
 
   const construirURLCompartir = (evento, redSocial) => {
-    const textoEvento = encodeURIComponent(`Evento: ${evento.event_name}`);
-    const urlEvento = encodeURIComponent(`URL de la página de detalles del evento`);
+    const textoEvento = encodeURIComponent(`Mira el evento: ${evento.event_name}, publicado en Donaciones.uy. Has clic sobre el link para visualizarlo. ¡Se parte de Donaciones.uy, transformamos intenciones en impacto social!`);
+    const urlEvento = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadoeventos`);
 
     switch (redSocial) {
       case 'twitter':
@@ -250,12 +250,18 @@ const EventListItem = ({ evento }) => {
             <span style={{ textAlign: "left" }}>{stateMap[evento.state]}</span>
           </div>
           <ActionButtons className='text-center mx-auto mb-2'>
-            <Button onClick={handleUbicacion}>
+            <ActionButton onClick={handleUbicacion}>
               <IconContainer>
                 <FaMapMarkerAlt />
               </IconContainer>
               Ubicación
-            </Button>
+            </ActionButton>
+            <ActionButton onClick={() => setMostrarCompartir(true)}>
+                <IconContainer>
+                  <FaShareSquare />
+                </IconContainer>
+                Compartir
+              </ActionButton>
           </ActionButtons>
          
         </Card.Footer>

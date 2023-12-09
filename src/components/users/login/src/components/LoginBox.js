@@ -49,7 +49,7 @@ const Col1 = styled(Col)`
 `;
 
 const CardStyled = styled(Card)`
-  margin-bottom: 30px; /* Ajusta el valor según la separación deseada */
+  margin-bottom: 30px; 
 
   &.card-alta {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -61,7 +61,7 @@ const CardStyled = styled(Card)`
 
 const Card1 = styled(CardComponente)`
   width: 100%;
-  max-width: 600px; /* Ajusta este valor según tus necesidades para pantallas más grandes */
+  max-width: 600px; 
   margin: 32px auto;
 `;
 
@@ -212,7 +212,6 @@ const LoginBox = () => {
           theme: "colored",
         });
       } else if (response.data && response.data.error_message) {
-        // Maneja el mensaje de error
       } else {
         setError("Error al iniciar sesión. Verifica tus credenciales.");
       }
@@ -225,19 +224,14 @@ const LoginBox = () => {
   };
 
   const handleGoogleLogin = async () => {
-    // Implementa la lógica de inicio de sesión con Google aquí.
-    // Usando las credenciales que generó Google para tu cliente OAuth.
-
-    // Cuando el inicio de sesión con Google sea exitoso, puedes redirigir al usuario a la página de inicio.
+   
     try {
-      // Implementa la lógica de inicio de sesión con Google aquí.
-
-      // Si el inicio de sesión con Google es exitoso, redirige al usuario a la página de inicio.
+     
       login();
       setRedirectToHome(true);
     } catch (error) {
       console.error("Error al iniciar sesión con Google:", error);
-      // Maneja errores si los hay.
+     
     }
   };
 
