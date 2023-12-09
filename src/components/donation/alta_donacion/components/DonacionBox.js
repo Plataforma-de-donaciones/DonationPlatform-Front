@@ -38,7 +38,7 @@ const CardStyled = styled(Card)`
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     border: 1px solid #ddd;
-    width: 400px;
+    width: 500px;
   }
 `;
 

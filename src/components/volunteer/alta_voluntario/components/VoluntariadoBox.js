@@ -31,6 +31,13 @@ const Col1 = styled(Col)`
 
 const CardStyled = styled(Card)`
   margin-bottom: 30px; /* Ajusta el valor según la separación deseada */
+
+  &.card-alta {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 500px;
+  }
 `;
 
 const Container = styled.div`
@@ -334,7 +341,7 @@ const VoluntariadoBox = (props) => {
     <main>
     <Row1 className="mt-4">
     <Col1>
-      <CardStyled>
+    <CardStyled className="card-alta">
         <Card.Header className="text-center h5">Regístra el Voluntariado</Card.Header>
         <Card.Body>
             <Form noValidate validated={validated} onSubmit={handleAccept}>

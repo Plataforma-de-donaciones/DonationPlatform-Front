@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import '../../../../generales/src/assets/estilos.css'
 import FbRegistroButton from "./FbRegistroButton";
 import GoogleRegistroButton from "./GoogleRegistroButton";
 import instance from "../../../../../axios_instance";
@@ -31,6 +32,13 @@ const Col1 = styled(Col)`
 
 const CardStyled = styled(Card)`
   margin-bottom: 30px; /* Ajusta el valor según la separación deseada */
+
+  &.card-alta {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 500px;
+  }
 `;
 
 const SocialButtonsContainer = styled.div`
@@ -274,7 +282,7 @@ const FormularioBox = (props) => {
     <main>
     <Row1 className="mt-4">
     <Col1>
-      <CardStyled>
+    <CardStyled className="card-alta">
         <Card.Header className="text-center h5">Regístrate con</Card.Header>
         <Card.Body>
             <SocialButtonsContainer className="d-flex justify-content-center gap-4">
@@ -298,10 +306,10 @@ const FormularioBox = (props) => {
                     minLength={3}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Por favor digite su nombre de usuario
+                    Por favor ingrese su nombre de usuario
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>Este dato se visualiza en tu perfil.</HelperText>
+                  <HelperText> Este dato se visualiza en la publicación. Máximo 50 caracteres.</HelperText>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="validationCustom01">
@@ -317,11 +325,12 @@ const FormularioBox = (props) => {
                     minLength={3}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Por favor digite su correo electrónico
+                    Por favor ingrese su correo electrónico
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>Este dato se visualiza en tu perfil.</HelperText>
+                  <HelperText> Este dato se visualiza en la publicación. Máximo 50 caracteres.</HelperText>
                 </Form.Group>
+
                 <Form.Group  className="mb-3" controlId="formBasicPassword">
                   <Form.Label>Contraseña *</Form.Label>
                   <div style={{ position: "relative" }}>
@@ -333,34 +342,22 @@ const FormularioBox = (props) => {
                       onBlur={handlePasswordBlur}
                       mensaje={errors.user_password}
                       required
+                      placeholder="Ingrese aquí su contraseña"
                       style={{
                         height: 43,
                         width: "100%",
                         marginTop: 10,
                       }}
                     />
+
                     <Form.Control.Feedback type="invalid">
                       {errors.user_password}
                     </Form.Control.Feedback>
-                    <Form.Control.Feedback>
-                      ¡Campo válido!
-                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   </InputGroup>
-                  <HelperText>
-                    Mínimo 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y 1
-                    carácter especial.
-                  </HelperText>
+                  <HelperText>Mínimo 8 caracteres, 1 mayúscula, 1 minúscula y 1 número.</HelperText>
                   </div>
                 </Form.Group>
-
-              {/* <Form.Group className="mb-3">
-                <Form.Check
-                required
-                label="Agree to terms and conditions"
-                feedback="You must agree before submitting."
-                feedbackType="invalid"
-              /> 
-              </Form.Group> */}
 
               <div className="d-flex justify-content-center gap-4">
                 <Button variant="primary" type="submit">

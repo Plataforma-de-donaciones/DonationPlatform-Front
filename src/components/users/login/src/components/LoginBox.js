@@ -30,6 +30,16 @@ const Container = styled.div`
   }
 `;
 
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+`;
+
 const Row1 = styled(Row)`
   margin-bottom: 30px;
 `;
@@ -37,6 +47,18 @@ const Row1 = styled(Row)`
 const Col1 = styled(Col)`
   margin-bottom: 30px;
 `;
+
+const CardStyled = styled(Card)`
+  margin-bottom: 30px; /* Ajusta el valor según la separación deseada */
+
+  &.card-alta {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 500px;
+  }
+`;
+
 const Card1 = styled(CardComponente)`
   width: 100%;
   max-width: 600px; /* Ajusta este valor según tus necesidades para pantallas más grandes */
@@ -227,7 +249,7 @@ const LoginBox = () => {
     <main>
     <Row1 className="mt-4">
     <Col1>
-      <Card>
+    <CardStyled className="card-alta">
         <Card.Header className="text-center h5">Iniciar sesión</Card.Header>
         <Card.Body>
           <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -237,7 +259,7 @@ const LoginBox = () => {
               value={credentials.user_name}
               onChange={handleChange}
               type="email"
-              placeholder="Nombre de usuario"
+              placeholder="Ingrese aquí su nombre de usuario"
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -303,7 +325,7 @@ const LoginBox = () => {
               theme="light"
             />
         </Card.Body>
-      </Card>
+      </CardStyled>
     </Col1>
     </Row1>
     </main>

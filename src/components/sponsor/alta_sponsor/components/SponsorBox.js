@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import '../../../generales/src/assets/estilos.css'
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
 import { useHistory, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Card, Form, Row, CardBody, Col, Button } from "react-bootstrap";
 import TipodePublicacionBox from "../../../generales/src/components/TipodePublicacionBox";
 import LocalidadBox from "../../../generales/src/components/LocalidadBoxAlta";
@@ -43,6 +45,13 @@ const Col1 = styled(Col)`
 
 const CardStyled = styled(Card)`
   margin-bottom: 30px; /* Ajusta el valor según la separación deseada */
+
+  &.card-alta {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 500px;
+  }
 `;
 
 const TitleContainer = styled.div`
@@ -302,7 +311,7 @@ const SponsorBox = (props) => {
     <main>
     <Row1 className="mt-4">
     <Col1>
-      <CardStyled>
+    <CardStyled className="card-alta">
         <Card.Header className="text-center h5">Regístra el Apadrinamiento</Card.Header>
         <Card.Body>
             <Form noValidate validated={validated} onSubmit={handleAccept}>
