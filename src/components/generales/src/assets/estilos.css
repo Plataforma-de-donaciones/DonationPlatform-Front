@@ -52,9 +52,7 @@ main {
 
 }
 .row{
-  min-height: 510px;
-  margin-top: 30px;
-  margin-bottom: 300px;
+
 };
 
 .btn-primary {
@@ -69,7 +67,7 @@ main {
   font-size: 1.1rem;
   font-weight: 500;  
   font-style: arial;
-  width: 10px;
+  width: auto;
 
   --bs-btn-hover-bg: rgba(79,181,139, 1);
   --bs-btn-active-bg: rgba(141, 202, 170, 1);
@@ -93,6 +91,7 @@ main {
   font-size: 1.1rem;
   font-weight: 500;  
   font-style: arial;
+  
 
   --bs-btn-hover-bg: rgba(80,80,80, 1);
   --bs-btn-active-bg:  rgba(180,180,180, 1);
@@ -103,9 +102,6 @@ main {
   --bs-btn-hover-color: rgba(255, 255, 255, 1); /* texto boton parado arriba*/
   --bs-btn-active-color: rgba(80,80,80, 1); /* texto boton cliceado*/
 
-  @media (max-width: 768px) {
-    margin-top: 1rem;
-  }
 }
 
 

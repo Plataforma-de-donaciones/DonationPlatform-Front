@@ -32,6 +32,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   // border-bottom-width: 1px;
   // border-color: #d9d5dc;
   // background-color: transparent;
@@ -41,7 +42,7 @@ const Container = styled.div`
 
 const Imagen = styled.span`
   font-size: 12px;
-  text-align: left;
+  text-align: center;
   color: #000;
   opacity: 0.6;
   padding-top: 16px;

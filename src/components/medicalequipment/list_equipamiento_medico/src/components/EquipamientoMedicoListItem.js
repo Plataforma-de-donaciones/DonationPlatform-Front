@@ -17,6 +17,18 @@ import instance from '../../../../../axios_instance';
 
 const cookies = new Cookies();
 
+const CardItem1 = styled(CardItem)`
+  margin-left= 3px;
+  margin-right= 3px;
+  padding: 16px;
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+  height: 100%; 
+`;
+
 const EquipamientoMedicoCardContainer = styled.div`
   background-color: #fff;
   border: 1px solid #ddd;
@@ -65,8 +77,10 @@ const ActionButtons = styled.div`
 const ActionButton = styled.button`
 display: flex;
 align-items: center;
+justify-content: space-between;
+gap: 5px;
 padding: 8px;
-background-color: ${(props) => (props.secondary ? '#ccc' : '#4fb58b')};
+background-color: ${(props) => (props.secondary ? '#ccc' : 'rgba(79,181,139, 1)')};
 color: #fff;
 border: none;
 border-radius: 4px;
@@ -75,13 +89,13 @@ margin: 0 8px;
 transition: background-color 0.3s ease;
 
 &:hover {
-  background-color: ${(props) => (props.secondary ? '#ff0000' : '#68c172')};
+  background-color: ${(props) => (props.secondary ? '#ff0000' : 'rgba(141, 202, 170, 1)')};
 }
 `;
 
 const IconContainer = styled.span`
-  margin-right: 8px;
-  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
 `;
 
 const stateMap = {
@@ -147,7 +161,7 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
     if (isAuthenticated) {
       const confirmation = await Swal.fire({
         title: "¿Está seguro que desea denunciar la publicación?",
-        text: "Esta publicación será marcada como contenido inapropiado",
+        text: "Esta publicación será marcada como contenido inapropiado y se envía a revisión.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -285,7 +299,7 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
   };
   return (
     <>
-      <CardItem
+      <CardItem1 
         name={equipamiento.eq_name}
         state={stateMap[equipamiento.state]}
         descriptions={equipamiento.eq_description}

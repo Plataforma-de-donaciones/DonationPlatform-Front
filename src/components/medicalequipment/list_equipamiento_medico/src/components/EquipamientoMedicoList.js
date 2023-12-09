@@ -18,32 +18,63 @@ const cookies = new Cookies();
 const EquipamientoMedicoListContainer = styled.div`
   display: flex;
   flex-direction : column;
+  align-items: center;
+  justify-content: center;
 
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 
   padding: 32px;
   margin-top: 2rem;
   margin-bottom: 2rem;
-  border-radius: 8px;
+  width: 100%;
 
-  @media (max-width: 1350px) {
-    display: grid;
-    grid-template-rows: auto auto 1fr auto; /* Ajuste de las filas */
+  @media (min-width: 768px) {
+
   }
+`;
+
+const ListAndCategoryContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: flex-start;
 `;
 
 const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  justify-content: center;
   margin-right: 16px;
-`;
-const ListAndCategoryContainer = styled.div`
-  display: flex;
-  flex-direction: row;
+  flex:1;
+  margin-bottom: 16px;
+
+  @media (max-width: 1399px) {
+    flex-direction: column;
+  }
 `;
 
+const List = styled.div`
+display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: flex-start;
+`;
+
+const EqMedicoListItem = styled(EquipamientoMedicoListItem)`
+
+`;
+const CategoryCard1 = styled(CategoryCard)`
+  flex: 2;
+`;
+
+const Row2 = styled(Row)`
+
+  gap: 16px; /* Espaciado entre elementos */
+  margin-right: 16px;
+
+`;
 const SearchBarContainer = styled.div`
   display: flex;
   flex-direction: row; 
@@ -58,7 +89,6 @@ const SearchBarAndAddEquipment = styled.div`
   justify-content: space-between; 
   align-items: center;
 `;
-
 const FilterBarContainer = styled.div`
   display: flex;
   flex-direction: row; 
@@ -84,7 +114,6 @@ const SearchInput = styled.input`
   max-width: 200px;
 
 `;
-
 const SearchIcon = styled.span`
   cursor: pointer;
   background-color: transparent;
@@ -94,14 +123,12 @@ const SearchIcon = styled.span`
   font-size: 20px;
   color: #007bff;
 `;
-
 const AddEquipment = styled.div`
   display: flex;
   align-items: center;
   margin-right: 300px;
   cursor: pointer;
 `;
-
 const AddIcon = styled.button`
   background-color: transparent;
   border: none;
@@ -113,6 +140,7 @@ const AddIcon = styled.button`
 const Pagination = styled.div`
   display: flex;
   gap: 8px;
+  margin-top: 18px;
 `;
 
 const PageButton = styled.button`

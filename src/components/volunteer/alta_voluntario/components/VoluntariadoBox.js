@@ -8,16 +8,30 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
-import {
-  Form,
-  Row,
-  Col,
-  InputGroup,
-  Button,
-  Card,
-  CardBody,
-} from "react-bootstrap";
+import {Button, Card, CardHeader, Col, Form, FormControl, InputGroup, Row} from "react-bootstrap";
 import CardComponente from "../../../generales/card/CardComponente";
+
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+`;
+
+const Row1 = styled(Row)`
+  margin-bottom: 30px;
+`;
+
+const Col1 = styled(Col)`
+  margin-bottom: 30px;
+`;
+
+const CardStyled = styled(Card)`
+  margin-bottom: 30px; /* Ajusta el valor según la separación deseada */
+`;
 
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -85,15 +99,6 @@ const UntitledComponent1Stack = styled.div`
   position: relative;
 `;
 
-const HelperText = styled.span`
-  font-size: 10px;
-  text-align: left;
-  color: #000;
-  opacity: 0.6;
-  padding-top: 8px;
-  font-style: normal;
-  font-weight: 400;
-`;
 const cookies = new Cookies();
 
 const VoluntariadoBox = (props) => {
@@ -205,7 +210,7 @@ const VoluntariadoBox = (props) => {
     ) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [fieldName]: "La descripción del voluntario no puede estar vacía",
+        [fieldName]: "La descripción no puede estar vacía",
       }));
     }
 
@@ -277,6 +282,16 @@ const VoluntariadoBox = (props) => {
             console.log(response);
             if (serverError) {
               // Manejar errores específicos del servidor si es necesario
+              toast.error(serverError, {
+                position: "bottom-center",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
             } else {
               // Manejar otros errores
             }
@@ -316,116 +331,83 @@ const VoluntariadoBox = (props) => {
   };
 
   return (
-    <>
-      <CardComponente
-        titulo={"Registra el Voluntariado"}
-        body={
-          <>
+    <main>
+    <Row1 className="mt-4">
+    <Col1>
+      <CardStyled>
+        <Card.Header className="text-center h5">Regístra el Voluntariado</Card.Header>
+        <Card.Body>
             <Form noValidate validated={validated} onSubmit={handleAccept}>
-              <Row className="mb-3">
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <Form.Group className="mb-3" controlId="validationCustom01">
                   <Form.Label>¿Cuál es su nombre? *</Form.Label>
-
                   <Form.Control
                     value={voluntarioData["vol_name"]}
                     required
                     type="text"
-                    placeholder="Nombre del voluntario/a"
+                    placeholder="Ingrese aquí el nombre del voluntario/a"
                     onChange={(event) => handleFieldChange("vol_name", event)}
                     maxlength={50}
                     minLength={3}
                   />
-
                   <Form.Control.Feedback type="invalid">
-                    Por favor digite su nombre
+                    Por favor ingrese su nombre
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback>
-                    ¡Campo válido!
-                  </Form.Control.Feedback>
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+                  <HelperText>Este dato se visualiza en la publicación. Máximo 50 caracteres.</HelperText>
                 </Form.Group>
-                <p></p>
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
-                  <Form.Label>
-                    ¿Describa su trayectoria como voluntario/a *?{" "}
-                  </Form.Label>
 
+                <Form.Group className="mb-3" controlId="validationCustom01">
+                  <Form.Label>¿Cómo describirías su trayectoria como voluntario/a *?</Form.Label>
                   <Form.Control
                     as="textarea"
                     value={voluntarioData["vol_description"]}
                     required
                     type="text"
-                    placeholder="Describa el voluntariado"
-                    onChange={(event) =>
-                      handleFieldChange("vol_description", event)
-                    }
+                    placeholder="Ingrese aquí la descripción de su trayectoria como voluntariado"
+                    onChange={(event) => handleFieldChange("vol_description", event)}
                     maxlength={250}
                     minLength={3}
                   />
-
                   <Form.Control.Feedback type="invalid">
-                    La descripción de la tarea no puede estar vacía
+                    Por favor ingrese la descripción de su trayectoria, no puede estar vacía.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
+                  <HelperText>Este dato se visualiza en la publicación. Máximo 250 caracteres.</HelperText>
                 </Form.Group>
-                <p></p>
 
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
-                  <Form.Label>
-                    Describa las tareas que ha realizado como voluntario/a *{" "}
-                  </Form.Label>
-
+                <Form.Group className="mb-3" controlId="validationCustom01">
+                  <Form.Label>¿Cómo describirías las tareas que ha realizado como voluntario/a? *</Form.Label>
                   <Form.Control
                     as="textarea"
                     value={voluntarioData["vol_tasks"]}
                     required
                     type="text"
-                    placeholder="Describa las tareas"
+                    placeholder="Ingrese aquí la descripción de las tareas."
                     maxLength={250}
+                    minLength={3}
                     onChange={(event) => handleFieldChange("vol_tasks", event)}
                   />
-
                   <Form.Control.Feedback type="invalid">
-                    La descripción de la tarea no puede estar vacía
+                  Por favor ingrese la descripción de la tarea, no puede estar vacía.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
+                  <HelperText>Este dato se visualiza en la publicación. Máximo 250 caracteres.</HelperText>
                 </Form.Group>
 
-                <p></p>
                 <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
-                <HelperText>
-                  Este dato se visualiza en la publicación.
-                </HelperText>
+                <HelperText>Este dato se visualiza en la publicación.</HelperText>
 
-                <p></p>
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <Form.Group className="mb-3" controlId="validationCustom01">
                   <LocalidadBox onSelect={handleZoneSelect} />
                   {errors.zone && (
                     <span style={{ color: "red" }}>{errors.zone}</span>
                   )}
-
                   <Form.Control.Feedback type="invalid">
-                    Localidad requerida
+                    Por favor ingrese la localidad                  
                   </Form.Control.Feedback>
-
-                  <Form.Control.Feedback>
-                    ¡Campo válido!
-                  </Form.Control.Feedback>
-
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+                  <HelperText>Este dato se visualiza en la publicación.</HelperText>
                 </Form.Group>
-                <p></p>
-              </Row>
 
               <Form.Group className="mb-3">
                 {/* <Form.Check
@@ -435,42 +417,32 @@ const VoluntariadoBox = (props) => {
           feedbackType="invalid"
         /> */}
               </Form.Group>
-
-              <Row className="text-center">
-                <Col>
-                  <Button style={{ width: "30%" }} type="submit">
-                    Aceptar
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    style={{ width: "30%" }}
-                    variant="secondary"
-                    onClick={handleCancel}
-                  >
-                    Cancelar
-                  </Button>
-                </Col>
-              </Row>
-              <div className="text-center mx-auto"></div>
+              <div className="d-flex justify-content-center gap-4">
+                <Button variant="primary" type="submit">
+                  Aceptar
+                </Button>
+                <Button variant="secondary" onClick={handleCancel}>
+                  Cancelar
+                </Button>
+              </div>
             </Form>
-          </>
-        }
-      ></CardComponente>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-    </>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+          </Card.Body>
+      </CardStyled>
+    </Col1>
+    </Row1>
+    </main>
   );
 };
 
