@@ -16,35 +16,26 @@ const HelperText = styled.span`
 function NombreDonEdicionBox({ value, onChange }) {
   return (
     <>
-      <Form.Group as={Col} md="12" controlId="validationCustom01">
+        <Form.Group className="mb-3" controlId="validationCustom01">
 
-        <Form.Label>¿Cuál es su nombre? *</Form.Label>
+        <Form.Label>¿Cuál es el nombre de la donación? *</Form.Label>
 
         <Form.Control
           value={value}
           required
           type="text"
-          placeholder="Nombre del voluntario/a"
+          placeholder="Nombre de la donación"
           onChange={onChange}
           maxlength={50}
           minLength={3}
         />
 
         <Form.Control.Feedback type="invalid">
-          Por favor digite su nombre
+        Por favor ingrese el nombre de la donación, no puede estar vacío.
         </Form.Control.Feedback>
         <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-        <HelperText>Este dato se visualiza en la publicación.</HelperText>
+        <HelperText> Este dato se visualiza en la publicación. Máximo 50 caracteres.</HelperText>
       </Form.Group>
-{/* 
-      <Container>
-        <Label>Nombre de la donación *</Label>
-        <InputStyle
-          placeholder="Nombre de la donación"
-          value={value}
-          onChange={onChange}
-        />
-      </Container> */}
     </>
 
   );

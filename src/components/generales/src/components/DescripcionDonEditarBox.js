@@ -33,16 +33,15 @@ function DescripcionDonEditarBox({ value, onChange, ...props }) {
 
   return (
     <>
-      <p></p>
-      <Form.Group as={Col} md="12" controlId="validationCustom01">
-        <Form.Label>Descripción *</Form.Label>
+        <Form.Group className="mb-3" controlId="validationCustom01">
+        <Form.Label>¿Cómo describirías la donación? * </Form.Label>
 
         <Form.Control
           as="textarea"
           value={descripcion}
           required
           type="text"
-          placeholder="Describa el voluntariado"
+          placeholder="Descripción de la donación"
           onChange={handleDescripcionChange}
           maxlength={250}
           minLength={3}
@@ -53,23 +52,11 @@ function DescripcionDonEditarBox({ value, onChange, ...props }) {
         />
 
         <Form.Control.Feedback type="invalid">
-          La descripción de la tarea no puede estar vacía
+        Por favor ingrese la descripción de la donación, no puede estar vacía.
         </Form.Control.Feedback>
         <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-        <HelperText>Este dato se visualiza en la publicación.</HelperText>
+        <HelperText>Este dato se visualiza en la publicación. Máximo 250 caracteres.</HelperText>
       </Form.Group>
-      {/* 
-      <Container {...props}>
-        <Descripcion>Descripción *</Descripcion>
-        <TextInput
-          value={descripcion}
-          onChange={handleDescripcionChange}
-          autoCorrect={true}
-          inlineImagePadding={0}
-          numberOfLines={1}
-          selectTextOnFocus={false}
-        />
-      </Container> */}
     </>
   );
 }

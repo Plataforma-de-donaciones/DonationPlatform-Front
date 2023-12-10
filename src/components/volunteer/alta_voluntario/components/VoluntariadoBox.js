@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import '../../../generales/src/assets/estilos.css'
 import TipodePublicacionBox from "../../../generales/src/components/TipodePublicacionBox";
 import LocalidadBox from "../../../generales/src/components/LocalidadBoxAlta";
 import instance from "../../../../axios_instance";
@@ -383,7 +384,7 @@ const VoluntariadoBox = (props) => {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="validationCustom01">
-                  <Form.Label>¿Cómo describirías las tareas que ha realizado como voluntario/a? *</Form.Label>
+                  <Form.Label>¿Cómo describirías las tareas que realiza como voluntario/a? *</Form.Label>
                   <Form.Control
                     as="textarea"
                     value={voluntarioData["vol_tasks"]}

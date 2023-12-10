@@ -69,6 +69,9 @@ main {
 
   --bs-btn-hover-color: rgba(255, 255, 255, 1); /* texto boton parado arriba*/
   --bs-btn-active-color: rgba(79,181,139, 1); /* texto boton cliceado*/
+  @media (max-width: 768px) {
+    margin-top: 1rem;
+  }
 }
 
 .btn-secondary {

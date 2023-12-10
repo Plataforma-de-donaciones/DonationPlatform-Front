@@ -40,6 +40,15 @@ const Helper = styled.span`
   opacity: 0.6;
   padding-top: 8px;
 `;
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+`;
 
 const cookies = new Cookies();
 
@@ -71,8 +80,8 @@ function LocalidadBox({ onSelect }) {
   };
 
   return (
-    <Form.Group as={Col} md="12" controlId="validationCustom01">
-      <Form.Label>¿En qué localidad se encuentra? *</Form.Label>
+    <Form.Group className="mb-3" controlId="validationCustom01">
+    <Form.Label>¿En qué localidad se encuentra? *</Form.Label>
 
       <Form.Select
         required
@@ -89,12 +98,12 @@ function LocalidadBox({ onSelect }) {
           </option>
         ))}
       </Form.Select>
-      <Form.Control.Feedback type="invalid">
-        La localidad es requerida
-      </Form.Control.Feedback>
-
-      <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-
+      <Form.Control.Feedback required type="invalid">
+        Por favor ingrese la localidad, no puede estar vacía.
+        </Form.Control.Feedback>
+        <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+        <HelperText>Este dato se visualiza en la publicación.</HelperText>
+      
     </Form.Group>
   );
 }
