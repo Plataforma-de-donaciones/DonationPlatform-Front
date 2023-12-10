@@ -267,11 +267,15 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
       case 'twitter':
         return `https://twitter.com/intent/tweet?text=${textoEquipamiento}&url=${urlEquipamiento}`;
       case 'facebook':
-        return `https://www.facebook.com/sharer/sharer.php?u=${urlEquipamiento}&quote=${textoEquipamiento}`;
+        return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(urlEquipamiento)}&quote=${encodeURIComponent(textoEquipamiento)}`;
       case 'instagram':
         return `https://www.instagram.com/?url=${urlEquipamiento}&title=${textoEquipamiento}`;
       case 'whatsapp':
-        return `https://api.whatsapp.com/send?text=${encodeURIComponent(textoEquipamiento + '\n' + urlEquipamiento)}`;
+        const mensajeWhatsApp = `Mira la donación: ${equipamiento.eq_name}, publicada en DonacionesUy. Haz clic en el siguiente enlace para visualizarla. ¡Sé parte de DonacionesUy, transformamos intenciones en impacto social!`;
+        const urlWhatsApp = `https://donacionesuy.azurewebsites.net/listadodonacion`;
+
+        const mensajeCompleto = `${encodeURIComponent(mensajeWhatsApp + '\n' + urlWhatsApp)}`;
+        return `https://api.whatsapp.com/send?text=${mensajeCompleto}`;
       default:
         return '';
     }
@@ -354,7 +358,6 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
                 <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                   <IconoRedSocial icono={FaTwitter} redSocial={RedesSociales.TWITTER} onClick={handleRedSocialClick} />
                   <IconoRedSocial icono={FaFacebook} redSocial={RedesSociales.FACEBOOK} onClick={handleRedSocialClick} />
-                  <IconoRedSocial icono={FaInstagram} redSocial={RedesSociales.INSTAGRAM} onClick={handleRedSocialClick} />
                   <IconoRedSocial icono={FaWhatsapp} redSocial={RedesSociales.WHATSAPP} onClick={handleRedSocialClick} />
                 
                 </div>

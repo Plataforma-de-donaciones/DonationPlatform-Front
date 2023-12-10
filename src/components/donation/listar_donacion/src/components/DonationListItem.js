@@ -266,11 +266,14 @@ const DonationListItem = ({ donation }) => {
       case 'twitter':
         return `https://twitter.com/intent/tweet?text=${textoDonacion}&url=${urlDonacion}`;
       case 'facebook':
-        return `https://www.facebook.com/sharer/sharer.php?u=${urlDonacion}&quote=${textoDonacion}`;
+        return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(urlDonacion)}&quote=${encodeURIComponent(textoDonacion)}`;
       case 'instagram':
         return `https://www.instagram.com/?url=${urlDonacion}&title=${textoDonacion}`;
         case 'whatsapp':
-        return `https://api.whatsapp.com/send?text=${encodeURIComponent(textoDonacion + '\n' + urlDonacion)}`;
+          const mensajeWhatsApp = encodeURIComponent(`Mira la donación: ${donation.don_name}, publicada en DonacionesUy. Haz clic en el link para visualizarla. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
+          const urlWhatsApp = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadodonacion`);
+          const mensajeCompleto = `${encodeURIComponent(mensajeWhatsApp + '\n' + urlWhatsApp)}`;
+        return `https://api.whatsapp.com/send?text=${mensajeCompleto}`;
       default:
         return '';
     }
@@ -353,7 +356,6 @@ const DonationListItem = ({ donation }) => {
                 <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                   <IconoRedSocial icono={FaTwitter} redSocial={RedesSociales.TWITTER} onClick={handleRedSocialClick} />
                   <IconoRedSocial icono={FaFacebook} redSocial={RedesSociales.FACEBOOK} onClick={handleRedSocialClick} />
-                  <IconoRedSocial icono={FaInstagram} redSocial={RedesSociales.INSTAGRAM} onClick={handleRedSocialClick} />
                   <IconoRedSocial icono={FaWhatsapp} redSocial={RedesSociales.WHATSAPP} onClick={handleRedSocialClick} />
                 </div>
               </Modal.Body>
