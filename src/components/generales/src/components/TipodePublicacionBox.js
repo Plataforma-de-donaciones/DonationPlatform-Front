@@ -2,6 +2,17 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Col } from "react-bootstrap";
 import { Form } from "react-bootstrap";
+
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+`;
+
 const TipodePublicacionBox = ({ onSelect, ...props }) => {
   const [selectedValue, setSelectedValue] = useState(""); // Estado para almacenar el valor seleccionado
 
@@ -12,8 +23,8 @@ const TipodePublicacionBox = ({ onSelect, ...props }) => {
   };
 
   return (
-    <Form.Group as={Col} md="12" controlId="validationCustom01">
-      <Form.Label>Tipo de publicación: </Form.Label>
+    <Form.Group className="mb-3" controlId="validationCustom01">
+    <Form.Label>Tipo de publicación: </Form.Label>
 
       {props.defaultValue && (
         <Form.Select
@@ -46,9 +57,10 @@ const TipodePublicacionBox = ({ onSelect, ...props }) => {
       )}
 
       <Form.Control.Feedback required type="invalid">
-        Debe seleccionar tipo de publicación
+      Por favor ingrese el tipo de publicación
       </Form.Control.Feedback>
       <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+      <HelperText>Este dato se visualiza en la publicación.</HelperText>
     </Form.Group>
   );
 };

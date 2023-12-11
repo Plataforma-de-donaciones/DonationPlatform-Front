@@ -283,7 +283,7 @@ const DonacionBox = (props) => {
                     minLength={3}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Por favor ingrese el nombre de la donación
+                    Por favor ingrese el nombre de la donación, no puede estar vacío.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText> Este dato se visualiza en la publicación. Máximo 50 caracteres.</HelperText>
@@ -311,7 +311,6 @@ const DonacionBox = (props) => {
                 </Form.Group>
 
                 <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
-                <HelperText>Este dato se visualiza en la publicación.</HelperText>
 
                 <Form.Group className="mb-3" controlId="validationCustom01">
                   <LocalidadBox onSelect={handleZoneSelect} />
@@ -319,7 +318,7 @@ const DonacionBox = (props) => {
                     <span style={{ color: "red" }}>{errors.zone}</span>
                   )}
                   <Form.Control.Feedback type="invalid">
-                    Por favor ingrese la localidad
+                    Por favor ingrese la localidad, no puede estar vacía.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText>Este dato se visualiza en la publicación.</HelperText>

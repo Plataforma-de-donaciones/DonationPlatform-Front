@@ -4,6 +4,16 @@ import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
 import { Form, Col } from "react-bootstrap";
 
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+`;
+
 const Container = styled.div``;
 
 const Label = styled.span`
@@ -91,7 +101,7 @@ function LocalidadBox({ onChange, donZone, setDonZone }) {
 
   return (
     <>
-      <Form.Group as={Col} md="12" controlId="validationCustom01">
+        <Form.Group className="mb-3" controlId="validationCustom01">
         <Form.Label>Su localidad: </Form.Label>
 
         <Form.Select
@@ -110,9 +120,11 @@ function LocalidadBox({ onChange, donZone, setDonZone }) {
         </Form.Select>
 
         <Form.Control.Feedback required type="invalid">
-          Debe seleccionar tipo de publicación
+        Por favor ingrese la localidad, no puede estar vacía.
         </Form.Control.Feedback>
         <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+        <HelperText>Este dato se visualiza en la publicación.</HelperText>
+
       </Form.Group>
       {/* 
       <Container>
