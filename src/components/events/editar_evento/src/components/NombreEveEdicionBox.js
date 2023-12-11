@@ -2,10 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Col, Form } from "react-bootstrap";
 import styled from "styled-components";
 
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+`;
+
+
 function NombreEveEdicionBox({ value, onChange }) {
   return (
-    <Form.Group as={Col} md="12" controlId="validationCustom01">
-      <Form.Label>Nombre del evento *</Form.Label>
+    <Form.Group className="mb-3" controlId="validationCustom01">
+    <Form.Label>¿Cuál es el nombre del evento? *</Form.Label>
 
       <Form.Control
         value={value}
@@ -17,24 +28,15 @@ function NombreEveEdicionBox({ value, onChange }) {
         minLength={3}
       />
 
-      <Form.Control.Feedback type="invalid">
-        Por favor digite nombre del evento
-      </Form.Control.Feedback>
-      <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-      <HelperText>Este dato se visualiza en la publicación.</HelperText>
-    </Form.Group>
+<Form.Control.Feedback type="invalid">
+        Por favor ingrese el nombre del evento, no puede estar vacío.
+        </Form.Control.Feedback>
+        <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+        <HelperText> Este dato se visualiza en la publicación. Máximo 50 caracteres.</HelperText>
+      </Form.Group>
   );
 }
 
-const HelperText = styled.span`
-  font-size: 10px;
-  text-align: left;
-  color: #000;
-  opacity: 0.6;
-  padding-top: 8px;
-  font-style: normal;
-  font-weight: 400;
-`;
 const Container = styled.div`
   display: flex;
   border-bottom-width: 1px;

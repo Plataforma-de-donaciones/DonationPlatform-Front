@@ -45,7 +45,6 @@ const CardStyled = styled(Card)`
 const cookies = new Cookies();
 
 const SolicitudDonBox = (props) => {
-  //const { donacionId } = useParams();
   const { itemId, setItemId } = useAuth();
   const [solicitudData, setSolicitudData] = useState({
     req_name: "",
@@ -198,7 +197,6 @@ const SolicitudDonBox = (props) => {
     });
   };
 
-  //url:solicitardonacion/id
 
   return (
     <main>
@@ -208,6 +206,26 @@ const SolicitudDonBox = (props) => {
         <Card.Header className="text-center h5">Solicitud de donación</Card.Header>
         <Card.Body>
           <Form noValidate validated={validated} onSubmit={handleAccept}>
+          <Form.Group className="mb-3" controlId="validationCustom01">
+              <Form.Label>¿Cuál es su nombre? *</Form.Label>
+                <Form.Control
+                    value={solicitudData["req_name"]}
+                    type="text"
+                    required
+                    placeholder="Ingrese aquí su nombre"
+                    onChange={(event) =>
+                      handleFieldChange("req_name", event.target.value)
+                    }
+                    maxlength={50}
+                    minLength={3}
+                />
+                <Form.Control.Feedback type="invalid">
+                    Por favor ingrese su nombre, no puede estar vacío.
+              </Form.Control.Feedback>
+              <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+                <HelperText>Este dato se visualiza únicamente por el donador.</HelperText>
+            </Form.Group>
+
             <Form.Group className="mb-3" controlId="validationCustom01">
               <Form.Label>¿Por qué motivo solicita esta donación? *</Form.Label>
               <Form.Control
@@ -223,10 +241,10 @@ const SolicitudDonBox = (props) => {
                     minLength={3}
               />
               <Form.Control.Feedback type="invalid">
-                    La descripción el motivo de no puede estar vacía.
+                    Por favor ingrese el motivo de su solicitud, no puede estar vacío.
               </Form.Control.Feedback>
               <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-              <HelperText>Este dato se visualiza únicamente por el donatario. Máximo 250 caracteres.</HelperText>
+              <HelperText>Este dato se visualiza únicamente por el donador. Máximo 250 caracteres.</HelperText>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="validationCustom01">
@@ -234,32 +252,7 @@ const SolicitudDonBox = (props) => {
                   {errors.zone && (
                     <span style={{ color: "red" }}>{errors.zone}</span>
                   )}
-              <Form.Control.Feedback type="invalid">
-                    Por favor ingrese la localidad, no puede estar vacía.
-              </Form.Control.Feedback>
-              <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-              <HelperText>Este dato se visualiza únicamente por el donatario.</HelperText>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="validationCustom01">
-              <Form.Label>¿Cuál es su nombre? *</Form.Label>
-                <Form.Control
-                    value={solicitudData["req_name"]}
-                    type="text"
-                    required
-                    placeholder="Ingrese aquí su nombre"
-                    onChange={(event) =>
-                      handleFieldChange("req_name", event.target.value)
-                    }
-                    maxlength={50}
-                    minLength={3}
-                />
-                <Form.Control.Feedback type="invalid">
-                    Por favor ingrese su nombre, no puede estar vacía.
-              </Form.Control.Feedback>
-              <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                <HelperText>Este dato se visualiza únicamente por el donatario.</HelperText>
-            </Form.Group>
+              </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Check
@@ -271,7 +264,7 @@ const SolicitudDonBox = (props) => {
             </Form.Group>
 
             <div className="d-flex justify-content-center gap-4">
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className="btn-primary-forms">
                     Aceptar
               </Button>
               <Button variant="secondary" onClick={handleCancelarClick}>

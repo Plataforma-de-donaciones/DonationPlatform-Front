@@ -11,7 +11,7 @@ const DateTimePicker = ({ value, onChange }) => {
 
   return (
     <>
-      <Form.Label>Fecha y Hora de Inicio *</Form.Label>
+      <Form.Label>Fecha y Hora de inicio *</Form.Label>
       
       <Datetime
         value={value ? new Date(value) : null}
@@ -19,12 +19,12 @@ const DateTimePicker = ({ value, onChange }) => {
         dateFormat="YYYY-MM-DD"
         timeFormat="HH:mm:ss"
 
-        inputProps={{ placeholder: 'Seleccione fecha y hora de inicio del evento' , required: true}}
+        inputProps={{ placeholder: 'Seleccione fecha y hora de inicio del evento.' , required: true}}
       
       />
      
       <Form.Control.Feedback type="invalid">
-        Localidad es requerida
+        Por favor ingrese la fecha inicio del evento, no puede estar vacía.
       </Form.Control.Feedback>
 
       <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>

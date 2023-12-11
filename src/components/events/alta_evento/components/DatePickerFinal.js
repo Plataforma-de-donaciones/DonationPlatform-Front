@@ -17,10 +17,10 @@ const DateTimePickerFinal = ({ value, onChange }) => {
         onChange={handleDateChange}
         dateFormat="YYYY-MM-DD"
         timeFormat="HH:mm:ss"
-        inputProps={{ placeholder: 'Seleccione fecha y hora de finalización del evento' , required: true,}}
+        inputProps={{ placeholder: 'Seleccione fecha y hora de finalización del evento.' , required: true,}}
       />
       <Form.Control.Feedback type="invalid">
-       La fecha y hora del evento es requerida
+      Por favor ingrese la fecha de finalización del evento, no puede estar vacía.
       </Form.Control.Feedback>
 
       <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>

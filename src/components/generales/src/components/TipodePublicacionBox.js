@@ -57,7 +57,7 @@ const TipodePublicacionBox = ({ onSelect, ...props }) => {
       )}
 
       <Form.Control.Feedback required type="invalid">
-      Por favor ingrese el tipo de publicación
+      Por favor ingrese el tipo de publicación, no puede estar vacío.
       </Form.Control.Feedback>
       <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
       <HelperText>Este dato se visualiza en la publicación.</HelperText>

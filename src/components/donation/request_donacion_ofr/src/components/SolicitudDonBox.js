@@ -39,6 +39,7 @@ const CardStyled = styled(Card)`
     border-radius: 8px;
     border: 1px solid #ddd;
     width: 500px;
+
   }
 `;
 
@@ -46,7 +47,7 @@ const CardStyled = styled(Card)`
 const cookies = new Cookies();
 
 const SolicitudDonBox = (props) => {
-  //const { donacionId } = useParams();
+
   const { itemId, setItemId } = useAuth();
   console.log(itemId);
   const [solicitudData, setSolicitudData] = useState({
@@ -155,21 +156,6 @@ const SolicitudDonBox = (props) => {
       }));
       return;
     }
-    // const confirmation = await Swal.fire({
-    //   title: 'Protege tu Privacidad',
-    //   html: `
-    //     <p>Por su seguridad y la de los demás, le recordamos evitar publicar fotos y/o videos, o descripción en la publicación que contengan información personal o la de otras personas. Estos pueden incluir Nombre, Teléfono, Dirección, entre otros.</p>
-    //     <p>En caso de necesitar brindar datos personales para concretar el acto benéfico, le sugerimos que lo realice de manera segura mediante el chat privado.</p>
-    //     <p>Ayuda a crear un entorno en línea seguro para todos.</p>
-    //     <p>¡Gracias por su colaboración!</p>
-    //     <p>¿Usted confirma que esta publicación no incluye contenido que revele información sensible?</p>`,
-    //   icon: 'info',
-    //   showCancelButton: true,
-    //   confirmButtonText: 'Sí',
-    //   cancelButtonText: 'No',
-    // });
-
-    // if(confirmation.isConfirmed){
   };
 
   const validateField = (fieldName, value) => {
@@ -215,8 +201,6 @@ const SolicitudDonBox = (props) => {
     });
   };
 
-  //url:donardonacion/id
-
   return (
     <main>
     <Row1 className="mt-4">
@@ -226,39 +210,6 @@ const SolicitudDonBox = (props) => {
         <Card.Body>
               <Form noValidate validated={validated} onSubmit={handleAccept}>
               <Form.Group className="mb-3" controlId="validationCustom01">
-                    <Form.Label>¿Qué es lo que puede donar? *</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      value={solicitudData["req_description"]}
-                      required
-                      type="text"
-                      placeholder="Ingrese aquí la descripción de su donación"
-                      onChange={(event) =>
-                        handleFieldChange("req_description", event.target.value)
-                      }
-                      maxlength={250}
-                      minLength={3}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      La descripción de su donación no puede estar vacía.
-                    </Form.Control.Feedback>
-                    <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                    <HelperText>Este dato se visualiza únicamente por el donatario. Máximo 250 caracteres.</HelperText>
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="validationCustom01">
-                    <LocalidadBox onSelect={handleZoneSelect} />
-                    {errors.zone && (
-                      <span style={{ color: "red" }}>{errors.zone}</span>
-                    )}
-                    <Form.Control.Feedback type="invalid">
-                      Localidad requerida
-                    </Form.Control.Feedback>
-                    <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                    <HelperText>Por favor ingrese la localidad, no puede estar vacía.</HelperText>
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="validationCustom01">
                     <Form.Label>¿Cuál es su nombre? *</Form.Label>
                     <Form.Control
                       value={solicitudData["req_name"]}
@@ -272,10 +223,38 @@ const SolicitudDonBox = (props) => {
                       minLength={3}
                     />
                     <Form.Control.Feedback type="invalid">
-                    Por favor ingrese su nombre, no puede estar vacía.
+                    Por favor ingrese su nombre, no puede estar vacío.
                     </Form.Control.Feedback>
                     <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                     <HelperText>Este dato se visualiza únicamente por el donatario.</HelperText>
+                  </Form.Group>
+
+              <Form.Group className="mb-3" controlId="validationCustom01">
+                    <Form.Label>¿Qué es lo que ofrece donar? *</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      value={solicitudData["req_description"]}
+                      required
+                      type="text"
+                      placeholder="Ingrese aquí la descripción de su donación"
+                      onChange={(event) =>
+                        handleFieldChange("req_description", event.target.value)
+                      }
+                      maxlength={250}
+                      minLength={3}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      Por favor ingrese la descripción de su donación, no puede estar vacía.
+                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+                    <HelperText>Este dato se visualiza únicamente por el donatario. Máximo 250 caracteres.</HelperText>
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" controlId="validationCustom01">
+                    <LocalidadBox onSelect={handleZoneSelect} />
+                    {errors.zone && (
+                      <span style={{ color: "red" }}>{errors.zone}</span>
+                    )}
                   </Form.Group>
 
                   <Form.Group className="mb-3">
@@ -288,7 +267,7 @@ const SolicitudDonBox = (props) => {
                   </Form.Group>
 
                 <div className="d-flex justify-content-center gap-4">
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" className="btn-primary-forms">
                     Aceptar
                   </Button>
                   <Button variant="secondary" onClick={handleCancelarClick}>

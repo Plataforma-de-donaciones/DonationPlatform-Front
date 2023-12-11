@@ -230,13 +230,12 @@ const DonacionBox = (props) => {
               });
   
             } else {
-              // Manejar otros errores
+
             }
           }
         } catch (error) {
           console.error("Error al registrar equipo médico:", error);
-          console.log("Respuesta del servidor:", error.response); // Agrega esta línea
-          // Manejar errores de la solicitud
+          console.log("Respuesta del servidor:", error.response); 
         }
       }
     }
@@ -317,11 +316,6 @@ const DonacionBox = (props) => {
                   {errors.zone && (
                     <span style={{ color: "red" }}>{errors.zone}</span>
                   )}
-                  <Form.Control.Feedback type="invalid">
-                    Por favor ingrese la localidad, no puede estar vacía.
-                  </Form.Control.Feedback>
-                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>Este dato se visualiza en la publicación.</HelperText>
                 </Form.Group>
 
                 <Form.Group className="mb-3 d-flex justify-content-center align-items-center">
@@ -331,7 +325,7 @@ const DonacionBox = (props) => {
                   />
                 </Form.Group>
                 <div className="d-flex justify-content-center gap-4">
-                  <Button variant="primary" type="submit">
+                  <Button variant="primary" type="submit" className="btn-primary-forms">
                     Aceptar
                   </Button>
                   <Button variant="secondary" onClick={handleCancel}>

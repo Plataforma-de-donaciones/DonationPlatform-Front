@@ -365,7 +365,7 @@ const VoluntariadoBox = (props) => {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="validationCustom01">
-                  <Form.Label>¿Cómo describirías su trayectoria como voluntario/a *?</Form.Label>
+                  <Form.Label>¿Cómo describirías su trayectoria como voluntario/a? *</Form.Label>
                   <Form.Control
                     as="textarea"
                     value={voluntarioData["vol_description"]}
@@ -403,30 +403,20 @@ const VoluntariadoBox = (props) => {
                 </Form.Group>
 
                 <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
-                <HelperText>Este dato se visualiza en la publicación.</HelperText>
 
                 <Form.Group className="mb-3" controlId="validationCustom01">
                   <LocalidadBox onSelect={handleZoneSelect} />
                   {errors.zone && (
                     <span style={{ color: "red" }}>{errors.zone}</span>
                   )}
-                  <Form.Control.Feedback type="invalid">
-                    Por favor ingrese la localidad                  
-                  </Form.Control.Feedback>
-                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>Este dato se visualiza en la publicación.</HelperText>
+          
                 </Form.Group>
 
               <Form.Group className="mb-3">
-                {/* <Form.Check
-          required
-          label="Agree to terms and conditions"
-          feedback="You must agree before submitting."
-          feedbackType="invalid"
-        /> */}
+
               </Form.Group>
               <div className="d-flex justify-content-center gap-4">
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" className="btn-primary-forms">
                   Aceptar
                 </Button>
                 <Button variant="secondary" onClick={handleCancel}>
