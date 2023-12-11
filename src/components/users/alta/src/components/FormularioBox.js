@@ -357,6 +357,15 @@ const FormularioBox = (props) => {
                   </div>
                 </Form.Group>
 
+                <Form.Group className="mb-3">
+              <Form.Check
+                    required
+                    label="Al enviar este formulario acepta los términos y condiciones"
+                    feedback="Es necesario leer y aceptar los términos"
+                    feedbackType="invalid"
+              />
+            </Form.Group>
+
                 <div className="d-flex justify-content-center gap-4">
                 <Button variant="primary" type="submit">
                     Aceptar
