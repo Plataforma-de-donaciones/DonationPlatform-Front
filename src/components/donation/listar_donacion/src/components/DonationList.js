@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import instance from "../../../../../axios_instance";
 import DonationListItem from "./DonationListItem";
-import CategoryCard from "./CategoryCard";
 import Cookies from "universal-cookie";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import Swal from "sweetalert2";
-import { Col, Row, Button } from "react-bootstrap";
+import { Col, Row} from "react-bootstrap";
 import EncabezadoListado from "../../../../generales/src/components/layout/EncabezadoListado";
+import CategoryCard from './CategoryCard';
 
 const cookies = new Cookies();
 
@@ -146,22 +144,22 @@ const DonationList = () => {
             donationIds.includes(donation.don_id)
           );
 
-           // Aplicar el filtro por tipo
           const filteredDonationByType = selectedType
             ? filteredDonation.filter((donation) => donation.type === selectedType)
             : filteredDonation;
 
-          // Actualizar el estado donationList con los resultados del filtro
           setDonationList(filteredDonationByType);
         } else {
           response = await instance.get("/donations/");
           setOriginalDonationList(response.data);
 
-          // Aplicar el filtro por tipo
           const donationList = selectedType
             ? response.data.filter((donation) => donation.type === selectedType)
             : response.data;
 
+
+          // Actualizar el estado donationList con los resultados del filtro 
+    
           // Actualizar el estado donationList con los resultados del filtro 
           setDonationList(donationList);
         }
@@ -202,10 +200,10 @@ const DonationList = () => {
 
   const handleAddDonationClick = () => {
     if (isAuthenticated) {
-      // El usuario está autenticado, redirige a "/altadonacion"
+     
       history.push("/altadonacion");
     } else {
-      // El usuario no está autenticado, muestra una alerta o realiza la acción necesaria
+     
       Swal.fire({
         title: 'Debes iniciar sesión para completar esta acción',
         text: '¿Desea ir al login en este momento?',
