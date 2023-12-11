@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './Chatbot.css';
 import chatbotLogo from './chatbot.png';
 
@@ -11,7 +11,7 @@ const Chatbot = () => {
   const lastInteractionTimeRef = useRef(new Date());
 
   useEffect(() => {
-    // Función para desconectar después de 5 minutos de inactividad
+
     const disconnectAfterInactivity = () => {
       const currentTime = new Date();
       const inactiveTime = currentTime - lastInteractionTimeRef.current;
@@ -22,30 +22,26 @@ const Chatbot = () => {
       }
     };
 
-    // Establecer el temporizador para verificar la inactividad
+   
     const inactivityTimer = setInterval(disconnectAfterInactivity, 1000);
 
-    // Limpiar el temporizador al desmontar el componente
     return () => clearInterval(inactivityTimer);
   }, [isOpen]);
 
   useEffect(() => {
-    // Actualizar el tiempo de la última interacción cuando se recibe un mensaje
     lastInteractionTimeRef.current = new Date();
   }, [messages]);
 
   useEffect(() => {
-    // Ajusta el desplazamiento hacia abajo al cargar el componente o cuando cambia el estado de los mensajes
     if (messageContainerRef.current) {
       if (bottomRef.current) {
         messageContainerRef.current.scrollTop = bottomRef.current;
-        bottomRef.current = null; // Limpia la referencia después de utilizarla
+        bottomRef.current = null; 
       } else {
         messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
       }
     }
   
-    // Si isOpen es true por primera vez, envía el mensaje de bienvenida
     if (isOpen && messages.length === 0) {
       handleSendMessageWelcome();
     }
@@ -75,14 +71,10 @@ const Chatbot = () => {
       setMessages(newMessages);
   
       if (messages.length === 0) {
-        setMessages([
-          { text: 'Hola, bienvenido/a a la plataforma de donaciones. ¿En qué puedo ayudarte?', sender: 'bot' },
-        ]);
-      } else {
-        // llama a wit.ai para encontrar la intencion del mensaje
+        handleSendMessageWelcome();
+      } else { 
         const witAiResponse = await analyzeIntent(inputText);
   
-        // si detecta la intencion
         if (witAiResponse && witAiResponse.intents && witAiResponse.intents.length > 0) {
             
             const intent = witAiResponse.intents[0].name;
@@ -124,10 +116,10 @@ const Chatbot = () => {
                 setMessages([...messages, { text: sponsorResponse, sender: 'bot' }]);
                 break;
               
-              case 'saludo':
-                const saludoResponse = '¡Gracias por comunicarse! Ante cualquier otra consulta quedo a las órdenes.';
-                setMessages([...messages, { text: saludoResponse, sender: 'bot' }]);
-                break;  
+              // case 'saludo':
+              //   const saludoResponse = '¡Gracias por comunicarse! Ante cualquier otra consulta quedo a las órdenes.';
+              //   setMessages([...messages, { text: saludoResponse, sender: 'bot' }]);
+              //   break;  
     
               case 'solicitudes':
                 const solicitudesResponse = 'Para visualizar sus solicitudes, debe dirigirse al botón de perfil, y luego "Mis solicitudes". Allí podrá visualizar el listado de los mismos por modulo.';
@@ -162,7 +154,7 @@ const Chatbot = () => {
         }
     
         setInputText('');
-        lastInteractionTimeRef.current = new Date(); // Actualizar el tiempo de la última interacción al enviar un mensaje
+        lastInteractionTimeRef.current = new Date(); 
       }
     };
   
@@ -182,7 +174,6 @@ const Chatbot = () => {
 
   const handleToggleChatbot = () => {
     if (!isOpen) {
-      // Guarda la referencia a la parte inferior del contenedor al cerrar el chat
       if (messageContainerRef.current) {
         bottomRef.current = messageContainerRef.current.scrollHeight;
       }
@@ -191,7 +182,8 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="chatbot-container">
+    <div className={`chatbot-container ${isOpen ? 'open' : ''}`}>
+      
       {isOpen && (
         <div className="chat-window">
           <div className="message-container" ref={messageContainerRef}>
@@ -206,7 +198,7 @@ const Chatbot = () => {
               type="text"
               value={inputText}
               onChange={handleInputChange}
-              onKeyPress={handleKeyPress}  // Agrega este manejador de eventos
+              onKeyPress={handleKeyPress}  
               placeholder="Escribe tu mensaje..."
             />
             <button onClick={handleSendMessage} variant="primary" className="button-enviar">
@@ -215,11 +207,12 @@ const Chatbot = () => {
           </div>
         </div>
       )}
-      <div className={`logo-container ${isOpen ? 'open' : ''}`} onClick={handleToggleChatbot}>
+      <div className="logo-container" onClick={handleToggleChatbot}>
         <img src={chatbotLogo} alt="Chatbot Logo" />
       </div>
     </div>
   );
 };
+
 
 export default Chatbot;

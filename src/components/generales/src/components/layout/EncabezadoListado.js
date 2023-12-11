@@ -13,7 +13,7 @@ const EncabezadoListado = ({ onActionSolicitud, onActionOfrecimiento, textButton
 
         {showTabs && (
             <Row>
-<Col className="col-12 col-sm-12 col-xl-12 col-md-12">
+            <Col className="col-12 col-sm-12 col-xl-12 col-md-12">
             <div className="mt-3 text-center">
                 <ButtonFn
                     onAction={onActionSolicitud}

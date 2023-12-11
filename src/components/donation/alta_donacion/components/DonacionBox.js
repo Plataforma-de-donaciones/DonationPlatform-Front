@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import '../../../generales/src/assets/estilos.css'
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
+import {Button, Card, CardHeader, Col, Form, FormControl, InputGroup, Row} from "react-bootstrap";
 import TipodePublicacionBox from "../../../generales/src/components/TipodePublicacionBox";
 import LocalidadBox from "../../../generales/src/components/LocalidadBoxAlta";
 import ImagenDonEditarBox from "../../../generales/src/components/ImagenDonEditarBox";
-
-import {
-  Form,
-  Row,
-  Col,
-  InputGroup,
-  Button,
-  Card,
-  CardBody,
-} from "react-bootstrap";
 import CardComponente from "../../../generales/card/CardComponente";
 
 const HelperText = styled.span`
@@ -31,6 +23,24 @@ const HelperText = styled.span`
   font-weight: 400;
 `;
 
+const Row1 = styled(Row)`
+  margin-bottom: 30px;
+`;
+
+const Col1 = styled(Col)`
+  margin-bottom: 30px;
+`;
+
+const CardStyled = styled(Card)`
+  margin-bottom: 30px; /* Ajusta el valor según la separación deseada */
+
+  &.card-alta {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 500px;
+  }
+`;
 
 const cookies = new Cookies();
 
@@ -220,13 +230,12 @@ const DonacionBox = (props) => {
               });
   
             } else {
-              // Manejar otros errores
+
             }
           }
         } catch (error) {
           console.error("Error al registrar equipo médico:", error);
-          console.log("Respuesta del servidor:", error.response); // Agrega esta línea
-          // Manejar errores de la solicitud
+          console.log("Respuesta del servidor:", error.response); 
         }
       }
     }
@@ -254,138 +263,93 @@ const DonacionBox = (props) => {
   };
 
   return (
-    <>
-      <CardComponente
-        titulo={"Registra tu Donación"}
-        body={
-          <>
+    <main>
+    <Row1 className="mt-4">
+    <Col1>
+      <CardStyled className="card-alta">
+        <Card.Header className="text-center h5">Regístra la donación</Card.Header>
+        <Card.Body>
             <Form noValidate validated={validated} onSubmit={handleAccept}>
-              <Row className="mb-3">
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <Form.Group className="mb-3" controlId="validationCustom01">
                   <Form.Label>¿Cuál es el nombre de la donación? *</Form.Label>
-
                   <Form.Control
                     value={donationData["don_name"]}
                     required
                     type="text"
-                    placeholder="Nombre de la donación"
+                    placeholder="Ingrese aquí el nombre de la donación."
                     onChange={(event) => handleFieldChange("don_name", event)}
                     maxlength={50}
                     minLength={3}
                   />
-
                   <Form.Control.Feedback type="invalid">
-                    Por favor digite su nombre
+                    Por favor ingrese el nombre de la donación, no puede estar vacío.
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback>
-                    ¡Campo válido!
-                  </Form.Control.Feedback>
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+                  <HelperText> Este dato se visualiza en la publicación. Máximo 50 caracteres.</HelperText>
                 </Form.Group>
-                <p></p>
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
-                  <Form.Label>¿Cómo describirías a la donación? * </Form.Label>
 
+                <Form.Group className="mb-3" controlId="validationCustom01">
+                  <Form.Label>¿Cómo describirías la donación? * </Form.Label>
                   <Form.Control
                     as="textarea"
                     value={donationData["don_description"]}
                     required
                     type="text"
-                    placeholder="Describa la donación"
+                    placeholder="Ingrese aquí la descripción de la donación."
                     onChange={(event) =>
                       handleFieldChange("don_description", event)
                     }
                     maxlength={250}
                     minLength={3}
                   />
-
                   <Form.Control.Feedback type="invalid">
-                    La descripción de la tarea no puede estar vacía
+                    Por favor ingrese la descripción de la donación, no puede estar vacía.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
+                  <HelperText>Este dato se visualiza en la publicación. Máximo 250 caracteres.</HelperText>
                 </Form.Group>
 
-                <p></p>
                 <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
-                <HelperText>
-                  Este dato se visualiza en la publicación.
-                </HelperText>
 
-                <p></p>
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <Form.Group className="mb-3" controlId="validationCustom01">
                   <LocalidadBox onSelect={handleZoneSelect} />
                   {errors.zone && (
                     <span style={{ color: "red" }}>{errors.zone}</span>
                   )}
-
-                  <Form.Control.Feedback type="invalid">
-                    Localidad requerida
-                  </Form.Control.Feedback>
-
-                  <Form.Control.Feedback>
-                    ¡Campo válido!
-                  </Form.Control.Feedback>
-
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
                 </Form.Group>
-                <p></p>
 
-                <ImagenDonEditarBox
-                  className="text-center"
-                  style={{ width: "20%" }}
-                  handleFileChange={handleFileChange}
-                  titulo={"Adjunte una imagen por favor"}
-                />
-              </Row>
-
-              <Form.Group className="mb-3">
-
-              </Form.Group>
-
-              <Row className="text-center">
-                <Col>
-                  <Button style={{ width: "30%" }} type="submit">
+                <Form.Group className="mb-3 d-flex justify-content-center align-items-center">
+                  <ImagenDonEditarBox
+                    handleFileChange={handleFileChange}
+                    titulo={"Adjunte una imagen"}
+                  />
+                </Form.Group>
+                <div className="d-flex justify-content-center gap-4">
+                  <Button variant="primary" type="submit" className="btn-primary-forms">
                     Aceptar
                   </Button>
-                </Col>
-                <Col>
-                  <Button
-                    style={{ width: "30%" }}
-                    variant="secondary"
-                    onClick={handleCancel}
-                  >
+                  <Button variant="secondary" onClick={handleCancel}>
                     Cancelar
                   </Button>
-                </Col>
-              </Row>
-              <div className="text-center mx-auto"></div>
-            </Form>
-          </>
-        }
-      ></CardComponente>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-     
-    </>
+                </div>
+                </Form>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+          </Card.Body>
+      </CardStyled>
+    </Col1>
+    </Row1>
+    </main>
   );
 };
-
 export default DonacionBox;

@@ -1,19 +1,29 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { Col } from "react-bootstrap";
 import { Form } from "react-bootstrap";
+
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+`;
+
 const TipodePublicacionBox = ({ onSelect, ...props }) => {
-  const [selectedValue, setSelectedValue] = useState(""); // Estado para almacenar el valor seleccionado
+  const [selectedValue, setSelectedValue] = useState(""); 
 
   const handleSelectChange = (event) => {
     const value = event.target.value;
-    setSelectedValue(value); // Actualizar el estado al seleccionar una opción
-    onSelect(value); // Llamar a la función onSelect proporcionada por el componente padre
+    setSelectedValue(value); 
+    onSelect(value); 
   };
 
   return (
-    <Form.Group as={Col} md="12" controlId="validationCustom01">
-      <Form.Label>Tipo de publicación: </Form.Label>
+    <Form.Group className="mb-3" controlId="validationCustom01">
+    <Form.Label>Tipo de publicación: </Form.Label>
 
       {props.defaultValue && (
         <Form.Select
@@ -46,9 +56,10 @@ const TipodePublicacionBox = ({ onSelect, ...props }) => {
       )}
 
       <Form.Control.Feedback required type="invalid">
-        Debe seleccionar tipo de publicación
+      Por favor ingrese el tipo de publicación, no puede estar vacío.
       </Form.Control.Feedback>
       <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+      <HelperText>Este dato se visualiza en la publicación.</HelperText>
     </Form.Group>
   );
 };

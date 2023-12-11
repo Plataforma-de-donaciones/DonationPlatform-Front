@@ -1,8 +1,18 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
-import { Form, Col } from "react-bootstrap";
+import { Form} from "react-bootstrap";
+
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+`;
 
 const Container = styled.div``;
 
@@ -61,16 +71,16 @@ function LocalidadBox({ onChange, donZone, setDonZone }) {
 
   useEffect(() => {
     if (donZone) {
-      // Si eqZone tiene un valor, establecerlo como selectedZone
+     
       setSelectedZone(donZone);
     } else if (zones.length > 0) {
-      // Si eqZone no tiene valor, establecer el primer valor de zones como selectedZone
+     
       setSelectedZone(zones[0].zone_id);
     }
   }, [donZone, zones]);
 
   useEffect(() => {
-    // Asegurarse de que eqZone se establezca después de que las zonas se hayan cargado
+    
     if (donZone && zones.length > 0) {
       setSelectedZone(donZone);
     }
@@ -91,7 +101,7 @@ function LocalidadBox({ onChange, donZone, setDonZone }) {
 
   return (
     <>
-      <Form.Group as={Col} md="12" controlId="validationCustom01">
+        <Form.Group className="mb-3" controlId="validationCustom01">
         <Form.Label>Su localidad: </Form.Label>
 
         <Form.Select
@@ -110,26 +120,12 @@ function LocalidadBox({ onChange, donZone, setDonZone }) {
         </Form.Select>
 
         <Form.Control.Feedback required type="invalid">
-          Debe seleccionar tipo de publicación
+        Por favor ingrese la localidad, no puede estar vacía.
         </Form.Control.Feedback>
         <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-      </Form.Group>
-      {/* 
-      <Container>
-        <Label>¿En qué localidad se encuentra? *</Label>
+        <HelperText>Este dato se visualiza en la publicación.</HelperText>
 
-        <SelectStyle value={selectedZone} onChange={handleZoneChange}>
-          <option value="" disabled>
-            Seleccione una localidad
-          </option>
-          {zones.map((zone) => (
-            <option key={zone.zone_id} value={zone.zone_id}>
-              {zone.zone_name}
-            </option>
-          ))}
-        </SelectStyle>
-        <Helper>Este dato se visualiza en la publicación.</Helper>
-      </Container> */}
+      </Form.Group>
     </>
   );
 }

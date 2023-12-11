@@ -40,7 +40,7 @@ const NewsListItem = ({ news }) => {
           <Card.Title>{news.new_name}</Card.Title>
 
           <Collapse in={open}>
-            <Card.Text className="mb-4 ms-2 text-muted text-center">
+            <Card.Text className="mb-4 ms-2 text-muted text-left">
               {news.new_description}
             </Card.Text>
           </Collapse>

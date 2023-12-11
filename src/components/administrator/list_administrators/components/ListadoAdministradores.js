@@ -166,8 +166,9 @@ const ListadoAdministradores = () => {
               <td>
                 <Button
                   variant="danger"
-                  size="sm"
+                  size="md"
                   onClick={() => eliminarAdministrador(administrator.id)}
+                  style={{ fontWeight: 'bold' }}
                 >
                   Eliminar
                 </Button>

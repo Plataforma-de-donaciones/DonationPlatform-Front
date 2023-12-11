@@ -1,17 +1,48 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import '../../../../../generales/src/assets/estilos.css'
 import Cookies from "universal-cookie";
 import instance from "../../../../../../axios_instance";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../../../../../AuthContext";
 import NombrePerfilBox from "./NombrePerfilBox";
 import CorreoPerfilBox from "./CorreoPerfilBox";
 import CardComponente from "./../../../../../generales/card/CardComponente";
-import { Button, Col, Row ,InputGroup} from "react-bootstrap";
+import {Button, Card, CardHeader, Col, Form, FormControl, InputGroup, Row} from "react-bootstrap";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
 import PasswordInput from "../../../../login/src/components/PasswordInput";
 
 
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+`;
+
+const Row1 = styled(Row)`
+  margin-bottom: 30px;
+`;
+
+const Col1 = styled(Col)`
+  margin-bottom: 30px;
+`;
+
+const CardStyled = styled(Card)`
+  margin-bottom: 30px; /* Ajusta el valor según la separación deseada */
+
+  &.card-alta {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 500px;
+  }
+`;
 
 const PreguntaEliminarText = styled.span`
   font-style: normal;
@@ -42,6 +73,7 @@ function PerfilBox(props) {
     organization: "",
     user_password: "",
   });
+  const [errors, setErrors] = useState({});
 
   const [contrasenaNueva, setContrasenaNueva] = useState("");
   const [confirmarContrasena, setConfirmarContrasena] = useState("");
@@ -215,25 +247,21 @@ function PerfilBox(props) {
     });
   };
 
-  //url: modificacion
   return (
-    <>
-      <CardComponente
-      
-        titulo={"Mi perfil"}
-        body={
-          <>
-      
+    <main>
+    <Row1 className="mt-4">
+    <Col1>
+      <CardStyled className="card-alta">
+        <Card.Header className="text-center h5">Mi perfil</Card.Header>
+        <Card.Body>
             <NombrePerfilBox user_name={userData.user_name} />
-      
+    
+            <CorreoPerfilBox user_email={userData.user_email} />
             
-            <CorreoPerfilBox user_email={userData.user_email} 
-            />
-            
-            <label style={styles.creaUnaContrasena}>Contraseña nueva</label>
+            <label style={styles.creaUnaContrasena}>¿Cuál es su contraseña nueva? *</label>
             <InputGroup hasValidation>
             <PasswordInput
-              placeholder="Confirmar Contraseña Nueva"
+              placeholder="Ingrese aquí su contraseña nueva"
               value={contrasenaNueva}
               onChange={handleContrasenaNuevaChange}
               onBlur={handleBlur}
@@ -243,12 +271,17 @@ function PerfilBox(props) {
                 marginTop: 10,
               }}
             />
-             </InputGroup>
-            
-            <label style={styles.creaUnaContrasena}>Contraseña nueva</label>
+            <Form.Control.Feedback type="invalid">
+                      {errors.user_password}
+                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+                  </InputGroup>
+                  <HelperText>Mínimo 8 caracteres, 1 mayúscula, 1 minúscula y 1 número.</HelperText>
+           
+            <label style={styles.creaUnaContrasena}>Confirmación de su nueva contraseña *</label>
             <InputGroup hasValidation>
             <PasswordInput
-              placeholder="Confirmar Contraseña Nueva"
+              placeholder="Ingrese aquí la confirmación de su nueva contraseña"
               value={confirmarContrasena}
               onChange={handleConfirmarContrasenaChange}
               onBlur={handleBlur}
@@ -259,7 +292,12 @@ function PerfilBox(props) {
               }}
               
             />
+            <Form.Control.Feedback type="invalid">
+                      {errors.user_password}
+                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   </InputGroup>
+                  <HelperText>Mínimo 8 caracteres, 1 mayúscula, 1 minúscula y 1 número.</HelperText>
             {!contrasenasCoinciden && (
               <div
                 style={{ color: "red", textAlign: "center", marginTop: "10px" }}
@@ -268,30 +306,16 @@ function PerfilBox(props) {
               </div>
             )}
           
-         
+          <div className="d-flex justify-content-center gap-4">
+                <Button variant="primary" onClick={handleSubmit}>
+                    Aceptar
+                  </Button>
+                  <Button variant="secondary" onClick={handleCancel} history={props.history}>
+                    Volver
+              </Button>
+            </div>
 
-
-            <Row className="mx-auto text-center mb-3 mt-4">
-              <Col>
-                <Button style={{ width: "45%" }} onClick={handleSubmit}>
-                  Aceptar
-                </Button>
-              </Col>
-
-              <Col>
-                <Button
-                  history={props.history}
-                  style={{ width: "45%", marginLeft: "4%" }}
-                  onClick={handleCancel}
-                  variant="secondary"
-                >
-                  Volver
-                </Button>
-              </Col>
-            </Row>
-
-            <Row className="mx-auto"> 
-
+            <Row className="mx-auto">
             <PreguntaEliminarText className="mx-auto">
               ¿Desea eliminar su cuenta?
             </PreguntaEliminarText>
@@ -299,19 +323,30 @@ function PerfilBox(props) {
               <Button
               className="mx-auto mt-3"
               variant="danger"
-              style={{ width: "28%", marginLeft: "4%" }}
+              style={{ width: "30%", marginLeft: "4%" }}
               onClick={() => eliminarItem(userId)}
               userId={userId}
               >   Eliminar cuenta
               </Button>
-            
               </Row>
-              <p></p>
-          </>
-        }
-      ></CardComponente>
-    </>
+          <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+          />
+        </Card.Body>
+      </CardStyled>
+    </Col1>
+    </Row1>
+    </main>
   );
-}
+};
 
 export default PerfilBox;

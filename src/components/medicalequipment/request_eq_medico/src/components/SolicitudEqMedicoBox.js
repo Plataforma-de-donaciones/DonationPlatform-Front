@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
+import '../../../../generales/src/assets/estilos.css'
 import LocalidadBox from "../../../../generales/src/components/LocalidadBoxAlta";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import CardComponente from "../../../../generales/card/CardComponente";
-import { Form, Row, Col, Button } from "react-bootstrap";
+import {Button, Card, CardHeader, Col, Form, FormControl, InputGroup, Row} from "react-bootstrap";
 import { useAuth } from "../../../../../AuthContext";
 
 
@@ -22,6 +23,24 @@ const HelperText = styled.span`
   font-weight: 400;
 `;
 
+const Row1 = styled(Row)`
+  margin-bottom: 30px;
+`;
+
+const Col1 = styled(Col)`
+  margin-bottom: 30px;
+`;
+
+const CardStyled = styled(Card)`
+  margin-bottom: 30px; /* Ajusta el valor según la separación deseada */
+
+  &.card-alta {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 500px;
+  }
+`;
 const cookies = new Cookies();
 
 const SolicitudEqMedicoBox = (props) => {
@@ -98,7 +117,7 @@ const SolicitudEqMedicoBox = (props) => {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      // Intentar enviar la solicitud
+    
       try {
         const response = await instance.post("/requests/", solicitudData, {
           headers: {
@@ -175,76 +194,63 @@ const SolicitudEqMedicoBox = (props) => {
   //url:solicitarequipamiento/
 
   return (
-    <>
-      <CardComponente
-        titulo={"Solicitud de equipamiento médico"}
-        body={
-          <>
+<main>
+    <Row1 className="mt-4">
+    <Col1>
+      <CardStyled className="card-alta">
+        <Card.Header className="text-center h5">Solicitud de equipamiento médico</Card.Header>
+        <Card.Body>      
             <Form noValidate validated={validated} onSubmit={handleAccept}>
-              <Row className="mb-3">
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
-                  <Form.Label>¿Por qué motivo solicita este equipamiento médico? * </Form.Label>
-
-                  <Form.Control
-                    as="textarea"
-                    value={solicitudData["req_description"]}
-                    required
-                    type="text"
-                    placeholder="Describa el motivo de su solicitud"
-                    onChange={(event) =>
-                      handleFieldChange("req_description", event.target.value)
-                    }
-                    maxlength={250}
-                    minLength={3}
-                  />
-
-                  <Form.Control.Feedback type="invalid">
-                    La descripción de no puede estar vacía
-                  </Form.Control.Feedback>
-                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>
-                    Este dato se visualiza únicamente por el donatario.
-                    Asimismo, indique las condiciones del voluntariado.
-                  </HelperText>
-                </Form.Group>
-
-                <p></p>
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
-                  <LocalidadBox onSelect={handleZoneSelect} />
-                  {errors.zone && (
-                    <span style={{ color: "red" }}>{errors.zone}</span>
-                  )}
-
-                  <Form.Control.Feedback type="invalid">
-                    Localidad requerida
-                  </Form.Control.Feedback>
-
-                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
-                </Form.Group>
-                <p></p>
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
+            <Form.Group className="mb-3" controlId="validationCustom01">
                   <Form.Label>¿Cuál es su nombre? *</Form.Label>
 
                   <Form.Control
                     value={solicitudData["req_name"]}
                     type="text"
                     required
-                    placeholder="Ingrese su nombre"
+                    placeholder="Ingrese aquí su nombre"
                     onChange={(event) =>
                       handleFieldChange("req_name", event.target.value)
                     }
                     maxlength={50}
                     minLength={3}
                   />
-                  <HelperText>
-                    Este dato se visualiza únicamente por el donatario.
-                  </HelperText>
+                  <Form.Control.Feedback type="invalid">
+                    Por favor ingrese su nombre, no puede estar vacía.
+              </Form.Control.Feedback>
+              <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+                <HelperText>Este dato se visualiza únicamente por el donador.</HelperText>
+              </Form.Group>
+
+            <Form.Group className="mb-3" controlId="validationCustom01">
+                  <Form.Label>¿Por qué motivo solicita este equipamiento médico? * </Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    value={solicitudData["req_description"]}
+                    required
+                    type="text"
+                    placeholder="Ingrese aquí la descripción del motivo de su solicitud"
+                    onChange={(event) =>
+                      handleFieldChange("req_description", event.target.value)
+                    }
+                    maxlength={250}
+                    minLength={3}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                  Por favor ingrese el motivo de su solicitud, no puede estar vacía.
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
+                  <HelperText>Este dato se visualiza únicamente por el donador. Máximo 250 caracteres.</HelperText>
                 </Form.Group>
-                <p></p>
+
+                <Form.Group className="mb-3" controlId="validationCustom01">
+                  <LocalidadBox onSelect={handleZoneSelect} />
+                  {errors.zone && (
+                    <span style={{ color: "red" }}>{errors.zone}</span>
+                  )}
+                </Form.Group>
+
+                
                 <Form.Group className="mb-3">
                   <Form.Check
                     required
@@ -252,45 +258,34 @@ const SolicitudEqMedicoBox = (props) => {
                     feedback="Es necesario leer y aceptar los términos"
                     feedbackType="invalid"
                   />
-                </Form.Group>
-              </Row>
+              </Form.Group>
 
-              <Row className="text-center">
-                <Col>
-                  <Button style={{ width: "30%" }} type="submit">
+              <div className="d-flex justify-content-center gap-4">
+              <Button variant="primary" type="submit" className="btn-primary-forms">
                     Aceptar
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    style={{ width: "30%" }}
-                    variant="secondary"
-                    onClick={handleCancelarClick}
-                  >
+              </Button>
+              <Button variant="secondary" onClick={handleCancelarClick}>
                     Cancelar
-                  </Button>
-                </Col>
-              </Row>
-              <div className="text-center mx-auto"></div>
-            </Form>
-          </>
-        }
-      ></CardComponente>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-
-    </>
+              </Button>
+            </div>
+          </Form>
+          <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+          />
+        </Card.Body>
+      </CardStyled>
+    </Col1>
+    </Row1>
+    </main>
   );
 };
 

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import '../../../generales/src/assets/estilos.css'
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
 import { useHistory, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import { Card, Form, Row, CardBody, Col, Button } from "react-bootstrap";
+import "react-toastify/dist/ReactToastify.css";
+import {Button, Card, CardHeader, Col, Form, FormControl, InputGroup, Row} from "react-bootstrap";
 import TipodePublicacionBox from "../../../generales/src/components/TipodePublicacionBox";
 import LocalidadBox from "../../../generales/src/components/LocalidadBoxAlta";
 import CardComponente from "../../../generales/card/CardComponente";
@@ -31,6 +33,25 @@ const HelperText = styled.span`
   padding-top: 8px;
   font-style: normal;
   font-weight: 400;
+`;
+
+const Row1 = styled(Row)`
+  margin-bottom: 30px;
+`;
+
+const Col1 = styled(Col)`
+  margin-bottom: 30px;
+`;
+
+const CardStyled = styled(Card)`
+  margin-bottom: 30px; /* Ajusta el valor según la separación deseada */
+
+  &.card-alta {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 500px;
+  }
 `;
 
 const TitleContainer = styled.div`
@@ -191,7 +212,7 @@ const SponsorBox = (props) => {
     if (fieldName === "sponsor_description" && !value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [fieldName]: "La descripción del apadrinamiento no puede estar vacía",
+        [fieldName]: "La descripción no puede estar vacía",
       }));
     }
     if (fieldName === "type" && !value) {
@@ -287,160 +308,105 @@ const SponsorBox = (props) => {
     });
   };
   return (
-    <>
-      <CardComponente
-        titulo={"Registra el Apadrinamiento"}
-        body={
-          <>
+    <main>
+    <Row1 className="mt-4">
+    <Col1>
+    <CardStyled className="card-alta">
+        <Card.Header className="text-center h5">Regístra el Apadrinamiento</Card.Header>
+        <Card.Body>
             <Form noValidate validated={validated} onSubmit={handleAccept}>
-              <Row className="mb-3">
                 <Form.Group as={Col} md="12" controlId="validationCustom01">
-                  <Form.Label>
-                    ¿Cuál es su nombre o el de su organización? *
-                  </Form.Label>
-
+                  <Form.Label>¿Cuál es su nombre o de su organización? *</Form.Label>
                   <Form.Control
                     value={sponsorData["sponsor_name"]}
                     required
                     type="text"
-                    placeholder="Nombre del apadrinador/a o solicitante"
-                    onChange={(event) =>
-                      handleFieldChange("sponsor_name", event)
-                    }
+                    placeholder="Ingrese aquí el nombre del apadrinador/a o solicitante."
+                    onChange={(event) => handleFieldChange("sponsor_name", event)}
                     maxlength={50}
                     minLength={3}
                   />
 
                   <Form.Control.Feedback type="invalid">
-                    Por favor digite su nombre
+                    Por favor ingrese su nombre o el de su organización, no puede estar vacío.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
+                  <HelperText>Este dato se visualiza en la publicación. Máximo 50 caracteres.</HelperText>
                 </Form.Group>
-                <p></p>
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
-                  <Form.Label>Agregue una descripción * </Form.Label>
 
+                <Form.Group className="mb-3" controlId="validationCustom01">
+                  <Form.Label>¿Cómo describirías su apadrinamiento? * </Form.Label>
                   <Form.Control
                     as="textarea"
                     value={sponsorData["sponsor_description"]}
                     required
                     type="text"
-                    placeholder="Describa..."
-                    onChange={(event) =>
-                      handleFieldChange("sponsor_description", event)
-                    }
+                    placeholder="Ingrese aquí la descripción de su apadrinamiento."
+                    onChange={(event) => handleFieldChange("sponsor_description", event)}
                     maxlength={250}
                     minLength={3}
                   />
-
                   <Form.Control.Feedback type="invalid">
-                    La descripción no puede estar vacía
+                  Por favor ingrese la descripción del apadrinamiento, no puede estar vacía.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
+                  <HelperText>Este dato se visualiza en la publicación. Máximo 250 caracteres.</HelperText>
                 </Form.Group>
-                <p></p>
 
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
-                  <Form.Label>
-                    Describa las condiciones del apadrinamiento *{" "}
-                  </Form.Label>
-
+                <Form.Group className="mb-3" controlId="validationCustom01">
+                  <Form.Label>¿Cómo describirías las condiciones del apadrinamiento? *</Form.Label>
                   <Form.Control
                     as="textarea"
                     value={sponsorData["sponsor_attachment"]}
                     required
                     type="text"
-                    placeholder="Describa las condiciones"
+                    placeholder="Ingrese aquí la descripción de las condiciones."
                     maxLength={250}
-                    onChange={(event) =>
-                      handleFieldChange("sponsor_attachment", event)
-                    }
+                    minLength={3}
+                    onChange={(event) =>handleFieldChange("sponsor_attachment", event)}
                   />
-
                   <Form.Control.Feedback type="invalid">
-                    La condicion no puede estar vacía
+                    Por favor ingrese la descripción de las condiciones, no puede estar vacía.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
+                  <HelperText>Este dato se visualiza en la publicación. Máximo 250 caracteres.</HelperText>
                 </Form.Group>
 
-                <p></p>
                 <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
-                <HelperText>
-                  Este dato se visualiza en la publicación.
-                </HelperText>
 
-                <p></p>
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
+                <Form.Group className="mb-3" controlId="validationCustom01">
                   <LocalidadBox onSelect={handleZoneSelect} />
                   {errors.zone && (
                     <span style={{ color: "red" }}>{errors.zone}</span>
                   )}
-
-                  <Form.Control.Feedback type="invalid">
-                    Localidad requerida
-                  </Form.Control.Feedback>
-
-                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
                 </Form.Group>
-                <p></p>
-              </Row>
 
-              <Form.Group className="mb-3">
-                {/* <Form.Check
-                required
-                label="Agree to terms and conditions"
-                feedback="You must agree before submitting."
-                feedbackType="invalid"
-              /> */}
-              </Form.Group>
-
-              <Row className="text-center">
-                <Col>
-                  <Button style={{ width: "30%" }} type="submit">
-                    Aceptar
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    style={{ width: "30%" }}
-                    variant="secondary"
-                    onClick={handleCancel}
-                  >
-                    Cancelar
-                  </Button>
-                </Col>
-              </Row>
-              <div className="text-center mx-auto"></div>
+              <div className="d-flex justify-content-center gap-4">
+                <Button variant="primary" type="submit" className="btn-primary-forms">
+                  Aceptar
+                </Button>
+                <Button variant="secondary" onClick={handleCancel}>
+                  Cancelar
+                </Button>
+              </div>
             </Form>
-          </>
-        }
-      ></CardComponente>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-    </>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+          </Card.Body>
+      </CardStyled>
+    </Col1>
+    </Row1>
+    </main>
   );
 };
 

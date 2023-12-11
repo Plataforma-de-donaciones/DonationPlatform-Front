@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Col, Form } from "react-bootstrap";
 
@@ -6,7 +6,7 @@ function DescripcionEveEditarBox({ value, onChange, ...props }) {
   const [descripcion, setDescripcion] = useState("");
 
   useEffect(() => {
-    // Actualizar el estado de la descripción cuando se proporciona un nuevo valor
+
     if (value !== undefined) {
       setDescripcion(value);
     }
@@ -15,7 +15,6 @@ function DescripcionEveEditarBox({ value, onChange, ...props }) {
   const handleDescripcionChange = (e) => {
     setDescripcion(e.target.value);
 
-    // Llamar a la función onChange proporcionada si existe
     if (onChange) {
       onChange(e);
     }
@@ -32,16 +31,15 @@ function DescripcionEveEditarBox({ value, onChange, ...props }) {
 
   return (
     <>
-    <p></p>
-      <Form.Group as={Col} md="12" controlId="validationCustom01">
-        <Form.Label>Descripción *</Form.Label>
+        <Form.Group className="mb-3" controlId="validationCustom01">
+        <Form.Label>¿Cómo describirías el evento? *</Form.Label>
 
         <Form.Control
           as="textarea"
           value={descripcion}
           required
           type="text"
-          placeholder="Describa el evento"
+          placeholder="Descripción del evento"
           onChange={handleDescripcionChange}
           maxlength={250}
           minLength={3}
@@ -51,11 +49,11 @@ function DescripcionEveEditarBox({ value, onChange, ...props }) {
           selectTextOnFocus={false}
         />
 
-        <Form.Control.Feedback type="invalid">
-          La descripción de la tarea no puede estar vacía
+<Form.Control.Feedback type="invalid">
+        Por favor ingrese la descripción del evento, no puede estar vacía.
         </Form.Control.Feedback>
         <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-        <HelperText>Este dato se visualiza en la publicación.</HelperText>
+        <HelperText>Este dato se visualiza en la publicación. Máximo 250 caracteres.</HelperText>
       </Form.Group>
         </>
   );

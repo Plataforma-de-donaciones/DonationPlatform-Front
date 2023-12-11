@@ -5,16 +5,18 @@ import { FaFacebook } from "react-icons/fa";
 const Container = styled.button`
   display: flex;
   align-items: center;
+  justify-content: center;
   background-color: #007ef1;
   color: #fff;
-  border: none;
-  border-radius: 53px;
+  border: 1px solid #ddd;
+  border-radius: 100px;
   padding: 8px 16px; /* Ajusta el tamaño aquí */
   cursor: pointer;
-  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.35); /* Agrega sombra aquí */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega sombra aquí */
   transition: background-color 0.3s ease;
 
-  width: 230px;
+  width: 130px;
+  height: 40px;
 
   &:hover {
     background-color: #005bbf;
@@ -37,7 +39,7 @@ function FbRegistroButton(props) {
   return (
     <Container>
       <FacebookIcon />
-      <Caption>Regístrate con Facebook</Caption>
+      <Caption>Facebook</Caption>
     </Container>
   );
 }

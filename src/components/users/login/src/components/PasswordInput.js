@@ -14,7 +14,7 @@ function PasswordInput(props) {
     <>
       <Form.Control
         type={showPassword ? "text" : "password"}
-        placeholder={props.passwordPlaceholder || "Contraseña"}
+        placeholder={props.passwordPlaceholder || "Ingrese aquí su contraseña"}
         value={props.value}
         onChange={props.onChange}
         name={props.name}

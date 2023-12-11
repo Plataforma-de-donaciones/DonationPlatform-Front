@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import styled from "styled-components";
 import Cookies from "universal-cookie";
@@ -48,6 +48,7 @@ const ListadoSponsors = ({ sponsorId }) => {
 
   const { itemId, setItemId, conversationId, setConversationId } = useAuth();
   console.log(itemId);
+  console.log(zones);
 
   const openOrCreateConversation = async (user_1, user_2, solicitudId) => {
     try {
@@ -213,7 +214,7 @@ const ListadoSponsors = ({ sponsorId }) => {
   };
 
   const getZoneName = (zoneValue) => {
-    const zone = zones.find((zone) => zone.value === zoneValue);
+    const zone = zones.find((zone) => zone.zone_id === zoneValue);
     return zone ? zone.zone_name : zoneValue;
   };
 
@@ -255,14 +256,14 @@ const ListadoSponsors = ({ sponsorId }) => {
                             handleConfirmationChange(solicitud.id)
                           }
                         />
-                        <UpdateButton
+                        <Button
                           onClick={() => handleUpdateRequest(solicitud.id)}
                         >
                           Confirmar
-                        </UpdateButton>
+                        </Button>
                       </TableCell>
                       <TableCell>
-                        <button
+                        <Button
                           onClick={() =>
                             openOrCreateConversation(
                               user_id,
@@ -274,7 +275,7 @@ const ListadoSponsors = ({ sponsorId }) => {
                           {solicitud.conv
                             ? "Abrir Conversación"
                             : "Iniciar Conversación"}
-                        </button>
+                        </Button>
                       </TableCell>
                     </tr>
                   ))}

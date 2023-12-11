@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import instance from "../../../../../axios_instance";
 import EquipamientoMedicoListItem from "./EquipamientoMedicoListItem";
 import CategoryCard from "./CategoryCard";
 import Cookies from "universal-cookie";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import Swal from "sweetalert2";
-import { Button, Col, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import EncabezadoListado from "../../../../generales/src/components/layout/EncabezadoListado";
 
 const cookies = new Cookies();
@@ -21,16 +19,21 @@ const EquipamientoMedicoListContainer = styled.div`
 
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 
   padding: 32px;
   margin-top: 2rem;
   margin-bottom: 2rem;
-  border-radius: 8px;
 
   @media (max-width: 1350px) {
     display: grid;
     grid-template-rows: auto auto 1fr auto; /* Ajuste de las filas */
   }
+`;
+
+const ListAndCategoryContainer = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 const ListContainer = styled.div`
@@ -39,11 +42,27 @@ const ListContainer = styled.div`
   align-items: flex-start;
   margin-right: 16px;
 `;
-const ListAndCategoryContainer = styled.div`
-  display: flex;
-  flex-direction: row;
+
+const List = styled.div`
+display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: flex-start;
 `;
 
+const EqMedicoListItem = styled(EquipamientoMedicoListItem)`
+
+`;
+const CategoryCard1 = styled(CategoryCard)`
+  flex: 2;
+`;
+
+const Row2 = styled(Row)`
+
+  gap: 16px; /* Espaciado entre elementos */
+  margin-right: 16px;
+
+`;
 const SearchBarContainer = styled.div`
   display: flex;
   flex-direction: row; 
@@ -58,7 +77,6 @@ const SearchBarAndAddEquipment = styled.div`
   justify-content: space-between; 
   align-items: center;
 `;
-
 const FilterBarContainer = styled.div`
   display: flex;
   flex-direction: row; 
@@ -84,7 +102,6 @@ const SearchInput = styled.input`
   max-width: 200px;
 
 `;
-
 const SearchIcon = styled.span`
   cursor: pointer;
   background-color: transparent;
@@ -94,14 +111,12 @@ const SearchIcon = styled.span`
   font-size: 20px;
   color: #007bff;
 `;
-
 const AddEquipment = styled.div`
   display: flex;
   align-items: center;
   margin-right: 300px;
   cursor: pointer;
 `;
-
 const AddIcon = styled.button`
   background-color: transparent;
   border: none;
@@ -145,23 +160,19 @@ const EquipamientoMedicoList = () => {
             equipamientoIds.includes(equipamiento.eq_id)
           );
 
-          // Aplicar el filtro por tipo
           const filteredEquipamientoByType = selectedType
             ? filteredEquipamiento.filter((equipamiento) => equipamiento.type === selectedType)
             : filteredEquipamiento;
 
-          // Actualizar el estado equipamientoList con los resultados del filtro
           setEquipamientoList(filteredEquipamientoByType);
         } else {
           response = await instance.get("/medicalequipments/");
           setOriginalEquipamientoList(response.data);
 
-          // Aplicar el filtro por tipo
           const equipamientoList = selectedType
             ? response.data.filter((equipamiento) => equipamiento.type === selectedType)
             : response.data;
 
-          // Actualizar el estado equipamientoList con los resultados del filtro
           setEquipamientoList(equipamientoList);
         }
       } catch (error) {
@@ -201,10 +212,10 @@ const EquipamientoMedicoList = () => {
 
   const handleAddEquipmentClick = () => {
     if (isAuthenticated) {
-      // El usuario está autenticado, redirige a "/altaequipamiento"
+  
       history.push("/altaequipamiento");
     } else {
-      // El usuario no está autenticado, muestra una alerta o realiza la acción necesaria
+  
       Swal.fire({
         title: 'Debes iniciar sesión para completar esta acción',
         text: '¿Desea ir al login en este momento?',
@@ -239,7 +250,6 @@ const EquipamientoMedicoList = () => {
 
   return (
     <EquipamientoMedicoListContainer>
-
       <EncabezadoListado
         onActionSolicitud={() => handleTypeClick(1)}
         onActionOfrecimiento={() => handleTypeClick(2)}
@@ -250,9 +260,7 @@ const EquipamientoMedicoList = () => {
         onSearch={handleSearch}
         textButton={'Agregar equipamiento'}
       />
-
       <ListAndCategoryContainer>
-
         <ListContainer>
           <Row>
             <Col className="col-12 col-sm-12 col-xl-2 col-md-12 order-xl-2 order-sm-1 order-md-1 mb-3 mt-3 d-flex flex-row flex-sm-column">
@@ -269,7 +277,6 @@ const EquipamientoMedicoList = () => {
               </Row>
             </Col>
           </Row>
-
           {/* Paginación */}
           <Pagination>
             <PageButton onClick={prevPage} disabled={currentPage === 1}>
@@ -289,9 +296,7 @@ const EquipamientoMedicoList = () => {
             </PageButton>
           </Pagination>
         </ListContainer>
-
       </ListAndCategoryContainer>
-
       <ToastContainer
         position="top-right"
         autoClose={5000}

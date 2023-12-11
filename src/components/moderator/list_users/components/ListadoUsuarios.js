@@ -113,7 +113,7 @@ const ListadoUsuarios = () => {
               <td>
                 <Button
                   variant={user.user_state === 1 ? 'danger' : 'success'}
-                  size="sm"
+                  size="lg"
                   onClick={() => handleToggleUserState(user.id, user.user_state)}
                 >
                   {user.user_state === 1 ? 'Deshabilitar' : 'Habilitar'}

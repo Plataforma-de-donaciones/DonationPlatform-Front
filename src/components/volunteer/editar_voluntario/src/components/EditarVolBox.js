@@ -1,20 +1,53 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
+import '../../../../generales/src/assets/estilos.css'
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useHistory } from 'react-router-dom';
 import CardComponente from "../../../../generales/card/CardComponente";
-import { Col, Row, Button, Form } from "react-bootstrap";
+import {Button, Card, CardHeader, Col, Form, FormControl, InputGroup, Row} from "react-bootstrap";
 import NombreDonEdicionBox from "../../../../generales/src/components/NombreDonEdicionBox";
 import DescripcionDonEditarBox from "../../../../generales/src/components/DescripcionDonEditarBox";
 import TipodePublicacionBox from "../../../../generales/src/components/TipodePublicacionBox";
 import LocalidadBox from "../../../../generales/src/components/LocalidadBoxEditar";
 import { useAuth } from "../../../../../AuthContext";
+import { useLocation } from "react-router-dom";
 
 
 const cookies = new Cookies();
+
+const HelperText = styled.span`
+  font-size: 10px;
+  text-align: left;
+  color: #000;
+  opacity: 0.6;
+  padding-top: 8px;
+  font-style: normal;
+  font-weight: 400;
+`;
+
+const Row1 = styled(Row)`
+  margin-bottom: 30px;
+`;
+
+const Col1 = styled(Col)`
+  margin-bottom: 30px;
+`;
+
+const CardStyled = styled(Card)`
+  margin-bottom: 30px; /* Ajusta el valor según la separación deseada */
+
+  &.card-alta {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 500px;
+  }
+`;
 
 const Container = styled.div`
   display: flex;
@@ -85,6 +118,15 @@ const EditarVolBox = (props) => {
   
   const { itemId, setItemId } = useAuth();
   console.log(itemId);
+  const location = useLocation();
+  const [rutaAnterior, setRutaAnterior] = useState(null);
+ 
+
+  useEffect(() => {
+    setRutaAnterior(location.state?.rutaAnterior);
+    console.log(rutaAnterior);
+    
+  }, [location.search, history]);
 
   useEffect(() => {
     const cargarDatosVoluntario = async () => {
@@ -168,8 +210,8 @@ const EditarVolBox = (props) => {
         title: "Editado correctamente!",
         text: "Los datos han sido editados",
         icon: "success"
-      });
-      history.push('/listadosolicitudes');
+      });    
+        history.push(rutaAnterior);     
 
       console.log("Respuesta del servidor:", response.data);
     } catch (error) {
@@ -186,20 +228,22 @@ const EditarVolBox = (props) => {
       confirmButtonText: 'Sí',
       cancelButtonText: 'No',
     }).then((result) => {
-      if (result.isConfirmed) {
-        history.push('/listadosolicitudes');
+      if (result.isConfirmed) {      
+          history.push(rutaAnterior); 
       }
     });
   };
 
   return (
 
-<>
+<main>
+    <Row1 className="mt-4">
+    <Col1>
+      <CardStyled className="card-alta">
+        <Card.Header className="text-center h5">Edita el voluntariado</Card.Header>
+        <Card.Body>
+          <Form validated={validated} onSubmit={handleSubmit}>
 
-<CardComponente
-        titulo={"Editar voluntariado"}
-        body={
-          <>
             <NombreDonEdicionBox
               style={{ width: "100%" }}
               value={volName}
@@ -211,46 +255,42 @@ const EditarVolBox = (props) => {
               value={volDescription}
               onChange={handleVolDescriptionChange}
             />
-<p></p>
             <TipodePublicacionBox defaultValue={volType}></TipodePublicacionBox>
-<p></p>
+            
             <LocalidadBox donZone={volZone} onChange={setVolZone} />
 
 
-            <Row className="text-center mt-4">
-              <Col>
-                <Button style={{ width: "38%" }} onClick={handleSubmit}>
+            <div className="d-flex justify-content-center gap-4">
+                <Button style={{ width: "38%" }} onClick={handleSubmit} className="btn-primary-forms">
                   Aceptar
                 </Button>
-              </Col>
-
-              <Col>
                 <Button
                   history={props.history}
-                  style={{ width: "38%", marginLeft: "4%" }}
                   onClick={handleCancel}
                   variant="secondary"
                 >
                   Volver
                 </Button>
-              </Col>
-            </Row>
-
-            {/* Mover la pregunta de eliminar y el botón al final */}
-
-            <Form validated={validated} onSubmit={handleSubmit}>
-              <Row className="mb-3"></Row>
+                </div>
             </Form>
-          </>
-        }
-      ></CardComponente>
-
-</>
-
-
-
-
-  );
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+          </Card.Body>
+      </CardStyled>
+    </Col1>
+    </Row1>
+    </main>
+    );
 };
 
 export default EditarVolBox;

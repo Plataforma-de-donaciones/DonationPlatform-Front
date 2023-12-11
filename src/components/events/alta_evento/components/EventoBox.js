@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import '../../../generales/src/assets/estilos.css'
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
 import DateTimePicker from "./DatePicker";
@@ -11,6 +12,8 @@ import { ToastContainer, toast } from "react-toastify";
 import ImagenDonEditarBox from "../../../generales/src/components/ImagenDonEditarBox";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const HelperText = styled.span`
   font-size: 10px;
@@ -18,10 +21,28 @@ const HelperText = styled.span`
   color: #000;
   opacity: 0.6;
   padding-top: 8px;
-  left: 0px;
-  width: 375px;
-  top: 70px;
-  height: 20px;
+  font-style: normal;
+  font-weight: 400;
+`;
+
+const Row1 = styled(Row)`
+  margin-bottom: 30px;
+`;
+
+const Col1 = styled(Col)`
+  margin-bottom: 30px;
+`;
+
+const CardStyled = styled(Card)`
+  margin-bottom: 30px; /* Ajusta el valor según la separación deseada */
+
+  &.card-alta {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 500px;
+  
+  }
 `;
 
 const Container = styled.div`
@@ -101,7 +122,6 @@ const EventoBox = (props) => {
     event_date: new Date().toISOString(),
     user: "",
     zone: null,
-    geom_point: null,
     attachments: null,
     start_date: null,
     end_date: null,
@@ -289,146 +309,103 @@ const EventoBox = (props) => {
   //continuar - listadoeventos
 
   return (
-    <>
-      <CardComponente
-        titulo={"Registra tu Evento"}
-        body={
-          <>
+    <main>
+    <Row1 className="mt-4">
+    <Col1>
+      <CardStyled className="card-alta">
+        <Card.Header className="text-center h5">Regístra el evento</Card.Header>
+        <Card.Body>
             <Form noValidate validated={validated} onSubmit={handleAccept}>
-              <Row className="mb-3">
-                <Form.Group as={Col} md="12">
+              <Form.Group className="mb-3">
                   <Form.Label>¿Cuál es el nombre del evento? *</Form.Label>
-
                   <Form.Control
                     value={eventData["event_name"]}
                     required
                     type="text"
-                    placeholder="Nombre del evento"
+                    placeholder="Ingrese aquí el nombre del evento."
                     onChange={(event) => handleFieldChange("event_name", event)}
                     maxlength={50}
                     minLength={3}
                   />
-
                   <Form.Control.Feedback type="invalid">
-                    Nombre del evento no puede estar vacío
+                  Por favor ingrese el nombre del evento, no puede estar vacío.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
+                  <HelperText> Este dato se visualiza en la publicación. Máximo 50 caracteres.</HelperText>
                 </Form.Group>
-                <p></p>
-                <Form.Group as={Col} md="12">
-                  <Form.Label>¿Cómo describirías el evento? * </Form.Label>
 
+                <Form.Group className="mb-3">
+                  <Form.Label>¿Cómo describirías el evento? * </Form.Label>
                   <Form.Control
                     as="textarea"
                     value={eventData["event_description"]}
                     required
                     type="text"
-                    placeholder="Describa el evento"
-                    onChange={(event) =>
-                      handleFieldChange("event_description", event)
-                    }
+                    placeholder="Ingrese aquí la descripción del evento."
+                    onChange={(event) => handleFieldChange("event_description", event)}
                     maxlength={250}
                     minLength={3}
                   />
-
                   <Form.Control.Feedback type="invalid">
-                    La descripción del evento no puede estar vacía
+                  Por favor ingrese la descripción del evento, no puede estar vacía.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
+                  <HelperText>Este dato se visualiza en la publicación. Máximo 250 caracteres.</HelperText>
                 </Form.Group>
 
-                <p></p>
-                <Form.Group as={Col} md="12">
+                <Form.Group className="mb-3">
                   <LocalidadBox onSelect={handleZoneSelect} />
-                
-                  <Form.Control.Feedback type="invalid">
-                    Localidad es requerida
-                  </Form.Control.Feedback>
-
-                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-
-                  <HelperText>
-                    Este dato se visualiza en la publicación.
-                  </HelperText>
+                  {errors.zone && (
+                    <span style={{ color: "red" }}>{errors.zone}</span>
+                  )}
                 </Form.Group>
 
-                <p></p>
-                <Form.Group as={Col} md="12">
+                <Form.Group className="mb-3">
                   <DateTimePicker
                     value={eventData.start_date}
                     onChange={(date) => handleFieldChange("start_date", date)}
                   />
-                  <Form.Control.Feedback type="invalid">
-                    La fecha y hora del evento es requerida
-                  </Form.Control.Feedback>
                 </Form.Group>
-                <p></p>
 
-                <Form.Group as={Col} md="12">
+                <Form.Group className="mb-3">
                   <DateTimePickerFinal
                     selectedDate={eventData.end_date}
                     onChange={(date) => handleFieldChange("end_date", date)}
                   />
                 </Form.Group>
-                <p></p>
-                <ImagenDonEditarBox
-                  className="text-center"
-                  style={{ width: "20%" }}
-                  handleFileChange={handleFileChange}
-                  titulo={"Adjunte una imagen por favor"}
-                />
-              </Row>
 
-              <Form.Group className="mb-3">
-                {/* <Form.Check
-              required
-              label="Agree to terms and conditions"
-              feedback="You must agree before submitting."
-              feedbackType="invalid"
-            /> */}
-              </Form.Group>
-
-              <Row className="text-center">
-                <Col>
-                  <Button style={{ width: "30%" }} type="submit">
+                <Form.Group className="mb-3 d-flex justify-content-center align-items-center">
+                  <ImagenDonEditarBox
+                    handleFileChange={handleFileChange}
+                    titulo={"Adjunte una imagen."}
+                  />
+                </Form.Group>
+                <div className="d-flex justify-content-center gap-4">
+                  <Button variant="primary" type="submit" className="btn-primary-forms">
                     Aceptar
                   </Button>
-                </Col>
-                <Col>
-                  <Button
-                    style={{ width: "30%" }}
-                    variant="secondary"
-                    onClick={handleCancel}
-                  >
+                  <Button variant="secondary" onClick={handleCancel}>
                     Cancelar
                   </Button>
-                </Col>
-              </Row>
-              <div className="text-center mx-auto"></div>
-            </Form>
-          </>
-        }
-      ></CardComponente>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-    </>
+                </div>
+                </Form>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+          </Card.Body>
+      </CardStyled>
+    </Col1>
+    </Row1>
+    </main>
   );
 };
 

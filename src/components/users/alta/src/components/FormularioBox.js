@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import '../../../../generales/src/assets/estilos.css'
 import FbRegistroButton from "./FbRegistroButton";
 import GoogleRegistroButton from "./GoogleRegistroButton";
 import instance from "../../../../../axios_instance";
@@ -8,15 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
 import CardComponente from "../../../../generales/card/CardComponente";
-import {
-  Form,
-  Row,
-  Col,
-  InputGroup,
-  Button,
-  Card,
-  CardBody,
-} from "react-bootstrap";
+import {Button, Card, CardHeader, Col, Form, FormControl, InputGroup, Row} from "react-bootstrap";
 import PasswordInput from "../../../login/src/components/PasswordInput";
 
 const HelperText = styled.span`
@@ -29,16 +22,32 @@ const HelperText = styled.span`
   font-weight: 400;
 `;
 
+const Row1 = styled(Row)`
+  margin-bottom: 30px;
+`;
+
+const Col1 = styled(Col)`
+  margin-bottom: 30px;
+`;
+
+const CardStyled = styled(Card)`
+  margin-bottom: 30px; /* Ajusta el valor según la separación deseada */
+
+  &.card-alta {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 500px;
+  }
+`;
 
 const SocialButtonsContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   margin-top: 20px;
   margin-bottom: 0px;
 `;
-
-
 
 const RegistrateGratis1 = styled.p`
   color: #121212;
@@ -270,12 +279,13 @@ const FormularioBox = (props) => {
   };
 
   return (
-    <>
-      <CardComponente
-        titulo={"Regístrate con"}
-        body={
-          <> 
-            <SocialButtonsContainer className="text-center m-2 mx-auto">
+    <main>
+    <Row1 className="mt-4">
+    <Col1>
+    <CardStyled className="card-alta">
+        <Card.Header className="text-center h5">Regístrate con</Card.Header>
+        <Card.Body>
+            <SocialButtonsContainer className="d-flex justify-content-center gap-4">
               <FbRegistroButton />
               <GoogleRegistroButton />
             </SocialButtonsContainer>
@@ -283,61 +293,45 @@ const FormularioBox = (props) => {
               O completa el formulario:
             </RegistrateGratis1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
-              <Row className="mb-3">
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
-                  <Form.Label>Nombre de usuario *</Form.Label>
-
+                <Form.Group className="mb-3" controlId="validationCustom01">
+                  <Form.Label>¿Cuál es su nombre de usuario? *</Form.Label>
                   <Form.Control
                     value={registrationData["user_name"]}
                     required
                     type="text"
                     name="user_name"
-                    placeholder="Digite su nombre de usuario"
+                    placeholder="Ingrese aquí su nombre de usuario"
                     onChange={(event) => handleFieldChange(event)}
                     maxlength={50}
                     minLength={3}
                   />
-
                   <Form.Control.Feedback type="invalid">
-                    Por favor digite su nombre de usuario
+                  Por favor ingrese su nombre, no puede estar vací0.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>Este dato se visualiza en tu perfil.</HelperText>
                 </Form.Group>
-                <p></p>
 
-                <Form.Group as={Col} md="12" controlId="validationCustom01">
-                  <Form.Label>Correo electrónico *</Form.Label>
-
+                <Form.Group className="mb-3" controlId="validationCustom01">
+                  <Form.Label>¿Cuál es su correo electrónico? *</Form.Label>
                   <Form.Control
                     value={registrationData["user_email"]}
                     required
                     type="email"
-                    placeholder="Digite su correo electrónico"
+                    placeholder="Ingrese aquí su correo electrónico"
                     onChange={(event) => handleFieldChange(event)}
                     name="user_email"
                     maxlength={50}
                     minLength={3}
                   />
-
                   <Form.Control.Feedback type="invalid">
-                    Por favor digite su correo electrónico
+                    Por favor ingrese su correo electrónico, no puede estar vacío, o corrija su formato (mail@mail.com).
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>Este dato se visualiza en tu perfil.</HelperText>
                 </Form.Group>
 
-                <p></p>
-
-                <Form.Group
-                  as={Col}
-                  md="12"
-                  xl="12"
-                  lg="12"
-                  className="mb-5"
-                  controlId="formBasicPassword"
-                >
-                  <Form.Label>Contraseña *</Form.Label>
+                <Form.Group  className="mb-3" controlId="formBasicPassword">
+                  <Form.Label>¿Cuál es su contraseña? *</Form.Label>
+                  <div style={{ position: "relative" }}>
                   <InputGroup hasValidation>
                     <PasswordInput
                       name="user_password"
@@ -346,71 +340,58 @@ const FormularioBox = (props) => {
                       onBlur={handlePasswordBlur}
                       mensaje={errors.user_password}
                       required
+                      placeholder="Ingrese aquí su contraseña"
                       style={{
                         height: 43,
                         width: "100%",
                         marginTop: 10,
                       }}
                     />
-                
+
                     <Form.Control.Feedback type="invalid">
                       {errors.user_password}
                     </Form.Control.Feedback>
-                    <Form.Control.Feedback>
-                      ¡Campo válido!
-                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   </InputGroup>
-                  <HelperText>
-                    Mínimo 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y 1
-                    carácter especial.
-                  </HelperText>
+                  <HelperText>Mínimo 8 caracteres, 1 mayúscula, 1 minúscula y 1 número.</HelperText>
+                  </div>
                 </Form.Group>
-              </Row>
 
-              <Form.Group className="mb-3">
-                {/* <Form.Check
-                required
-                label="Agree to terms and conditions"
-                feedback="You must agree before submitting."
-                feedbackType="invalid"
-              /> */}
-              </Form.Group>
+                <Form.Group className="mb-3">
+              <Form.Check
+                    required
+                    label="Al enviar este formulario acepta los términos y condiciones"
+                    feedback="Es necesario leer y aceptar los términos"
+                    feedbackType="invalid"
+              />
+            </Form.Group>
 
-              <Row className="text-center">
-                <Col>
-                  <Button style={{ width: "50%" }} type="submit">
+                <div className="d-flex justify-content-center gap-4">
+                <Button variant="primary" type="submit">
                     Aceptar
                   </Button>
-                </Col>
-                <Col>
-                  <Button
-                    style={{ width: "50%" }}
-                    variant="secondary"
-                    onClick={handleCancelarClick}
-                  >
+                  <Button variant="secondary" onClick={handleCancelarClick} className="btn-primary-forms">
                     Cancelar
-                  </Button>
-                </Col>
-              </Row>
-              <div className="text-center mx-auto"></div>
-            </Form>
-          </>
-        }
-      ></CardComponente>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-    </>
+              </Button>
+            </div>
+          </Form>
+          <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+          />
+        </Card.Body>
+      </CardStyled>
+    </Col1>
+    </Row1>
+    </main>
   );
 };
 

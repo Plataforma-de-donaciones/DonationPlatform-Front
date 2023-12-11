@@ -31,11 +31,48 @@ main {
   font-weight: 500;  
   font-style: arial;
 }
+
+.card-alta{
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  width: 400px;
+  margin: auto;
+}
+@media (max-width: 600px) {
+  .card-alta {
+    max-width: 100%; 
+  }
+}
+
 .row{
   
 }
 
 .btn-primary {
+  background-color: rgba(141, 202, 170, 1);
+  border: 1px solid rgba(141, 202, 170, 1);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  min-width: 90px;
+  transition-duration: 0.4s;
+  color: #FFFFFF;
+  font-size: 1.1rem;
+  font-weight: 500;  
+  font-style: arial;
+
+  --bs-btn-hover-bg: rgba(79,181,139, 1);
+  --bs-btn-active-bg: rgba(141, 202, 170, 1);
+  
+  --bs-btn-hover-border-color: rgba(79,181,139, 1);
+  --bs-btn-active-border-color: rgba(79,181,139, 1);
+
+  --bs-btn-hover-color: rgba(255, 255, 255, 1); /* texto boton parado arriba*/
+  --bs-btn-active-color: rgba(79,181,139, 1); /* texto boton cliceado*/
+}
+
+.btn-primary-forms {
   background-color: rgba(141, 202, 170, 1);
   border: 1px solid rgba(141, 202, 170, 1);
   border-radius: 8px;
@@ -79,10 +116,6 @@ main {
 
   --bs-btn-hover-color: rgba(255, 255, 255, 1); /* texto boton parado arriba*/
   --bs-btn-active-color: rgba(80,80,80, 1); /* texto boton cliceado*/
-
-  @media (max-width: 768px) {
-    margin-top: 1rem;
-  }
 }
 
 
@@ -333,4 +366,9 @@ main {
 
 article {
   overflow-x: auto;
+}
+
+.textoCentrado {
+  font-size: 12px;
+  text-align: center;
 }

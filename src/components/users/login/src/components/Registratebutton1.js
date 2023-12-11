@@ -10,7 +10,7 @@ function Registratebutton1(props) {
   };
 
   return (
-    <Button className="mx-auto ms-3" {...props} onClick={handleClick} href="/alta">
+    <Button  {...props} onClick={handleClick} href="/alta">
       <RegistrateText>Regístrate</RegistrateText>
     </Button>
   );
