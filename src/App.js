@@ -111,7 +111,7 @@ function App() {
           <Route path="/altamoderador/" component={AltaModerador} />
           <Route path="/listadoadministradores/" component={ListAdministrators} />
           <Route path="/altaadministrador/" component={AltaAdministrador} />
-          <Route path="/panelmoderador/" component={ListUsersMod} />
+          <Route path="/panelmoderador/" component={ListNewsMod} />
           <Route path="/listadonoticiasmod/" component={ListNewsMod} />
           <Route path="/listadousuariosmod/" component={ListUsersMod} />
           <Route path="/altanoticiamod/" component={AltaNewMod} /> 
