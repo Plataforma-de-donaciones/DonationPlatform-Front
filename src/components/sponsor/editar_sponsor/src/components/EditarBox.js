@@ -7,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import LocalidadBox from "../../../../generales/src/components/LocalidadBoxEditar";
 import TipodePublicacionBox from "../../../../generales/src/components/TipodePublicacionBox";
 import DescripcionDonEditarBox from "../../../../generales/src/components/DescripcionDonEditarBox";
