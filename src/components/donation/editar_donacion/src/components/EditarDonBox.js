@@ -194,6 +194,7 @@ const EditarDonBox = (props) => {
 
   const handleFileChange = (selectedFile) => {
     setFile(selectedFile);
+    setDonAttachment("");
   };
 
   const handleSubmit = async () => {
@@ -236,6 +237,7 @@ const EditarDonBox = (props) => {
             },
           }
         );
+        console.log("Respuesta del servidor:", response.data);
 
         Swal.fire({
           title: "¡Editado correctamente!",
@@ -245,7 +247,6 @@ const EditarDonBox = (props) => {
        
           history.push(rutaAnterior);
        
-        console.log("Respuesta del servidor:", response.data);
       } catch (error) {
         console.error(
           "Error al actualizar la información de la donación:",
@@ -311,7 +312,7 @@ const EditarDonBox = (props) => {
             </div>
 
             <div className="d-flex justify-content-center gap-4">
-            <Button variant="primary" type="submit" className="btn-primary-forms">
+            <Button variant="primary" onClick={handleSubmit} className="btn-primary-forms">
                     Aceptar
               </Button>
               <Button history={props.history} onClick={handleCancel} variant="secondary">
