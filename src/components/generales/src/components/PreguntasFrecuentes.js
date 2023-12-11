@@ -1,4 +1,3 @@
-import React from "react";
 import { Row, Col, Card, CardBody, CardHeader } from "react-bootstrap";
 import Layout from './layout/Layout';
 
@@ -17,11 +16,10 @@ const PreguntasFrecuentes = () => {
                                 <div id="collapsePreguntas" class="collapse show" aria-labelledby="preguntasFrecuentes" data-parent="#accordion">
                                     <div class="card-body">
                                         <strong>1. ¿Qué es DonacionesUy y cómo funciona?</strong>
-                                        <p>DonacionesUy es una plataforma sin fines de lucro que conecta a individuos y organizaciones con buenas intenciones para impulsar causas benéficas. Funciona como un espacio centralizado para publicar oportunidades de voluntariado y necesidades de donaciones.</p>
+                                        <p>DonacionesUy es una plataforma sin fines de lucro que conecta a individuos y organizaciones con buenas intenciones para impulsar causas benéficas. Funciona como un espacio centralizado para publicar solicitudes u ofrecimientos de causas benéficas.</p>
 
-                                        <strong>2. ¿Cómo puedo ser voluntario/a o hacer donaciones a través de la plataforma?</strong>
-                                        <p>Para ser voluntario/a o hacer donaciones, simplemente regístrate en nuestra plataforma. Explora las oportunidades publicadas por organizaciones y únete a las que te interesen. Para donar, elige una organización y sigue las instrucciones para realizar tu contribución.</p>
-
+                                        <strong>2. ¿Cómo puedo ser voluntario/a, padrino/a o hacer donaciones a través de la plataforma?</strong>
+                                        <p>Para ser voluntario/a, padrino/a o realizar donaciones, simplemente regístrate en nuestra plataforma. Explora las solicitudes publicadas por organizaciones o personas y únete a aquellas que te interesen. Si tienes dudas, puedes consultar al chatbot o dirigirte a nuestro canal de YouTube, donde encontrarás videos que muestran el paso a paso de todas las acciones en <a href="https://youtube.com/@DonacionesUy?si=nSY59aVK9xxDle69">DonacionesUy</a>.</p>
                                        
                                         <strong>3. ¿Cuáles son los objetivos de DonacionesUy?</strong>
                                         <p>DonacionesUy busca contribuir al desarrollo social, promover la igualdad de oportunidades, defender los derechos humanos, fomentar la cultura, proteger el medio ambiente y los animales, entre otros objetivos. Es un punto de encuentro para acciones solidarias en Uruguay.</p>

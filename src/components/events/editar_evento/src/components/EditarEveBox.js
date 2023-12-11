@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
 import NombreEveEdicionBox from "./NombreEveEdicionBox";
 import DescripcionEveEditarBox from "./DescripcionEveEditarBox";
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import DateTimePicker from "./DatePicker";
 import DateTimePickerFinal from "./DatePickerFinal";
 import CardComponente from "./../../../../generales/card/CardComponente";
@@ -79,7 +79,15 @@ const EditarEveBox = (props) => {
 
   const { itemId, setItemId } = useAuth();
   console.log(itemId);
+  const location = useLocation();
+  const [rutaAnterior, setRutaAnterior] = useState(null);
+ 
 
+  useEffect(() => {
+    setRutaAnterior(location.state?.rutaAnterior);
+    console.log(rutaAnterior);
+    
+  }, [location.search, history]);
   useEffect(() => {
     const cargarDatosEvento = async () => {
       try {
@@ -195,7 +203,7 @@ const EditarEveBox = (props) => {
           icon: "success",
         });
 
-        history.push("/listadoofrecimientos");
+          history.push(rutaAnterior);
 
         console.log("Respuesta del servidor:", response.data);
       } catch (error) {
@@ -214,7 +222,7 @@ const EditarEveBox = (props) => {
       cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
-        history.push("/listadoofrecimientos");
+        history.push(rutaAnterior);
       }
     });
   };

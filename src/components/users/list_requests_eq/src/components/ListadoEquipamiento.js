@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import styled from "styled-components";
 import Cookies from "universal-cookie";
@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import ComponenteTabla from "./../../../../generales/helpers/ComponenteTabla";
 import CardComponente from './../../../../generales/card/CardComponente';
 import { useAuth } from "../../../../../AuthContext";
+import { Button } from "react-bootstrap";
 
 
 const StyledTable = styled.table`
@@ -211,7 +212,7 @@ const ListadoEquipamiento = (props) => {
   };
 
   const getZoneName = (zoneValue) => {
-    const zone = zones.find((zone) => zone.value === zoneValue);
+    const zone = zones.find((zone) => zone.zone_id === zoneValue);
     return zone ? zone.zone_name : zoneValue;
   };
 
@@ -253,14 +254,14 @@ const ListadoEquipamiento = (props) => {
                             handleConfirmationChange(solicitud.id)
                           }
                         />
-                        <UpdateButton
+                        <Button
                           onClick={() => handleUpdateRequest(solicitud.id)}
                         >
                           Confirmar
-                        </UpdateButton>
+                        </Button>
                       </TableCell>
                       <TableCell>
-                        <button
+                        <Button
                           onClick={() =>
                             openOrCreateConversation(
                               user_id,
@@ -272,7 +273,7 @@ const ListadoEquipamiento = (props) => {
                           {solicitud.conv
                             ? "Abrir Conversación"
                             : "Iniciar Conversación"}
-                        </button>
+                        </Button>
                       </TableCell>
                     </tr>
                   ))}
