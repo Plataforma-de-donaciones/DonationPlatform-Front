@@ -157,10 +157,6 @@ const DonationList = () => {
             ? response.data.filter((donation) => donation.type === selectedType)
             : response.data;
 
-
-          // Actualizar el estado donationList con los resultados del filtro 
-    
-          // Actualizar el estado donationList con los resultados del filtro 
           setDonationList(donationList);
         }
       } catch (error) {
