@@ -143,10 +143,11 @@ const ListadoUsuarios = () => {
                   </Button>
                   <Button
                     variant={user.user_state === 1 ? "danger" : "success"}
-                    size="sm"
+                    size="md"
                     onClick={() =>
                       handleToggleUserState(user.id, user.user_state)
                     }
+                    style={{ fontWeight: 'bold' }}
                   >
                     {user.user_state === 1 ? "Deshabilitar" : "Habilitar"}
                   </Button>

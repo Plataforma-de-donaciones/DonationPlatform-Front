@@ -10,6 +10,8 @@ import Cookies from "universal-cookie";
 import CardComponente from "../../../generales/card/CardComponente";
 import { Button, Col, Row } from "react-bootstrap";
 import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
+import ImagenDonEditarBox from "../../../generales/src/components/ImagenDonEditarBox";
 
 const FormContainer = styled.div`
   display: flex;
@@ -18,7 +20,7 @@ const FormContainer = styled.div`
 `;
 
 const ButtonSeparator = styled.div`
-  width: 10px; /* Espacio entre los botones */
+  width: 10px; 
 `;
 
 const cookies = new Cookies();
@@ -39,6 +41,8 @@ const NewBox = (props) => {
   const token = cookies.get("token");
   const [user_id, setUserId] = useState(null);
   const [file, setFile] = useState(null);
+  const history = useHistory();
+
 
   useEffect(() => {
     const userDataCookie = cookies.get("user_data");
@@ -137,6 +141,7 @@ const NewBox = (props) => {
 
       if (response.status === 201) {
         Swal.fire("¡Noticia registrada correctamente!", "", "success");
+        history.push("/listadonoticias");
        
       } else {
         const serverError = response.data;
@@ -169,7 +174,12 @@ const NewBox = (props) => {
         <TemaNewBox
           onChange={(event) => handleFieldChange("new_subject", event)}
         />
-        <SubirArchivoBox onChangeFile={(file) => handleFileChange(file)} />
+       <ImagenDonEditarBox
+                  className="text-center"
+                  style={{ width: "20%" }}
+                  handleFileChange={handleFileChange}
+                  titulo={"Adjunte una imagen"}
+                />
       </FormContainer>
       <Row className="mx-auto text-center">
         <Col>

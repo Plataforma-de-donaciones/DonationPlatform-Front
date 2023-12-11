@@ -15,13 +15,14 @@ const Sidebar = () => {
         </a>
         <hr />
         <ul class="nav nav-pills flex-column mb-auto">
-          <SidebarItem nombre="Contenido" link={"/listadonoticias"} />
+          <SidebarItem nombre="Usuarios" link={"/listadousuarios"} />
           <SidebarItem
             nombre="Administradores"
             link={"/listadoadministradores"}
           />
           <SidebarItem nombre="Moderadores" link={"/listadomoderadores"} />
-          <SidebarItem nombre="Usuarios" link={"/listadousuarios"} />
+          <SidebarItem nombre="Noticias" link={"/listadonoticias"} />
+          <SidebarItem nombre="Contenido moderado" link={"/listadoocultosadm"} />
         </ul>
       </aside>
     </>

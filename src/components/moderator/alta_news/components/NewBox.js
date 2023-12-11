@@ -158,7 +158,7 @@ const NewBoxMod = (props) => {
   };
 
   return (
-    <CardComponente titulo={"Crear noticia"}>
+    <CardComponente className="card-alta" titulo={"Crear noticia"}>
       <FormContainer>
         <NombreNewBox
           onChange={(event) => handleFieldChange("new_name", event)}

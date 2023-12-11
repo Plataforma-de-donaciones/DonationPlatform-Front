@@ -53,6 +53,7 @@ import ListNewsMod from './components/moderator/list_news/screens/ListNewsMod';
 import AltaNewMod from './components/moderator/alta_news/screens/AltaNewMod';
 import EditarNoticiaMod from './components/moderator/editar_news/src/screens/EditarNoticiaMod';
 import ListarOcultos from './components/moderator/list_ocultos/src/screens/ListarOcultos';
+import ListarOcultosAdm from './components/administrator/list_ocultos/src/screens/ListarOcultosAdm';
 
 
 function App() {
@@ -110,11 +111,12 @@ function App() {
           <Route path="/altamoderador/" component={AltaModerador} />
           <Route path="/listadoadministradores/" component={ListAdministrators} />
           <Route path="/altaadministrador/" component={AltaAdministrador} />
-          <Route path="/panelmoderador/" component={ListUsersMod} />
+          <Route path="/panelmoderador/" component={ListNewsMod} />
           <Route path="/listadonoticiasmod/" component={ListNewsMod} />
           <Route path="/listadousuariosmod/" component={ListUsersMod} />
           <Route path="/altanoticiamod/" component={AltaNewMod} /> 
-          <Route path="/listadoocultos/" component={ListarOcultos} /> 
+          <Route path="/listadoocultos/" component={ListarOcultos} />
+          <Route path="/listadoocultosadm/" component={ListarOcultosAdm} /> 
         </Switch>
       </AuthProvider>
     </Router>

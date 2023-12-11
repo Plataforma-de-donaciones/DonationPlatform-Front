@@ -10,7 +10,7 @@ import { useAuth } from "../../../../../AuthContext";
 const cookies = new Cookies();
 
 
-const ListadoPaginadoOcultos = ({ }) => {
+const ListadoPaginadoOcultosAdm = ({ }) => {
 
   const { setItemId } = useAuth();
   const [datos, setDatos] = useState([]);
@@ -307,9 +307,7 @@ const ListadoPaginadoOcultos = ({ }) => {
                         </Button>
                         <Button
                           variant="danger"
-                          size="md"
                           onClick={() => eliminarItem(item.don_id || item.id)}
-                          style={{ fontWeight: 'bold' }}
                         >
                           Eliminar
                         </Button>
@@ -365,10 +363,7 @@ const ListadoPaginadoOcultos = ({ }) => {
                         
                         <Button
                           variant="danger"
-                          size="md"
                           onClick={() => eliminarItem(item.vol_id || item.id)}
-                          style={{ fontWeight: 'bold' }}
-
                         >
                           Eliminar
                         </Button>
@@ -395,12 +390,9 @@ const ListadoPaginadoOcultos = ({ }) => {
                         
                         <Button
                           variant="danger"
-                          size="md"
                           onClick={() =>
                             eliminarItem(item.sponsor_id || item.id)
                           }
-                          style={{ fontWeight: 'bold' }}
-
                         >
                           Eliminar
                         </Button>
@@ -425,11 +417,9 @@ const ListadoPaginadoOcultos = ({ }) => {
                         </Button>
                         <Button
                           variant="danger"
-                          size="md"
                           onClick={() =>
                             eliminarItem(item.event_id || item.id)
                           }
-                          style={{ fontWeight: 'bold' }}
                         >
                           Eliminar
                         </Button>
@@ -456,4 +446,4 @@ const ListadoPaginadoOcultos = ({ }) => {
   );
 };
 
-export default ListadoPaginadoOcultos;
+export default ListadoPaginadoOcultosAdm;
