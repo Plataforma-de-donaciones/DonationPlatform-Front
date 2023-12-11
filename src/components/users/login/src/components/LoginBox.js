@@ -130,7 +130,7 @@ const FbLogo = styled.img`
 
 const LoginBox = () => {
   const [credentials, setCredentials] = useState({
-    user_name: "",
+    user_email: "",
     user_password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -159,7 +159,7 @@ const LoginBox = () => {
     setError(null);
 
     if (
-      credentials.user_name.length == 0 ||
+      credentials.user_email.length == 0 ||
       credentials.user_password.length == 0
     ) {
       toast.error("Por favor complete los campos requeridos", {
@@ -247,13 +247,13 @@ const LoginBox = () => {
         <Card.Header className="text-center h5">Iniciar sesión</Card.Header>
         <Card.Body>
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Nombre de usuario</Form.Label>
+            <Form.Label> Correo de usuario</Form.Label>
             <Form.Control
-              name="user_name"
-              value={credentials.user_name}
+              name="user_email"
+              value={credentials.user_email}
               onChange={handleChange}
               type="email"
-              placeholder="Ingrese aquí su nombre de usuario"
+              placeholder="Ingrese aquí su correo de usuario"
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
