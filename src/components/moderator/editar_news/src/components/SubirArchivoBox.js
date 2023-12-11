@@ -1,8 +1,6 @@
 // SubirArchivoBox.js
-
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-//import Explorebutton from "./Explorebutton";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { Button, Form} from "react-bootstrap";
 
@@ -14,7 +12,6 @@ function SubirArchivoBox(props) {
     const file = event.target.files[0];
     setSelectedFile(file);
   
-    // Verifica si props.onChangeFile es una función antes de llamarla
     if (typeof props.onChangeFile === 'function') {
       props.onChangeFile(file);
     }

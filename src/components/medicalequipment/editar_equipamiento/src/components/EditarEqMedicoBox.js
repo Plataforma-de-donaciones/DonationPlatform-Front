@@ -120,7 +120,6 @@ const EditarEqMedicoBox = (props) => {
       try {
         const formData = new FormData();
 
-        // Agregar nuevos datos y archivo solo si es diferente al actual
         if (file && file.name !== eqAttachment) {
           formData.append("eq_attachment", file);
         }

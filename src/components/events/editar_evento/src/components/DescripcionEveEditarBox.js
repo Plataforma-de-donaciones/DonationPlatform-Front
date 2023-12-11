@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Col, Form } from "react-bootstrap";
 
@@ -6,7 +6,7 @@ function DescripcionEveEditarBox({ value, onChange, ...props }) {
   const [descripcion, setDescripcion] = useState("");
 
   useEffect(() => {
-    // Actualizar el estado de la descripción cuando se proporciona un nuevo valor
+
     if (value !== undefined) {
       setDescripcion(value);
     }
@@ -15,7 +15,6 @@ function DescripcionEveEditarBox({ value, onChange, ...props }) {
   const handleDescripcionChange = (e) => {
     setDescripcion(e.target.value);
 
-    // Llamar a la función onChange proporcionada si existe
     if (onChange) {
       onChange(e);
     }

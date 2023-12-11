@@ -1,4 +1,3 @@
-import React from 'react';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import styled from 'styled-components';
@@ -6,7 +5,7 @@ import moment from 'moment';
 
 const DateTimePickerFinal = ({ value, onChange }) => {
   const handleDateChange = (date) => {
-    // Verifica si date es null o undefined antes de convertirlo
+
     const formattedDate = date ? new Date(date.toDate()) : null;
     onChange && onChange(formattedDate);
   };

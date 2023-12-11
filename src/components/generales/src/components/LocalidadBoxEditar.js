@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
-import { Form, Col } from "react-bootstrap";
+import { Form} from "react-bootstrap";
 
 const HelperText = styled.span`
   font-size: 10px;
@@ -71,16 +71,16 @@ function LocalidadBox({ onChange, donZone, setDonZone }) {
 
   useEffect(() => {
     if (donZone) {
-      // Si eqZone tiene un valor, establecerlo como selectedZone
+     
       setSelectedZone(donZone);
     } else if (zones.length > 0) {
-      // Si eqZone no tiene valor, establecer el primer valor de zones como selectedZone
+     
       setSelectedZone(zones[0].zone_id);
     }
   }, [donZone, zones]);
 
   useEffect(() => {
-    // Asegurarse de que eqZone se establezca después de que las zonas se hayan cargado
+    
     if (donZone && zones.length > 0) {
       setSelectedZone(donZone);
     }

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { Col } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 
 const HelperText = styled.span`
@@ -14,12 +13,12 @@ const HelperText = styled.span`
 `;
 
 const TipodePublicacionBox = ({ onSelect, ...props }) => {
-  const [selectedValue, setSelectedValue] = useState(""); // Estado para almacenar el valor seleccionado
+  const [selectedValue, setSelectedValue] = useState(""); 
 
   const handleSelectChange = (event) => {
     const value = event.target.value;
-    setSelectedValue(value); // Actualizar el estado al seleccionar una opción
-    onSelect(value); // Llamar a la función onSelect proporcionada por el componente padre
+    setSelectedValue(value); 
+    onSelect(value); 
   };
 
   return (
