@@ -270,10 +270,10 @@ const DonationListItem = ({ donation }) => {
       case 'instagram':
         return `https://www.instagram.com/?url=${urlDonacion}&title=${textoDonacion}`;
         case 'whatsapp':
-          const mensajeWhatsApp = encodeURIComponent(`Mira la donación: ${donation.don_name}, publicada en DonacionesUy. Haz clic en el link para visualizarla. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
-          const urlWhatsApp = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadodonacion`);
-          const mensajeCompleto = `${encodeURIComponent(mensajeWhatsApp + '\n' + urlWhatsApp)}`;
-        return `https://api.whatsapp.com/send?text=${mensajeCompleto}`;
+          const mensajeWhatsAppD = encodeURIComponent(`Mira la donación: ${donation.don_name}, publicada en DonacionesUy. Haz clic en el link para visualizarla. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
+          const urlWhatsAppD = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadodonacion`);
+          const mensajeCompletoD = `${encodeURIComponent(mensajeWhatsAppD + '\n' + urlWhatsAppD)}`;
+        return `https://api.whatsapp.com/send?text=${mensajeCompletoD}`;
       default:
         return '';
     }

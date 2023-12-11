@@ -6,6 +6,8 @@ import MenuComponent from "../../list_users/components/MenuComponent";
 import { useHistory } from "react-router-dom";
 import CardComponente from "../../../generales/card/CardComponente";
 import { useAuth } from "../../../../AuthContext";
+import Swal from "sweetalert2";
+
 
 const cookies = new Cookies();
 
@@ -98,6 +100,43 @@ const ListadoNoticias = () => {
       console.error("Error al destacar la noticia:", error);
     }
   };
+  const handleDeleteNews = async (newsId) => {
+
+    const confirmation = await Swal.fire({
+      title: "¿Está seguro que desea eliminar la noticia?",
+      text: "¡La noticia será eliminada!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar"
+    });
+    if (confirmation.isConfirmed) {
+      try {
+        await instance.delete(`/news/${newsId}/`, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+          
+        });
+        const response = await instance.get("/news/", {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        });
+        setNews(response.data);
+
+        Swal.fire({
+          title: "¡Eliminado correctamente!",
+          text: "La noticia ha sido eliminada",
+          icon: "success",
+        });
+      } catch (error) {
+        console.error("Error al eliminar administrador:", error);
+      }
+    }
+  };
 
   return (
     <CardComponente
@@ -184,8 +223,9 @@ const ListadoNoticias = () => {
                 {!newsItem.is_highlighted && (
                   <Button
                     variant="success"
-                    size="sm"
+                    size="md"
                     onClick={() => handleHighlight(newsItem.new_id)}
+                    style={{ fontWeight: 'bold' }}
                   >
                     Destacar
                   </Button>
@@ -199,6 +239,14 @@ const ListadoNoticias = () => {
                     No Destacar
                   </Button>
                 )}
+                <Button
+                  variant="danger"
+                  size="md"
+                  onClick={() => handleDeleteNews(newsItem.new_id)}
+                  style={{ fontWeight: 'bold' }}
+                >
+                  Eliminar
+                </Button>
                 </Row>
               </td>
             </tr>

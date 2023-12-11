@@ -272,7 +272,7 @@ const EquipamientoMedicoListItem = ({ equipamiento }) => {
         return `https://www.instagram.com/?url=${urlEquipamiento}&title=${textoEquipamiento}`;
       case 'whatsapp':
         const mensajeWhatsApp = `Mira la donación: ${equipamiento.eq_name}, publicada en DonacionesUy. Haz clic en el siguiente enlace para visualizarla. ¡Sé parte de DonacionesUy, transformamos intenciones en impacto social!`;
-        const urlWhatsApp = `https://donacionesuy.azurewebsites.net/listadodonacion`;
+        const urlWhatsApp = `https://donacionesuy.azurewebsites.net/listadoequipamiento`;
 
         const mensajeCompleto = `${encodeURIComponent(mensajeWhatsApp + '\n' + urlWhatsApp)}`;
         return `https://api.whatsapp.com/send?text=${mensajeCompleto}`;
