@@ -233,8 +233,8 @@ const VoluntarioListItem = ({ volunteer }) => {
       case 'instagram':
         return `https://www.instagram.com/?url=${urlVoluntario}&title=${textoVoluntario}`;
         case 'whatsapp':
-          const mensajeWhatsAppV = encodeURIComponent(`Mira el voluntariado: ${volunteer.vol_name}, publicado en DonacionesUy. Haz clic en el link para visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
-          const urlWhatsAppV = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadovoluntariado`);
+          const mensajeWhatsAppV = `Mira el voluntariado: ${volunteer.vol_name}, publicado en DonacionesUy. Haz clic en el link para visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`;
+          const urlWhatsAppV = `https://donacionesuy.azurewebsites.net/listadovoluntariado`;
           const mensajeCompletoV = `${encodeURIComponent(mensajeWhatsAppV + '\n' + urlWhatsAppV)}`;
         return `https://api.whatsapp.com/send?text=${mensajeCompletoV}`;
       default:

@@ -231,8 +231,8 @@ const SponsorListItem = ({ sponsor }) => {
       case 'instagram':
         return `https://www.instagram.com/?url=${urlPadrino}&title=${textoPadrino}`;
         case 'whatsapp':
-          const mensajeWhatsAppS = encodeURIComponent(`Mira el apadrinamiento: ${sponsor.sponsor_name}, publicado en DonacionesUy. Haz clic en el link para visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
-          const urlWhatsAppS = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadoapadrinamiento`);
+          const mensajeWhatsAppS = `Mira el apadrinamiento: ${sponsor.sponsor_name}, publicado en DonacionesUy. Haz clic en el link para visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`;
+          const urlWhatsAppS = `https://donacionesuy.azurewebsites.net/listadoapadrinamiento`;
           const mensajeCompletoS = `${encodeURIComponent(mensajeWhatsAppS + '\n' + urlWhatsAppS)}`;
         return `https://api.whatsapp.com/send?text=${mensajeCompletoS}`;
       default:

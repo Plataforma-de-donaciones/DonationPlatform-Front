@@ -191,8 +191,8 @@ const EventListItem = ({ evento }) => {
       case 'instagram':
         return `https://www.instagram.com/?url=${urlEvento}&title=${textoEvento}`;
       case 'whatsapp':
-        const mensajeWhatsAppE = encodeURIComponent(`Mira el evento: ${evento.event_name}, publicado en DonacionesUy. Haz clic en el link para visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`);
-        const urlWhatsAppE = encodeURIComponent(`https://donacionesuy.azurewebsites.net/listadoeventos`);
+        const mensajeWhatsAppE = `Mira el evento: ${evento.event_name}, publicado en DonacionesUy. Haz clic en el link para visualizarlo. ¡Se parte de DonacionesUy, transformamos intenciones en impacto social!`;
+        const urlWhatsAppE = `https://donacionesuy.azurewebsites.net/listadoeventos`;
         const mensajeCompletoE = `${encodeURIComponent(mensajeWhatsAppE + '\n' + urlWhatsAppE)}`;
         return `https://api.whatsapp.com/send?text=${mensajeCompletoE}`;
       default:
