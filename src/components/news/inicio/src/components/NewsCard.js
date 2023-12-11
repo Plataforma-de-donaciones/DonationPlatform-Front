@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const CardContainer = styled.div`
@@ -26,9 +25,9 @@ const Description = styled.p`
 `;
 
 const NewsCard = ({ news }) => {
-  // Verifica si news es undefined o null antes de acceder a sus propiedades
+ 
   if (!news) {
-    return null; // O manejar el caso de objeto no definido según tus necesidades
+    return null; 
   }
 
   return (

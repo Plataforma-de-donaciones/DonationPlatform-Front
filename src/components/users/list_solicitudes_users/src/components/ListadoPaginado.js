@@ -87,29 +87,29 @@ const ListadoPaginado = ({ }) => {
   const cambiarPagina = (nuevaPagina) => {
     setPaginaActual(nuevaPagina);
   };
+
+  const rutaAnterior = window.location.pathname;
+
   const editarItemEq = (id) => {
     setItemId(id);
     setTipo(tipo);
+    history.push("/editarequipamiento", { rutaAnterior });
 
-    history.push("/editarequipamiento");
   };
   const editarItemDon = (id) => {
     setItemId(id);
     setTipo(tipo);
-
-    history.push("/editardonacion");
+    history.push("/editardonacion", { rutaAnterior });
   };
   const editarItemVol = (id) => {
     setItemId(id);
     setTipo(tipo);
-
-    history.push("/editarvoluntario");
+    history.push("/editarvoluntario", { rutaAnterior });
   };
   const editarItemSponsor = (id) => {
     setItemId(id);
     setTipo(tipo);
-
-    history.push("/editarsponsor");
+    history.push("/editarsponsor", { rutaAnterior });
   };
   const handleSolicitudesClick = (id) => {
     setItemId(id);
@@ -283,7 +283,7 @@ const ListadoPaginado = ({ }) => {
                         {item.request_count}
                       </Button>
                       <td>{item.don_confirmation_date}</td>
-                      <td>{item.has_requests ? "Yes" : "No"}</td>
+                      <td>{item.request_count > 0 ? "Sí" : "No"}</td>
 
                       <td className="text-center" >
 
@@ -318,7 +318,7 @@ const ListadoPaginado = ({ }) => {
                         {item.request_count}
                       </Button>
                       <td>{item.eq_confirmation_date}</td>
-                      <td>{item.has_requests ? "Yes" : "No"}</td>
+                      <td>{item.request_count > 0 ? "Sí" : "No"}</td>
 
                       <td className="text-center" >
 
@@ -350,7 +350,7 @@ const ListadoPaginado = ({ }) => {
                         {item.request_count}
                       </Button>
                       <td>{item.vol_confirmation_date}</td>
-                      <td>{item.has_requests ? "Yes" : "No"}</td>
+                      <td>{item.request_count > 0 ? "Sí" : "No"}</td>
 
                       <td className="text-center" >
 
@@ -382,7 +382,7 @@ const ListadoPaginado = ({ }) => {
                         {item.request_count}
                       </Button>
                       <td>{item.end_date}</td>
-                      <td>{item.has_requests ? "Yes" : "No"}</td>
+                      <td>{item.request_count > 0 ? "Sí" : "No"}</td>
 
                       <td className="text-center" >
 

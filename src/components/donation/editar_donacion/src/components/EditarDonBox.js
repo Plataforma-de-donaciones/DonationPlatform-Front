@@ -1,23 +1,22 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
 import '../../../../generales/src/assets/estilos.css'
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NombreDonEdicionBox from "../../../../generales/src/components/NombreDonEdicionBox";
 import DescripcionDonEditarBox from "../../../../generales/src/components/DescripcionDonEditarBox";
 import LocalidadBox from "../../../../generales/src/components/LocalidadBoxEditar";
 import ImagenDonEditarBox from "../../../../generales/src/components/ImagenDonEditarBox";
-import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useHistory } from "react-router-dom";
-import {Button, Card, CardHeader, Col, Form, FormControl, InputGroup, Row} from "react-bootstrap";
+import { useHistory, useLocation } from "react-router-dom";
+import {Button, Card, Col, Form, Row} from "react-bootstrap";
 import TipodePublicacionBox from "../../../../generales/src/components/TipodePublicacionBox";
 import { urlBackendDev } from "../../../../generales/variables/constantes";
 import Spinner from "react-bootstrap/Spinner";
-import CardComponente from "../../../../generales/card/CardComponente";
 import { useAuth } from "../../../../../AuthContext";
+
 
 
 const cookies = new Cookies();
@@ -126,6 +125,15 @@ const EditarDonBox = (props) => {
   //const { don_id } = useParams();
   const { itemId, setItemId } = useAuth();
   console.log(itemId);
+  const location = useLocation();
+  const [rutaAnterior, setRutaAnterior] = useState(null);
+ 
+
+  useEffect(() => {
+    setRutaAnterior(location.state?.rutaAnterior);
+    console.log(rutaAnterior);
+    
+  }, [location.search, history]);
 
   useEffect(() => {
     const cargarDatosDonacion = async () => {
@@ -234,7 +242,9 @@ const EditarDonBox = (props) => {
           text: "Los datos han sido editados",
           icon: "success",
         });
-        history.push("/listadoofrecimientos");
+       
+          history.push(rutaAnterior);
+       
         console.log("Respuesta del servidor:", response.data);
       } catch (error) {
         console.error(
@@ -254,8 +264,8 @@ const EditarDonBox = (props) => {
       confirmButtonText: "Sí",
       cancelButtonText: "No",
     }).then((result) => {
-      if (result.isConfirmed) {
-        history.push("/listadoofrecimientos");
+      if (result.isConfirmed) {  
+          history.push(rutaAnterior);
       }
     });
   };

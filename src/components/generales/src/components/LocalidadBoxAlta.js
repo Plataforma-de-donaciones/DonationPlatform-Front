@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import instance from "../../../../axios_instance";
 import Cookies from "universal-cookie";
-import { Form, Col } from "react-bootstrap";
+import { Form} from "react-bootstrap";
 
 const Container = styled.div`
   display: flex;
@@ -62,7 +62,7 @@ function LocalidadBox({ onSelect }) {
     instance
       .get("/articleszones/", {
         headers: {
-          Authorization: `Token ${token}`, // Reemplaza tu_token_aqui con el token real
+          Authorization: `Token ${token}`, 
         },
       })
       .then((response) => {

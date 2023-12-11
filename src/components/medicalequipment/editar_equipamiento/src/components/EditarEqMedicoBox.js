@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
-import styled from "styled-components";
-import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import CardComponente from "../../../../generales/card/CardComponente";
 import DescripcionDonEditarBox from "../../../../generales/src/components/DescripcionDonEditarBox";
 import TipodePublicacionBox from "../../../../generales/src/components/TipodePublicacionBox";
@@ -30,8 +28,15 @@ const EditarEqMedicoBox = (props) => {
   const history = useHistory();
   const [imagenCargando, setImagenCargando] = useState(true);
   const [validated, setValidated] = useState(false);
+  const location = useLocation();
+  const [rutaAnterior, setRutaAnterior] = useState(null);
+ 
 
-  //const { eq_id } = useParams();
+  useEffect(() => {
+    setRutaAnterior(location.state?.rutaAnterior);
+    console.log(rutaAnterior);
+    
+  }, [location.search, history]);
   
   const { itemId, setItemId } = useAuth();
   console.log(itemId);
@@ -115,7 +120,6 @@ const EditarEqMedicoBox = (props) => {
       try {
         const formData = new FormData();
 
-        // Agregar nuevos datos y archivo solo si es diferente al actual
         if (file && file.name !== eqAttachment) {
           formData.append("eq_attachment", file);
         }
@@ -145,7 +149,9 @@ const EditarEqMedicoBox = (props) => {
           text: "Los datos han sido editados",
           icon: "success",
         });
-        history.push("/listadoofrecimientos");
+
+          history.push(rutaAnterior);
+
         console.log("Respuesta del servidor:", response.data);
       } catch (error) {
         console.error(
@@ -165,8 +171,8 @@ const EditarEqMedicoBox = (props) => {
       confirmButtonText: "Sí",
       cancelButtonText: "No",
     }).then((result) => {
-      if (result.isConfirmed) {
-        history.push("/listadoofrecimientos");
+      if (result.isConfirmed) {    
+          history.push(rutaAnterior);
       }
     });
   };

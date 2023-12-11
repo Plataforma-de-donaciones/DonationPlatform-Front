@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import LocalidadBox from "../../../../generales/src/components/LocalidadBoxAlta";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
@@ -98,7 +98,7 @@ const SolicitudEqMedicoBox = (props) => {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      // Intentar enviar la solicitud
+    
       try {
         const response = await instance.post("/requests/", solicitudData, {
           headers: {

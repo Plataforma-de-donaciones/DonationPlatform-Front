@@ -10,7 +10,6 @@ function SubirArchivoBox(props) {
     const file = event.target.files[0];
     setSelectedFile(file);
 
-    // Verifica si props.onChangeFile es una función antes de llamarla
     if (typeof props.onChangeFile === "function") {
       props.onChangeFile(file);
     }

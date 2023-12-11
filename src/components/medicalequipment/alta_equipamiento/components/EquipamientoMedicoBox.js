@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import '../../../generales/src/assets/estilos.css'
 import instance from "../../../../axios_instance";
@@ -7,12 +7,10 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
-import {Button, Card, CardHeader, Col, Form, FormControl, InputGroup, Row} from "react-bootstrap";
+import {Button, Card, Col, Form, Row} from "react-bootstrap";
 import ImagenDonEditarBox from "../../../generales/src/components/ImagenDonEditarBox";
 import TipodePublicacionBox from "../../../generales/src/components/TipodePublicacionBox";
 import LocalidadBox from "../../../generales/src/components/LocalidadBoxAlta";
-import { validate } from "json-schema";
-import CardComponente from "../../../generales/card/CardComponente";
 
 const HelperText = styled.span`
   font-size: 10px;
@@ -173,9 +171,9 @@ const EquipamientoMedicoBox = (props) => {
   };
 
   const handleTipoPublicacionSelect = (selectedValue) => {
-    // Haz lo que necesites con el valor seleccionado
+  
     console.log("Tipo de publicación seleccionado:", selectedValue);
-    // Puedes almacenar el valor en el estado del componente si es necesario
+ 
     setEquipmentData((prevData) => ({
       ...prevData,
       type: selectedValue,
@@ -256,7 +254,7 @@ const EquipamientoMedicoBox = (props) => {
 
     if (confirmation.isConfirmed) {
       try {
-        await handleRequest(); // Lógica de manejo de la solicitud
+        await handleRequest(); 
       } catch (error) {
         console.error("Error al manejar la solicitud:", error);
       }
@@ -271,7 +269,6 @@ const EquipamientoMedicoBox = (props) => {
         formData.append("eq_attachment", file);
       }
 
-      // Agregar otros campos al formData
       Object.entries(equipmentData).forEach(([key, value]) => {
         if (key !== "eq_attachment") {
           formData.append(key, value);
@@ -309,7 +306,7 @@ const EquipamientoMedicoBox = (props) => {
             theme: "colored",
           });
         } else {
-          // Manejar otros errores
+     
         }
       }
     } catch (error) {
