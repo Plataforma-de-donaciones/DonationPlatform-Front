@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { useHistory, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Card, Form, Row, CardBody, Col, Button } from "react-bootstrap";
+import {Button, Card, CardHeader, Col, Form, FormControl, InputGroup, Row} from "react-bootstrap";
 import TipodePublicacionBox from "../../../generales/src/components/TipodePublicacionBox";
 import LocalidadBox from "../../../generales/src/components/LocalidadBoxAlta";
 import CardComponente from "../../../generales/card/CardComponente";
@@ -316,19 +316,19 @@ const SponsorBox = (props) => {
         <Card.Body>
             <Form noValidate validated={validated} onSubmit={handleAccept}>
                 <Form.Group as={Col} md="12" controlId="validationCustom01">
-                  <Form.Label>¿Cuál es su nombre o el de su organización? *</Form.Label>
+                  <Form.Label>¿Cuál es su nombre o de su organización? *</Form.Label>
                   <Form.Control
                     value={sponsorData["sponsor_name"]}
                     required
                     type="text"
-                    placeholder="Ingrese aquí el nombre del apadrinador/a o solicitante"
+                    placeholder="Ingrese aquí el nombre del apadrinador/a o solicitante."
                     onChange={(event) => handleFieldChange("sponsor_name", event)}
                     maxlength={50}
                     minLength={3}
                   />
 
                   <Form.Control.Feedback type="invalid">
-                    Por favor ingrese su nombre o el de su organización
+                    Por favor ingrese su nombre o el de su organización, no puede estar vacío.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText>Este dato se visualiza en la publicación. Máximo 50 caracteres.</HelperText>
@@ -341,7 +341,7 @@ const SponsorBox = (props) => {
                     value={sponsorData["sponsor_description"]}
                     required
                     type="text"
-                    placeholder="Ingrese aquí la descripción de su apadrinamiento"
+                    placeholder="Ingrese aquí la descripción de su apadrinamiento."
                     onChange={(event) => handleFieldChange("sponsor_description", event)}
                     maxlength={250}
                     minLength={3}
@@ -360,7 +360,7 @@ const SponsorBox = (props) => {
                     value={sponsorData["sponsor_attachment"]}
                     required
                     type="text"
-                    placeholder="Ingrese aquí la descripción de las condiciones"
+                    placeholder="Ingrese aquí la descripción de las condiciones."
                     maxLength={250}
                     minLength={3}
                     onChange={(event) =>handleFieldChange("sponsor_attachment", event)}
@@ -373,31 +373,16 @@ const SponsorBox = (props) => {
                 </Form.Group>
 
                 <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
-                <HelperText>Este dato se visualiza en la publicación.</HelperText>
 
                 <Form.Group className="mb-3" controlId="validationCustom01">
                   <LocalidadBox onSelect={handleZoneSelect} />
                   {errors.zone && (
                     <span style={{ color: "red" }}>{errors.zone}</span>
                   )}
-                  <Form.Control.Feedback type="invalid">
-                  Por favor ingrese la localidad                  
-                  </Form.Control.Feedback>
-                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>Este dato se visualiza en la publicación.</HelperText>
                 </Form.Group>
 
-              <Form.Group className="mb-3">
-                {/* <Form.Check
-                required
-                label="Agree to terms and conditions"
-                feedback="You must agree before submitting."
-                feedbackType="invalid"
-              /> */}
-              </Form.Group>
-
               <div className="d-flex justify-content-center gap-4">
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" className="btn-primary-forms">
                   Aceptar
                 </Button>
                 <Button variant="secondary" onClick={handleCancel}>

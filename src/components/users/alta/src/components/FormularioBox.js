@@ -294,7 +294,7 @@ const FormularioBox = (props) => {
             </RegistrateGratis1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="validationCustom01">
-                  <Form.Label>Nombre de usuario *</Form.Label>
+                  <Form.Label>¿Cuál es su nombre de usuario? *</Form.Label>
                   <Form.Control
                     value={registrationData["user_name"]}
                     required
@@ -306,14 +306,13 @@ const FormularioBox = (props) => {
                     minLength={3}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Por favor ingrese su nombre de usuario
+                  Por favor ingrese su nombre, no puede estar vací0.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText> Este dato se visualiza en la publicación. Máximo 50 caracteres.</HelperText>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="validationCustom01">
-                  <Form.Label>Correo electrónico *</Form.Label>
+                  <Form.Label>¿Cuál es su correo electrónico? *</Form.Label>
                   <Form.Control
                     value={registrationData["user_email"]}
                     required
@@ -325,14 +324,13 @@ const FormularioBox = (props) => {
                     minLength={3}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Por favor ingrese su correo electrónico
+                    Por favor ingrese su correo electrónico, no puede estar vacío, o corrija su formato (mail@mail.com).
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText> Este dato se visualiza en la publicación. Máximo 50 caracteres.</HelperText>
                 </Form.Group>
 
                 <Form.Group  className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>Contraseña *</Form.Label>
+                  <Form.Label>¿Cuál es su contraseña? *</Form.Label>
                   <div style={{ position: "relative" }}>
                   <InputGroup hasValidation>
                     <PasswordInput
@@ -359,26 +357,26 @@ const FormularioBox = (props) => {
                   </div>
                 </Form.Group>
 
-              <div className="d-flex justify-content-center gap-4">
+                <div className="d-flex justify-content-center gap-4">
                 <Button variant="primary" type="submit">
-                  Aceptar
-                </Button>
-                <Button variant="secondary" onClick={handleCancelarClick}>
-                  Cancelar
-                </Button>
-              </div>
-            </Form>
-            <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
+                    Aceptar
+                  </Button>
+                  <Button variant="secondary" onClick={handleCancelarClick} className="btn-primary-forms">
+                    Cancelar
+              </Button>
+            </div>
+          </Form>
+          <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
           />
         </Card.Body>
       </CardStyled>

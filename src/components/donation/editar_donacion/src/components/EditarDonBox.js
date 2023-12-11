@@ -50,6 +50,7 @@ const CardStyled = styled(Card)`
   }
 `;
 
+
 const Container = styled.div`
   display: flex;
   background-color: rgba(255, 255, 255, 1);
@@ -122,7 +123,6 @@ const EditarDonBox = (props) => {
   const [imagenCargando, setImagenCargando] = useState(true);
 
 
-  //const { don_id } = useParams();
   const { itemId, setItemId } = useAuth();
   console.log(itemId);
   const location = useLocation();
@@ -275,7 +275,7 @@ const EditarDonBox = (props) => {
     <Row1 className="mt-4">
     <Col1>
       <CardStyled className="card-alta">
-        <Card.Header className="text-center h5">Regístra la donación</Card.Header>
+        <Card.Header className="text-center h5">Edita la donación</Card.Header>
         <Card.Body>
           <Form validated={validated} onSubmit={handleSubmit}>
             <NombreDonEdicionBox
@@ -311,7 +311,7 @@ const EditarDonBox = (props) => {
             </div>
 
             <div className="d-flex justify-content-center gap-4">
-              <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className="btn-primary-forms">
                     Aceptar
               </Button>
               <Button history={props.history} onClick={handleCancel} variant="secondary">

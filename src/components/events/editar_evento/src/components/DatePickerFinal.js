@@ -2,6 +2,7 @@ import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import styled from 'styled-components';
 import moment from 'moment';
+import { Form, Col } from "react-bootstrap";
 
 const DateTimePickerFinal = ({ value, onChange }) => {
   const handleDateChange = (date) => {
@@ -12,14 +13,18 @@ const DateTimePickerFinal = ({ value, onChange }) => {
 
   return (
     <Container>
-      <Label>Fecha y Hora de Inicio *</Label>
+      <Label>Fecha y Hora de finalización *</Label>
       <Datetime
         value={value ? moment(value) : null}
         onChange={handleDateChange}
         dateFormat="YYYY-MM-DD"
         timeFormat="HH:mm:ss"
-        inputProps={{ placeholder: 'Seleccione fecha y hora de inicio del evento' }}
+        inputProps={{ placeholder: 'Seleccione fecha y hora de finalización del evento' }}
       />
+      <Form.Control.Feedback required type="invalid">
+        Por favor ingrese la fecha y hora de finalización, no puede estar vacía.
+        </Form.Control.Feedback>
+        <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
       <HelperText>Este dato se visualiza en la publicación.</HelperText>
     </Container>
   );

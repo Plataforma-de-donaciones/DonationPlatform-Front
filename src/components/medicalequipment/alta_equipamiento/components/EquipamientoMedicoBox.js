@@ -350,7 +350,7 @@ const EquipamientoMedicoBox = (props) => {
                     minLength={3}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Por favor ingrese el nombre del equipamiento médico
+                    Por favor ingrese el nombre del equipamiento médico, no puede estar vacío.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText> Este dato se visualiza en la publicación. Máximo 50 caracteres.</HelperText>
@@ -368,26 +368,16 @@ const EquipamientoMedicoBox = (props) => {
                     maxlength={250}
                     minLength={3}
                   />
-                  <Form.Control.Feedback type="invalid">
-                    Por favor ingrese la descripción del equipamiento médico no puede estar vacía
-                  </Form.Control.Feedback>
-                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>Este dato se visualiza en la publicación. Máximo 250 caracteres.</HelperText>
                 </Form.Group>
 
                 <TipodePublicacionBox onSelect={handleTipoPublicacionSelect} />
-                <HelperText>Este dato se visualiza en la publicación.</HelperText>
 
                 <Form.Group className="mb-3" controlId="validationCustom01">
                   <LocalidadBox onSelect={handleZoneSelect} />
                   {errors.zone && (
                     <span style={{ color: "red" }}>{errors.zone}</span>
                   )}
-                  <Form.Control.Feedback type="invalid">
-                    Por favor ingrese la localidad
-                  </Form.Control.Feedback>
-                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>Este dato se visualiza en la publicación.</HelperText>
+                  
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -397,7 +387,7 @@ const EquipamientoMedicoBox = (props) => {
                   />
                 </Form.Group>
                 <div className="d-flex justify-content-center gap-4">
-                  <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" className="btn-primary-forms">
                     Aceptar
                   </Button>
                   <Button variant="secondary" onClick={handleCancel}>

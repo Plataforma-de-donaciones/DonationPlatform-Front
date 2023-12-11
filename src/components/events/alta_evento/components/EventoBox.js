@@ -41,6 +41,7 @@ const CardStyled = styled(Card)`
     border-radius: 8px;
     border: 1px solid #ddd;
     width: 500px;
+  
   }
 `;
 
@@ -121,7 +122,6 @@ const EventoBox = (props) => {
     event_date: new Date().toISOString(),
     user: "",
     zone: null,
-    geom_point: null,
     attachments: null,
     start_date: null,
     end_date: null,
@@ -322,13 +322,13 @@ const EventoBox = (props) => {
                     value={eventData["event_name"]}
                     required
                     type="text"
-                    placeholder="Ingrese aquí el nombre del evento"
+                    placeholder="Ingrese aquí el nombre del evento."
                     onChange={(event) => handleFieldChange("event_name", event)}
                     maxlength={50}
                     minLength={3}
                   />
                   <Form.Control.Feedback type="invalid">
-                  Por favor ingrese el nombre de el nombre del evento
+                  Por favor ingrese el nombre del evento, no puede estar vacío.
                   </Form.Control.Feedback>
                   <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
                   <HelperText> Este dato se visualiza en la publicación. Máximo 50 caracteres.</HelperText>
@@ -341,7 +341,7 @@ const EventoBox = (props) => {
                     value={eventData["event_description"]}
                     required
                     type="text"
-                    placeholder="Ingrese aquí la descripción del evento"
+                    placeholder="Ingrese aquí la descripción del evento."
                     onChange={(event) => handleFieldChange("event_description", event)}
                     maxlength={250}
                     minLength={3}
@@ -358,11 +358,6 @@ const EventoBox = (props) => {
                   {errors.zone && (
                     <span style={{ color: "red" }}>{errors.zone}</span>
                   )}
-                  <Form.Control.Feedback type="invalid">
-                  Por favor ingrese la localidad
-                  </Form.Control.Feedback>
-                  <Form.Control.Feedback>¡Campo válido!</Form.Control.Feedback>
-                  <HelperText>Este dato se visualiza en la publicación.</HelperText>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -370,10 +365,6 @@ const EventoBox = (props) => {
                     value={eventData.start_date}
                     onChange={(date) => handleFieldChange("start_date", date)}
                   />
-                  <Form.Control.Feedback type="invalid">
-                    Por favor ingrese la fecha y hora inicio del evento, no puede estar vacía.
-                  </Form.Control.Feedback>
-                  <HelperText>Este dato se visualiza en la publicación.</HelperText>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -381,20 +372,16 @@ const EventoBox = (props) => {
                     selectedDate={eventData.end_date}
                     onChange={(date) => handleFieldChange("end_date", date)}
                   />
-                  <Form.Control.Feedback type="invalid">
-                    Por favor ingrese la fecha y hora final del evento, no puede estar vacía.
-                  </Form.Control.Feedback>
-                  <HelperText>Este dato se visualiza en la publicación.</HelperText>
                 </Form.Group>
 
                 <Form.Group className="mb-3 d-flex justify-content-center align-items-center">
                   <ImagenDonEditarBox
                     handleFileChange={handleFileChange}
-                    titulo={"Adjunte una imagen"}
+                    titulo={"Adjunte una imagen."}
                   />
                 </Form.Group>
                 <div className="d-flex justify-content-center gap-4">
-                  <Button variant="primary" type="submit">
+                  <Button variant="primary" type="submit" className="btn-primary-forms">
                     Aceptar
                   </Button>
                   <Button variant="secondary" onClick={handleCancel}>

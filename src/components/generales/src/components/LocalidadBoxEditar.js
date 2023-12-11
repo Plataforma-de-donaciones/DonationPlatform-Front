@@ -126,22 +126,6 @@ function LocalidadBox({ onChange, donZone, setDonZone }) {
         <HelperText>Este dato se visualiza en la publicación.</HelperText>
 
       </Form.Group>
-      {/* 
-      <Container>
-        <Label>¿En qué localidad se encuentra? *</Label>
-
-        <SelectStyle value={selectedZone} onChange={handleZoneChange}>
-          <option value="" disabled>
-            Seleccione una localidad
-          </option>
-          {zones.map((zone) => (
-            <option key={zone.zone_id} value={zone.zone_id}>
-              {zone.zone_name}
-            </option>
-          ))}
-        </SelectStyle>
-        <Helper>Este dato se visualiza en la publicación.</Helper>
-      </Container> */}
     </>
   );
 }
