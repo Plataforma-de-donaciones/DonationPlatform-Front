@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useHistory } from 'react-router-dom';
 import CardComponente from "../../../../generales/card/CardComponente";
@@ -12,6 +11,7 @@ import DescripcionDonEditarBox from "../../../../generales/src/components/Descri
 import TipodePublicacionBox from "../../../../generales/src/components/TipodePublicacionBox";
 import LocalidadBox from "../../../../generales/src/components/LocalidadBoxEditar";
 import { useAuth } from "../../../../../AuthContext";
+import { useLocation } from "react-router-dom";
 
 
 const cookies = new Cookies();
@@ -85,6 +85,15 @@ const EditarVolBox = (props) => {
   
   const { itemId, setItemId } = useAuth();
   console.log(itemId);
+  const location = useLocation();
+  const [rutaAnterior, setRutaAnterior] = useState(null);
+ 
+
+  useEffect(() => {
+    setRutaAnterior(location.state?.rutaAnterior);
+    console.log(rutaAnterior);
+    
+  }, [location.search, history]);
 
   useEffect(() => {
     const cargarDatosVoluntario = async () => {
@@ -168,8 +177,8 @@ const EditarVolBox = (props) => {
         title: "Editado correctamente!",
         text: "Los datos han sido editados",
         icon: "success"
-      });
-      history.push('/listadosolicitudes');
+      });    
+        history.push(rutaAnterior);     
 
       console.log("Respuesta del servidor:", response.data);
     } catch (error) {
@@ -186,8 +195,8 @@ const EditarVolBox = (props) => {
       confirmButtonText: 'Sí',
       cancelButtonText: 'No',
     }).then((result) => {
-      if (result.isConfirmed) {
-        history.push('/listadosolicitudes');
+      if (result.isConfirmed) {      
+          history.push(rutaAnterior); 
       }
     });
   };

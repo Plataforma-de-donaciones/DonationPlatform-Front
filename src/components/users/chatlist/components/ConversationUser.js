@@ -39,7 +39,7 @@ const ConversationUser = () => {
   }, [userId]);
 
   return (
-    <CardComponente titulo={"Mis conversaciónes"}>
+    <CardComponente titulo={"Mis conversaciones"}>
       <div className="mx-auto text-center">
         {conversaciones.map((conversacion) => (
           <div key={conversacion.id}>

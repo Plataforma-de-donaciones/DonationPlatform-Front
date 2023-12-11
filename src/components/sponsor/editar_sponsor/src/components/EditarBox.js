@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import instance from "../../../../../axios_instance";
 import Cookies from "universal-cookie";
-import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useHistory } from 'react-router-dom';
 import LocalidadBox from "../../../../generales/src/components/LocalidadBoxEditar";
@@ -11,6 +10,7 @@ import NombreDonEdicionBox from "../../../../generales/src/components/NombreDonE
 import { Row, Col, Button, Form } from "react-bootstrap";
 import CardComponente from "../../../../generales/card/CardComponente";
 import { useAuth } from "../../../../../AuthContext";
+import { useLocation } from 'react-router-dom';
 
 
 const cookies = new Cookies();
@@ -31,34 +31,15 @@ const EditarBox = (props) => {
   const { itemId, setItemId } = useAuth();
   console.log(itemId);
 
+  const location = useLocation();
+  const [rutaAnterior, setRutaAnterior] = useState(null);
+ 
+
   useEffect(() => {
-    const cargarDatosSponsor = async () => {
-      try {
-        const response = await instance.post(
-          "/sponsors/searchbyid/",
-          { sponsor_id: itemId },
-          {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          }
-        );
-
-        const sponsor = response.data[0];
-        setDatosSponsor(sponsor);
-        setSponsorName(sponsor.sponsor_name);
-        setSponsorDescription(sponsor.sponsor_description);
-        setSponsorType(sponsor.type);
-        setSponsorZone(sponsor.zone);
-      } catch (error) {
-        console.error("Error al cargar datos de la donacion:", error);
-      }
-    };
-
-    if (itemId) {
-      cargarDatosSponsor();
-    }
-  }, [itemId, token]);
+    setRutaAnterior(location.state?.rutaAnterior);
+    console.log(rutaAnterior);
+    
+  }, [location.search, history]);
 
   const handleSponsorNameChange = (e) => {
     setSponsorName(e.target.value);
@@ -115,7 +96,7 @@ const EditarBox = (props) => {
         icon: "success"
       });
 
-      history.push('/listadoofrecimientos');
+        history.push(rutaAnterior);
 
       console.log("Respuesta del servidor:", response.data);
       
@@ -134,8 +115,8 @@ const EditarBox = (props) => {
       confirmButtonText: 'Sí',
       cancelButtonText: 'No',
     }).then((result) => {
-      if (result.isConfirmed) {
-        history.push('/listadoofrecimientos');
+      if (result.isConfirmed) {  
+          history.push(rutaAnterior);     
       }
     });
   };

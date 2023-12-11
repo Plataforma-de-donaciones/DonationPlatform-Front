@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import instance from "../../../../../axios_instance";
 import styled from "styled-components";
 import Cookies from "universal-cookie";
@@ -212,7 +212,7 @@ const ListadoVoluntarios = (props) => {
   };
 
   const getZoneName = (zoneValue) => {
-    const zone = zones.find((zone) => zone.value === zoneValue);
+    const zone = zones.find((zone) => zone.zone_id === zoneValue);
     return zone ? zone.zone_name : zoneValue;
   };
 

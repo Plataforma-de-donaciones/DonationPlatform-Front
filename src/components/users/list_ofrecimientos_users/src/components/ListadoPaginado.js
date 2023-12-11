@@ -55,38 +55,40 @@ const ListadoPaginado = ({ }) => {
     }
   };
 
+  const rutaAnterior = window.location.pathname;
+
   const cambiarPagina = (nuevaPagina) => {
     setPaginaActual(nuevaPagina);
   };
   const editarItemEq = (id) => {
     setItemId(id);
     setTipo(tipo);
-
-    history.push("/editarequipamiento");
+   
+    history.push("/editarequipamiento/", { rutaAnterior });
   };
   const editarItemDon = (id) => {
     setItemId(id);
     setTipo(tipo);
-
-    history.push("/editardonacion");
+    
+    history.push("/editardonacion", { rutaAnterior });
   };
   const editarItemVol = (id) => {
     setItemId(id);
     setTipo(tipo);
-
-    history.push("/editarvoluntario");
+   
+    history.push("/editarvoluntario", { rutaAnterior });
   };
   const editarItemSponsor = (id) => {
     setItemId(id);
     setTipo(tipo);
 
-    history.push("/editarsponsor");
+    history.push("/editarsponsor", { rutaAnterior });
   };
   const editarItemEve = (id) => {
     setItemId(id);
     setTipo(tipo);
 
-    history.push("/editarevento");
+    history.push("/editarevento", { rutaAnterior });
   };
   const handleSolicitudesClick = (id) => {
     setItemId(id);

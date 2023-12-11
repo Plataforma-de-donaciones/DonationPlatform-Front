@@ -1,4 +1,4 @@
-import { Col} from 'react-bootstrap';
+import { Col, Image} from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 
 const CardItem = (props) => {
@@ -12,7 +12,10 @@ const CardItem = (props) => {
                             {props.image != null
                                 &&
                                 <div className="text-center">
-                                    <img src={props.image} className="img-fluid" />
+                                    <img src={props.image} className="img-fluid" 
+                                    onError={(e) => {
+                                        e.target.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwy_FB-xJcIjI4MkODy3cCyEM1zLACOC_LxpKdwSqPpI6IsMAU6inmenuTv9j8fgmfwHk&usqp=CAU';
+                                      }}/>
                                 </div>
                             }
 
@@ -37,12 +40,27 @@ const CardItem = (props) => {
 
             {
                 !props.isGrid &&
-
+                
                 <Col className='col-xl-6 col-sm-12 col-md-6 col-12 mb-3'>
                     <Card className='h-100 text-center'>
                         <Card.Body>
                             <Card.Title>{props.name}</Card.Title>
-                            {props.image && <img src={props.image}></img>}
+                            {props.image != null
+                                &&
+                                <div className="text-center">
+                                    <Image src={props.image} className="img-fluid" 
+                                    onError={(e) => {
+                                        e.target.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwy_FB-xJcIjI4MkODy3cCyEM1zLACOC_LxpKdwSqPpI6IsMAU6inmenuTv9j8fgmfwHk&usqp=CAU';
+                                      }}/>
+                                </div>
+                            }
+
+                            {props.image == null
+                                &&
+                                <div className="text-center">
+                                    <Image src="https://www.nosso.com/public/images/tipoproducto/default.jpg" className="img-fluid" ></Image>
+                                </div>
+                            }
                             <Card.Text className="mb-4 ms-2 text-muted text-center">
                                 {props.descriptions}
                             </Card.Text>
@@ -55,7 +73,7 @@ const CardItem = (props) => {
                     </Card>
                 </Col>
 
-            }
+}
 
         </>
     );
