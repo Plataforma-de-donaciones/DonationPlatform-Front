@@ -6,13 +6,13 @@ import NombreUserEdicionBox from "./NombreUserEdicionBox";
 import CorreoUserEditarBox from "./CorreoUserEditarBox";
 import AceptarButton from "./AceptarButton";
 import CancelarButton from "./CancelarButton";
+import OrganizationsSelector from "./OrganizationsSelector"; // Importar el componente
 import CardComponente from "../../../../generales/card/CardComponente";
 import { Button, Col, Row } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
-
 
 import { useParams } from "react-router-dom";
 
@@ -23,9 +23,11 @@ const FormContainer = styled.div`
   flex-direction: column;
   padding: 10px;
 `;
+
 const ButtonSeparator = styled.div`
-  width: 10px; 
+  width: 10px;
 `;
+
 const Container = styled.div`
   display: flex;
   background-color: rgba(255, 255, 255, 1);
@@ -89,6 +91,8 @@ const EditarUserBox = (props) => {
   const [userName, setUserName] = useState("");
   const [userCorreo, setUserCorreo] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [organizations, setOrganizations] = useState([]); 
+  const [selectedOrganization, setSelectedOrganization] = useState("");
   const history = useHistory();
   const token = cookies.get("token");
 
@@ -98,7 +102,7 @@ const EditarUserBox = (props) => {
   useEffect(() => {
     const cargarDatosUsuario = async () => {
       try {
-        const response = await instance.post(
+        const userResponse = await instance.post(
           "/users/searchbyid/",
           { id: user_id },
           {
@@ -107,11 +111,19 @@ const EditarUserBox = (props) => {
             },
           }
         );
-
-        const usuario = response.data[0];
+        const usuario = userResponse.data[0];
         setDatosUsuario(usuario);
         setUserName(usuario.user_name);
         setUserCorreo(usuario.user_email);
+
+        const organizationsResponse = await instance.get("/organizations/", {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        });
+        setOrganizations(organizationsResponse.data);
+        console.log(organizationsResponse.data);
+        setSelectedOrganization(usuario.organization_id || "");
       } catch (error) {
         console.error("Error al cargar datos de la usuario:", error);
       }
@@ -125,7 +137,6 @@ const EditarUserBox = (props) => {
   const handleUserCorreoChange = (e) => {
     const value = e.target.value;
     setUserCorreo(value);
-
     validateEmail(value);
   };
 
@@ -135,16 +146,18 @@ const EditarUserBox = (props) => {
   };
 
   const handleSubmit = async () => {
+    console.log("selectedOrganization antes de la solicitud:", selectedOrganization);
     if (emailError) {
       console.log("Correo electrónico no válido");
       return;
     }
 
     try {
-      //const formData = new FormData();
       const requestData = {
         user_email: userCorreo,
+        organization: parseInt(selectedOrganization, 10), 
       };
+      console.log(requestData);
 
       const response = await instance.patch(`/users/${user_id}/`, requestData, {
         headers: {
@@ -152,6 +165,7 @@ const EditarUserBox = (props) => {
         },
       });
 
+console.log(selectedOrganization);
       if (response.status === 200) {
         Swal.fire("¡Usuario modificado con éxito!", "", "success");
         history.push("/listadousuarios");
@@ -169,9 +183,7 @@ const EditarUserBox = (props) => {
             progress: undefined,
             theme: "colored",
           });
-
         } else {
-          
         }
       }
 
@@ -182,34 +194,23 @@ const EditarUserBox = (props) => {
   };
 
   return (
-    /*<Container {...props}>
-      <UntitledComponent1Stack>
-        <Rect>
-          <TitleText>Editar usuario</TitleText>
-        </Rect>
-        <NombreUserEdicionBox user_name={userName} />
-      </UntitledComponent1Stack>
-      <CorreoUserEditarBox
-        style={{ width: "100%" }}
-        value={userCorreo}
-        onChange={handleUserCorreoChange}
-      />
-      {emailError && <div style={{ color: "red" }}>{emailError}</div>}
-      <MaterialButtonViolet2Row>
-        <AceptarButton style={{ width: "48%" }} onClick={handleSubmit} />
-        <CancelarButton history={props.history} style={{ width: "48%", marginLeft: "4%" }} />
-      </MaterialButtonViolet2Row>
-    </Container>*/
     <CardComponente titulo={"Editar usuario"}>
       <FormContainer>
-      <NombreUserEdicionBox user_name={userName} />
-      <CorreoUserEditarBox
-        style={{ width: "100%" }}
-        value={userCorreo}
-        onChange={handleUserCorreoChange}
-      />
-      {emailError && <div style={{ color: "red" }}>{emailError}</div>}
+        <NombreUserEdicionBox user_name={userName} />
+        <CorreoUserEditarBox
+          style={{ width: "100%" }}
+          value={userCorreo}
+          onChange={handleUserCorreoChange}
+        />
+        {emailError && <div style={{ color: "red" }}>{emailError}</div>}
+
+        <OrganizationsSelector
+          organizations={organizations}
+          selectedOrganization={selectedOrganization}
+          onChange={(e) => setSelectedOrganization(e.target.value)}
+        />
       </FormContainer>
+
       <Row className="mx-auto text-center">
         <Col>
           <Button variant="primary" onClick={handleSubmit}>
