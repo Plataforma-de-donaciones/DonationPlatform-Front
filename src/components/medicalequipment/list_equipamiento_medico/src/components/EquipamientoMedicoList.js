@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import instance from "../../../../../axios_instance";
 import EquipamientoMedicoListItem from "./EquipamientoMedicoListItem";
 import CategoryCard from "./CategoryCard";
 import Cookies from "universal-cookie";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from "../../../../../AuthContext";
 import { useHistory } from "react-router-dom";
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import Swal from "sweetalert2";
-import { Button, Col, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import EncabezadoListado from "../../../../generales/src/components/layout/EncabezadoListado";
 
 const cookies = new Cookies();
@@ -214,10 +212,10 @@ const EquipamientoMedicoList = () => {
 
   const handleAddEquipmentClick = () => {
     if (isAuthenticated) {
-      // El usuario está autenticado, redirige a "/altaequipamiento"
+  
       history.push("/altaequipamiento");
     } else {
-      // El usuario no está autenticado, muestra una alerta o realiza la acción necesaria
+  
       Swal.fire({
         title: 'Debes iniciar sesión para completar esta acción',
         text: '¿Desea ir al login en este momento?',

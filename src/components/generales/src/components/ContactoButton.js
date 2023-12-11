@@ -1,10 +1,9 @@
-import React from "react";
 import styled from "styled-components";
 
 function ContactoButton(props) {
-  // Agrega un manejador de eventos onClick
+
   const handleClick = () => {
-    // Agrega aquí el código que deseas ejecutar cuando se haga clic en el botón
+
     console.log("Botón Contacto clickeado");
   };
 
